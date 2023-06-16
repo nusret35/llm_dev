@@ -1,6 +1,6 @@
 import os
 import pandas as pd
-import textract
+import textract 
 import matplotlib.pyplot as plt
 from pathlib import Path
 from classes import Student, Course
@@ -15,7 +15,7 @@ from langchain.llms import OpenAI
 from langchain.prompts import Prompt
 from langchain.chains import ConversationalRetrievalChain
 
-openai.api_key = "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" #API key is used for connection with ChatGPT 
+openai.api_key = "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" #API key is used for connection with ChatGPT 
 #openai.organization = "org-8CvvT3mCplTB5TmLU85AYXZx"
 
 masterPrompt = """You are a college student advisor, you will 
@@ -65,14 +65,13 @@ def send_query(prompt, model="text-davinci-003"):
     message = response.choices[0].text.strip()
     return message
 
-doc = textract.process("./CS301-Syllabus-2022-2023-Spring-v4.pdf")
+doc = textract.process("/Users/selinceydeli/Desktop/AI Research/llm_dev/CS301-Syllabus-2022-2023-Spring-v4.pdf")
 
 with open('CS301-Syllabus-2022-2023-Spring-v4.txt', 'w') as f:
     f.write(doc.decode('utf-8'))
 
 with open('CS301-Syllabus-2022-2023-Spring-v4.txt', 'r') as f:
     text = f.read()
-
 
 textSplitter = CharacterTextSplitter(chunk_size=2000, separator="\n")
 
@@ -81,7 +80,6 @@ student = Student(name='Nusret',level='Junior',taken_courses=['CS300'],major='Co
 course = Course(name='Algorithms',code='CS301',syllabus=text,prerequisites=['CS300'])
 
 text_prompt = create_prompt(student,course,masterPrompt)
-
 
 response = send_query(text_prompt)
 
