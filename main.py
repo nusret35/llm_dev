@@ -59,12 +59,13 @@ def send_query(prompt, model="text-davinci-003"):
         max_tokens=100,
         n=1,
         stop=None,
-        temperature=0.5,
+        temperature=0.5, # temperature value shows the randomness in the responses AI generates
     )
 
     message = response.choices[0].text.strip()
     return message
 
+#doc = textract.process("./CS301-Syllabus-2022-2023-Spring-v4.pdf")
 doc = textract.process("/Users/selinceydeli/Desktop/AI Research/llm_dev/CS301-Syllabus-2022-2023-Spring-v4.pdf")
 
 with open('CS301-Syllabus-2022-2023-Spring-v4.txt', 'w') as f:
