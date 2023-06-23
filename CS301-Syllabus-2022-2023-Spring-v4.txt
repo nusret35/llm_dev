@@ -1,150 +1,96 @@
-We may have to revise the course plan according to the countrywide reassessment to be made regarding 
+CS301 – Algorithms
+2022-2023 Spring
+Syllabus
+Version 4
+We may have to revise the course plan according to the countrywide reassessment to be made regarding
+higher education. This is expected to happen at the beginning of April. The content to be delivered is certain
+but the method of course delivery, the number and dates of exams, and some other details are subject to
+change.
 
-higher education. This is expected to happen at the beginning of April. The content to be delivered is certain 
+Instructor
+Name
+Lectures
 
-but the method of course delivery, the number and dates of exams, and some other details are subject to 
+: Hüsnü Yenigün
+: Monday 12:40-14:30
+Friday 09:40-10:30
+Office Hours : Thursday 16.40-18.30
 
-CS301 – Algorithms 
+Online (streaming from UC G030 – Cinema Hall)
+Online (streaming from FENS G077)
+Online
 
-2022-2023 Spring 
+TAs
+Name
+: Atakan Saraçyakupoğlu
+Office Hours : Tuesday 12.40-14.30
 
-Syllabus 
+Online
 
-Version 4 
+Name
+: Ayşegül Rana Erdemli
+Office Hours : Monday 17.40-18.30
 
- 
+Online
 
- 
+Name
+: Emine Ayşe Sunar
+Office Hours : Thursday 10.40-12.30
 
-change. 
+Online
 
-Online (streaming from UC G030 – Cinema Hall) 
-Online (streaming from FENS G077) 
-Online 
+LAs
+Name
+: Hasan Berkay Kürkçü
+Office Hours : Tuesday 16.40-17.30
 
-Instructor  
-Name   
-Lectures 
+Online
 
-: Hüsnü Yenigün 
-: Monday 12:40-14:30  
-  Friday 09:40-10:30    
+Name
+: Mustafa Yağız Kılıçarslan
+Office Hours : Tuesday 11.40-12.30
+Online
 
-: Atakan Saraçyakupoğlu 
+Textbook
+Introduction to Algorithms
+Thomas H. Cormen,
+Charles E. Leiserson,
+Ronald L. Rivest
+Clifford Stein
 
-: Emine Ayşe Sunar 
+Grading
+Midterm
+Final
+Homeworks
+Project
+Make-up
+-
 
-: Ayşegül Rana Erdemli 
+(20%) Date: May 05, 2023 (Friday) @ 09.40-10.30 [ ONLINE ]
+(40%) Date: TBA [ within the finals’ week ]
+(20%) ~5 homeworks
+(20%) group project
+Date: TBA [ after the final exam ]
+o
+Policy: If you miss the midterm or final exam (but not both), and if you have a valid excuse (e.g. a
+medical condition, an official university event participation, etc.), then you can take the make-up exam.
 
-Office Hours  : Thursday 16.40-18.30  
- 
-TAs 
-Name   
-Office Hours  : Tuesday 12.40-14.30  
- 
-Name   
-Office Hours  : Monday 17.40-18.30  
- 
-Name   
-Office Hours  : Thursday 10.40-12.30 
- 
- 
-LAs 
-Name   
-: Hasan Berkay Kürkçü 
-Office Hours  : Tuesday 16.40-17.30  
- 
-Name   
-Office Hours  : Tuesday 11.40-12.30  
- 
- 
- 
-Textbook 
-Introduction to Algorithms 
-Thomas H. Cormen,  
-Charles E. Leiserson,  
-Ronald L. Rivest 
-Clifford Stein 
- 
-
-: Mustafa Yağız Kılıçarslan 
-
-Online 
-
-Online 
-
-Online 
-
-Online 
-
-Online 
-
- 
- 
- 
- 
-
- 
- 
-
-Date: TBA [ after the final exam ] 
-
-(20%)  group project 
- 
-
-(20%)  Date: May 05, 2023 (Friday) @ 09.40-10.30 [ ONLINE ] 
-(40%)  Date: TBA [ within the finals’ week ] 
-
-Midterm  
-Final    
-Homeworks   (20%)  ~5 homeworks 
-Project  
-Make-up 
-Policy: If you miss the midterm or final exam (but not both), and if you have a valid excuse (e.g. a 
-
- 
-Grading 
-- 
-- 
-- 
-- 
-- 
-o 
-medical condition, an official university event participation, etc.), then you can take the make-up exam.  
- 
- 
- 
-Tentative Outline 
- 
-Week 01: Introduction, Algorithm Design Techniques, Growth of Functions 
- 
-Week 02: Background, Recurrences, Substitution Method, Iteration Method, Master Method, Lower Bounds, 
-Sorting in Linear Time 
- 
-Week 03: Stability of Sorting Algorithms, Radix Sort, Medians and Order Statistics, Dynamic Sets on Binary 
-Search Trees 
- 
-Week 04: Dynamic Sets, on Binary Search Trees, Red-Black Trees 
- 
-Week 05: Augmenting Data Structures, Dynamic Programming 
- 
-Week 06: Dynamic Programming, Greedy Algorithms 
- 
-Week 07: Amortized Analysis, Graphs 
- 
-Week 08: Minimum Spanning Tree, Shortest Path Problems 
- 
-Week 09: NP-Completeness, Test Design (Functional and Performance Tests) 
- 
-Week 10: Approximation Algorithms,  Flow Networks 
- 
-Week 11: Maximum Bipartite Matching, Sorting Networks 
- 
-Week 12: Computational Geometry 
- 
-Week 13: Randomized Algorithms  
- 
-Week 14: coNP and PSPACE Complexity Classes 
- 
+Tentative Outline
+Week 01: Introduction, Algorithm Design Techniques, Growth of Functions
+Week 02: Background, Recurrences, Substitution Method, Iteration Method, Master Method, Lower Bounds,
+Sorting in Linear Time
+Week 03: Stability of Sorting Algorithms, Radix Sort, Medians and Order Statistics, Dynamic Sets on Binary
+Search Trees
+Week 04: Dynamic Sets, on Binary Search Trees, Red-Black Trees
+Week 05: Augmenting Data Structures, Dynamic Programming
+Week 06: Dynamic Programming, Greedy Algorithms
+Week 07: Amortized Analysis, Graphs
+Week 08: Minimum Spanning Tree, Shortest Path Problems
+Week 09: NP-Completeness, Test Design (Functional and Performance Tests)
+Week 10: Approximation Algorithms, Flow Networks
+Week 11: Maximum Bipartite Matching, Sorting Networks
+Week 12: Computational Geometry
+Week 13: Randomized Algorithms
+Week 14: coNP and PSPACE Complexity Classes
 
 
