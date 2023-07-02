@@ -1,0 +1,6 @@
+
+{
+  "title":"Week 10: Distributed Systems Part III",
+  "content":" Lecture 18: Distributed Transactions Lecture 18 Outline Introduction The Setup + The Problem Dealing with the Network Basic Two-phase Commit (2PC) Worker/Network Failures Prior to the Commit Point Worker/Network Failures After the Commit Point Coordinator Failures Performance Issues 2PC Summary A Remaining Problem Detailed Outline Lecture Slides Lecture 18 Slides: Distributed Transactions (PDF) Reading Book section 9.6 Hands-on Assignment 7: Databases (Not available to OCW users.)\nRecitation 18: Consistency Guarantees Read \u0026ldquo;Replicated Data Consistency Explained Through Baseball (PDF)\u0026rdquo; by D. Terry Consistency Guarantees Assignment Tutorial 10: Analysis and Evaluation This recitation will discuss analysis and evaluation. You will also begin working on your final report. Unlike the proposal document, the report should contain enough detail that it could feasibly be turned over to Facilities for implementation. It should also contain an evaluation of your design. See the Design Project section for more details.\nDesign Project Final Report Assignment Assigned: Design Project Final Report (PDF), Design Project Final Report Rubric (PDF) "}
+
+

@@ -1,0 +1,6 @@
+
+{
+  "title":"Week 9: Distributed Systems Part II",
+  "content":" Lecture 16: Atomicity via Logging Lecture 16 Outline Introduction Motivating Example Basic Idea How to Use a Log for Transactions Performance of Log Cell Storage Performance of Log + Cell Storage Improving Performance What about Un-undo-able Actions? Summary Detailed Outline Lecture Slides Lecture 16 Slides: Atomicity via Logging (PDF) Reading Book section 9.3 Recitation 16: Log-Structured File System (LFS) Read \u0026ldquo;Log-structured File Systems (PDF)\u0026rdquo; by R. \u0026amp; A. Arpaci-Dusseau Log-Structured File System (LFS) Assignment Hands-on Assignment 6: Write Ahead Log (WAL) System (Not available to OCW users.)\nLecture 17: Fault Tolerance: Isolation Lecture 17 Outline Introduction Serializability Conflict Serializability Conflict Graphs Interlude Two-phase Locking (2PL) Performance Improvement: Reader-Writer locks Another Possible Performance Improvement: Giving up on Conflict Serializability Summary Detailed Outline Lecture Slides Lecture 17 Slides: Fault Tolerance: Isolation (PDF) Reading Book sections 9.4 before 9.4.1 and 9.5 Recitation 17: Databases Read \u0026ldquo;Concurrency Control and Recovery\u0026rdquo; by M. J. Franklin Databases Assignment Tutorial 9: [No Tutorial this Week] "}
+
+

@@ -1,0 +1,6 @@
+
+{
+  "title":"UNIX Assignment Part 1",
+  "content":"Read \u0026ldquo;The UNIX Time-Sharing System (PDF)\u0026rdquo; by Dennis Ritchie and Ken Thompson. Recitation 4 will focus on the first four sections of the paper; Recitation 5 will focus on the rest.\nTo help you as you read:\nBy the end of section three, you should understand the differences between ordinary files, directories, and special files. By the end of section four (along with section three), you should be able to explain what happens when a user opens a file. For instance, if a user opens /home/example.txt, what does the UNIX file system do in order to find the file\u0026rsquo;s contents? You should understand this in detail (e.g., at the i-node level). As you read, you may also find it helpful to think about the following:\nWhat things in UNIX are named? How does naming in UNIX compare to naming in DNS? How do layering and hierarchy apply (if at all)? Questions for Recitation Before you come to this recitation, write up (on paper) a brief answer to the following (really—we don\u0026rsquo;t need more than a sentence or so for each question):\nWhat is UNIX? How is its filesystem designed? Why was it designed to work that way? As always, there are multiple correct answers for each of these questions.\n"}
+
+

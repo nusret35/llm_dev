@@ -1,17 +1,12 @@
 from bs4 import BeautifulSoup
 import zipfile
 from transformers import pipeline
+from datasets import load_dataset
 import textwrap
 import re
-
-def format_text(text):
-    sentences = re.split('\.\s*', text)
-    sentences = [s.strip().capitalize() for s in sentences if s]
-    formatted_text = '. '.join(sentences) + '.'
-    return formatted_text
-
-# Load the summarization pipeline
-summarizer = pipeline('summarization')
+from pathlib import Path
+import os
+import string
 
 # Function to read and parse HTML file
 def read_html_file(file):
@@ -24,28 +19,69 @@ def read_html_file(file):
     text = '\n'.join(chunk for chunk in chunks if chunk)
     return text
 
+def remove_html(text):
+    html = re.compile(r"<.*?>")
+    return html.sub(r"",text)
+
+def remove_URL(text):
+    url = re.compile(r"https?://\S+|www\.\S+")
+    return url.sub(r"",text)
+
+
+def remove_punct(text):
+    table = str.maketrans("","",string.punctuation)
+    return text.translate(table)
+
+def format_text(text):
+    new_text = ''
+    for char in text:
+        if char != r'\n':
+            new_text += char
+    sentences = re.split('\.\s*', new_text)
+    sentences = [s.strip().capitalize() for s in sentences if s]
+    formatted_text = '. '.join(sentences) + '.'
+    return formatted_text
+
 # Initialize an empty string to store the summaries
 summary = ""
 
+texts = [] 
+
 # Read the zip file
 #with zipfile.ZipFile("/Users/selinceydeli/Desktop/pages.zip", "r") as z:
-with zipfile.ZipFile("./pages.zip", "r") as z:
-    for filename in z.namelist():
-        if ".html" in filename:
-            with z.open(filename) as f:
-                data = f.read()
-                text = read_html_file(data)
-                chunks = textwrap.wrap(text, 1024)
-                for chunk in chunks:
-                    # Calculate max_length as half of the input length
-                    max_length = min(50, len(chunk.split()) // 2)
-                    if max_length == 0:
-                        max_length = 2
-                    summarized_chunk = summarizer(chunk, max_length=max_length, min_length=0, do_sample=False)
-                    summary += summarized_chunk[0]['summary_text']
+#with zipfile.ZipFile("./pages.zip", "r") as z:
 
-# Format the summarized text
-formatted_summary = format_text(summary)
+z =  Path('pages/')
 
-# Print the formatted summary
-print(formatted_summary),
+for directory in z.iterdir():
+    if directory.is_dir(): 
+        for file in directory.iterdir():
+            if ".html" in file.name:
+                full_path = file.resolve()
+                with open(full_path) as f:
+                    data = f.read()
+                    text = read_html_file(data)
+                    texts.append(text)
+
+from nltk.corpus import stopwords
+
+stop = set(stopwords.words("english"))
+
+
+def remove_stopwords(text):
+    text = [word.lower() for word in text.split() if word.lower() not in stop]
+
+    return " ".join(text) 
+
+clean_texts = []
+for text in texts :
+    cleaned_text = remove_html(text)
+    cleaned_text = remove_punct(cleaned_text)
+    cleaned_text = remove_URL(cleaned_text)
+    cleaned_text = remove_stopwords(cleaned_text)
+    cleaned_text = format_text(cleaned_text)
+    clean_texts.append(cleaned_text)
+
+
+print(len(texts))
+print(texts[1])

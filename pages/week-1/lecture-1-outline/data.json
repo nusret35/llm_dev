@@ -1,0 +1,6 @@
+
+{
+  "title":"Lecture 1 Outline",
+  "content":" Introduction to Systems What is a system? Complexity makes building systems difficult. Why is Complexity Bad? Limits what we can build. Causes lots of other problems. Mitigating Complexity We mitigate complexity with modularity and abstraction. Modular systems are easier to reason about, manage, change, improve. Modularity reduces fate-sharing. Abstraction lets us specify interfaces without specifying implementation. Good abstraction decreases the number of connections between modules. Enforced Modularity Soft modularity isn\u0026rsquo;t enough. One way to enforce is with a client/server model. Reduces fate-sharing. Important: remote procedure calls (RPCs) != procedure calls (PCs). Have to deal with different types of failure (network, server,..). These failures are tricky, but starting with a modular design will let us reason about them and deal with them. Other Goals Beyond complexity, we might also want: scalability, fault-tolerance, security, performance, etc. Starting with a good, modular design helps achieve these properties. Difficult to get all at once; there are trade-offs. "}
+
+

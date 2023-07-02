@@ -1,0 +1,6 @@
+
+{
+  "title":"Lecture 12 Outline",
+  "content":" Introduction Last time: TCP CC. Massive success. Doesn\u0026rsquo;t require us to change the network, is something machines can opt-in to (don\u0026rsquo;t have to have reliable transport if you don\u0026rsquo;t need it), lets us prevent congestion in a distributed manner. But: Can result in long delays when routers have too much buffering. Doesn\u0026rsquo;t work well in some scenarios (DCTCP). Most important for today: Doesn\u0026rsquo;t react to congestion until queues are full. Full queues = long delay. Queues = necessary to absorb bursts. Goal: Transient queues, not persistent queues. Idea: Drop packets *before* the queues are full. TCP senders will back off before congestion is too bad. DropTail The original queue management scheme. When a packet arrives, if the queue is full, drop it; else, enqueue it. Simple (+). Only drops packets when it needs to (+/-). Remember: Dropped packet =\u0026gt; retransmission, which wastes resources. Synchronizes sources (-). Not very fair (-). Tends to result in mostly-full queues (-). Bad for bursty traffic (-). RED Active queue management scheme. Idea: Drop packets before the queue is full to give senders an early signal. Requires a measure of the average queue size, q_avg. "}
+
+

@@ -1,0 +1,6 @@
+
+{
+  "title":"Domain Name System (DNS) Assignment",
+  "content":"Read Book section 4.4: \u0026ldquo;Case Study: The Internet Domain Name System (DNS)\u0026rdquo;.\nAs you read, think about the following:\nWhat is the benefit of a recursive query? What are the benefits of DNS\u0026rsquo;s hierarchical design? Are there any drawbacks to DNS\u0026rsquo;s design? Questions for Recitation Before you come to this recitation, write up (on paper) a brief answer to the following (really—we don\u0026rsquo;t need more than a sentence or so for each question):\nWhat is the purpose of DNS? How does it work? Why was it designed to work that way? As always, there are multiple correct answers for each of these questions.\n"}
+
+

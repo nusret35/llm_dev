@@ -1,0 +1,6 @@
+
+{
+  "title":"Trusting Trust Assignment",
+  "content":"Read \u0026ldquo;Reflections on Trusting Trust (PDF)\u0026rdquo; by Ken Thompson. (Note: In this version, figure 2.2 should be labeled 2.1 and vice versa). This is one of our shortest readings—only three pages—but do not be deceived by its brevity. The paper is actually a transcript of Ken Thompson\u0026rsquo;s Turing Award acceptance speech.\nThe paper emphasizes how difficult it is to be sure that you know what your software actually does. One way to avoid treacherous software would be to write all your software yourself. Although this approach would in principle solve the problem, it is overwhelmingly impractical. One has no choice but to rely on, and thus trust, software from other sources.\nQuestions for Recitation Think about the following before recitation. You do not need to turn anything in since it\u0026rsquo;s the last week of classes. (Participation during this recitation does still count towards your grade.)\nWhat does Thompson\u0026rsquo;s hack do? How does the hack work? Why does it work? (I.e., what exactly causes the hack to go undetected?) As always, there are multiple correct answers for each of these questions.\n"}
+
+

@@ -1,0 +1,6 @@
+
+{
+  "title":"Week 7: Networking Part III",
+  "content":" Lecture 12: In-Network Resource Management Lecture 12 Outline Introduction DropTail RED ECN ED/ECN vs. DropTail Traffic Differentiation Delay-based Scheduling Bandwidth-based Scheduling Round-Robin Weighted Round-Robin Deficit Round-Robin Discussion Detailed Outline Lecture Slides Lecture 12 Slides: In-Network Resource Management (PDF) Reading No readings assigned\nRecitation 12: Data Center Transmission Control Protocol (DCTP) Read \u0026ldquo;__Data Center TCP (DCTCP) (PDF - 3.1MB)\u0026rdquo; by M. Alizadeh, A. Greenberg, D. Maltz, J. Padhye \u0026amp; P. Patel DCTP Assignment Lecture 13: Networking: P2P Networks + Content Distribution Network (CDN) Lecture 13 Outline Introduction File-Sharing Peer-To-Peer (P2P) Networks for File-Sharing BitTorrent: How to Incentivize Peers to Upload VoIP: Voice over IP Video-Streaming (Briefly) Detailed Outline Lecture Slides Lecture 13 Slides: Networking: P2P Networks + CDNs (PDF) Reading No readings assigned Recitation 13: Content Distribution Networks (CDNs) Read \u0026ldquo;The Akamai Network: A Platform for High-Performance Internet Applications (PDF)\u0026rdquo; by E. Nygren, R. Sitaraman \u0026amp; J. Sun CDN Assignment Tutorial 7: [No Tutorial this Week] "}
+
+

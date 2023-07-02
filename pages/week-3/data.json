@@ -1,0 +1,6 @@
+
+{
+  "title":"Week 3: Operating Systems Part III",
+  "content":" Lecture 4: Bounded Buffers + Locks Lecture 4 Outline Previously Bounded Buffers Bounded Buffers for Single Senders Bounded Buffer for Multiple Senders Locks Bounded Buffers with Locks Atomic Actions Example: Locks for File Systems Implementing Locks Detailed Outline Lecture Slides Lecture 4 Slides: Bounded Buffers + Locks (PDF) Reading Book section 5.2 Lecture 5: Threads Lecture 5 Outline Introduction Threads yield() Condition Variables Preemption Reflection/Summary Detailed Outline Lecture Slides Lecture 5 Slides: Threads (PDF) Reading Book sections 5.5 and 5.6 Recitation 5: UNIX Read \u0026ldquo;The Unix Time-Sharing System (PDF)\u0026rdquo; by D. M. Ritchie \u0026amp; K. Thompson. Start with Section 5 UNIX Assignment Part 2 Tutorial 3: Design Project Discussion Read the Design Project Overview (PDF), Design Project FAQ (PDF), and Design Project Errata (PDF).\nThe primary assignment in 6.033 is the design project. This project is where the students get to design their own system, which is the primary objective of this course. See the Design Project section for detailed information.\nDesign Project Preliminary Report (DPPR) Assignment Assigned: Design Project Preliminary Report (PDF) "}
+
+

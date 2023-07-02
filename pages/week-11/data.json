@@ -1,0 +1,6 @@
+
+{
+  "title":"Week 11: Security Part I",
+  "content":" Lecture 19: Availability via Replication Lecture 19 Outline Introduction The Problem Replicated State Machines (RSMs) Primary/Backup Model View Servers View Servers in the Face of Network Partitions Recruiting New Backups Dealing with Centralization Detailed Outline Lecture Slides Lecture 19 Slides: Atomicity via Logging (PDF) Reading No assigned reading Recitation 19: Raft Read \u0026ldquo;In Search of an Understandable Consensus Algorithm (PDF)\u0026rdquo; by D. Ongaro \u0026amp; J. Ousterhout Raft Assignment Lecture 20: Introduction to Security Lecture 20 Outline Introduction Computer Security vs. General Security Difficulties of Computer Security Modeling Security Guard Model What Can Go Wrong? Detailed Outline Lecture Slides Lecture 20 Slides: Introduction to Security (PDF) Reading Book section 11.1 Recitation 20: [No Recitation] Tutorial 11: Design Project Peer Review The focus of Tutorial 11 is peer review. You will read some portions of another team’s final design report (DPR) and offer feedback and insight. First, complete the Preparation for Tutorial 11 (PDF). Then, take a look at the Peer Review Assignment (PDF). See the Design Project section for more information.\nDesign Project (DP) Peer Review Assignment Assigned: Design Project (DP) Peer Review Assignment (PDF) "}
+
+

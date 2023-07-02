@@ -1,0 +1,6 @@
+
+{
+  "title":"Week 13: Security Part III",
+  "content":" Lecture 23: Network Security and Distributed Denial of Service (DDoS) Attacks Lecture 23 Outline Today\u0026rsquo;s Threat Model DDoS Attacks Botnets Network Intrusion Detection Systems (NIDS) How to Evade NIDS Attacks that Mimic Legitimate Traffic Attacks on Routers Moral of the Story Detailed Outline Lecture Slides Lecture 23 Slides: Network Security and DDoS Attacks (PDF) Reading [No readings] Recitation 23: Botnets Read \u0026ldquo;Your Botnet is My Botnet: Analysis of a Botnet Takeover (PDF)\u0026rdquo; by B. Stone-Gross, et al. Botnets Assignment Lecture 24: Bitcoin Lecture 24 Outline Introduction Currency A Decentralized Digital Currency (Almost) Dealing with Double-spending Proofs-of-work Ordering Transactions Did we prevent Double-spending? Discussion Detailed Outline Lecture Slides Lecture 24 Slides: Bitcoin (PDF) Reading [No readings] Recitation 24: Memory Corruption Read \u0026ldquo;SoK: Eternal War in Memory (PDF)\u0026rdquo; by L. Szekeres, M. Payer, T. Wei \u0026amp; D. Song Memory Corruption Assignment Tutorial 13: [No Tutorial] "}
+
+
