@@ -28,7 +28,8 @@ def read_html_file(file):
 summary = ""
 
 # Read the zip file
-with zipfile.ZipFile("/Users/selinceydeli/Desktop/pages.zip", "r") as z:
+#with zipfile.ZipFile("/Users/selinceydeli/Desktop/pages.zip", "r") as z:
+with zipfile.ZipFile("./pages.zip", "r") as z:
     for filename in z.namelist():
         if ".html" in filename:
             with z.open(filename) as f:
@@ -38,6 +39,8 @@ with zipfile.ZipFile("/Users/selinceydeli/Desktop/pages.zip", "r") as z:
                 for chunk in chunks:
                     # Calculate max_length as half of the input length
                     max_length = min(50, len(chunk.split()) // 2)
+                    if max_length == 0:
+                        max_length = 2
                     summarized_chunk = summarizer(chunk, max_length=max_length, min_length=0, do_sample=False)
                     summary += summarized_chunk[0]['summary_text']
 
@@ -45,4 +48,4 @@ with zipfile.ZipFile("/Users/selinceydeli/Desktop/pages.zip", "r") as z:
 formatted_summary = format_text(summary)
 
 # Print the formatted summary
-print(formatted_summary)
+print(formatted_summary),
