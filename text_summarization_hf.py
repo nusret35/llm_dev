@@ -17,7 +17,7 @@ from keras.models import Sequential
 from keras.layers import Embedding, LSTM, Dense, Dropout
 from keras.initializers import Constant
 from keras.optimizers import Adam
-
+import json
 
 # Function to format text
 def format_text(text):
@@ -41,6 +41,11 @@ def read_html_file(file):
     text = '\n'.join(chunk for chunk in chunks if chunk)
     return text
 
+# Function to read and parse JSON file
+def read_json_file(file):
+    data = json.load(file)
+    return data
+
 # Function to get the week number of the directory
 def get_week_number(key):
     pattern = r"week-(\d+)"
@@ -49,7 +54,6 @@ def get_week_number(key):
         return int(match.group(1))
     else:
         return -1  # default value if week number extraction fails
-
 
 # Functions to conduct data cleaning
 def remove_html(text):
@@ -64,12 +68,11 @@ def remove_punct(text):
     table = str.maketrans("","",string.punctuation)
     return text.translate(table)
 
-
-
 # Initialize an empty dictionary to append the documents as texts
 texts = {} 
 
-# Read the zip file
+'''
+# Read the HTML documents
 z =  Path('pages/')
 
 for directory in z.iterdir():
@@ -85,6 +88,25 @@ for directory in z.iterdir():
 texts = [value for key, value in sorted(texts.items(), key=lambda x:get_week_number(x[0]))]
 
 print(texts)
+'''
+
+# Read the JSON documents
+z =  Path('pages/')
+
+texts = {}
+
+for directory in z.iterdir():
+    if directory.is_dir():
+        for file in directory.iterdir():
+            if ".json" in file.name:
+                full_path = file.resolve()
+                with open(full_path, 'r') as f:
+                    text = read_json_file(f)
+                    texts[directory.name] = text
+
+texts = [value for key, value in sorted(texts.items(), key=lambda x:get_week_number(x[0]))]
+
+print(texts[0])
 
 # Conduct data cleaning
 stop = set(stopwords.words("english"))
@@ -95,22 +117,22 @@ def remove_stopwords(text):
 
 clean_texts = []
 for text in texts :
-    cleaned_text = remove_html(text)
+    cleaned_text = remove_html(text['content'])
     cleaned_text = remove_punct(cleaned_text)
     cleaned_text = remove_URL(cleaned_text)
     cleaned_text = remove_stopwords(cleaned_text)
     cleaned_text = format_text(cleaned_text)
     clean_texts.append(cleaned_text)
 
-
 print(len(clean_texts))
 print(clean_texts[0])
 
 # Data Partitioning
 # Split the texts into training and testing sets
-train_docs, test_docs = train_test_split(texts, test_size=0.2, random_state=42)
+train_docs, test_docs = train_test_split(clean_texts, test_size=0.2, random_state=42)
 
 print(train_docs)
+
 # Basic NLP
 
 # Function to count unique words
@@ -126,7 +148,7 @@ def count_unique_words(documents):
 unique_word_counts = count_unique_words(train_docs)
 num_words = len(unique_word_counts)
 
-#Max number of words in a sequence. We need to have the same sequence length for TensorFlow
+# Max number of words in a sequence. We need to have the same sequence length when using TensorFlow
 max_length = len(max(train_docs,key=len))
 
 tokenizer = Tokenizer(num_words)
@@ -134,7 +156,7 @@ tokenizer.fit_on_texts(train_docs)
 word_index = tokenizer.word_index
 print(word_index)
 
-#Padding train sequences
+# Padding train sequences
 train_sequences = tokenizer.texts_to_sequences(train_docs)
 train_padded = pad_sequences(train_sequences,maxlen=max_length,padding='post',truncating='post')
 
@@ -142,8 +164,7 @@ print(train_docs[0])
 print(train_sequences[0])
 print(train_padded[0])
 
-
-#Padding test sequences
+# Padding test sequences
 test_sequences = tokenizer.texts_to_sequences(test_docs)
 test_padded = pad_sequences(test_sequences,maxlen=max_length,padding='post',truncating='post')
 
@@ -159,16 +180,12 @@ print(f"Shape of test {test_padded.shape}")
 
 model = Sequential()
 
-
 model.add(Embedding(num_words, 32, input_length=max_length))
 model.add(LSTM(64, dropout=0.1))
 model.add(Dense(1, activation="sigmoid"))
-
 
 optimizer = Adam(learning_rate=3e-4)
 
 model.compile(loss="binary_crossentropy", optimizer=optimizer, metrics=["accuracy"])
 
 print(model.summary())
-
-

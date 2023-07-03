@@ -18,7 +18,6 @@ def read_html_file(file):
     text = '\n'.join(chunk for chunk in chunks if chunk)
     return text
 
-
 with zipfile.ZipFile("./pages.zip", "r") as z:
     for filename in z.namelist():
         if ".html" in filename:
