@@ -8,6 +8,9 @@ from pathlib import Path
 import os
 import string
 from nltk.corpus import stopwords
+import nltk
+from collections import Counter
+from sklearn.model_selection import train_test_split
 
 # Function to format text
 def format_text(text):
@@ -79,3 +82,22 @@ for text in texts :
 
 print(len(clean_texts))
 print(clean_texts[0])
+
+# Data Partitioning
+# Split the texts into training and testing sets
+train_docs, test_docs = train_test_split(texts, test_size=0.2, random_state=42)
+
+# Basic NLP
+
+# Function to count unique words
+def count_unique_words(documents):
+    counter = Counter()
+    for doc in documents:
+        # Tokenize the document into words
+        words = nltk.word_tokenize(doc)
+        # Update the counter with the words
+        counter.update(words)
+    return dict(counter)
+
+unique_word_counts = count_unique_words(train_docs)
+print(len(unique_word_counts))
