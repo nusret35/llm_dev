@@ -32,7 +32,7 @@ def convert_pdf_to_text(pdf_path):
                 page = pdf_reader.pages[page_num]
                 if page != None:
                     text = page.extract_text()
-                    txt_file.write(text)
+                    #txt_file.write(text)
                     whole_text += text
         return whole_text
                 
@@ -60,8 +60,6 @@ def output_text(z):
                         outcomes.append(data)
                 if ".pdf" in file.name:
                     full_path = file.resolve()
-                    if file.name == 'week-5.pdf':
-                        print('hello')
                     text = convert_pdf_to_text(full_path)
                     course[file.name] = text
             course = [value for key, value in sorted(course.items(), key=lambda x:get_week_number(x[0]))]
