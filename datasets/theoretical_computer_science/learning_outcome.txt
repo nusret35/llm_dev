@@ -1,5 +1,0 @@
-The students will be able to learn a collection of powerful (and interrelated) mathematical techniques for algorithm design topics picked to be both mathematically interesting and practically useful
-
-The students will be able to learn a collection of powerful (and interrelated) mathematical techniques for algorithm designWill sometimes have long mathematical interludes, but always with proportional algorithmic payoffs
-
-The students will be able to apply these tools directly to your research whether your work is theoretical or applied
