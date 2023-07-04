@@ -18,6 +18,20 @@ from keras.layers import Embedding, LSTM, Dense, Dropout
 from keras.initializers import Constant
 from keras.optimizers import Adam
 import json
+import PyPDF2
+
+def convert_pdf_to_text(pdf_path, txt_path):
+    with open(pdf_path, 'rb') as pdf_file:
+        pdf_reader = PyPDF2.PdfFileReader(pdf_file)
+
+        with open(txt_path, 'w') as txt_file:
+            for page_num in range(pdf_reader.numPages):
+                page = pdf_reader.getPage(page_num)
+                text = page.extract_text()
+                txt_file.write(text)
+
+    print(f"Conversion complete. Text saved to: {txt_path}")
+
 
 # Function to format text
 def format_text(text):
