@@ -1,0 +1,311 @@
+  6.033 Spring 2018
+Lecture #4 
+•Bounded Buffers
+•Concurrency
+•Locks
+6.033 | spring 2018 | Katrina LaCurts 
+1       
+   
+    
+    
+     
+    
+  
+ 
+ 
+ 
+             
+ operating systems enforce modularity 
+on a single machine using virtualization 
+in order to enforce modularity + build an effective operating system 
+1.programs shouldn’t be able to refer to
+(and corrupt) 
+each others’ memory
+2.programs should be able to
+communicate
+3.programs should be able to share a
+CPU without 
+one program halting the
+progress of the othersvirtual memory 
+assume that they 
+don’t need to 
+assume one program 
+per CPU 
+6.033 | spring 2018 | Katrina LaCurts 
+2          
+   
+    
+    
+     
+    
+ 
+              
+ 
+  operating systems enforce modularity 
+on a single machine using virtualization 
+in order to enforce modularity + build an effective operating system 
+1.programs shouldn’t be able to refer to
+virtual memory (and corrupt) each others’ memory
+2.programs should be able tobounded buffers communicate(virtualize communication links) 
+3.programs should be able to share a assume one pr ogram 
+CPU without on
+e program halting the per CPU 
+progress of t
+he others (for today) 
+today’s goal: implement bounded buffers so that programs 
+can communicate 
+6.033 | spring 2018 | Katrina LaCurts 
+3   
+   
+  bounded buffer: a buffer that stores 
+(up to) N messages 
+bounded buffer API : 
+send(m) 
+m <- receive() 
+6.033 | spring 2018 | Katrina LaCurts 
+4  send( bb, message): 
+while True: 
+if bb.in – bb.out < N: 
+bb.buf[bb .in mod N] <-message
+ 
+bb.in <- bb.in + 1 
+return 
+receive( bb): 
+while True: 
+if 
+bb.out < bb .in: 
+message <-bb
+.buf[bb .out mod N] 
+bb.out <
+-bb.out + 1 
+return message 
+6.033 | spring 2018 | Katrina LaCurts 
+5  send( bb, message): 
+while True: 
+if bb.in – bb.out < N: 
+bb.in <- bb.in + 1 
+bb.buf[ bb
+.in- 1 mod N ] <- message 
+return 
+receive( bb): 
+while True: 
+if bb.out < bb .in: 
+message <-bb
+.buf[bb .out mod N] 
+bb.out <
+-bb.out + 1 
+return message 
+6.033 | spring 2018 | Katrina LaCurts 
+6  send( bb, message): 
+while True: 
+if bb.in – bb.out < N: 
+bb.buf[bb .in mod N] <-message
+ 
+bb.in <- bb.in + 1 
+return 
+incorrect if we swap
+these statements! 
+receive( bb): 
+while True: 
+if bb.out < bb.in: 
+message <-bb.buf[bb .out mod N] 
+bb.out <
+-bb.out + 1 
+return message 
+6.033 | spring 2018 | Katrina LaCurts 
+7  1: send( bb, message): 
+2: while True: 
+3: if bb.in – bb.out < N : 
+4: bb
+.buf[bb .in mod N ] <-message  
+5: bb
+.in <- bb.in + 1 
+6: return 
+6.033 | spring 2018 | Katrina LaCurts 
+8     
+       
+  locks: allow only one CPU to be 
+inside a piece of code at a time 
+lock API : 
+acquire(l) 
+release(l)  
+6.033 | spring 2018 | Katrina LaCurts 
+9 
+    
+  int buf[6]; 
+int in = 0; cpu_one() cpu_two()struct lock lck; { { 
+send(1); send(101);send(int x) send(2); send(102);{ send(3); send(103);buf[ in%6] = x; } }in = 
+in + 1; 
+} 
+example o u
+tput: 
+101 102 103 1 2 3 correct! 101 102 1 0 2 3 empty spots in buffer 1 102 103 0 2 3 
+too few elements in buffer 1 2 3 
+6.033 | spring 2018 | Katrina LaCurts 
+10 
+  int buf[6]; 
+int in = 0; 
+struct lock lck; 
+send(int x) 
+{ 
+acquire(&lck); 
+buf[in] = x; 
+release(&lck); 
+acquire(&lck ); 
+in
+ = in + 1; cpu_one() { 
+send(1); cpu_two()  
+{ 
+send(101); 
+} send(2); send(3); 
+} send(102); send(103); 
+release(&
+lck); example output: } 
+correct! 101 102 103 1 2 3 1 0 2 0 3 0
+empty spots in buffer 101 1 0 2 0 3 
+101 1 103 2 0 3 
+6.033 | spring 2018 | Katrina LaCurts 
+11  int buf[6]; 
+int in = 0; cpu_one() cpu_two()struct lock lck; { { 
+send(1); send(101);send(int x) send(2); send(102);{ send(3); send(103);acquire(&lck); } }buf[in] = x; 
+in
+ = in + 1; 
+release(&lck); 
+} 
+examp l
+e output: 
+correct! 101 1 102 2 103 3 
+101 102 1 103 2 3 1 101 2 102 3 103 
+101 102 1 103 2 3 
+6.033 | spring 2018 | Katrina LaCurts 
+12         
+  send( bb, message): 
+while True: 
+if bb.in – bb.out < N: 
+acquire(bb.lock) 
+bb.buf[bb .in
+ mod N ] <-message 
+bb.in <- bb.in + 1 
+release(bb .lock) 
+return 
+pr
+oblem: second sen d er could end up writing to full buffer 
+6.033 | spring 2018 | Katrina LaCurts 
+13     
+  send( bb, message): 
+acquire(bb.lock) 
+while True: 
+if bb.in – bb.out < N: 
+bb.buf[bb .in mod N ] <-message  
+bb
+.in <- bb.in + 1 
+release(bb.lock) return 
+probl
+em: deadlock if bu ffer is full 
+(receive needs to acquire bb.lock to make space in buffer)
+6.033 | spring 2018 | Katrina LaCurts 
+14    
+    
+  send( bb, message): 
+acquire(bb.lock) 
+while bb.in - bb.out == N : 
+release(bb.lock) give up the lock to allow
+receivers to access the buffer acquire(bb.lock) 
+bb.buf[bb.in mod N ] <- message 
+bb.in <- bb.in + 1 
+release(bb .lock) 
+return 
+6.033 | spring 2018 | Katrina LaCurts 
+15 
+  Filesystem move 
+move( dir1, dir2, filename): 
+unlink(dir1, filename) 
+link(dir2, filename) 
+6.033 | spring 2018 | Katrina LaCurts 
+16  
+  Filesystem move 
+move( dir1, dir2, filename): 
+acquire(fs_lock) 
+unlink(dir1, filename) link( dir2, filename) 
+release(fs_lock) 
+problem: poor performance 
+6.033 | spring 2018 | Katrina LaCurts 
+17    
+  Filesystem move 
+move( dir1, dir2, filename): 
+acquire(dir1.lock) 
+unlink(dir1, filename) release( dir1.lock) 
+acquire(dir2.lock) 
+link(dir2 , filename
+) 
+release(dir2.lock) 
+problem: inconsistent state is 
+exposed 
+6.033 | spring 2018 | Katrina LaCurts 
+18 
+  Filesystem move 
+move( dir1, dir2, filename): 
+acquire(dir1.lock) 
+acquire(dir2.lock) unlink(dir1 , filename) 
+link( dir2
+, filename) 
+release(dir1.lock) release(dir2.lock) 
+problem: deadlock 
+6.033 | spring 2018 | Katrina LaCurts 
+19 
+ 
+  Filesystem move 
+move( dir1, dir2, filename): 
+if dir1.inum < dir2.inum: 
+acquire(dir1.lock) 
+acquire(dir2.lock) 
+else: 
+acquire(dir2.lock) acquire(dir1.lock) 
+unlink( dir1, 
+filename ) 
+link(dir2, filename) 
+release(dir1.lock) 
+release(dir2.lock) 
+could release dir1 ’s lock here instead 
+6.033 | spring 2018 | Katrina LaCurts 
+20 
+    
+  Implementing Locks 
+acquire( lock): 
+while lock != 0: 
+do nothing 
+lock = 1 release( lock): 
+lock = 0 
+problem: race condition 
+(need locks to implement locks!) 
+6.033 | spring 2018 | Katrina LaCurts 
+21  Implementing Locks 
+acquire( lock): 
+do: 
+r <- 1 
+XCHG r , lock 
+while r == 1 release( lock ): 
+lock = 0 
+6.033 | spring 2018 | Katrina LaCurts 
+22   
+     
+   
+   
+      
+  •Bounded buffers allow programs to communicate,
+completing the second step of enforcing modularity on a
+single machine. They are tricky to implement due to
+concurrency .
+•Locks allow us to implement atomic actions .
+Determining the correct locking discipline is tough thanksto race conditions, deadlock, and performance issues.
+6.033 | spring 2018 | Katrina LaCurts 
+23 
+ 
+ 
+             
+ MIT OpenCourseWare 
+https://ocw.mit.edu 
+6.033 Computer System Engineering
+Spring 2018 
+For information about citing these materials or our Terms of Use, visit: https: //ocw.mit.edu/terms. 
+24

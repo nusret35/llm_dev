@@ -1,0 +1,151 @@
+  
+   
+   6.033 Spring 2018
+Lecture #1 
+•Complexity
+•Modularity and abstraction
+•Enforced modularity via client/server models
+6.033 | spring 2018 | Katrina LaCurts 
+1   
+      
+     
+    
+  what is a system? 
+a set of interconnected components that has an 
+expected behavior observed at the interface with its 
+environment 
+what makes building systems
+difficult? 
+complexity 
+6.033 | spring 2018 | Katrina LaCurts 
+2source: http://www.informationisbeautiful.net/visualizations/million-l ines-of-code/Today’s Systems are Incredibly Complex
+© source u nknown. All rights reserved. This content is excluded from our Creative Commons license. 
+For more information, see https://ocw.mit.edu/help/faq-f air-use.
+6.033 | spring 2018 | Katrina LaCurts 
+3complexity limits what we can build and 
+causes a number of unforeseen issues
+6.033 | spring 2018 | Katrina LaCurts 
+4how do we mitigate complexity?
+with design principles such as modularity and 
+abstraction
+6.033 | spring 2018 | Katrina LaCurts 
+5how do we enforce modularity?
+oneway is to use the client/server model
+6.033 | spring 2018 | Katrina LaCurts 
+67Class Server
+(on machine 2) Class Browser
+(on machine 1) 
+requestdef main(): def server_load_url (): 
+html = browser_load_url (URL) 
+... ... 
+return html 
+reply 
+6.033 | spring 2018 | Katrina LaCurts  8Stub Clients and RPCs 
+Class Browser
+(on machine 1) 
+def main(): def server_load_url (): 
+html = browser_load_url (URL) 
+... ... 
+return html Class Server
+(on machine 2) 
+def browser_load_url (url): 
+msg = url # could reformat send request 
+wait for reply 
+html = reply # could reformat
+stub 
+return html request 
+reply def handle_server_load_url(url): 
+wait for request url = request 
+html = server_load_url (URL) 
+reply = html
+send reply 
+stub
+6.033 | spring 2018 | Katrina LaCurts  Challenges with RPCs
+Client Server
+6.033 | spring 2018 | Katrina LaCurts 
+9Challenges with RPCs
+Client Server internet
+6.033 | spring 2018 | Katrina LaCurts 
+10Challenges with RPCs
+Client Server internet
+load(“view.html?item”)
+X
+6.033 | spring 2018 | Katrina LaCurts 
+11Challenges with RPCs
+Client Server internet
+load(“view.html?item”)
+X
+load(“view.html?item”)
+6.033 | spring 2018 | Katrina LaCurts 
+12Challenges with RPCs
+Client Server internet
+load(“buy.html?item&ccNo=xxx”)
+X
+6.033 | spring 2018 | Katrina LaCurts 
+13Challenges with RPCs
+Client Server internet
+load(“buy.html?item&ccNo=xxx”)
+X
+load(“buy.html?item&ccNo=xxx”)
+6.033 | spring 2018 | Katrina LaCurts 
+14Challenges with RPCs
+Client Server internet
+load(“buy.html?item&ccNo=xxx”)
+X
+load(“buy.html?item&ccNo=xxx”)
+problem: just bought the same thing twice
+6.033 | spring 2018 | Katrina LaCurts 
+15Challenges with RPCs
+Client Server internet
+load(“buy.html?UID”)
+X
+load(“buy.html?UID”)client | UID | replystate on server
+replay results from table 
+instead of reprocessing 
+order
+problem: server can still fail
+6.033 | spring 2018 | Katrina LaCurts 
+16What else might we want?
+Client Server internet
+6.033 | spring 2018 | Katrina LaCurts 
+17What else might we want?
+Server internetscalability
+6.033 | spring 2018 | Katrina LaCurts 
+18What else might we want?
+internetscalability fault- tolerance/reliability
+6.033 | spring 2018 | Katrina LaCurts 
+19What else might we want?
+internetscalability fault- tolerance/reliability
+!
+!
+!
+6.033 | spring 2018 | Katrina LaCurts 
+20What else might we want?
+internetscalability fault- tolerance/reliability
+!
+"
+"
+"
+security
+"
+6.033 | spring 2018 | Katrina LaCurts 
+21•Complexity limits what we can build, but can be
+mitigated with modularity and abstraction
+•One way to enforce modularity is with a client/server
+model, where the two modules reside on different
+machines and communicate with RPCs; network/server
+failures are still an issue
+next lecture: naming, which allows modules to 
+communicate
+coming up: operating systems, which enforce 
+modularity on a single machine
+6.033 | spring 2018 | Katrina LaCurts 
+22 
+ 
+ 
+            MIT OpenCourseWare 
+https://ocw.mit.edu  
+6.033 Computer System Engineering
+Spring 2018 
+For information about citing these materials or our Terms of Use, visit: https: //ocw.mit.edu/terms. 
+23

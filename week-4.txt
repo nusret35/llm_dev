@@ -1,0 +1,161 @@
+   
+ 
+  6.033 Spring 2018
+Lecture #6 
+•Monolithic kernels vs. Microkernels
+•Virtual Machines
+6.033 | spring 2018 | Katrina LaCurts 1       
+   
+    
+    
+     
+    
+   
+    
+    
+             
+ operating systems enforce modularity 
+on a single machine using virtualization
+in order to enforce modularity + build an effective operating system 
+1.programs shouldn’t be able to refer to
+virtual memory (and corrupt) each others’ memory
+2.programs should be able tobounded buffers communicate(virtualize communication links) 
+3.programs should be able to share athreads CPU wit
+hout one program halting the(virtualize processors) progress of the others
+today: running multiple OSes at once 
+(and dealing with kernel bugs) 
+6.033 | spring 2018 | Katrina LaCurts 2 
+   
+   
+ 
+    
+  Virtual Machines 
+virtual machine 
+running guest OS virtual machine 
+running guest OS 
+physical hardware 
+problem: how to (safely) share access to physical hardware? 
+6.033 | spring 2018 | Katrina LaCurts 3   
+   
+   
+     
+ 
+  Virtual Machines 
+VMM runs in kernel -mode on hardware 
+virtual machine 
+running guest OS virtual machine 
+running guest OS 
+virtual machine monitor (VMM) 
+physical hardware 
+6.033 | spring 2018 | Katrina LaCurts 4    
+   
+  
+  guest OS guest OS 
+virtual hardware virtual hardware 
+U/K U/K 
+PTR PTR 
+page table page table… … 
+virtual machine monitor (VMM) 
+physical hardware 
+U/K, PTR, page table, … 
+VMM’s goal: virtualize hardware 
+6.033 | spring 2018 | Katrina LaCurts 5    
+   
+  guest virtualguest OS guest OS address 
+virtual hardware 
+U/K 
+PTR 
+page table… virtual hardware 
+U/K PTR 
+page table… guest physical 
+address 
+host physical 
+address virtual machine monitor (VMM) 
+physical hardware 
+U/K, PTR, page table, … 
+6.033 | spring 2018 | Katrina LaCurts 6 
+ 
+  guest OS 
+load PTRvirtual hardware 
+guest OS PTRpage table intercept! 
+VMM 
+guest OS VMM host+page table page table page table 
+physical host 
+page table hardware PTR guest OS 
+page table 
+guest virtual -> 
+guest physical 
+VMM 
+page table 
+guest physical -> 
+host physical 
+host 
+page table 
+guest virtual -> 
+host physical 
+6.033 | spring 2018 | Katrina LaCurts 7 
+ 
+ 
+     
+   
+   
+    
+  guest OS 
+load PTR guest OSvirtual hardware page table 
+guest virtual -> guest OS PTR guest physicalpage table intercept! 
+VMM 
+page tableVMM 
+guest physical -> 
+guest OS VMM host physical+page table page table
+in modern hardware, the
+physical hardw a
+re is aware of
+both page tables, and performs
+the translation from guest physicalPTR virtual to host physical itself hardware 
+6.033 | spring 2018 | Katrina LaCurts 8    
+   
+  
+  guest OS guest OS 
+virtual hardware virtual hardware 
+U/K U/K 
+PTR PTR 
+page table page table… … 
+virtual machine monitor (VMM) 
+physical hardware 
+U/K, PTR, page table, … 
+VMM’s goal: virtualize hardware 
+6.033 | spring 2018 | Katrina LaCurts 9source: bugzilla.kernel.org , count o f all bugs c urrently m arked N EW, ASSIGNED, REOPENED, RESOLVED, VERIFIED, or C LOSED, by c reation d ate
+© source u nknown. All rights reserved. This content is excluded from our Creative Commons license. For more information, see 
+https://ocw.mit.edu/help/faq-f air-use.
+6.033 | spring 2018 | Katrina LaCurts 10monolithic kernels: no enforced 
+modularity within the kernel itself
+HardwareBasic interprocess communication, virtual memory, 
+scheduling, file server, device drivers, network, …Application
+6.033 | spring 2018 | Katrina LaCurts 11microkernels: enforce modularity by 
+putting subsystems in user programs
+HardwareBasic interprocess communication, virtual memory, 
+schedulingapplication 
+IPCdevice 
+drivernetwork …Application
+6.033 | spring 2018 | Katrina LaCurts 12•Virtual Machines allow us to run multiple isolated OSes
+on a single physical machine, similar to how we used an
+OS to run multiple programs on a single CPU.  VMs must
+handle the challenges of virtualizing the hardware
+(examples: virtualizing memory, the U/K bit).
+•Monolithic kernels provide no enforced modularity within
+the kernel.  Microkernels do, but redesigning monolithic
+kernels as microkernels is challenging.
+6.033 | spring 2018 | Katrina LaCurts 13Virtual Machines 
+(in the host OS model, there was actually a host OS）  
+virtual machine monitor (VMM) virtual machine 
+running guest OS virtual machine 
+running guest OS 
+14
+6.033 | spri ng 2018 | Katrina LaCurts  
+ 
+ 
+            MIT OpenCourseWare 
+https://ocw.mit.edu  
+6.033 Computer System Engineering
+Spring 2018 
+For information about citing these materials or our Terms of Use, visit: https: //ocw.mit.edu/terms. 

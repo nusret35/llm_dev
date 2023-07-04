@@ -1,0 +1,188 @@
+ 
+ 
+  6.033 Spring 2018
+Lecture #10 
+•Scalable Routing
+•Policy Routing
+•BGP
+6.033 | spring 2018 | Katrina LaCurts 
+1   
+    
+    
+   
+    
+  
+   
+   
+  Internet of Problems 
+How do we route (and address) 
+scalably, while dealing with 
+issues of policy and economy? 
+How do we transport dat a 
+scalably, while dealing with 
+varying application demands? 
+How do we adapt new 
+applications 
+and technologies 
+to an inflexible architecture? BGP 
+6.033 | spring 2018 | Katrina LaCurts 
+2 
+   
+ 
+   
+  
+ 
+  
+   
+  Distributed Routing 
+1.Nodes learn about
+their neighbo
+rs via the
+HELLO protocol
+2.Nodes learn about
+other reachable nodes
+via advertisements
+3.Nodes determine the
+minimum -cost routes (of
+th
+e routes they know about)
+6.033 | spring 2018 | Katrina LaCurts 
+3  
+      
+  problem: neither distance- vector nor 
+link-state routing will scale to the size
+of the Internet 
+6.033 | spring 2018 | Katrina LaCurts 
+4 
+    
+      
+ 
+     
+     
+  
+   
+  
+  Scalable Routing 
+1.path- vector routing: advertisements
+include the path, to better detect
+routing loops
+2.hierarchy of routing: route betwee n
+AS
+es, and then within an AS
+3.topological addressing: assign 18.0.0.0, … ,18.0.0.255 
+addresses in contiguous blocks to
+18.0.0.0/24make advertisements smaller[(A, 2, <B, A>)]
+6.033 | spring 2018 | Katrina LaCurts 
+5      
+ 
+  problem: ASes also need a means to 
+implement policy 
+6.033 | spring 2018 | Katrina LaCurts 
+6  
+ 
+    
+      
+ 
+            
+  Common AS Relationships 
+customer/provider (“transit”)
+customer pays provider for transit 
+! 
+! 
+peers 
+peers allow (free*) mutual access to 
+each other’s customers 
+*as long as the amount of traffic in each direction is roughly
+equal
+! 
+! 
+6.033 | spring 2018 | Katrina LaCurts 
+7 
+   
+   
+    
+  
+    
+   
+  
+  Export Policies 
+goal: make money 
+customer/provider (“transit”) 
+providers tell everyone
+about themselves thei r 
+cus
+tomers, and tell their 
+customers about everyone 
+peers 
+peers tell each other 
+about their customers 
+!
+! i can reach
+i can reach 
+! 
+! 
+! i can reach 
+6.033 | spring 2018 | Katrina LaCurts 
+8  
+    
+          
+  Import Policies 
+goal: make money 
+customer > peer > provider 
+(and then a variety of other attributes when this rule isn’t 
+sufficient ) 
+6.033 | spring 2018 | Katrina LaCurts 
+9 
+   
+ 
+   
+  
+ 
+  
+   
+  Distributed Routing 
+1.Nodes learn about
+their neighbo
+rs via the
+HELLO protocol
+2.Nodes learn about
+other reachable nodes
+via advertisements
+3.Nodes determine the
+minimum -cost routes (of
+th
+e routes they know about)
+6.033 | spring 2018 | Katrina LaCurts 
+10 
+  does BGP scale? 
+6.033 | spring 2018 | Katrina LaCurts 
+11  
+    
+      
+        
+  
+        
+   
+    
+         
+  •To route on the Internet means to route at an enormous
+scale. We deal with scale via three techniques: path-
+vector routing , a hierarchy of routing , and topological
+addressing .
+•BGP provides a means for autonomous systems to do
+policy routing. While the protocol is simple, how it worksin practice is enormously complex due to competing
+economic interests, among other things.
+•Though BGP works on the Internet today, its ability (or
+inability) to scale is becoming a concern as the Internet
+continues to grow.
+6.033 | spring 2018 | Katrina LaCurts 
+12 
+ 
+ 
+             
+ MIT OpenCourseWare 
+https://ocw.mit.edu 
+6.033 Computer System Engineering
+Spring 2018 
+For information about citing these materials or our Terms of Use, visit: https: //ocw.mit.edu/terms. 
+13
