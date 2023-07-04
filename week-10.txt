@@ -1,0 +1,245 @@
+ 
+ 
+  6.033 Spring 2018
+Lecture #18 
+•Distributed transactions
+•Multi -site atomicity
+•Two- phase commit
+6.033 | spring 2018 | Katrina LaCurts 
+1  
+ 
+  
+  
+    
+ 
+    
+     
+  goal: build reliable systems from unreliable components 
+the abstraction that makes that easier is 
+transactions , which provide atomicity and 
+isolation , while not hindering performance 
+shadow copies (simple, poor 
+performance) or logs (better atomicity 
+performance, a bit more complex) 
+two-phase locking isolation 
+eventually, we also want transaction -based sys t ems to 
+be distributed: to run across multiple machines 
+6.033 | spring 2018 | Katrina LaCurts 
+2  client coordinator A-M server 
+begin 
+ok 
+A-amount 
+ok 
+B+amount 
+ok 
+commit 
+ok 
+6.033 | spring 2018 | Katrina LaCurts 
+3  client coordinator A-M server N-Z server 
+begin 
+ok 
+A-amount 
+ok 
+commit 
+ok Z+amount 
+ok 
+6.033 | spring 2018 | Katrina LaCurts 
+4    
+  client coordinator A-M server N-Z server 
+begin 
+ok 
+A-amount 
+ok 
+commit Z+amount 
+ok 
+X 
+problem: one server committed, the other did not 
+6.033 | spring 2018 | Katrina LaCurts 
+5    
+  
+    
+    
+   
+  goal: develop a protocol that can 
+provide multi -site atomicity in the 
+face of all sorts of failures 
+(message loss, message reordering, worker 
+failure, coordinator failure) 
+message failures solved with
+reliable transport protocol
+(sequence numbers + ACKs) 
+6.033 | spring 2018 | Katrina LaCurts 
+6  
+ 
+ 
+    
+  client coordinator A-M server N-Z server 
+commit 
+ok ok assume all parts of the 
+transactions prior to
+commit have happened
+prepare 
+prepare 
+commit 
+commit 
+two-phase commit: nodes agree that 
+they’re ready to commit before committing 
+6.033 | spring 2018 | Katrina LaCurts 
+7 
+  client coordinator A-M server N-Z server 
+commit 
+prepare ok 
+prepare X 
+prepare timeout; resend 
+failure: lost prepare 
+6.033 | spring 2018 | Katrina LaCurts 
+8  
+  client coordinator A-M server N-Z server 
+commit ok 
+prepare prepareX 
+timeout; resend 
+prepare thanks to sequence 
+numbers, A- M will ACK 
+this message but not 
+re-process it 
+failure: lost ACK for prepare 
+6.033 | spring 2018 | Katrina LaCurts 
+9   
+  client coordinator A-M server N-Z server 
+commit ok 
+prepare prepare 
+failure: worker failure while preparing 
+6.033 | spring 2018 | Katrina LaCurts 
+10   
+  client coordinator A-M server 
+commit N-Z server 
+abort prepare prepare 
+! 
+abort ok 
+failure: worker failure during prepare 
+6.033 | spring 2018 | Katrina LaCurts 
+11 
+  client coordinator A-M server N-Z server 
+commit 
+ok prepare 
+prepare 
+commit ok 
+commit timeout; resend 
+commit tx? X 
+failure: lost commit message
+6.033 | spring 2018 | Katrina LaCurts 
+12  
+  client coordinator A-M server N-Z server 
+commit 
+ok prepare 
+prepare 
+commit ok 
+commit timeout; resend 
+commit X 
+failure: lost ACK for commit message
+6.033 | spring 2018 | Katrina LaCurts 
+13   
+  client coordinator A-M server N-Z server 
+commit 
+ok prepare 
+prepare ok 
+commit commit 
+failure: worker failure during commit 
+6.033 | spring 2018 | Katrina LaCurts 
+14   
+  client coordinator A-M server 
+commit 
+ok prepare 
+prepare ok 
+commit commit N-Z server
+! 
+failure: worker failure during commit 
+6.033 | spring 2018 | Katrina LaCurts 
+15if workers fail after the commit point, we 
+cannot abort the transaction.  workers 
+must be able to recover into a prepared 
+state
+workers write PREPARE records once prepared.  the
+recovery process —reading through the log —will 
+indicate which transactions are prepared but not 
+committed
+6.033 | spring 2018 | Katrina LaCurts 
+16client coordinator A-M server
+commit
+okprepare
+prepareok
+commit
+failure: worker failure during commitcommitN-Z server
+!
+6.033 | spring 2018 | Katrina LaCurts 
+17client coordinator A-M server
+commit
+okprepare
+prepareok
+commit
+failure: worker failure during commitcommitN-Z server
+tx?
+commit
+6.033 | spring 2018 | Katrina LaCurts 
+18client coordinator A-M server
+commitN-Z server
+prepareok
+failure: coordinator failure during prepare
+!
+6.033 | spring 2018 | Katrina LaCurts 
+19client coordinator A-M server
+commitN-Z server
+prepareok
+failure: coordinator failure during prepareabort
+abortcoordinator recovers
+6.033 | spring 2018 | Katrina LaCurts 
+20client A-M server
+commit
+okN-Z server
+prepare
+prepare
+commitok
+failure: coordinator failure during commitcoordinator
+!
+6.033 | spring 2018 | Katrina LaCurts 
+21client A-M server
+commit
+okN-Z server
+prepare
+prepare
+commitok
+failure: coordinator failure during commitcoordinator
+coordinator recovers
+commit
+commit
+6.033 | spring 2018 | Katrina LaCurts 
+22problem: in our example, when workers 
+fail, some of the data (e.g., accounts A -M) 
+is completely unavailable
+6.033 | spring 2018 | Katrina LaCurts 
+23solution: replicate data
+but!how will we keep multiple copies of 
+the data consistent ?  what type of 
+consistency do we want?
+6.033 | spring 2018 | Katrina LaCurts 
+24•Two- phase commit allows us to achieve multi -site
+atomicity : transactions remain atomic even when they
+require communication with multiple machine.
+•In two-phase commit, failures prior to the commit point
+can be aborted.  If workers (or the coordinator) fail after
+the commit point, they recover into the prepared state ,
+and complete the transaction.
+•Our remaining issue deals with availability and replication:
+we will replicate data across sites to improve availability,
+but must deal with keeping multiple copies of the data
+consistent .
+6.033 | spring 2018 | Katrina LaCurts 
+25 
+ 
+ 
+            MIT OpenCourseWare 
+https://ocw.mit.edu  
+6.033 Computer System Engineering
+Spring 2018 
+For information about citing these materials or our Terms of Use, visit: https: //ocw.mit.edu/terms. 
+26

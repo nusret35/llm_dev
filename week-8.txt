@@ -1,0 +1,111 @@
+  
+     
+  
+  6.033 Spring 2018
+Lecture #14 
+•Reliability via Replication
+•General approach to building fault -tolerance systems
+•Single -disk failures: RAID
+6.033 | spring 2018 | Katrina LaCurts 
+1   
+    
+  How to Design Fault -tolerant 
+Systems in Three Easy Steps 
+1.identify all possible faults
+6.033 | spring 2018 | Katrina LaCurts 
+2345   
+    
+ 
+ 
+  How to Design Fault -tolerant 
+Systems in Three Easy Steps 
+1.identify all possible faults
+2.detect and conta in the fa ul ts
+3.handle the fault
+6.033 | spring 2018 | Katrina LaCurts 
+6  quantifying reliability 
+6.033 | spring 2018 | Katrina LaCurts 
+7  dealing with disk failures 
+6.033 | spring 2018 | Katrina LaCurts 
+8   
+              
+ 
+700,000 hour s ≈ 80 years
+© Seagate Technology LLC. All rights reserved. This content is excluded from our Creative Commons license. For more 
+information, see https://ocw.mit.edu/help/faq-f air-u se. 
+6.033 | spring 2018 | Katrina LaCurts 
+9  dealing with disk failures 
+6.033 | spring 2018 | Katrina LaCurts 
+10 
+   
+  
+  RAID 1 (mirroring) 
+!
+" can recover from single- disk failure 
+requires 2N disks 
+6.033 | spring 2018 | Katrina LaCurts 
+11   
+   
+    
+      
+    
+    
+  RAID 4 (dedicated parity disk) 
+xxx xxx xxx xxx xxx sector i of the parity diskxor is the xor of sector i … 
+from all data disks 
+parity 
+data disks disk 
+!
+can recover from single- disk failure
+!requires N+1 disks (not 2N)
+!performance benefits if you stripe a
+single file across multiple data disks
+" all writes hit the parity disk 
+6.033 | spring 2018 | Katrina LaCurts 
+12    
+   
+    
+      
+    
+    
+  RAID 5 (spread out the parity) 
+xxx xxx … xxx xxx xxx 
+!
+can recover from single- disk failure
+!requires N+1 disks (not 2N)
+!performance benefits if you stripe a
+single file across multiple data disks
+!writes are spread across disks
+6.033 | spring 2018 | Katrina LaCurts 
+13           
+    
+   
+       
+       
+      
+   
+      
+          
+     
+  •Systems have faults. We have to take them into account
+and build reliable, fault -tolerant systems . Reliability
+always comes at a cost — there are tradeoffs between
+reliability and monetary cost, reliability and simplicity, etc.
+•Our main tool for improving reliability is redundancy.
+One form of redundancy is replication , which can be
+used to combat many things including disk failures
+(important, because disk failures mean lost data).
+•RAID replicates data across disks in a smart way: RAID 5
+protects against single -disk failures while maintaining
+good performance.
+6.033 | spring 2018 | Katrina LaCurts 
+14 
+ 
+ 
+             
+ MIT OpenCourseWare 
+https://ocw.mit.edu 
+6.033 Computer System Engineering
+Spring 2018 
+For information about citing these materials or our Terms of Use, visit: https: //ocw.mit.edu/terms. 
+15

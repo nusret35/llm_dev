@@ -1,0 +1,195 @@
+18.409 An Algorithmist’s Toolkit Octob er 27, 2009 
+Lecture 13 
+Lecturer: Jonathan Kelner Scribe: Jonathan Pines (2009) 
+1 Outline 
+Last time, we proved the Brunn-Mink owski inequalit y for boxes. Today we’ll go over the general version of 
+the Brunn-Mink owski inequalit y and then move on to applications, including the Isoperimetric inequalit y 
+and Grunbaum’s theorem. 
+2 The Brunn-Mink owski inequalit y 
+Theorem 1 Let A,B ⊆Rn be compact measurable sets. Then 
+(Vol(A ⊕B))1/n ≥(Vol(A))1/n + (Vol(B))1/n. (1) 
+The equality holds when A is a translation of a dilation of B (up to zero-measure sets). 
+Pro of An equivalent version of Brunn-Mink owski inqualit y is given by 
+� �1/n
+Vol(λA ⊕(1 −λ)B) ≥λ(Vol(A))1/n +(1 −λ)(Vol(B))1/n, ∀λ ∈[0, 1]. (2) 
+The equivalence of (1) and (2) follows from the fact that Vol(λA)= λnVol(A): 
+� �1/n � � 
+Vol(λA ⊕(1 −λ)B) ≥ Vol(λA) �1/n + Vol((1 −λ)B) �1/n 
+= � 
+λnVol(A) �1/n + � 
+(1 −λ)nVol(B) �1/n 
+= λ � 
+Vol(A) �1/n +(1 −λ) � 
+Vol(B) �1/n . (3) 
+The inequalit y (2) implies that the nth root of the volume function is concave with respect to the 
+Minkowski sum. 
+Here, we sketch the proof for Theorem 1 by proving (1) for any set constructed from a ﬁnite collection 
+of boxes. The proof can be generalized to any measurable set by approximating the set with a sequence of 
+ﬁnite collections of boxes and taking the limit. We omit the analysis details here. 
+Let A and B be ﬁnite collections of boxes in Rn . We prove (1) by induction on the number of boxes in 
+A ∪B. Deﬁne the following subsets of Rn: 
+A+ = A ∩{x ∈Rn|xn ≥0} ,A− = A ∩{x ∈Rn|xn ≤0},
+B+ = B ∩{x ∈Rn|xn ≥0} ,B− = B ∩{x ∈Rn|xn ≤0}. (4)
+Translate A and B such that the following conditions hold: 
+1. A has some pair of boxes separated by the hyperplane {x ∈Rn|x1 =0}. i.e. there exists a box that lies 
+completely in the halfspace {x ∈Rn|x1 ≥0} and there is some other box that lies in its complemen t 
+half-space (see ﬁgure 1). (If there’s no such box in that direction we can change coordinates.) 
+2. It holds that 
+Vol(A+) Vol(B+)= . (5)Vol(A) Vol(B) 
+13-1 Note that translation of A or B just translates A ⊕B, so any statemen t about the translated sets holds 
+for the original ones. 
+Since A+ and A− are strict subsets of A, we know that A+ ∪B+ and A− ∪B− have fewer boxes than 
+A ∪B. Therefore, (1) is true for them by the induction hypothesis. Moreo ver, A+ ⊕B+ and A− ⊕B− are 
+disjoin t because they diﬀer in sign of the x1 coordinate. Hence, we have 
+Vol(A ⊕B)	≥ Vol(A+ ⊕B+)+Vol(A− ⊕B−) 
+≥ � 
+Vol(A+)1/n + Vol(B+)1/n�n + � 
+Vol(A−)1/n + Vol(B−)1/n�n 
+� �n �	 �n � �1/n � �1/n 
+= Vol(A+) 1+ Vol(B+) + Vol(A−) 1+ Vol(B−) 
+Vol(A+)	 Vol(A−) 
+� �n � �� Vol(B) �1/n 
+= Vol(A+)+Vol(A−) 1+ Vol(A) 
+= � 
+Vol(A)1/n + Vol(B)1/n�n , (6) 
+where the second inequalit y follows from the induction hypothesis, and the second equalit y is implied by (5). 
+Figure 1: A+ and B+ as deﬁned in the proof of Theorem 1. 
+3 Applications of Brunn-Mink owski Inequalit y 
+In this section, we demonstrate the power of Brunn-Mink owski inequalit y by using it to prove some important 
+theorems in convex geometry . 
+3.1 Volumes of Parallel Slices 
+Let K ∈Rn be a convex body. A parallel slice, denoted by Kt, is deﬁned as an intersection of the body with 
+a hyperplane, i.e. 
+Kt = K ∩{x ∈Rn|x1 = t}.	 (7) 
+13-2 Deﬁne the volume of the parallel slice Kt, denoted by vK (t), to be its (n − 1)-dimensional volume. 
+vK (t)=Voln−1(Kt). (8) 
+We are interested in the behavior of the function vK (t), and in particular, in whether it is concave. 
+Consider the Euclidean ball in Rn . The following plots of vK (t) for diﬀeren t n suggest that except for 
+n = 2, the function vK (t) is not concave in t. 
+As another example, consider a circular cone in R3 . The volume of a parallel slice is proportional to t2,so 
+vK (t) is not concave. More generally , vK (t) is proportional to tn−1 for a circular cone in Rn . This suggests 
+that the (n − 1)th root of vK is a concave function. This guess is veriﬁed by Brunn’s theorem. 
+Theorem 2 (Brunn ’s Theorem) Let K be a convex body, and let vK (t) be deﬁned as in (8). Then the 
+1 
+n−1 function vK (t) is concave. 
+Pro of Let s,r,t ∈ R with s =(1 − λ)r + λt for some λ ∈ [0, 1]. Deﬁne the (n − 1)-dimensional slices 
+Kr,K s,K t as in (7). First, we claim that 
+(1 − λ)Ar ⊕ λA t ⊆ As. (9) 
+We show this by proving that for any x ∈ Ar,y ∈ At, we have z =(1 − λ)x ⊕ λy ∈ As, as follows. Connect 
+the points (r, x) and (t,y) with a straigh t line (see ﬁgure 2). By convexity of K, the line lies completely 
+in the body. In particular, the point (s,z), which is a convex combination of (r,x) and (t,y), lies in As. 
+Therefore, z ∈ As and the claim in (9) is true. Now, by applying the version of Brunn-Mink owski inequalit y 
+in (2), we have 
+Vol(As) 1 
+n−1 ≥ (1 − λ)Vol(Ar) 1 
+n−1 + λVol(At) 1 
+n−1 
+⇒ vK (s) 1 
+n−1 ≥ (1 − λ)vK (r) 1 
+n−1 + λv K (t) 1 
+n−1 (10) 
+Figure 2: n-dimensional convex body K in Theorem 2. 
+3.2 Isop erimetric Inequalit y 
+A few lectures ago, we asked the question of ﬁnding the body of a given volume with the smallest surface 
+area. The answer, namely the Euclidean ball, is a direct consequence of the Isoperimetric inequalit y. Before 
+stating the theorem, let us deﬁne the surface area of a body using the Minkowski sum. 
+Deﬁnition 3 Let K be a body. The surface area of K is deﬁned as the diﬀerential rate of volume increase 
+as we add a small Euclide an ball to the body, i.e., 
+Vol(K ⊕ /epsilon1B2 n) − Vol(K)S(K) = Vol(∂K) = lim . (11) 
+e→0 /epsilon1 
+13-3 
+Figure by MIT OpenCourseWare.� � � 
+� � 
+� � �� 
+� 
+/epsilon1 
+� � � � 
+� Now we state the theorem: 
+Theorem 4 (Isoperimetric inequality) For any convex body K, with n-dimensional volume V (K) and sur­
+face area S(K), 
+1 V (K) �1/n 
+≤ S(K) n−1 
+(12)V (B2 n S(B2 n) 
+Pro of By applying the Brunn-Mink owski inequalit y, we have the following: 
+V (K ⊕ /epsilon1B2 n) ≥ � 
+V (K)1/n + /epsilon1V (B2 n)1/n�n 
+� �1/nV (B2 n)= V (K) 1+ /epsilon1 V (K) 
+V (B2 n)≥ V (K) 1+ n/epsilon1 (13)V (K) 
+where the second inequalit y is obtained by keeping the ﬁrst two terms of the Taylor expansion of (1 + x)n . 
+Now, the deﬁnition of surface area in (11) implies: 
+V (K)+ n/epsilon1V (K) V
+V (
+(B
+K2 n 
+)) �1/n 
+− V (K) 
+S(K)= V (∂K) ≥ 
+� �1/n 
+= nV (K) V (B2 n) 
+V (K) 
+n−1 
+n = nV (K) V (B2 n)1/n. (14) 
+For an n-dimensional unit ball, we have S(B2 n)= nV (B2 n). Therefore, 
+n−1 
+n S(K) nV (K) V (B2 n)1/n 
+≥ S(B2 n) 
+11 n−1 
+n S(K) n−1 nV (K) V (B2 n)1/n n−1 
+⇒ ≥ S(B2 n) nV (B2 n) 
+� �1/nV (K)= (15)V (B2 n) 
+3.3 Grun baum’s Theorem 
+Given a high-dimensional convex body, we would like to pick a point x such that for any cut of the body by 
+a hyperplane, the piece containing x is big. A reasonable choice for x is the centroid, i.e. 
+1 x = ydy. Vol(K) y∈K 
+This choice guaran tees to get at least half of the volume for any origin symmetric body, such as a cube 
+or a ball. The question is how much we are guaran teed to get for a general convex body, and in particular, 
+what body gives the worst case. Do we get a constan t fraction of the body, or does the guaran tee depend 
+on dimension? 
+13-4 � �Let us ﬁrst consider the simple example of a circular n-dimensional cone (ﬁgure 3). Suppose we cut the 
+cone C by the hyperplane {x1 =¯x1} at its centroid, where 
+1 � h tR n−1 n x¯1 = t ·Voln−1 dt = h. (16)Vol(C) t=0 h n +1 
+Grunbaum’s theorem states that the circular cone is indeed the worst case if we choose the centroid. 
+Figure 3: n-dimensional circular cone. 
+First we’ll need the following lemma: 
+Lemma 5 Let L = C ∩{x1 ≤ x¯1} by the left side of the cone (which is x1-aligne d with vertex at the origin). 
+Then 1 
+2 ≥ V (L) 
+V (C) ≥ 1 
+e . 
+Pro of 
+V (L) = V ( n 
+n+1 C) 
+= � n �n 
+V (C) V (C) n +1 
+1 � n �n 1 
+2 ≤ n +1 ≤ e 
+Theorem 6 (Grunb aum’s Theorem) Let K be a convex body, and divide it into K1 and K2 using a hyper­
+plane. If K1 contains the centroid of K, then 
+Vol(K1) 
+Vol(K) ≥ 1 
+e . (17) 
+In particular, the hyperplane through the centroid divides the volume into almost equal pieces, and the worst 
+case ratio is approximately 0.37:0.63. 
+Pro of WLOG, change coordinates with an aﬃne transformation so that the centroid is the origin and the 
+hyperplane H used to cut is x1 = 0. Then perform the following operations: 
+1. Replace every (n −1)-dimensional slice Kt with an (n −1)-dimensional ball with the same volume to 
+get K/prime, which is convex per Lemma 7 below. 
+2. Turn K’ into a cone, such that the ratio gets smaller per Lemma 8 below. 
+Lemma 7 K’ is convex. 
+Pro of Let K/prime = K/prime ∩{x1 = t} be a parallel slice in the modiﬁed body. The radius of K/prime is proportional t t 
+1 1 to V (Kt) n−1 . By applying Brunn-Mink owski inequalit y, we get that V (Kt)n−1 is a concave function in t. 
+Thus K/prime is convex. 
+13-5 4 Lemma 8 We can turn K/prime into a cone while decreasing the ratio.
+Pro of Let K/prime = K/prime ∩{x1 ≥ 0},K/prime = K/prime ∩{x1 ≤ 0}. Make a cone yQ¯ 0 by picking y having x1 coordinate
++ − 
+positive on the x1-axis, and V (yQ¯ 0)= V (K/prime . Extend the code in the {x1 ≤ 0} region, so that the volume +
+of the extended part equals V (K/prime ); name this code C/prime . Now by Lemma 5, the centroid of C/prime must lie in −
+yQ¯ 0.Let H/prime be the translation of H along the x1-axis so that it contains the centroid of C/prime . Then 
+r(K,H)= r(C/prime,H) ≥ r(C/prime,H/prime) ≥ 1/e. 
+This completes the proof of Grunbaum’s theorem. 
+Next Time 
+Next time, we will discuss approximating the volume of a convex body. 
+13-6 MIT OpenCourseWare
+http://ocw.mit.edu 
+For information about citing these materials or our Terms of Use, visit: http://ocw.mit.edu/terms. 18.409 Topics in Theoretical Computer Science: An Algorithmist's Toolkit
+Fall 2009 

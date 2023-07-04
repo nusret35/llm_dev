@@ -1,0 +1,190 @@
+� 
+� � 18.409 An Algorithmist’s Toolkit Decem ber 10, 2009 
+Lecture 25 
+Lecturer: Jonathan Kelner Scrib e: Nikolaos Trichakis 
+Multiplicativ e Weights 
+In this lecture, we will study various applications of the theory of Multiplicativ e Weights (MW). In this 
+section, we brieﬂy review the general version of the MW algorithm that we studied in the previous lecture. 
+The following sections then show how the theory can be applied to appro ximately solve zero-sum games and 
+linear programs, and how it connects with the theory of boosting and appro ximation algorithms. 
+We have n experts who predict the outcome of an event in consecutiv e rounds. Supp ose that in each 
+round there are P diﬀeren t outcome s for the event. If outcome j realizes, expert i pays a penalt y of M(i, j). 
+An important pareme ter will prove to be the maxim um allowable magnitude for the penalt y. For that, let 
+M(i, j) ∈ [−�, ρ], with 0 ≤ � ≤ ρ, where ρ is the width. Our goal is to devise a strategy that dictates which 
+expert’s reccomendation to follow, in order to achieve an expected avegare penalt y that is not much worse 
+than that of the best expert (in hindsigh t). 
+The strategy that we analyzed in the previous lecture is as follows. We main tain for each expert a 
+scalar weight, which can be though t of as a qualit y score. Then, at each round we choose to follow the 
+recommendation of a speciﬁc expert with probabilit y that is proportional to her weight. After the outcome 
+is realized, we update the weights of each expert accordingly . In mathematical terms, let wit be the weight 
+of the ith epxert at the beginning of round t. Then, the MW algorithm is 
+0. Initialize wi 1 = 1, for all i. 
+1. At step t, 
+a. Follow the recommedation of the ith epxert with probabilit y pit, where 
+t 
+p t
+i = � wi
+t . 
+j wj 
+b. Let jt ∈ P denote the outcome of the event at round t, and Dt 
+1t ,...,pnt } the distribution we = {p
+used above to select an expert. Our penalt y is denoted by M (Dt,jt), and is equal to M(i, jt), 
+where i is the selected expert. 
+c. Update the weights as follows: 
+t+1 wit(1 − �)M (i,jt)/ρ if M(i, jt) ≥ 0 w = i wit(1 + �)−M(i,jt)/ρ if M(i, jt) < 0. 
+1 δ 16ρ2 log(n)In the previous lecture we argued that for any δ> 0, for � ≤ min , and after T = δ2 rounds24ρ 
+and for all i, the average penalt y we get per round obeys: 
+�T �TM(Dt,jt) M(i, jt)t=1 t=1 . ≤ δ + T T 
+In particular our average penalt y per round is at most δ bigger than the average penalt y of the best expert. 
+25-1 � � Zero-Sum Games 
+There are two players, labeled as the “row” player R and the “column” player C. Each player has a ﬁnite 
+set of actions that he can follow. At each round, player R pays player C an amoun t that depends on the 
+actions of the two players. In particular, if R plays action i and C plays j, the payoﬀ from R to C is M(i, j). 
+We assume that the payoﬀs are normalized, such that M(i, j) ∈ [0, 1]. Naturally , player R tries to minimize 
+the payoﬀ, whereas player C tries to maximize it. 
+Each player can follow a pure strategy , which dictates a single action to be played repeatedly , or a 
+mixed strategy , under which the player has a ﬁxed probabilit y distribution over actions, and chooses actions 
+randomly according to it. One migh t expect that the order in which players choose their actions migh t play 
+a role, since knowledge of your opponent’s strategy helps you to adop t your strategy appropriately . If we 
+let D and P to be the row and column mixed strategies respectively, the von Neumann’s minimax Theorem 
+says that in this game, the order of choosing actions is actually indiﬀeren t for the players. Mathematically , 
+λ� := min max M(D, j) = max min M(i, P ), 
+Dj Pi 
+where λ� is the so called value of the game. Our goal is to appro ximate this value, up to some additiv e error 
+δ. 
+We deplo y the MW algorithm as follows. Let pure strategies for R corresp ond to experts, and pure 
+strategies for C corresp ond to events. Then, the penalt y paid by expert i in case of event j is exactly the 
+payoﬀ from R to C, if they follow strategies i and j accordingly , that is M(i, j). Assume also that for a 
+mixed strategy D, we can eﬃcien tly compute the column strategy j that maximizes M(D, j) (a quan tity 
+eventually ≥ λ�). At step t of the MW algorithm, we choose a distribution Dt over experts, which then 
+corresp onds to a mixed strategy for R. Given Dt, we compute the worst possible event, which is the column 
+strategy jt that maximizes M(Dt,jt). 
+To see why this approac h yields an appro ximation to λ�, ﬁrst note that for any distribution D, 
+M (D, jt) ≥ min M(i, jt), (1)
+i t t 
+since a distribution is just a weighted average of pure strategies. Furthermore, as we argued above we have 
+M(Dt,jt) ≥ λ� , (2) 
+16 log(n)since we pick the payoﬀ-maximizing column strategy . According to the MW theory, after T = δ2 
+rounds and for any distribution D we have 
+�T ��T � �T 
+λ�t=1 M(Dt,jt) ≤ δ + min t=1 M(i, jt) ≤ δ + t=1 M(D, jt) . ≤ T i T T 
+The ﬁrst inequalit y follows from (2) and the second from (1). Since the above is true for any distribution D, 
+it is also true for the optimal distribution, and hence 
+�T 
+λ� ≤ t=1 M
+T (Dt,jt) ≤ δ + λ� . 
+This demonstrates that the average penalt y of the algorithm is an appro ximation of the value of the game, 
+within and additiv e positive term of δ. Note that also the average mixed strategy , or the best strategy 
+Dt, constitutes an appro ximately optimal strategy as well, since its payoﬀ is appro ximately the value of the 
+game, against an optimally acting player. 
+Linear Programming and the Plotkin-Shmo ys-Tardos framew ork 
+There are various ways in which MW theory can used to solve linear programs. Given what we developed 
+in the previous section, one immediate way is to cast the LP as a zero-sum game and solve it via MW. 
+25-2 � � 
+� Note that there are some interesting trade oﬀs between this idea and the traditional ways of solving linear 
+programming problems. In particular, ellipsoid and interior point algorithms (IP) achieve an error of δ 
+in O(poly(n) log( 1 
+δ )) steps. Their dependence on the corresp ondin g notion of the MW penalt y width is 
+logarithmic. On the other hand, the MW algorith m achieves an error after O( log(n) ) steps, in case the width δ2 
+is 1. Otherwise, the dependence on the width is quadratic, as we have shown. To summarize, IP algorithms 
+are much better with respect to error and size of numbers (i.e., width), whereas MW are much better with 
+respect to the dimension n. 
+We now switc h focus to the Plotkin-Shmo ys-Tardos framew ork, which is a more direct way of applying 
+MW to linear programming. Our goal is to check to feasibilit y of a set of linear inequalities, 
+Ax ≥ b, x ≥ 0, 
+where A =[a1 ...am]T is an m × n matrix and x an n dimensional vector, or more precisely to ﬁnd an 
+appro ximately feasible solution x� ≥ 0, such that for some δ> 0, 
+aiT x � ≥ bi − δ, ∀i. 
+The analysis will be based on an oracle that answ ers the following question: Given a vector c and a 
+scalar d, does there exist an x ≥ 0, such that cT x ≥ d? With this oracle, we will be able to repeatedly check 
+whether a convex combination of the initial linear inequalities, aiT x ≥ bi, is infeasible; a condition that is 
+suﬃcien t for the infeasibilit y of our origin al problem. Note that the oracle is straightforw ard to construct, 
+as it involves a single inequalit y. In particular, it returns a negativ e answer if d> 0 and c< 0. 
+The algorithm is as follows. Experts correspond to each of the m constrain ts, and events corresp ond 
+to points x ≥ 0. The penalt y for the ith expert for the event x will be aiT x − bi, and is assumed to take 
+values in [−ρ, ρ]. Although one migh t expect the penalt y to be the violation of the constrain t, it is exactly 
+the opposite; the reason is that the algorithm is trying to actually prove infeasibilit y of the problem. In 
+the tth round, we use our distribution over experts to generate an inequalit y that would be valid, if the 
+problem were feasible: if our distribution is p1t ,...,pt , the inequalit y is tT t The oracle m i piai x ≥ i pibi. 
+then either detects infeasibilit y of this constrain t, in which case the original problem is infeasible, or returns 
+a point xt ≥ 0 that satisﬁes the inequalit y. The penalt y we pay then is equal to t(aTt − bi), and the i pii x
+weights are updated accordingly . Note that in case infeasibilit y is not detected, the penalt y we pay is always 
+nonnegativ e, since xt satisﬁes the checked inequalit y. 
+16ρ2 log(n)If after T = δ2 infeasibilit y is not detected, we have the following guaran tee by the MW theory: 
+0 ≤ �
+tT 
+=1 � 
+i pt
+i(aT
+i xt − bi) ≤ δ + �
+tT 
+=1(aT
+i xt − bi) ,T T 
+for every i. The ﬁrst inequalit y follows by the nonnegativit y of all penalties. If we take ¯x to be the average 
+of all visited points xt , � txx¯= t ,T 
+then this is our appro ximate solution, since from the above inequality we get for all i 
+0 ≤ δ + aiT x¯− bi ⇒ aiT x¯≥ bi − δ. 
+Boosting 
+We now visit a problem from the area of Machine Learning. Supp ose that we are given a sequence of training 
+points, x1,...,xN , which are drawn from a ﬁxed but unkno wn to us distribution D. Alongide, we are given 
+corresp onding 0 − 1 labels, c(x1),...,c(xN ), assigned to each point, where c is a function from some concept 
+class C that maps points onto 0 − 1 labels. Our goal is to generate a hypothesis function h that assigns 
+labels to points, replicating the function c in the best way possible. This is captured by the average absolute 
+error, ED [|h(x) − c(x)|]. We call a learning algorithm to be strong, if for every distrib ution D and any 
+25-3 � 
+� ﬁxed �,δ > 0, it outputs with probabilit y at least 1 − δ a hypothesis h that achieves error no more than �. 
+Similarly , it is called γ-weak, if the error is at most 0.5 − γ. 
+Boosting is a very useful, both in theory and in practice, tool of combining weak rules of thumb into 
+strong predictors. In particular, the theory of Boosting shows that if there exists a γ-weak learning algorithm 
+for C, then there also exists a strong one. We will show this in case we have a ﬁxed training set with N 
+points, and where the strong algorithm has a small error with respect to the uniform distribution on the 
+training set. 
+We use the MW algorithm. In the tth round, we assign a diﬀeren t distribution Dt on the training set, 
+and use the weak learning algorithm to retriev e a hypothesis ht, which by assumption has error at most 
+0.5 − γ, with respect to Dt . Our ﬁnal hypothesis after T rounds, hﬁnal, is obtained by taking majority 
+vote among h1,...,hT . The experts in this case are the samples in the training set, and the events are the 
+hypotheses produced by the weak learning algorithm. The associated penalt y for expert x on hypothesis ht 
+is 1 if ht(x)= c(x), and 0 otherwise. As in the previous exemple, we penalize the experts that “are doing 
+well”, as we want to eventually increase the weight of a point (expert) if our hypothesis got it wrong. We 
+can start with D1 being the uniform distribution, and we update according to the MW algor ithm. Finall y, 
+after 2 1 T = γ2 log 
+rounds we get an error rate for hﬁnal on the training set, under the uniform distribution, that is at most �, 
+as required. 
+Appro ximation Algorithms 
+We conclude with an application that demonstrates how to use the MW algori thm to get O(log n) appro xi­
+mation algorithms for many NP-hard problems. The problem that will focus on is the SET COVER problem: 
+Given a universe of elemen ts, U = {1,...,n}, and a collection C = {C1,...,Cm} of subsets of U, whose 
+union equals U, we want to pick a minim um number of sets from C to cover all of U. An immediate algorithm 
+to tackle this problem is the greedy heuristic: at each step, choose the set from C that has not been chosen 
+yet and that covers the most out of the yet uncovered elemen ts of U. The MW algorithm will end up takin g 
+exaclt y the form of that greedy algorithm, and will further prove the appro ximation bound. 
+We associate the elemen ts of the universe with experts, and the sets of C with events. The penalt y for 
+expert i under event Cj , M(i, Cj ), will be equal to 1 if i ∈ Cj , and 0 otherwise. In this case, we use the 
+following simpliﬁed rule for updating the weights, 
+w t+1 = w t(1 − M(i, Cj )).ii 
+The update rule then gives elemen ts that are covered by the newly chosen set a weight of 0, leaving the 
+remaining unaltered. Consequen tly, the weight of elemen t i in round t is either 0 or 1, depending on if it has 
+being covered already , or not. The distribution we will be using then in round t, 
+t 
+pit = � wi
+t , 
+k wk 
+is just a uniform distribution over the uncovered elemen ts by round t. We then choose the maximally 
+adversarial event (that is, the one that maximizes the penalt y), which coincides with the set Cj that covers 
+a maxim um number of uncovered elemen ts, and update our weights. The describ ed MW algorithm coincides 
+with the greedy algorithm, in repeatedly picking the set that covers the most uncovered elements. 
+For any distribution p1t ,...,pnt on the elemen ts, we have that OPT sets cover everything. That means 
+that the total weights of sets involved (accoring to the distribution p) is at least 1, and hence at least one of 
+the remaining sets must cover at least 1/OPT fraction. Mathematically , 
+max pit ≥ 1/OPT. 
+j 
+i∈Cj 
+25-4 That shows that after every round, the total penalt y drops signiﬁcan tly: 
+Φt+1 < Φt e−1/OPT . 
+The inequalit y is strict, since the penalt y is always positiv e. Using Φ1 = n, after OPT log n iterations we get 
+Φ < 1 Φ = 0, which shows that we can cover everything with OPT log n sets — an log n appro ximation. ⇒ 
+25-5 MIT OpenCourseWare
+http://ocw.mit.edu 
+18.409  Topics in Theoretical Computer Science: An Algorithmist's Toolkit 
+Fall 2009 
+For information about citing these materials or our Terms of Use, visit: http://ocw.mit.edu/terms . 

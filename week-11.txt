@@ -1,0 +1,364 @@
+ 
+  
+ 6.033 Spring 2018
+Lecture #19 
+• Distributed transactions 
+• Availability 
+• Replicated State Machines 
+1
+6.033 | spring 2018 | Katrina LaCurts       
+    
+   
+     
+  
+   
+     
+   
+  
+ 
+ goal: build reliable systems from unreliable components 
+the abstraction that makes that easier is 
+transactions , which provide atomicity and 
+isolation , while not hindering performance 
+shadow copies (simple, poor 
+performance) or logs (better atomicity 
+performance, a bit more complex) 
+two-phase locking isolation 
+we also want transaction -based systems to be 
+distributed — to run across multiple machines — and 
+to remain available even through failures 
+2
+6.033 | spring 2018 | Katrina LaCurts       
+ C1 write write11(X) (X) S1 
+C2 write write22(X) (X) S2 
+(replica of S 1) 
+problem: replica servers can become inconsistent 
+3
+6.033 | spring 2018 | Katrina LaCurts   
+      
+ if primary fails, C switches to backup (primary) 
+primary chooses order (C knows how to contact backup servers) 
+of operations, decides 
+C S1 all non- deterministic 
+values 
+primary ACKs coordinator 
+only after it’s sure that S2 
+backup has all updates 
+(backup) 
+attempt: coordinators communicate with primary 
+servers, who communicate with backup servers 
+4
+6.033 | spring 2018 | Katrina LaCurts   
+      
+ if primary fails, C switches to backup (dead) 
+S1 
+C (C knows how to contact backup servers) 
+!
+S2 
+(backup) 
+attempt: coordinators communicate with primary 
+servers, who communicate with backup servers 
+5
+6.033 | spring 2018 | Katrina LaCurts   
+      
+ if primary fails, C switches to backup 
+S1
+!(dead) 
+(C knows how to contact backup servers) 
+C 
+S2 
+(primary) 
+attempt: coordinators communicate with primary 
+servers, who communicate with backup servers 
+6
+6.033 | spring 2018 | Katrina LaCurts   
+  
+ multiple coordinators + the network = problems 
+(primary) 
+C1 S1 
+S2C2 
+(backup) 
+attempt: coordinators communicate with primary 
+servers, who communicate with backup servers 
+7
+6.033 | spring 2018 | Katrina LaCurts  multiple coordinators + the network = problems 
+(primary) 
+C1 S1
+network partition 
+S2C2
+(backup) 
+attempt: coordinators communicate with primary 
+servers, who communicate with backup servers 
+8
+6.033  | spring 2018 network partition  multiple coordinators + the network = problems 
+(primary) 
+C1 S1
+network partition 
+S2C2
+(backup, but 
+primary for C 2) 
+attempt: coordinators communicate with primary 
+servers, who communicate with backup servers 
+9
+6.033  | spring 2018   
+ multiple coordinators + the network = problems 
+(primary) 
+C1 S1
+network partition 
+S2C2
+(backup, but 
+primary for C 2) 
+C1 and C2 are using different primaries; 
+S1 and S2 are no longer consistent 
+attempt: coordinators communicate with primary 
+servers, who communicate with backup servers 
+10
+6.033  | spring 2018    
+ C VS S1 
+S2 
+use a view server , which determines which replica is 
+the primary 
+11
+6.033 | spring 2018 | Katrina LaCurts    
+ S1 
+C VS 
+1: S1, S2 
+view server keeps a 
+table that maintains a 
+sequence of views S2 
+use a view server , which determines which replica is 
+the primary 
+12
+6.033 | spring 2018 | Katrina LaCurts    
+ (primary) 
+C VS S1 
+S2 1: S1, S2 primary 
+backup
+ view server alerts 
+primary/backups about 
+their roles 
+(backup) 
+use a view server , which determines which replica is 
+the primary 
+13
+6.033 | spring 2018 | Katrina LaCurts    
+ primary primary sends updates (primary)
+to, gets ACKs from 
+backup (as before) S1 
+C 
+1: S1, S2 backup VS 
+S2 
+(backup) 
+use a view server , which determines which replica is 
+the primary 
+14
+6.033 | spring 2018 | Katrina LaCurts    
+ (primary) 
+S1 
+VS primary?C 
+S1 
+1: S1, S2 
+coordinators make 
+requests to view server 
+to find out who is S2 
+primary 
+(backup) 
+use a view server , which determines which replica is 
+the primary 
+15
+6.033 | spring 2018 | Katrina LaCurts    
+ coordinators contact (primary)
+primary (as before) 
+C VS S1 
+1: S1, S2 S1 primary? 
+S2 
+(backup) 
+use a view server , which determines which replica is 
+the primary 
+16
+6.033 | spring 2018 | Katrina LaCurts    
+ (primary) 
+(backup) C VS 
+1: S1, S2 S1 primary? S1 
+!
+!
+S2primary/backup(s) ping 
+view server so that it 
+can discover failures 
+use a view server , which determines which replica is 
+the primary 
+17
+6.033 | spring 2018 | Katrina LaCurts  
+ 
+ handling primary failure 
+(dead) 
+S1 
+!
+lack of pings indicates 
+C VS to VS that S1 is down 
+1: S1, S2 
+"
+S2 
+(backup) 
+18
+6.033 | spring 2018 | Katrina LaCurts  primary
+ handling primary failure 
+(dead) 
+S1 
+!
+C 
+1: S1, S2 
+2: S2, --VS 
+S2 
+"
+(primary) 
+19
+6.033 | spring 2018 | Katrina LaCurts  handling primary failure 
+(dead) 
+C VS S1 
+!
+1: S1, S2 
+2: S2, --
+"S2 primary? 
+S2 
+(primary) 
+20
+6.033 | spring 2018 | Katrina LaCurts ! handling primary failure 
+(dead) 
+S1 
+C VS 
+1: S1, S2 
+2: S2, --
+"
+S2 
+(primary) 
+21
+6.033 | spring 2018 | Katrina LaCurts   handling primary failure
+(primary)due to partition 
+C VS 
+(backup) S1 
+network partition 
+1: S1, S2 
+!
+S2 
+!
+ppose a partition keeps S1 from communicating with the view ser 
+22
+6.033  | spring 2018  handling primary failure
+(presumed dead)due to partition 
+C VS S1 
+lack of pings indicates 
+to VS that S1 is down 1: S1, S2 
+!
+S2 network partition 
+!
+(backup) 
+23
+6.033  | spring 2018 S1 
+network p
+!handling primary failure
+(presumed dead)due to partition 
+C VS 
+(primary) 1: S1, S2 
+2: S2, --
+VS makes S2 primary 
+!primary 
+S2 artition 
+24
+6.033  | spring 2018  handling primary failure
+(presumed dead)due to partition 
+C VS 
+(primary) S1 
+1: S1, S2 
+2: S2, --
+!primary 
+S2 network partition 
+!
+question: what happens before S 2 knows 
+it’s the primary? 
+25
+6.033  | spring 2018 handling primary failure
+C VS 
+(primary) (presumed dead) 
+S1 due to partition 
+1: S1, S2 
+2: S2, --
+S2 will act as backup
+(accept updates from S 1, reject coordinator requests) 
+!primary 
+rejected by S
+2 S2 network partition 
+!
+26
+6.033  | spring 2018 handling primary failure
+(presumed dead)due to partition 
+C VS 
+(primary) S1 
+1: S1, S2 
+2: S2, --
+!
+S2 network partition 
+!
+question: what happens after S 2 knows it’s 
+the primary, but S 1 also thinks it is? 
+27
+6.033  | spring 2018 C VS 
+(primary) (presumed dead) 
+S1 handling primary failure
+due to partition 
+1: S1, S2 
+2: S2, --
+S1 won’t be able to act as primary
+(can’t accept client requests because it won’t get ACKs from S 2) 
+!
+rejected by S 2 rejected by S1
+(can’t get ACK from S2) 
+S2 network partition 
+!
+28
+6.033  | spring 2018  
+ (primary) 
+C 
+1: S1, S2 S1 
+!
+!
+"
+S2 
+problem: what if view server fails? 
+29
+6.033 | spring 2018 | Katrina LaCurts  
+ (primary) 
+C 
+1: S1, S2 S1 
+!
+!
+"
+S2 
+problem: what if view server fails? 
+go to recitation tomorrow and find out! 
+30
+6.033 | spring 2018 | Katrina LaCurts  
+  
+  
+  
+ 
+      
+    
+  
+ • Replicated state machines (RSMs) provide single -copy 
+consistency: operations complete as if there is a single 
+copy of the data, though internally there are replicas. 
+• RSMs use a primary -backup mechanism for replication. 
+The view server ensures that only one replica acts as the 
+primary. It can also recruit new backups after servers fail. 
+• To extend this model to handle view -server failures, we 
+need a mechanism to provide distributed consensus ; 
+see tomorrow’s recitation (on Raft). 
+31
+6.033 | spring 2018 | Katrina LaCurts  
+  MIT OpenCourseWare 
+https://ocw.mit.edu 
+�.�����ompute����stem����i�ee�i��
+Spring 201� 
+For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms. 
+32

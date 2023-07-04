@@ -1,0 +1,140 @@
+18.409 An Algorithmist’s Toolkit Decem ber 3, 2009 
+Lecture 23 
+Lectur er: Jonathan Kelner 
+1 Outline 
+Last lecture discussed the conjugate gradien t algorithm for solving linear systems Ax = b. This lecture will 
+discuss preconditioning , a metho d for speeding up the conjugate gradien t algorithm for speciﬁc matrices. 
+2 Last Lecture 
+Last lecture we describ ed the conjugate gradien t algorithm for solving linear systems Ax = b for positive 
+deﬁnite matrices A. The time bound for conjugate gradien t depends on ﬁtting low-degree polynomials to 
+be small on the eigenvalues of A and large at 0. Using Chebyshev polynomials, this gives a running time of 
+λmaxO˜(κ1/2), where κ = is the condition numb er of A.λmin For certain matrices A, tighter bounds can be achieved. For example, if the eigenvalues of A tend to 
+be clustered together, then polynomials can more easily be small at all the eigenvalues. But in the worst 
+case and the general case, conjugate gradien t takes ˜Θ(κ1/2) time. For ill-conditione d (or badly-c onditione d, 
+poorly-c onditione d, etc.) matrices, this can be quite slow. What do we do then? 
+3 Preconditioning 
+3.1 Motiv ating example 
+Some matrices A with terrible condition number can still be solved fairly easily. For example, consider the 
+matrix 
+⎛ ⎞ 
+10000 777 123 
+A = ⎝ 0.1 1 0.2 .⎠ 
+0.002 0.001 0.01 
+This has condition number κ ≈ 1000000, and condition number 1012 once you compute AT A to get a 
+positive deﬁnite matrix to perform conjugate gradien t on. But if you normalize the diagonal to get 
+⎛ ⎞ 10.0777 0.0123 
+D−1A = ⎝ 0.1 1 0.2 ⎠ , 
+0.20.1 1 
+you ﬁnd a well-conditioned matrix. So you can use conjugate gradien t to quickly solve D−1Ax = D−1b 
+instead. When we do this, we call D a “preconditioner” for A. 
+There’s no reason that preconditioners have to be diagonal; they just have to be easily invertible. The 
+next section discusses the general problem of ﬁnding preconditioners. 
+3.2 In general 
+The problem is that we want to solve Ax = b but A is ill-conditioned, so conjugate gradien t doesn’t work 
+directly . However, we also know some other positive deﬁnite matrix M that approximates A and is easy to 
+invert. Then we instead use conjugate gradien t on M−1Ax = M −1b.If M approximates A, then M−1A 
+should have low condition number and conjugate gradien t will be fast. This idea has few complications: 
+23-1 •	How do we ﬁnd M ? There’s no general answer to this question, since it’s impossible for most A. 
+However, most problems you want to solve have structure, which often allows you to ﬁnd a good M. 
+The second part of this lecture discusses how to ﬁnd a good M when A is a Laplacian. 
+•	It could hard to compute M−1A. If M and A are sparse, you don’t want to compute the dense 
+matrix M −1A. Fortunately , you don’t need to. Conjugate gradien t only computes vector products, 
+which you can compute in succession. 
+•	M −1A may not by symmetric or positiv e deﬁnite. You need it to be positive deﬁnite for 
+conjugate gradien t to be proven correct. Fortunately , this can be worked around, as shown below: 
+3.3 Dealing with M−1A being asymmetric 
+While M −1A may not be symmetric, both M and A are. So we can factor M = EET . Then E−1AE−T has 
+the same eigenvalues as M −1A, since if M−1Av = λv, then 
+E−1AE−T (ET v)= ET M −1Av = λET v. 
+So rather than solving M−1Ax = M −1b, we can solve E−1AE−T xˆ= E−1b and return x = E−T xˆ. This can 
+be done with conjugate gradien t, since it uses a positive deﬁnite matrix. 
+Now, we might not know how to factor M = EET . Fortunately , if we look at how conjugate gra­
+dient works, it never actually requires this factorization. Every time E is used, it will come in the pair 
+(aE−T )(E−1b)= aM −1b. 
+This completes our sketch of how preconditioning algorithms work, once you ﬁnd a preconditioner. We 
+will spend the rest of lecture on ﬁnding preconditioners for Laplacians. 
+4 Preconditioners on Laplacians 
+Recall from previous lectures that any graph G can be sparsiﬁe d. This means that we can ﬁnd a graph H 
+with O˜(n) edges such that 
+(1 − /epsilon1)Lh /precedesequal LG /precedesequal (1 + /epsilon1)Lh. 
+Then Lh is a good preconditioner for LG. This is because all the eigenvalues of L−1LG lie in [1 − /epsilon1, 1+ /epsilon1],H 
+so L−1LG has constan t condition number. H 
+We can use this to solve Laplacian linear systems for all graphs as if they are sparse and only multiply the 
+number of iterations by log factors. Each step of conjugate gradien t requires solving a sparse linear system 
+on H, and it only takes logarithmically many iterations to converge. 
+But to do this, we need to ﬁnd H. Our previous metho d required a linear system solver to get H,sowe 
+can’t use it. There is a way to get a slightly weaker spectral sparsiﬁer in nearly linear time, though. We give 
+a sketch of the algorithm, but don’t go into much detail: 
+We know that random sampling does a good job of sparsifying expanders. The problem with random 
+sampling is when cuts have very few edges crossing them. So we ﬁrst break the graph into well-connected 
+clusters with our fast local partitioning algorithm. Inside each cluster, we randomly sample. We then 
+condense the clusters and recurse on the edges between clusters. 
+So in nearly linear time, we can get a graph with O˜(n) edges and a 1 + /epsilon1 spectral approximation to G. 
+But for use as a preconditioner, we don’t need a 1 + /epsilon1 approximation. We can relax the approximation ratio 
+in order to dramatically cut the number of edges in the sparsiﬁer. This will cause us to take more iterations 
+of conjugate gradien t, but be able to perform each iteration quickly. We dub these incredibly sparse matrices 
+ultra-sp arsiﬁers . 
+23-2 /summationtext 
+/summationdisplay /summationdisplay /summationdisplay 
+/summationdisplay 4.1 Ultra-Sparsiﬁcation 
+What we cover now is a metho d to speed up conjugate gradien t by using an even sparser H. All the metho ds 
+discussed henceforth are easily applicable to solving Mx = b for any M that is weakly diagonal ly dominant 
+(not just graph Laplacians), i.e. for all i it holds that |Mi,i|≥ |Mi,j |. The H we will precondition with j/negationslash=i 
+now we call ultra-sp arsiﬁers as they will only have (1 + o(1))n edges! You can think of H as essentially being 
+a spanning tree of G with only a few extra edges. 
+Theorem 1 Given a graph G with n vertic es and m edges, it is possible to obtain a graph H with n + 
+t logO(1) n edges such that LH /precedesequalLG /precedesequal(n/t)LH , indep endent of m. 
+We will not prove Theorem 1 here. In the problem set you will show a weaker version where the (n/t)is 
+replaced with (n/t2). Getting to (n/t) requires similar ideas but gets slightly more complicated. 
+The main beneﬁt to ultra-sparsiﬁcation is that for many algorithms, the ultra-sparse graph acts like a 
+graph with many fewer vertices. The ultra-sparse graph is a tree with relativ ely few additional edges linking 
+nodes of the tree. For intuition on this, note that paths without branching can usually be condensed into a 
+single edge. Furthermore, linear systems on trees can be solved in linear time. 
+The result will be that we can solve diagonally dominan t linear systems in nearly linear time. This 
+lecture will focus on Laplacians, but the problem set has a question on how to extend it to general diagonally 
+dominan t systems. 
+4.1.1 Embedding of graphs 
+Recall from problem set 1 that: 
+Lemma 2 Let Pu,v be a path from u to v of length k, and let Eu,v be the graph that just has one edge from 
+u to v. Then 
+Eu,v /precedesequalkPu,v. 
+Now, suppose that we have two graphs G and H and an embedding of G onto H such that each edge in G 
+maps to a path in H. For (i, j) ∈G, deﬁne stretch(i, j) to be the length of (i, j)’s embedded path in H. 
+Then 
+G = Ei,j /precedesequal stretch(i, j)image(i, j) /precedesequal stretch(i, j)H. 
+(i,j)∈E(G) (i,j)∈E(G) (i,j)∈E(G) 
+If H is a subgraph of G, this means 
+/summationdisplay 
+H /precedesequalG /precedesequal stretch(i, j)H. 
+(i,j)∈E(G) 
+4.1.2 Spanning tree preconditioners 
+For trees T , we can solve LT x = b in linear time. So it would be really nice if H were a “low average-stretc h 
+spanning tree.” We could then precondition on H and take O(m) time per iteration. 
+Turns out that that low average-stretc h spanning trees exist and can be found eﬃcien tly: 
+Theorem 3 Any graph G has a spanning tree T into which it can be emb edded such that 
+stretch(i, j) ≤m logc n. 
+(i,j)∈E(G) 
+This already is strong enough to give a non-trivial result. If we use such a spanning tree as a precondi­
+tioner, we take O(m) per iteration and take O˜(m1/2 iterations (because the condition number is O˜(m)), for 
+O˜(m3/2) time. 
+23-3 /parenleftbig /parenrightbig Although we won’t go into detail, it turns out that this exact algorithm actually runs in O(m4/3) time. 
+The eigenvalues of the tree have a structure such that error is halved in O˜(m1/3) iterations, not just O˜(m1/2) 
+iterations as Chebyshev polynomials show. 
+Instead, we’ll add a few more edges to make “Vaidya’s augmen ted spanning trees”, which will impro ve 
+the condition number substan tially. In the problem set, you’ll go into more detail into this, and into how to 
+apply this recursiv ely to get nearly linear recovery time. 
+4.1.3 Constructing ultra-sparsiﬁers 
+We will take a spanner T of G, and add a small number s more edges to get H. We partition T into t subtrees 
+of balances path lengths. We then add one well-chosen “bridge” edge between every pair of subtrees. This 
+can be done so that 
+−1/2 −1/2κ(LH LGLH ) ≤ O(n/t). 
+The ultra-sparsiﬁer H will have n − 1+ s edges, for s ≤ 2 t in general or s ≤ O(t) for planar graphs. 
+With more cleverness, Spielman and Teng showed that s can be impro ved to O˜(t) for general graphs. 
+5 Conclusion 
+It’s interesting that previously we used linear algebra to speed up graph theory , but now we’re using graph 
+theory to speed up linear algebra. 
+23-4 MIT OpenCourseWare
+http://ocw.mit.edu 
+18.409  Topics in Theoretical Computer Science: An Algorithmist's Toolkit 
+Fall 2009 
+For information about citing these materials or our Terms of Use, visit: http://ocw.mit.edu/terms . 

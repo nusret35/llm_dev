@@ -1,0 +1,302 @@
+18.409 An Algorithmist’s Toolkit Septem ber 30, 2009 
+Lecture 7 
+Lectur er: Jonathan Kelner Scrib e: Alan Deckelb aum (2009) 
+1 Administrivia 
+There were two administrativ e announcemen ts made at the beginning of class today. 
+•	The ﬁrst problem set will be posted online tonigh t. It will be due two weeks from today, on Octob er 
+15. 
+•	Some people have asked Professor Kelner if he could post typo-free versions of the powerpoint slides 
+online. Therefore, it is requested that the scribe email Professor Kelner a list of the known typos in 
+the slides. 
+2 Outline 
+In today’s lecture we are going to: 
+•	Discuss nonblocking routing networks 
+•	Start the description of a metho d for local and almost linear-time clustering and partitioning based on 
+the Lovasz-Simono vits Theorem. 
+Nonblocking routing networks are an example application of expander graphs. Furthermore, many of 
+the techniques that we discuss today for analyzing routing networks can also be applied to error-correcting 
+codes. In the second half of class, we discuss local clustering and partitioning, and we will ﬁnish the analysis 
+in Tuesday’s class. 
+3 Non blocking routing networks 
+Suppose you have a network with 2N terminals, consisting of N “input” terminals (drawn on the left side) 
+and N ”output” terminals (drawn on the right side). We want to design a network that connects them, in 
+such a way that every permutation can be routed. That is, for any one-to-one function f from the input 
+terminals to the output terminals, we would like there to be a path in the network from each input node i to 
+the output node f(i). Furthermore, we ask that for any such f, the paths can be chosen to be vertex disjoin t. 
+The motivation is that we would like for each input terminal to be able to talk to a diﬀeren t output terminal 
+so that none of the intermediate routers are overloaded. This kind of networks is called a nonblo cking routing 
+network and it is generally useful for comm unication. 
+We also want the network to have some nice features. First, we want that each node has bounded degree 
+(If we don’t ask this, then a simple solution is to put a wire from every input to every output. Of course, 
+this is not very plausible for large N, for example the phone network in the U.S.). Second, we want that the 
+number of nodes in the graph is O(n log n) (so, that the network is not too big). And ﬁnally we want a fast, 
+decentralized algorithm for ﬁnding routes. 
+7-1 Figure 1: Butterﬂy network for 8 inputs. 
+Although in a Butterﬂy network, routing is easy (just follow the binary expansion of the label of the 
+desired output), it’s not possible to avoid congestion (e.g. in Figure 1, if you try to route 000 to 000 and 
+110 to 001, the route will collide on the third layer). Actually, for some permutations you can get up to√ 
+N collisions. While butterﬂy networks do not successfully avoid congestion, they are the base for a type 
+of nonblocking routing network called a multibutterﬂy. 
+3.2 Multibutterﬂy networks 
+The construction of multibutterﬂy networks uses bipartite expanders, which we discussed last class. We 
+recall the deﬁnition here: 
+Deﬁnition 1 A d-regular bipartite graph is an (α,β)-expander if every set S on the left with |S|≤αn has 
+N(S) ≥β|S|. 
+Thus, intuitively, a regular bipartite graph is an (α,β)-expander if any small collection of vertices on the left 
+has a proportionately large number of neighbors. 
+A d-multibutterﬂy is a layered graph constructed similarly to the butterﬂy networks, but such that 
+each node now has d edges out to the ‘up’ block of the next layer and d edges out to the ‘down’ block. 
+These networks are carefully constructed such that the graph induced by the vertices of a block and its ‘up’ 
+neighbor block and the graph induced by the block and its ‘down’ neighbor block are both (α,β)-expanders 
+for β>d / 2, β ≈1/2α. 
+A 2-multibutterﬂy for N = 8 allowing 4 pairs of inputs/outputs is shown in Figure 2. 
+Note that d-multibutterﬂies have O(N log N) vertices and that the vertices have bounded degree (at most 
+4d). then the only condition needed for this to be a good nonblocking routing network is that we can route 
+any permutation of inputs and outputs easily. 
+7-2 3.1 Butterﬂy networks 
+A ﬁrst attempt to ﬁnd a small network in which routing is easy is to consider a Butterﬂy network. A Butterﬂy 
+network for N inputs and outputs consists on log(N) layers of N nodes each. The ﬁrst layer (or zeroth layer) 
+correspond to the N inputs and the last layer corresponds to the N outputs. The i-th layer is divided into 
+blocks of N/2i elements. Each block ‘splits’ into two blocks: ’up’ and ‘down’ in the next layer. Each node 
+has two neighbors in the next layer, one in the corresponding ‘up’ block and one in the corresponding ‘down’ 
+block in such a way that every node in the (i + 1)-th layer has only 2 neighbors in the i-th layer. 
+This can be easily done by labeling each node in the network with a pair (i, r) where i corresponds to the 
+number of the layer and r is the position of the node in the layer written in binary. Then each node (i, r)i s 
+connected to (i +1,r) and (i +1,r(i+1)), where r(i+1) denotes r with the (i + 1)-th element complemented. 
+000
+001
+010
+011
+100
+101
+110
+111
+0 1 2 3Figure by MIT OpenCourseWare.Figure 2: 2-Multibutterﬂy network for 4 inputs. 
+Each layer of the network has N elemen ts, but the multibutterﬂy network we describ ed will only route 
+2Nα inputs to 2Nα outputs. In a ﬁnal implemen tation, we would connect the actual inputs and outputs to 
+α/2 successiv e multibutterﬂy inputs/outputs. 
+Claim 2 A d-Multibutterﬂy with N nodes in each layer can route any permutation of 2αN inputs to 2αN 
+outputs. 
+To prove this claim, we will need Hall’s Theorem. 
+Theorem 3 (Hall) A bipartite graph G has a perfect matching if and only if every set S on the left has at 
+least |S|neighb ors on the right. 
+Using Hall’s Theorem, we now prove the above claim. 
+Pro of We only need to prove that in each pair of consecutiv e layers, any block can successfully route its 
+signals to both the ‘up’ neighbor block and the ‘down’ neighbor block. It suﬃces to prove this for the ﬁrst 
+layer, since the proof for any other layer is identical. Note that in the ﬁrst layer, at most αN calls will need 
+to go to the top half, and at most αN calls need to go to the bottom half. Let S be the set of nodes in the 
+ﬁrst layer which need to go up, and let T be the set of nodes in the top half of the second layer. We will 
+show that it is possible to choose edges to match each vertex of S with a vertex of T . 
+Since |S|≤αN, and the graph induced by S ∪T is an (α,β)-expander by construction, it follows that 
+|N(S) ∩T |≥β|S|> |S|, and so, by Hall’s theorem, there is a perfect matching between S and T .We 
+use that matching to route the calls that need to go up. The calls that need to go down are routed in an 
+analogous way. 
+The previous claim guaran tees that a nonblocking routing exists, and it can be found by solving a match­
+ing problem. However, in real life we don’t want to use a complicated global computation for routing: We 
+need a simple distributed algorithm. Such an algorithm exists and is simple to describ e. Consider a pair of 
+blocks S and T that we want to match (as in the proof of the claim). The algorithm is as follows: 
+Algorithm : 
+S1 ←S. 
+while Si /negationslash= ∅
+Every node of Si sends a proposal to all neighbors in T .
+Every node of T receiving exactly one proposal accepts it.
+Every node in Si that got at least one accepted proposal picks one arbitrarily and matches to it.
+Si+1 is the set of unmatc hed remaining nodes in Si.
+7-3 0 1 2 3
+Figure by MIT OpenCourseWare.Claim 4 The previous algorithm ﬁnds a matching of S and T in O(log n) steps. 
+To prove this claim, ﬁrst we will need to prove the following two lemmas: 
+Lemma 5 For any set S of size |S|≤αN, the numb er of vertic es in T with exactly one neighb or in S is at 
+least (2β −d)|S| 
+Pro of Let A be the vertices in T with exactly one neighbor in S, and let B be the remaining vertices in 
+T which are neighbors of S. Since the graph induced by S ∪T is a (α,β)-expander, |A ∪B|≥β|S|. Also, 
+we know that the number of edges from S to T is at most |A|+2|B|. Thus, using the fact that the number 
+of edges from S to T is exactly d|S|, we know: 
+|A|+ |B|= |A ∪B|≥β|S| 
+d|S|= e(S,T ) ≥|A|+2|B| 
+and hence 
+|A|≥β|S|−|B|≥β|S|− d|S|−|A|
+2 
+and thus |A|≥2β|S|−d|S|. 
+Given the above lemma nd the fact that any node in the left side can receiv e at most d acceptances in 
+any round of the protocol, we conclude: 
+Lemma 6 For all i, 
+|Si+1|≤2(1 −β/d). |Si| 
+This last lemma guaran tees that the algorithm converges in O(log n) steps, as desired. 
+4 Local and almost linear-time clustering and partitioning 
+4.1 Motiv ation 
+In these days, graphs are getting really big. For example, circuits layouts have 50 million transistors; scientiﬁc 
+computing has hundreds of millions of variables; the Internet has billions of nodes, etc. So any algorithm 
+that performs a task in these graph in time such as n2 will be very bad in practice. Even a running time 
+such as n1.5 tends to not be good enough. In some cases, like in Internet, even visiting every node of the 
+graph once is an impossible task. For that reason, we are interested in developing algorithms for certain 
+applications that runs in almost linear time (i.e. O(npolylog( n))), or algorithms that are local, i.e., that do 
+not need to visit the entire graph. (Note that log factors tend to be fairly small, even in the cases mentioned 
+above, and oftentimes logarithmic factors depend on the speciﬁc model of computation being analyzed.) 
+4.2 Local Clustering 
+Given a vertex v in a graph we would like to know if v is contained in a cluster, where a cluster is a set that 
+deﬁnes a cut of low conductance. We also want the running time for this algorithm to depend on cluster 
+size and not in the size of the graph. A good example for this is ﬁnding a cluster of web pages around the 
+mit.edu domain, where we don’t want this task to depend on the number of sites recently created on the 
+other side of the world. 
+The goal for this part of the lecture will be to describ e an algorithm that runs in time almost linear in 
+K that outputs a cluster of size at least K/2 around starting vertex, if that cluster exist. 
+The approac h we will use will rely on what we know about cuts, eigenvalues and random walks. First 
+observ e that if v is contained in a cluster and you start running a random walk from v, then the low 
+7-4 � conductance cut will be an obstacle for the mixing time. This means that the random walk has trouble 
+leaving the cluster. So, a good guess for the cluster is the set of vertices for which a random walk starting 
+at v will have the highest probabilities after a given number of steps. Using this idea, a good primitiv e to 
+construct an almost linear algorithm will be the following. 
+“Appro ximate, for every vertex in the graph, the probabilit y that a random walk starting from v is in 
+that vertex after certain time, select the k highest valued vertices and check if they deﬁne a good cut. Repeat 
+this until you get a good cut or you reach a predetermined limit.” 
+Note that this metho d is similar to the proof of Cheeger’s inequalit y, where we ordered the entries of v2 
+to obtain a cut. Here, however, use use a probabilit y vector instead of the eigenvector v2. 
+We need a bound that says that this idea works. Unfortunately , all the bounds we have proven thus far 
+are global, involving λ2 of the whole graph. We desire bounds on a local feature of the graph. Furthermore, 
+we can’t really compute all of the necessary probabilities, because it will take too long. We therefore need 
+to approximate the probabilities, without knowing the size of the cluster in advance. 
+4.3 Lovasz-Simono vits 
+The Lovasz-Simono vits Theorem will give us the bound we need for the algorithm. It relies on an interesting 
+idea: measure the progress of the walk not by one number but by a whole curve. The better the random walk 
+is to reaching the stable distribution, the closer the curve will be to a straigh t line. Diﬀeren t points on the 
+curve will corresp ond to diﬀeren t size partitions. Before stating the theorem, we will need some deﬁnitions. 
+Let G be the digraph obtained from the original graph where we ﬁrst replace each undirected edge uv 
+by two directed arcs (u,v) and (v,u), and then we add self-lo ops loops to each node until every node v of G 
+has dv /2 self-lo ops (i.e. half of the edges leaving v are self-lo ops). 
+Instead of focusing on the vertices, we will mainly study the edges of G. Suppose that we have a certain 
+probabilit y distribution p on vertices. Deﬁne 
+p(u)ρ(u)= , for every node u,du 
+ρ(u,v)= ρ(u), for every arc (u,v). 
+Note that ρ(u,v) represen ts the mass about to be sent over arc (u,v) and that for every node u, ρ(u) 
+approac hes 1/2m as the walk converges (here, 2m is the number of arcs in the digraph). Therefore, as the 
+walk converges, ρ(e)goesto1/2m for every arc e. 
+We will deﬁne a curve that measures how close we are to convergence and also contains additional 
+information. 
+Deﬁnition 7 (Lovasz-Simono vits curv e) For a given ρ, order the arcs such that ρ(e1) ≥ρ(e2) ≥... ≥ 
+ρ(e2m). We deﬁne I :[0, 2m] →[0, 1] as follows: For each k ∈{0,..., 2m}, 
+k 
+I(k)= ρ(ei). 
+i=1 
+We extend I to the complete interval by interp olating it piecewise linearly. 
+Intuitively I(k) measures how much probabilit y is transp orted over the k most utilized edges. Here we 
+describ e some of the properties of the L-S curve. 
+•	As the walk converges I should eventually converge to a straigh t line. 
+•	I(0)=0,I(2m)=1. 
+•	The slope of I between k and k + 1 is given by I(k +1) −I(k)= ρ(ek+1). 
+•	Since ρ depends only on the start vertex, it does not matter how we order edges out of any particular 
+node u, and therefore the slope of I is constan t for all the intervals corresp onding to arcs leaving u. 
+7-5 � � � � 
+� � 
+� 
+� • The slope is nondecreasing, so I is concave. 
+We will prove some claims and Theorems about I, and then we will state and prove the Lovasz-Simono vits 
+Theorem. 
+Claim 8 For any c1,...,c 2m ≤ 1, 
+2m 2m 
+ciρ(ei) ≤ I ci . 
+i=1 i=1 
+Pro of Think of the ci’s as weights for the ρ(ei). Since the ρ(ei) are non-increasing, moving some weight 
+from some j to some i<j only makes the sum bigger. So the sum is biggest when the ﬁrst bunch of ci’s 
+are 1, the next one is the remaining, and the rest of them are 0, which is exactly the value of the right hand 
+side. 
+In what follows, let ρt and It be ρ and I at time t in the random walk. 
+Claim 9 For all x and t, It(x) ≤ It−1(x). 
+Pro of This claim states that the value of the curve at any point never increases as t increases. Let 
+ei =(ui,vi), so that ρ(u1,v1) ≥ ρ(u2,v2) ... ≥ ρ(u2m,v2m) It suﬃce to prove the claim in the case where 
+x = k and W is the vertex set {u1,...,u k} such that (u1,v1),...,(uk,vk) are precisely the set of edges 
+leaving W. We then have: 
+k k 
+It(k)= ρt(ui,vi)) = ρt(ui)
+i=1 i=1
+k 
+= ρt−1(vi,u i), as the mass leaving W at t is the amoun t entering W at t− 1 
+i=1 
+k 
+≤ It−1( 1)= It−1(k),
+i=1
+where the last inequalit y follows from the previous claim. 
+Now we will prove something a little stronger: We will prove that the curve It has to lie below It−1 by 
+an amoun t depending on φG. 
+Theorem 10 For every initial distribution p0,all t, and every x∈ [0,m], 
+1 � � 
+It(x) ≤ It−1(x− 2φGx)+ It−1(x+2φGx) ,2 
+and for every x∈ [m,2m], 
+1 � � 
+It(x) ≤ It−1(x− 2φG(2m− x)) + It−1(x+2φG(2m− x)) .2 
+Before beginning the proof, we note that the above result has a geometric interpretation. The ﬁrst 
+equation above states that the value of It(x) lies below the midpoint of the line connecting It−1(x− 2φGx) 
+and It−1(x+2φGx). Recalling that the graph of I is always concave, this implies the above result that the 
+value of I(x) at time tis no greater than the value of I(x) at time t−1. Furthermore, if It diﬀers signiﬁcan tly 
+from the straigh t line (which I converges to in the limit) and if φG(x) is large, then It(x) will decrease by 
+a signiﬁcan t amoun t in the next step (once again, by concavity). Thus, the theorem matches our intuition 
+that low-conductance cuts around x cause the walk to mix more slowly. 
+7-6 � � 
+� Pro of 
+This proof was not covered in its entirety in today’s lecture, but it was covered in Lecture 7 of the 2007 
+version of the course: 
+We will only prove the case x∈[0,m], the second case should be analogous. As in the previous claim we 
+can assume without loss of generalit y that x= k, and that (u1,v1),...,(uk,vk) are exactly the set of edges 
+starting from W = {u1,...,u k). We then have: 
+k k 
+ρt(ui,vi)= ρt−1(vi,u i). 
+i=1 i=1 
+Break the edges of the right into two sets: 
+W1 = {(vi,u i): ui,vi ∈W,vi /negationslash= ui}.W 2 = {(vi,u i): ui ∈W,vi ∈/negationslashW}∪{self loops}. 
+We claim that: 
+1. � 
+(v,u)∈W1 ρt−1(v,u) ≤ 1
+2 It−1(x−2φGx). 
+2. � 
+(v,u)∈W2 ρt−1(v,u) ≤ 1
+2 It−1(x+2φGx). 
+Note that out of the x= k edges starting at W, x/2 are self loops, and at least φGxedges leave W, therefore, 
+the number of edges in W1 is at most x/2 −φGx. Note that if we let ci be1if ei ∈Wi and 0 otherwise, we 
+have that �
+ik 
+=1 ci ≤x/2 −φGx. And then, using Claim 8, we can obtain the following weaker bound: 
+ρt−1(v,u) ≤It−1(x−2φGx). 
+(v,u)∈W1 
+We need to ‘move’ the 1/2 factor outside of It−1 someho w. Instead of doing that, we will carefully choose 
+other values for ci to obtain the wanted bound. For that simply let ci be 1/2 if ei ∈Wi or if ei is a self loop 
+in W and 0 otherwise. Then, since every vertex has the same number of self loops as edges leaving it (and 
+they all have the same ρ value), we also obtain under this new set of weights, that �
+ik 
+=1 ci ≤ x/2 −φGx. 
+Using Claim 8 and that 2ci ≤1, for every i,wehave: 
+k k � � 1 � 1 ρt−1(v,u)= ciρt−1(vi,u i)= ciρt−1(vi,u i) ≤ It−1(x−2φGx).2 2 (v,u)∈W1 i=1 i=1 
+The second claim follows in a similar way, and combining both of them we obtain the result. 
+Using the previous theorem, we are ready to state and prove Lovasz-Simono vits Theorem. 
+Theorem 11 (Lovasz-Simono vits) For all initial distribution p0 and every t, 
+√√ � 1 �t x It(x) ≤min( x, 2m−x)1 − φ2 + .2 G 2m 
+Sketch of Pro of Consider the curve 
+R0 = min( √ x, √ 
+2m−x)+ x.2m 
+It is easy to show that I0(x) ≤R0(x), for all x∈[0,2m]. Ifweset 
+1 � � 
+Rt(x)= Rt−1(x−2φGx)+ Rt−1(x+2φGx) ,2 
+7-7 � 
+� � for x ∈ [0,m] and 
+1 � � 
+Rt(x)= Rt−1(x − 2φG(2m − x)) + Rt−1(x +2φG(2m − x)) ,2 
+for x ∈ [m, 2m], then it is easy to show that 
+√√ � 1 �t x Rt(x) ≤ min( x, 2m − x)1 − φ2 
+G + .2 2m 
+Using that all the curves deﬁned so far are concave and the previous theorem, we have: 
+It(x) ≤ Rt(x), 
+for all t, which proves the theorem. 
+From here, we can derive the following Corollary: 
+Corollary 12 For W a set of vertic es, and x = w∈W dw, 
+�� � √√ � �t � � 1 φ2 � p t(w) − π(w)� ≤ min( x, 2m − x)1 − G . � � 2 w∈W 
+We can use this Corollary for local clustering in the following way. If after O((log m/φ G)2) steps a set of 
+vertices contains a constan t factor more than what it would have under stationary distribution, then we can 
+get a cut C such that Φ(C) ≤ φG. (The cut can be obtained by mapping the probabilities to real line and 
+cut like we did with v2 some lectures ago). 
+The problem with this approac h is that computing all the probabilities will be too slow. In particular, 
+after a constan t number of steps we have too many nonzero values. One solution proposed by Lovasz and 
+Simono vits is to simply zero out the smallest probabilities and prove that it doesn’t hurt much. However, 
+the analysis can get messy . Instead, in next lecture we will speak about a diﬀeren t approac h that uses a 
+slightly diﬀeren t vector, called PageRank. 
+7-8 MIT OpenCourseWare
+http://ocw.mit.edu 
+For information about citing these materials or our Terms of Use, visit: http://ocw.mit.edu/terms. 18.409 Topics in Theoretical Computer Science: An Algorithmist's Toolkit
+Fall 2009 

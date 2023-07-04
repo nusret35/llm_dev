@@ -30,9 +30,10 @@ def convert_pdf_to_text(pdf_path):
         with open(txt_path, 'w') as txt_file:
             for page_num in range(len(pdf_reader.pages)):
                 page = pdf_reader.pages[page_num]
-                text = page.extract_text()
-                txt_file.write(text)
-                whole_text += text
+                if page != None:
+                    text = page.extract_text()
+                    txt_file.write(text)
+                    whole_text += text
         return whole_text
                 
 
@@ -45,16 +46,24 @@ def get_week_number(key):
     else:
         return -1  # default value if week number extraction fails
 
-z =  Path('computer_system_engineering/')
-
-texts = {}
-
-for file in z.iterdir():
-    if ".pdf" in file.name:
-        full_path = file.resolve()
-        text = convert_pdf_to_text(full_path)
-        texts[file.name] = text
-            
-texts = [value for key, value in sorted(texts.items(), key=lambda x:get_week_number(x[0]))]
-
-print(texts[0])
+def output_text(z):
+    courses = []
+    outcomes = []
+    for directory in z.iterdir():
+        if directory.is_dir():
+            course = {}
+            for file in directory.iterdir():
+                if "learning_outcome.txt" in file.name:
+                    full_path = file.resolve()
+                    with open(full_path, 'r') as file:
+                        data = file.read()
+                        outcomes.append(data)
+                if ".pdf" in file.name:
+                    full_path = file.resolve()
+                    if file.name == 'week-5.pdf':
+                        print('hello')
+                    text = convert_pdf_to_text(full_path)
+                    course[file.name] = text
+            course = [value for key, value in sorted(course.items(), key=lambda x:get_week_number(x[0]))]
+            courses.append(course)
+    return courses, outcomes

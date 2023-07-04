@@ -1,0 +1,156 @@
+18.409 An Algorithmist’s Toolkit Nov. 5, 2009 
+Lecture 16 
+Lectur er: Jonathan Kelner Scrib e: Paul Christiano 
+The Chernoﬀ Bound as Concen tration of Measure 
+We have already seen some ways in which convex bodies are related to probabilit y. For example, we can 
+think of the Chernoﬀ bound as the statemen t that for any unit vector a and real t,if x is chosen uniformly 
+at random from the cube then 
+Pr [|a · x| >t] ≤ 2e −6t2 . 
+Since |a · x| is the distance of x from the hyperplane orthagonal to a, this says that all but 2e−6t2 of the 
+volume of the cube lies at distance at most t from this hyperplane. Since a was arbitrary , we can conclude 
+that 1 − 2e−6t2 of the volume of the cube lies within t of any hyperplane through the origin. 
+On the sphere we also observ ed that almost all of the volume lies very close to any hyperplane through the 
+origin. In light of the probabalistic implications of this assertion for the cube we are motivated to consider 
+them for the sphere. First we will need to derive a stronger statemen t for the sphere. 
+The Isoperimetric Inequalit y on the Sphere 
+We will consider the analogue of the isoperimetric question for subsets of the surface of the sphere. This 
+requires analogues of the notions of distance, volume, and surface area. 
+We deﬁne the distance d(x, y) between points x, y ∈ Sn−1 to be their distance in the usual Euclidean 
+metric in Rn . 
+For volumes, we use the unique rotationally invariant measure on the surface of the sphere. The volume 
+Vol(A) of a region A on the surface of the sphere is the volume of the union in Rn of all segmen ts connecting 
+the origin to a point of A, normalized so that the volume of the whole sphere is 1. Alternativ ely, this is Haar 
+measure when the sphere is given the natural Lie group structure. (You can do anything reasonable and get 
+the same measure.) 
+For surface areas, we use the same deﬁnition as in Rn . Namely , for a set A ⊂ Sn−1, deﬁne A/epsilon1 to be the 
+set of points in Sn−1 at a distance of less than /epsilon1 from some point of A. The surface area of A may be deﬁned 
+as ∂/epsilon1A/epsilon1. We won’t work with this quantity–instead we will derive bounds on Vol(A/epsilon1) itself for /epsilon1> 0. 
+Now the isoperimetric question is: among sets with a ﬁxed Vol(A), what is the minimal possible value of 
+Vol(A/epsilon1)? 
+The answer is the analogue of a ball: a spherical cap. More precisely , deﬁne 
+C(r, v)= � 
+x ∈ Sn−1 : d(x, v) ≤ r � 
+. 
+This is the ball of radius r centered at v in the metric we have deﬁned on the sphere. This result 
+is precisely analogous to the isoperimetric inequalit y in Rn . (The statemen t itself will be slightly more 
+complicated because the optimal ratio A/epsilon1/A depends on the volume of A: a small cap is basically a ball in 
+Rn−1, while a very large cap has a very small surface area) 
+For convenience, we will also deﬁne the “cap at height t”: 
+ct = c(t, v)= � 
+x ∈ Sn−1 : x · v ≥ t � 
+. 
+We have seen previously that the volume of a section of the sphere at height t is exponentiall small. From 
+this it follows that the volume of c(t, v) is exponentially small in t. In fact, Vol(c(t, v)) ≈ e−nt2/2 . 
+We will prove an approximation to this result soon, but ﬁrst we consider some consequences. 
+16-1 Theorem 1 For any Awith Vol(A)=1/2, Vol(A/epsilon1) ≥1 −e−n/epsilon12/2 . 
+Pro of If Awere a spherical cap, then A/epsilon1 would be the complemen t of the spherical cap at height /epsilon1, which 
+has volume 1 −e−n/epsilon12/2 . But by the isoperimetric inequalit y this is the minim um possible value of Vol(A/epsilon1). 
+This theorem shows that for spheres in high enough dimension almost all of the volume of the sphere lies 
+within /epsilon1of any set containing at least half the volume of the sphere. In fact almost all of the volume of the 
+sphere lies within /epsilon1of any set containing any constan t fraction of the volume of the sphere (although the 
+constan ts in the theorem would change). 
+We will now go on to use this result to conclude that Lipschitz functions are almost always close to their 
+median. 
+Lipschitz Functions and Concen tration of Measure 
+Deﬁnition 2 (1-Lipsc hitz) A function f: Sn−1R is 1-Lipschitz if |f(a)−f(b)|≤|a−b|for all a,b∈Sn−1 . 
+It turns out that many reasonable functions are Lipschitz. For example, distance from a ﬁxed set is 
+Lipschitz. 
+Deﬁne a median Mof a Lipschitz function to be a value Msuch that Vol({x: f(x) ≤M}) ≥Vol({x: f(x) ≥M})= 
+1/2. 
+If we take f were one of the coordinate functions (which are Lipschitz), then the statemen t that most of 
+the volume of a sphere lies near any hyperplane through the origin becomes the statemen t that the value of 
+f is almost always near its median. We will see that in fact all Lipschitz functions are almost always near 
+their median. 
+Theorem 3 If f is Lipschitz, M is its median, and /epsilon1>0, then 
+Vol({x: |f(x) −M|>/epsilon1}) ≤2e −n/epsilon12/2 . 
+Pro of The set A= f(x) ≤M has volume at least 1/2. The set f(x) ≤M+ /epsilon1contains A/epsilon1. Therefore 
+by the isoperimetric inequalit y, f(x) ≤ M+ /epsilon1 holds for at least 1 −e−n/epsilon12/2 of the volume of the sphere. 
+Similarly , f(x) ≥M−/epsilon1holds for 1 −e−n/epsilon12/2 of the volume of the sphere. Therefore in total |f(x) −M|>/epsilon1 
+for at most 2e−n/epsilon12/2 of the volume of the sphere (since at every point where this inequalit y holds at least 
+one of the previous two must fail). 
+Although the range of a 1-Lipsc hitz function may have diameter 2, this result shows that 1-Lipsc hitz 
+functions are almost constan t over most of their domain. We call this result “concen tration of measure.” 
+Note that this result doesn’t rely on the exact form of the isoperimetric inequalit y; it would be ﬁne if the 
+bound on the ratio Vol(A/epsilon1)/Vol(A) was somewhat weaker. 
+The Isoperimetric Inequalit y 
+We will prove a weaker statemen t than the full isoperimetric inequalit y because it is somewhat easier. 
+Normally we would have to use a symmetrization argumen t, but after weakening the constan tants we will 
+be able to apply Brunn-Mink owski. 
+Theorem 4 For any A⊂Sn−1 and any /epsilon1>0 
+2e−n/epsilon12/16 
+Vol(A/epsilon1) >1 − .Vol(A) 
+16-2 � � 
+� 
+� � 
+� � Pro of 
+We will need the following deﬁnition. 
+Deﬁnition 5 (Mo dulus of Con vexit y) The modulus of convexity δ for a spher e is 
+δ(/epsilon1)=inf 1 −| x + y |: x, y ∈Sn−1 , |x −y|≥/epsilon1.2 
+It is a matter of two dimensional geometry to compute 
+/epsilon12 
+δ(/epsilon1)=1 − 1 −≥/epsilon12/8.4 
+(where the inequalit y comes from the Taylor series). 
+This quantity measures how much more curved the sphere is than required by convexity. Namely , by 
+convexity we are guaran teed that δ(/epsilon1) ≤1 (which we would obtain in the L1 or L∞ norm). If δ(/epsilon1) is smaller, 
+it means that longer segmen ts lie well inside the convex body. 
+We would like to apply Brunn-Mink owski, but we don’t have any result of that sort for the surface of the 
+sphere. We will pass to a spherical shell, for which we can apply Brunn-Mink owski. Namely , if A ⊂ Sn−1 
+consider B =[ 1
+2 , 1]A– the union of the sets xA for 1
+2 ≤ x ≤ 1. Note that Vol(B) ≥ Vol(A)/2, where the 
+volume of B is taken in Rn−1 normalized so that Bn has volume 1 and the volume of A is taken in Sn−1 
+normzlied so that Sn−1 has volume 1. The choice of 1/2 in particular is not important. All that matters 
+is that neighborhoods of [ 1
+2 , 1]A centrally project to reasonable neighborhoods of Sn−1; ifwetook(0, 1]A, 
+neighborhoods near the origin could project to almost all of Sn−1 . 
+xTo go from a set B ⊂ Bn to an A ⊂ Sn−1 we take |x| : x ∈B . Note that if we deﬁne B =[ 1
+2 , 1]A, 
+take B/epsilon1, and then convert this back to a subset of Sn−1, we do not necessarily obtain A/epsilon1. A point within /epsilon1 
+of 21 A may project back to a point on Sn−1 as far as 2/epsilon1 from A. In fact this is the worst that can happen, 
+so that B/epsilon1 is carried back into A2/epsilon1. We would like to say that the volume of B/epsilon1 ∩Bn is at least the volume 
+of A2/epsilon1, so that we can convert a bound on the size of B/epsilon1 from Brunn-Mink owski into a bound on the size of 
+A2/epsilon1 ⊃A/epsilon1. This isn’t quite true–B/epsilon1 may contain points of norm < 1/2. However, all points in B/epsilon1 have norm 
+at least 1/2 −/epsilon1, so it turns out this does not have a signiﬁcan t eﬀect (Vol [ 1
+2 −/epsilon1, 1
+2 ]A is very small). 
+We will show that Vol(B/epsilon1 ∩Bn) ≥1 −e−2nδ/Vol(B). This will give us the desired result, since then 
+−2nδ(2/epsilon1) n/epsilon12/2e eVol(A2/epsilon1) > (1 + /epsilon1)Vol(B/epsilon1 ∩Bn) ≥1 − ≥1 −2Vol(B) Vol(A) 
+which is what we wanted. 
+To bound the volume of B/epsilon1 ∩Bn, let C be the set of points of Bn at least /epsilon1 away from every point of B. 
+For any x ∈ B and any y ∈ C, by the deﬁnition of modulus of convexity |x+
+2 y| ≤ 1 −δ(/epsilon1) (the worst case 
+is that both lie in Sn−1). This implies that B ⊕C ⊂(1 −δ)Bn, so that Vol(B ⊕C)1/n ≤(1 −δ). Now by 
+Brunn-Mink owski, 
+(1 −δ) ≥Vol(B ⊕C)1/n ≥Vol(B)1/n + Vol(C)1/n. 
+By easy calculus or the power-mean inequalit y, and the inequalit y e−x ≥1 −x, we conclude 
+Vol(B)1/2Vol(C)1/2 ≤(1 −δ)n 
+Vol(C) ≤(1 −δ)2n/Vol(B) ≤e −2nδ/Vol(B) 
+Taking complemen ts in Bn , 
+−2nδeVol(B/epsilon1 ∩Bn)=1 −Vol(C) ≥1 − Vol(B) 
+as desired. 
+16-3 � Johnson-Lindenstrauss 
+Johnson-Lindenstrauss can be proved by manipulating Gaussians, but it is quite easy with concen tration of 
+measure. For now we will just give the setup and outline some applications. 
+This is the ﬁrst example we have seen of the notion of metric embeddings, which turn out to be generally 
+algorithmically useful. Given a metric d on a ﬁnite set of points X, we would like to ﬁnd a map f : X → Rn 
+such that d(x, y) ≈ d(f(x),f(y)) for the normal Euclidean metric d on Rn . More precisely , for any map 
+f : X → Rn we deﬁne the distortion D to be the ratio between the largest and smallest values of d(x,y) 
+d(f(x),f (y)) 
+as x and y vary. We would like to ﬁnd an embedding with 1 + /epsilon1 distortion. 
+The Johnson-Lindenstrauss Theorem states that if the metric on X arises from an embedding of X into 
+any Euclidean space, then X can be embedded with distortion at most 1 + /epsilon1 in Rk for k = O(/epsilon12 log |X|). 
+More concretely , this embedding is given by projection onto a random k-dimensional subspace, and the ratio 
+d(x, y)/d(f (x),f(y)) is very nearly O( k/n). 
+This result is extremely useful in a number of situations. If I wish to answer some question about a 
+ﬁxed set of points which depends only on their pairwise distances, then Johnson-Lindenstrauss allows us to 
+reduce the problem to one in logarithmic dimension (for ﬁxed /epsilon1) by randomly projecting. If our algorithm 
+has bad dependence on the dimension, this may reduce the runtime considerably (for example, exponential 
+dependence becomes polynomial). Similarly , if I am dealing with a stream of very high-dimensional data and 
+I do not have storage space to record it all, Johnson-Lindenstrauss allows us to retain a very small fraction 
+of this data while preserving the answer to any question which depends only on distances. 
+We will prove this result in the next lecture. 
+16-4 MIT OpenCourseWare
+http://ocw.mit.edu 
+18.409  Topics in Theoretical Computer Science: An Algorithmist's Toolkit 
+Fall 2009 
+For information about citing these materials or our Terms of Use, visit: http://ocw.mit.edu/terms . 

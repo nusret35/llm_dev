@@ -1,0 +1,421 @@
+/summationdisplay 
+/summationdisplay /summationdisplay /summationdisplay 18.409 An Algorithmist’s Toolkit Septem ber 17, 2009 
+Lecture 3 
+Lectur er: Jonathan Kelner Scrib e: Andre Wibisono 
+1 Outline 
+Today’s lecture covers three main parts: 
+• Couran t-Fischer formula and Rayleigh quotien ts 
+• The connection of λ2 to graph cutting 
+• Cheeger’s Inequalit y 
+2 Couran t-Fisc her and Rayleigh Quotien ts 
+The Couran t-Fischer theorem gives a variational formulation of the eigenvalues of a symmetric matrix, which 
+can be useful for obtaining bounds on the eigevalues. 
+Theorem 1 (Couran t-Fisc her Form ula) Let A be an n × n symmetric matrix with eigenvalues λ1 ≤ 
+λ2 ≤... ≤λn and corresponding eigenve ctors v1,...,v n. Then 
+xT Ax λ1 = min x T Ax= min , 
+/bardblx/bardbl=1 x/negationslash=0 xT x 
+xT Ax λ2 = min x T Ax= min , 
+/bardblx/bardbl=1 x/negationslash=0 xT x 
+x⊥v1 x⊥v1 
+xT Ax λn = λmax = max x T Ax= max . 
+/bardblx/bardbl=1 x/negationslash=0 xT x 
+In gener al, for 1 ≤ k ≤ n, let Sk denote the span of v1,...,v k (with S0 = {0}), and let Sk ⊥ denote the 
+ortho gonal complement of Sk. Then 
+xT Ax λk = min x T Ax= min . 
+/bardblx/bardbl=1 x/negationslash=0 xT x 
+x∈Sk⊥
+−1 x∈Sk⊥
+−1 
+Proof Let A = QT ΛQ be the eigendecomp osition of A. We observ e that xT Ax = xT QT ΛQx = 
+(Qx)T Λ(Qx), and since Q is orthogonal, /bardblQx/bardbl= /bardblx/bardbl. Thus it suﬃces to consider the case when A=Λ is a 
+diagonal matrix with the eigenvalues λ1,...,λ n in the diagonal. Then we can write 
+⎛ ⎞⎛⎞ λ1 x1 n ⎜ . ⎟⎜ . ⎟ 2 x T Ax= /parenleftbig 
+x1 ··· xn /parenrightbig
+⎝ .. ⎠⎝ .. ⎠ = λixi . 
+λ xi=1 n n 
+We note that when A is diagonal, the eigenvectors of A are vk = ek, the standard basis vector in Rn, i.e. 
+(ek)i =1 if i = k, and (ek)i = 0 otherwise. Then the condition x ∈Sk⊥
+−1 implies x⊥ ei for i=1,...,k −1, 
+so xi = /angbracketleftx,ei/angbracketright= 0. Therefore, for x∈Sk⊥
+−1 with /bardblx/bardbl= 1, we have 
+n n n 
+x T Ax= λix 2 
+i = λix 2 
+i ≥λk x 2 
+i = λk/bardblx/bardbl2 = λk. 
+i=1 i=k i=k 
+3-1 /summationdisplay /summationdisplay 
+/summationtext /parenleftbigg /parenrightbigg On the other hand, plugging in x = ek ∈ Sk⊥
+−1 yields xT Ax =(ek)T Ae k = λk. This shows that 
+λk = min x T Ax. 
+/bardblx/bardbl=1 
+x∈Sk⊥
+−1 
+Similarly , for /bardblx/bardbl =1, 
+n n 
+x T Ax = λix 2 
+i ≤ λmax x 2 
+i = λmax/bardblx/bardbl2 = λmax. 
+i=1 i=1 
+On the other hand, taking x = en yields xT Ax =(en)T Ae n = λmax. Hence we conclude that 
+λmax = max x T Ax. 
+/bardblx/bardbl=1 
+The Rayleigh quotien t is the application of the Couran t-Fischer Formula to the Laplacian of a graph. 
+Corollary 2 (Rayleigh Quotien t) Let G =(V, E) be a graph and L be the Laplacian of G. We already 
+know that the smal lest eigenvalue is λ1 =0 with eigenve ctor v1 = 1. By the Cour ant-Fischer Formula, 
+xT Ax /summationtext 
+(i,j)∈E (xi − xj )2 
+λ2 = min = min /summationtext 2 , 
+=0 x=0 
+x⊥v1 x⊥1 x/negationslashxT x /negationslashi∈V xi 
+xT Ax /summationtext 
+(i,j)∈E (xi − xj )2 
+λmax = max = max /summationtext . 
+=0 x=0 x/negationslashxT x /negationslashi∈V x2 
+i 
+We can interpret the formula for λ2 as putting springs on each edge (with slightly weird boundary 
+conditions corresp onding to normalization) and minimizing the potential energy of the conﬁguration. 
+Some big matrices are hard or annoying to diagonalize, so in some cases, we may not want to calculate 
+the exact value of λ2. However, we can still get an approximation by just constructing a vector x that has 
+a small Rayleigh quotien t. Similarly , we can ﬁnd a lower bound on λmax by constructing a vector that has 
+a large Rayleigh quotien t. We will look at two examples in which we bound λ2. 
+2.1 Example 1: The Path Graph 
+Let Pn+1 be the path graph of n +1 vertices. Label the vertices as 0, 1,...,n from one end of the path to the 
+other. Consider the vector x ∈ Rn+1 given by xi =2i − n for vertices i =0, 1,...,n . Note that /summationtext
+in 
+=0 xi =0, 
+so x ⊥ 1. Calculating the Rayleigh quotien t for x gives us 
+(i,j)∈E (xi − xj )2 4n 4n 1 /summationtext = /summationtextn = = O . x2 (2i − n)2 Ω(n3) n2 
+i∈V i i=0
+Thus we can bound λ2 ≤ O(1/n2). We knew this was true from the explicit formula of λ2 in terms of sines 
+and cosines from Lecture 2, but this is much cleaner and more general of a result. 
+2.2 Example 2: A Complete Binary Tree 
+Let G be a complete binary tree on n =2h − 1 nodes. Deﬁne the vector x ∈ Rn to have the value 0 on the 
+root node, −1 on all nodes in the left subtree of the root, and 1 on all nodes in the right subtree of the root. 
+3-2 /summationtext 
+/summationtext /parenleftbigg /parenrightbigg It is easy to see that i∈V xi = 0, since there are equal numbers of nodes on the left and right subtrees of 
+the root, so x ⊥ 1. Calculating the Rayleigh quotien t of x gives us 
+(i,j)∈E (xi − xj )2 2 1 /summationtext = = O . x2 n − 1 ni∈V i 
+Thus we get λ2 ≤ O(1/n), again with little eﬀort. It turns out in this case that our approximation is correct 
+within a constan t factor, and we did not even need to diagonalize a big matrix. 
+3 Graph Cutting 
+The basic problem of graph cutting is to cut a given graph G into two pieces such that both are “prett y 
+big”. Graph cutting has many applications in computer science and computing, e.g. for parallel processing, 
+divide-and-conquer algorithms, or clustering. In each application, we want to divide the problem into smaller 
+pieces so as to optimize some measure of eﬃciency , depending on the speciﬁc problems. 
+3.1 How Do We Cut Graphs? 
+The ﬁrst question to ask about graph cutting is what we want to optimize when we are cutting a graph. 
+Before attempting to answer this question, we introduce several notations. Let G =(V, E) be a graph. Given 
+a set S ⊆ V of vertices of G, let S ¯= V \ S be the complemen t of S in V . Let |S| and |S¯| denote the number 
+of vertices in S and S¯, respectively. Finally , let e(S) denote the number of edges between S and S¯. Note 
+that e(S)= e(S¯). 
+Now we consider some possible answers to our earlier question. 
+Attempt 1: Min-cut. Divide the vertex set V into two parts S and S ¯ to minimize e(S). This approac h 
+is motivated by the intuition that to get a good cut, we do not want to break too many edges. However, 
+this approac h alone is not suﬃcien t, as Figure 1(a) demonstrates. In this example, we ideally want to cut 
+the graph across the two edges in the middle, but the min-cut criterion would result in a cut across the one 
+edge on the right. 
+Attempt 2: Appro ximate bisection. Divide the vertex set V into two parts S and S¯, such that |S| and 
+|S¯| are approximately n/2 (or at least n/3). This criterion would take care of the problem mentioned in 
+Figure 1(a), but it is also not free of problems, as Figure 1(b) shows. In this example, we ideally want to 
+cut the graph across the one edge in the middle that separates the two clusters. However, the approximate 
+bisection criterion would force us to make a cut across the dense graph on the left. 
+(a) Problem with min-cut (b) Problem with appro ximate bisection 
+Figure 1: Illustration for problems with the proposed graph cutting criteria. 
+Now we propose a criterion for graph cutting that balances the two approac hes above. 
+Deﬁnition 3 (Cut Ratio) The cut ratio φ of a cut S − S ¯ is given by 
+e(S)φ(S)= min(|S|, |S¯|) . 
+3-3 /braceleftBigg 
+/summationdisplay 
+/parenleftBigg /parenrightBigg 
+/summationtext 
+/summationtext 
+/summationtext The cut of minim um ratio is the cut that minimizes φ(S).The isop erimetric number of a graph G is 
+the value of the minimum cut, 
+φ(G) = min φ(S). 
+S⊆V 
+As we can see from the deﬁnition above, the cut ratio is trying to minimize the number of edges across the 
+cut, while penalizing cuts with small number of vertices. This criterion turns out to be a good one, and is 
+widely used for graph cutting in practice. 
+3.2 An Integer Program for the Cut Ratio 
+Now that we have a good deﬁnition of graph cutting, the question is how to ﬁnd the optimal cut in a 
+reasonable time. It turns out that we can cast the problem of ﬁnding cut of minim um ratio as an integer 
+program as follows. 
+Associate every cut S −S ¯ with a vector x ∈{−1, 1}n, where 
+1, if i ∈S, and xi = −1, if i ∈ ¯ S. 
+Then it is easy to see that we can write 
+1 e(S)= (xi −xj )2 .4 (i,j)∈E 
+For a boolean statemen t A, let [A] denote the characteristic function on A,so[A]=1i f A is true, and 
+[A]=0 if A is false. Then we also have 
+⎛ ⎞ 
+⎝ S]⎠ [i ∈S, j ∈ ¯
+2 = xj ]= 4|S|·|S¯|= /summationdisplay 
+[i ∈S] /summationdisplay 
+[j ∈ ¯= /summationdisplay 
+S]= 1 /summationdisplay 
+[xi /negationslash1 /summationdisplay 
+(xi −xj )2 . 
+i∈V j∈V i,j∈V i,j∈V i<j 
+Combining the two computations above, 
+(i,j)∈E (xi −xj )2 e(S)min /summationtext = min . 
+x∈{− 1,1}n (xi −xj )2 S⊆V |S|·|S¯|i<j 
+Now note that if |V |= |S|+ |S¯|= n, then 
+n min(|S|, |S¯|) ≤|S|·|S¯|≤n min(|S|, |S¯|),2 
+so we get 
+1 e(S) /summationtext 
+(i,j)∈E (xi −xj )2 2e(S) 2 φ(G) = min ≤ min /summationtext ≤ min = φ(G). n S⊆V n min(|S|, |S¯|) x∈{− 1,1}n (xi −xj )2 S⊆V n min(|S|, |S¯|) ni<j 
+Therefore, solving the integer program 
+(xi −xj )2 
+min (i,j)∈E 
+x∈{− 1,1}n (xi −xj )2 
+i<j 
+allows us to approximate φ(G) within a factor of 2. The bad news is that it is NP-hard to solve this program. 
+nHowever, if we remove the x ∈{−1, 1}constrain t, we can actually solve the program. Note that removing 
+nthe constrain t x ∈{−1, 1}is actually the same as saying that x ∈ [−1, 1]n, since we can scale x without 
+changing the value of the objective function. 
+3-4 ⊇C (see  Figure 2 for an illustration). Let p and q be the points that minimize 
+Since C
+/summationtext 
+/summationtext
+/summationdisplay /summationdisplay 
+/summationtext /summationtext 3.3 Interlude on Relaxations 
+nThe idea to drop the constrain t x ∈{−1,1}mentioned in the previous section is actually a recurring 
+technique in algorithms, so it is worthwhile to give a more general explanation of this relaxation technique. 
+A common setup in approximation algorithms is as follows: we want to solve an NP-hard question which 
+takes the form of minimizing f(x) subject to the constrain t x ∈C. Instead, we minimize f(x) subject to a 
+weaker constrain t x ∈C/prime f 
+in C and C/prime, respectively. 
+smaller 
+f(x) C C/prime 
+p 
+q q /prime 
+Figure 2: Illustration of the relaxation technique for approximation algorithms. 
+For this relaxation to be useful, we have to show how to “round” q to a feasible point q/prime ∈C, and prove 
+f(q/prime) ≤γf(q) for some constan t γ ≥1. This implies f(q/prime) ≤γf(q) ≤γf(p), so this process gives us a 
+γ-appro ximation. 
+3.4 Solving the Relaxed Program 
+Going back to our integer program to ﬁnd the cut of minim um ratio, now consider the following relaxed 
+program, 
+(xi −xj )2 
+(i,j)∈Emin /summationtext . 
+x∈Rn (xi −xj )2 
+i<j 
+Since the value of the objective function only depends on the diﬀerences xi −xj , we can translate x ∈Rn 
+such that x ⊥1, i.e. in 
+=1 xi =0. 
+Then observ e that n 
+(xi −xj )2 = nxi 2 , 
+i<j i=1 
+which can be obtained either by expanding the summation directly , or by noting that x is an eigenvector of 
+the Laplacian of the complete graph Kn with eigenvalue n (as we saw in Lecture 2). Therefore, using the 
+Rayleigh quotien t, 
+(i,j)∈E (xi −xj )2
+(i,j)∈E (xi −xj )2 λ2min /summationtext = min /summationtextn 2 = . 
+x∈Rn i<j (xi −xj )2 x∈Rn n i=1 xi n 
+x⊥1 
+3-5 C⊆C/prime, we know that f(q)≤f(p).Putting all the pieces together, we get 
+e(S)φ(G) = min 
+S⊆V min(|S|,|S¯|) 
+n e(S)≥ min2 S⊆V |S|·|S¯| 
+n /summationtext 
+(i,j)∈E (xi −xj )2 
+= min /summationtext 2 x∈{− 1,1}n (xi −xj )2 
+i<j 
+n /summationtext 
+(i,j)∈E (xi −xj )2 
+≥ min /summationtext 2 x∈Rn i<j (xi −xj )2 
+n /summationtext 
+(i,j)∈E (xi −xj )2 
+= min /summationtextn 22 x∈Rn n i=1 xi x⊥1 
+λ2 = .2 
+4 Cheeger’s Inequalit y 
+In the previous section, we obtained the bound φ(G) ≥λ2/2, but what about the other direction? For that, 
+we would need a rounding metho d, which is a way of getting a cut from λ2 and v2, and an upper bound on 
+how much ithe rounding increases the cut ratio that we are trying to minimize. In the next section, we will 
+see how to construct a cut from λ2 and v2 that gives us the following bound, which is Cheeger’s Inequalit y. 
+Theorem 4 (Cheeger’s Inequalit y) Given a graph G, 
+φ(G)2 
+≤λ2 ≤2φ(G),2dmax 
+wher e dmax is the maximum degree in G. 
+As a side note, the dmax disapp ears from the formula if we use the normalized Laplacian in our calcu­
+lations, but the proof is messier and is not fundamen tally any diﬀeren t from the proof using the regular 
+Laplacian. 
+The lower bound of φ(G)2/2dmax in Cheeger’s Inequalit y is the best we can do to bound λ2. The square 
+factor φ(G)2 is unfortunate, but if it were within a constan t factor of φ(G), we would be able to ﬁnd a constan t 
+approximation of an NP-hard problem. Also, if we look at the examples of the path graph and the complete 
+binary tree, their isoperimetric numbers are the same since we can cut exactly one edge in the middle of the 
+graph and divide the graphs into two asymptotically equal-sized pieces for a value of O(1/n). However, the 
+two graphs have diﬀeren t upper bounds for λ2, O(1/n2) and O(1/n) respectively, which demonstrate that 
+both the lower and upper bounds of λ2 in Cheeger’s inequalit y are tight (to a constan t factor). 
+4.1 How to Get a Cut from v2 and λ2 
+Let x∈Rn such that x⊥1. We will use x as a map from the vertices V to R. Cutting R would thus give a 
+partition of V as follows: order the vertices such that x1 ≤x2 ≤...≤xn, and the cut will be deﬁned by the 
+set S = {1,...,k } for some value of k. The value of k cannot be known a priori since the best cut depends 
+on the graph. In practice, an algorithm would have to try all values of k to actually ﬁnd the optimal cut 
+after embedding the graph to the real line. 
+We will actually prove something slightly stronger than Cheeger’s Inequalit y: 
+3-6 /summationdisplay /summationdisplay /summationdisplay Theorem 5 For any x ⊥ 1, x1 ≤ x2 ≤ ... ≤ xn, ther e is some i for which 
+xT Lx φ({1,...,i })2 
+≥ . xT x 2dmax 
+This is great because it not only implies Cheeger’s inequalit y by taking x = v2, but it also gives an actual 
+cut. It also works even if we have not calculated the exact values for λ2 and v2; we just have to get a good 
+approximation of v2 and we can still get a cut. 
+4.2 Proof of Cheeger’s Inequalit y 
+4.2.1 Step 1: Prepro cessing 
+First, we are going to do some prepro cessing. This step does not reduce the generalit y of the proof much, 
+but it will make the actual proof cleaner. 
+• For simplicit y, suppose n is odd. 
+• Let m =(n +1)/2. 
+• Deﬁne the vector y by yi = xi − xm. 
+We can observ e that ym = 0, half of the vertices are to the left of ym, and the other half are to the right of 
+ym. 
+Claim 6 
+xT Lx yT Ly≥ xT x yT y 
+Proof First, the numerators are equal by the operation of the Laplacian, 
+x T Lx = (xi − xj )2 = /parenleftbig 
+(yi + xm) − (yj + xm) /parenrightbig2 = (yi − yj )2 = y T Ly. 
+(i,j)∈E (i,j)∈E (i,j)∈E 
+Next, since x ⊥ 1, 
+y T y =(x + xm1)T (x + xm1)= x T x +2xm(x T 1)+ x 2 (1T 1)= x T x + nx 2 ≥ x T x.m m 
+Putting together the two computations above yields the desired inequalit y. 
+4.2.2 Step 2: A Little More Prepro cessing 
+We do not want edges crossing ym = 0 (because we will later consider the positive and negativ e vertices 
+separately), so we replace any edge (i, j) with two edges (i, m) and (m, j). Call this new edge set E/prime . 
+Claim 7 /summationtext /summationtext 
+(i,j)∈E (yi − yj )2
+(i,j)∈E/prime (yi − yj )2 
+/summationtext ≥ /summationtext .2 2 
+i∈V yi i∈V yi 
+Proof The only diﬀerence in the numerator comes from the edges (i, j) that we split into (i, m) and (m, j). 
+In that case, it is easy to see that (also noting that ym =0) 
+(yj − yi)2 ≥ (yj − ym)2 +(ym − yi)2 . 
+3-7 /summationtext 
+/summationtext /summationtext /summationtext . /summationtext /summationtext 
+/prime 
+/parenleftbigg /parenrightbigg 
+/summationtext /summationtext 
+/summationtext/prime 
+/summationtext
+/summationdisplay /summationdisplay 
+/summationdisplay 
+/summationdisplay /summationdisplay /summationdisplay 
+/summationdisplay /summationdisplay 
+/parenleftbig /parenrightbig 
+/summationdisplay 4.2.3 Step 3: Breaking the Sum in Half 
+We would like to break the summations in half so that we do not have to deal with separate cases with 
+positive and negativ e numbers. Let E/prime be the edges (i,j) with i,j ≤m, and let E/prime be the edges (i,j) with − + 
+i,j ≥m. We then have 
+(yi −yj )2 + (yi −yj )2 
+(i,j)∈E (i,j)∈E/prime (yi −yj )2 
+= /prime
+− +(i,j)∈E
+2 m 2 + n y2 
+i yi i=1 yi i=m i 
+Note that ym appears twice in the summation on the denominator, which is ﬁne since ym = 0. We also know 
+that for any a,b,c,d>0, 
+a+ b ab ≥min ,, c+ d cd 
+so it is enough to bound 
+(yi −yj )2 (yi −yj )2 
+/prime
+− +(i,j)∈E (i,j)∈Eand . m n 2 2 
+i=1 y yi i i=m 
+Since the two values are essentially the same, we will focus only on the ﬁrst one. 
+4.2.4 The Main Lemma 
+Let Ci be the number of edges crossing the point xi, i.e. the number of edges in the cut if we were to take 
+S = {1,...,i }. Recall that 
+e(S)φ= φ(G) = min , 
+S⊆V min(|S|,|S¯|) 
+so by taking S = {1,...,i },weget Ci ≥φi for i≤n/2 and Ci ≥φ(n−i) for i≥n/2. 
+The main lemma we use to prove Cheeger’s Inequalit y is as follows. 
+Lemma 8 (Summation by Parts) For any z1 ≤...≤zm =0, 
+m 
+(i,j)∈E/prime
+− |zi −zj |≥φ |zi|. 
+i=1 
+Proof For each (i,j) ∈E/prime with i<j, write − 
+j−1 
+|zi −zj |= zj −zi =(zi+1 −zi)+(zi+2 −zi+1)+ ···+(zj −zj−1)= (zk+1 −zk). 
+k=i 
+Summing over (i,j) ∈E/prime , we observ e that each term zk+1 −zk appears exactly Ck times. Therefore, −
+m−1 m−1 
+|zi −zj |= Ck(zk+1 −zk) ≥φ k(zk+1 −zk). 
+/prime
+−k=1 k=1 (i,j)∈E
+Note that zi ≤zm =0, so |zi|= −zi for 1 ≤i≤m. Then we can evaluate the last summation above as 
+m−1 
+|zi −zj |≥φ k(zk+1 −zk) 
+/prime
+−k=1 (i,j)∈E
+= φ (z2 −z1)+2(z3 −z2)+3(z4 −z3)+ ···+(m−1)(zm −zm−1) 
+= φ(−z1 −z2 −···−zm−1 +(m−1)zm) 
+m 
+= φ |zi|. 
+i=1 
+3-8 /summationdisplay /summationdisplay 
+/summationdisplay /summationdisplay /summationdisplay 
+/summationtext 
+/summationtext/summationtext 
+/summationtext 
+/summationtext 
+/prime 
+/summationtext
+/braceleftBigg /summationtext /summationtext 
+/summationtext/prime 
+/summationtext/bracerightBigg 4.2.5 Using the Main Lemma to Prove Cheeger’s Inequalit y 
+Now we can ﬁnally prove Cheeger’s inequalit y.
+Proof of Cheeger’s Inequalit y: This proof has ﬁve main steps.
+1. First, we normalize y such that /summationtextm
+i=1 yi 2 =1. 
+2. Next, this is perhaps a somewhat nonintuitive step, but we want to get squares into our expression, so 
+we apply the main lemma (Lemma 8) to a new vector z with zi = −yi 2 . We now have 
+m 
+2 2 2 
+j |≥φ i |= φ. 
+(i,j)∈E/prime
+− |y −y |yi 
+i=1 
+3. Next, we want something that looks like (yi −yj )2 instead of yi 2 −yj 2, so we are going to use the 
+Cauchy-Schwarz inequalit y. 
+⎛ ⎞1/2 ⎛ ⎞1/2 
+/summationdisplay /summationdisplay /summationdisplay /summationdisplay 
+(i,j)∈E/prime 
+− |y 2 
+i −y 2 
+j |= 
+(i,j)∈E/prime 
+− |yi −yj |·|yi + yj |≤⎝ 
+(i,j)∈E/prime 
+− (yi −yj )2 ⎠ ⎝ 
+(i,j)∈E/prime 
+− (yi + yj )2 ⎠ . 
+4. We want to get rid of the (yi + yj )2 part, so we bound it and observ e that the maxim um number of 
+times any yi 2 can show up in the summation over the edges is the the maxim um degree of any vertex. 
+m 
+(yi + yj )2 ≤2 (yi 2 + yj 2) ≤2 dmax ·yi 2 ≤2dmax. 
+(i,j)∈E/prime
+−(i,j)∈E/prime
+−i=1 
+5. Putting it all together, we get 
+/parenleftBig /parenrightBig2 2 2(yi −yj )2 |y−y| φ2 
+≥ /prime
+−/prime
+−i j (i,j)∈E (i,j)∈E≥ . m 2 (yi + yj )2 2dmax i=1 y /prime
+−i (i,j)∈E
+Similarly , we can also show that 
+(yi −yj )2 φ2 
++(i,j)∈E≥ . n 2 2dmax yi i=m 
+Therefore, 
+(yi −yj )2 (yi −yj )2T Lx yT Ly φ2 /prime
+− +(i,j)∈E (i,j)∈E x≥min ≥ ≥ , . m 
+i=1 yn 2 2 2dmax xT x yT y yi i i=m 
+4.2.6 So who is Cheeger anyway? 
+Jeﬀ Cheeger is a diﬀeren tial geometer. His inequalit y makes a lot more sense in the continuous world, and his 
+motivation was in diﬀeren tial geometry . This was part of his PhD thesis, and he was actually investigating 
+heat kernels on smooth manifolds. A heat kernel can also be though t of as a point of heat in space, and the 
+question is the speed at which the heat spreads. It can also be though t of as the mixing time of a random 
+walk, which will be discussed in future lectures. 
+3-9 MIT OpenCourseWare
+http://ocw.mit.edu 
+18.409  Topics in Theoretical Computer Science: An Algorithmist's Toolkit 
+Fall 2009 
+For information about citing these materials or our Terms of Use, visit: http://ocw.mit.edu/terms . 

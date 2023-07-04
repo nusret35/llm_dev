@@ -1,0 +1,266 @@
+18.409 An Algorithmist’s Toolkit November 21, 2009 
+Lecture 21 
+Lecturer: Jonathan Kelner Scribe: Yan Zhang 
+1 Solving Linear Systems: A Brief Overview 
+Given an invertible n × n matrix A and an n-vector b, we would like to solve the matrix equation Ax = b. 
+One way to do so is to invert A and multiply both sides by A−1 . While this approac h is theoretically valid, 
+there are several problems with it in practice. Computing the inverse of a large matrix is expensive and 
+susceptible to numerical error due to the ﬁnite precision of ﬂoating-p oint numbers. Moreo ver, matrices which 
+occur in real problems tend to be sparse and one would hope to take advantage of such structure to reduce 
+work, but matrix inversion destro ys sparsit y. 
+So what would a numerical analyst do? A better metho d is Gaussian elimination, or equivalently, LU 
+factorization followed by back-substitution. This technique is competitive when the matrix A is dense and 
+unstructured, and it also has the advantage of allowing solution of Ax = b for multiple values of b with 
+little additional work. However, it still fails to make use of the fact that systems encoun tered in practice are 
+rarely dense and unstructured. As we will see in the next few lectures, iterativ e metho ds are the technique 
+of choice for solving such systems. 
+2 A First Iterativ e Metho d 
+2.1 An Example 
+Consider the system ⎛ 
+⎝ 100 
+1 
+−4 3 
+200 
+3 −2 
+5 
+100 ⎞ ⎠ x = ⎛ ⎝ 800 
+1000 
+500 ⎞ ⎠ . 
+While computing the exact solution by hand would be a tedious task, it is a simple matter to ﬁnd an 
+approximate solution. Roughly speaking, we expect the behavior of our system to be governed by the 
+“large” diagonal entries of the matrix A, so if we just pretend that all oﬀ-diagonal entries are zero, the 
+solution we obtain should still be reasonably close to the correct answer. Of course, once we ignore the 
+oﬀ-diagonal entries, solving the system is easy, and we get as a ﬁrst approximation x1 =(8, 5, 5)T . 
+How close does our approximation come to solving the system? Multiply A by x1 to get (805, 1033, 483)T . 
+Subtracting from the desired result b, we ﬁnd that we are oﬀ by e1 =(−5, −33, 17)T . Now this suggests a 
+way to impro ve our estimate: since our system is linear, we can adjust our approximation x1 by applying 
+the same technique as before with e1 on the right rather than b. Adding this adjustmen t gives an impro ved 
+approximation x2 =(7.95, 4.835, 5.17)T , and clearly we can iterate the procedure as many times as we wish 
+in hopes of obtaining better and better estimates converging to the true solution. It turns out that in this 
+example one more iteration already achieves accuracy of about four signiﬁcan t ﬁgures: our next approxima­
+tion is (7.9584, 4.8310, 5.1730)T , while the actual answer is (7.9585, 4.8309, 5.1734)T to four decimals. In fact, 
+convergence is exponential: the number of correct digits increases linearly with the number of iterations. 
+2.2 A Bit Harder 
+One might argue that the above example was contrived, since our approximation scheme depended on the 
+fact that the diagonal entries of A were much larger than the oﬀ-diagonal entries. However, consider the 
+21-1 system ⎛ ⎞⎛ ⎞ 
+100 −1 −4 100 
+⎝ 100 100 3 ⎠ x = ⎝ 200 ⎠ . 
+100 100 100 300 
+Again, while computing the exact answer would take some work, we can tell at a glance that the solution 
+should be close to (1, 1, 1)T . In this case, the above-diagonal entries are all small, and once we ignore these, 
+we can easily solve the remaining lower-triangular system. As before, we may now iterativ ely impro ve our 
+solution by ﬁnding the error and repeating the procedure, converging geometrically to the correct answer. 
+2.3 General Idea 
+Why do both of these matrices work? One was “almost diagonal” while the other was “almost lower-
+triangular.” This suggests that the important common attribute of the matrices A is the existence of a 
+decomp osition 
+A = L + S, 
+where L is “large”—accoun ting for “most of A”—and easy to invert, while S is “small.” We reason that 
+L−1 would thereb y be a good approximation of A−1 . Therefore, we deﬁne 
+x1 = L−1b, 
+r1 = b − Ax 1. 
+We can perform iterativ e updates according to 
+xk+1 = xk + L−1 rk, (1) 
+rk+1 = b − Ax k+1. (2) 
+In the k-th stage, xk is our curren t approximate solution to Ax = b and rk is called the residual . 
+Note that this iterativ e approac h never requires us to invert A: instead, we need only know how to 
+multiply vectors by L−1 . Aside from this, only the (inexp ensive) operations of matrix-v ector multiplication 
+and vector arithmetic are required. Thus, if we know an eﬃcien t way of computing L−1y given a vector 
+y—or alternativ ely, are given a “black box” that performs this operation—then we may infer a metho d for 
+approximately solving Ax = b which may be much faster than the standard techniques for computing the 
+exact solution. 
+2.4 Analysis 
+Of course, for this metho d to be useful, we need to know that our iterations do actually impro ve our estimate. 
+We would also like a bound on the impro vement at each stage so that we know when to stop. To obtain 
+these results, we need to make precise the notions of L and S being “large” and “small.” 
+Consider the product 
+L−1A = L−1(L + S)= I + L−1S. 
+This gives us some intuition that L−1 should be a good approximation of A−1 when L−1S is “small” 
+compared to the identity matrix I. Proceeding with the analysis, let x denote the actual solution to Ax = b. 
+Substituting A = L + S,weget Lx = −Sx + b, or equivalently, 
+x = −L−1Sx + L−1b. 
+Deﬁne M = −L−1S and z = L−1b and observ e that we can rewrite our iterativ e step as the recurrence 
+xk+1 = xk + L−1 rk 
+= xk + L−1(b − Ax k) 
+= xk + L−1b − L−1Lx k − L−1Sx k 
+= Mx k + z. 
+21-2 Note that x is a ﬁxed point of this recurrence because it leaves zero residual: r = b − Ax = 0 by deﬁnition 
+of x. In other words, x = Mx + z. 
+Now deﬁne the error at step k to be ek = xk − x and observ e 
+ek+1 = xk+1 − x 
+= Mx k + z − x 
+= M(x + ek)+ z − x 
+=(Mx + z − x)+ Me k 
+= Me k. 
+It follows immediately that ek = M k−1e1, and in fact 
+ek = −Mk x, 
+since we could have started our iteration at x0 = 0 in which case e0 = −x. Thus, we can think of the error 
+growing roughly as a matrix power1 . We pause here to make a deﬁnition. 
+Deﬁnition 1 The spectral radius ρ of a symmetric matrix M is the absolute value of its largest eigenvalue: 
+ρ = |λmax|. 
+Observ e that it follows from the deﬁnition that (in the symmetric case) 
+||Mn x|| ≤ ρn||x||, 
+so if ρ< 1, then powers of M converge exponentially to zero at a rate given by ρ. The same holds for general 
+M if we replace “eigen value” by “singular value.” Summarizing, we have the following result. 
+Theorem 2 Suppose A is a square matrix admitting a decomposition A = L + S where L is invertible and 
+the largest singular value of L−1S has absolute value ρ< 1. Then the iteration given by (1), (2) for solving 
+Ax = b converges to the correct answer as ρk . 
+2.5 Further Remarks 
+As a side note, the two speciﬁc examples we began with are cases of Jacobi iteration, in which the matrix A 
+is decomp osed as D + S with D diagonal and S small; and Gauss-Seidel iteration, where A = L + S with L 
+lower triangular and S small. 
+Also, one may wonder why we want to work speciﬁcally with matrices that look like these. One good 
+explanation is that in physics, many “natural” matrices tend to have larger diagonal values, since we are 
+considering the transition matrix of a physical state near equilibrium. 
+3 Setup for More Iterativ e Metho ds 
+3.1 Assumptions 
+For the remainder of this lecture, we will restrict our attention to solving Ax = b for n × n square matrices 
+A that are symmetric and positive deﬁnite. Note that positive deﬁniteness implies nonsingularit y. These 
+conditions may at ﬁrst glance appear to be very restrictiv e, but in fact we claim we can reduce any nonde­
+generate square linear system to such a problem. Indeed, we need only observ e that for an invertible matrix 
+A, 
+Ax = b iﬀ AT Ax = AT b, 
+1This is similar to our analysis of stablization in random walks! 
+21-3 and the matrix AT A is positive deﬁnite. 
+It is worth noting that while it is clear that the above reduction is theoretically valid, it is less clear 
+whether or not such a reduction is practical. While the matrix product AT A has the advantage of positive 
+deﬁniteness, it raises several other concerns. For one, matrix multiplication could be as expensive as solving 
+the system in the ﬁrst place and could destro y sparsit y properties. Additionally , one might worry about the 
+eﬀects of replacing A with AT A on convergence speed and condition number. As we shall see, however, the 
+trick to getting around these issues is to never actually compute AT A. Instead, since our algorithms will 
+only use this matrix in the context of multiplying by a vector, we can perform such multiplications from 
+right to left via two matrix-v ector multiplications, thus avoiding the much more expensive matrix-matrix 
+multiplication. 
+3.2 Converting a Linear Problem to a Quadratic One 
+Having assumed now that we are dealing with a symmetric positive deﬁnite matrix A, we can recast our 
+linear system Ax = b as the condition that the vector x minimizes the quadratic form 
+1 f (x)= x T Ax − bx + c.2 
+Indeed, the gradien t of f is given by 
+1 ∇f (x)= (A + AT )x − b = Ax − b2 
+because A is symmetric, and since A is positive deﬁnite, the quadratic form f is strictly convex, hence has 
+a unique minimizer x given by ∇f(x) = 0. In this case, level (contour) sets of f(x) are ellipsoids with axes 
+along the eigenvectors of A and axis lengths inversely proportional to the eigenvalues of A. 
+What happens if our assumptions on A are violated? If A is nonsymmetric, vanishing of the gradien t is 
+no longer equivalent to the condition Ax = b: instead, we get 21 (A + AT )x = b.If A is negativ e deﬁnite, 
+∇f(x) = 0 gives a maxim um rather than a minim um, and if A is symmetric but neither positive nor 
+negativ e deﬁnite, then vanishing of the gradien t generally gives a saddle point. For more geometric intuition 
+and ﬁgures (some of which are reproduced in the lecture slides), we refer to [1]. 
+4 Steep est Descen t 
+4.1 Motiv ation 
+We now discuss the technique of steepest descen t, also known as gradient descent, which is a general iterativ e 
+metho d for ﬁnding local minima of a function f. The idea is that given a curren t estimate xi, the gradien t 
+∇f(xi)—or more precisely , its negativ e—giv es the direction in which f is decreasing most rapidly . Hence, 
+one would expect that taking a step in this direction should bring us closer to the minim um we seek. Keeping 
+with our previous notation, we will let x denote the actual minimizer, xi denote our i-th estimate, and 
+ei = xi − x, (3) 
+ri = b − Ax i = −Ae i (4) 
+denote the i-th error term and residual, respectively. 
+The question now is how to decide what step size to use at each iteration. A logical approac h is to choose 
+the step αi such that the updated estimate xi+1 = xi − αi∇f (xi) minimizes f (xi+1) among all such xi+1.In 
+general, the solution to this line search may or may not have a closed form, but in our case of f a quadratic 
+form, we can determine the minimizing αi explicitly . Indeed, we need only notice that at the minim um along 
+a line, the gradien t is orthogonal to the line. Now the negativ e gradien t at the i + 1-st step 
+−∇f (xi+1)= b − Ax i+1 = ri+1 
+21-4 turns out just to equal the i + 1-st residual, so our orthogonalit y relation reduces to the condition that 
+successiv e residuals be orthogonal: 
+riT 
++1ri =0. 
+Expanding out 
+ri+1	= b − Ax i+1 
+= b − A(xi + αiri) 
+= ri − αiAr i 
+and substituting into the previous equation gives (using A = AT ) 
+αriT Ar i = α(Ar i)T ri = riT ri, 
+and thus we have a formula for computing the step size along ri in terms of just ri itself. 
+Remark It is important to remem ber that the residuals ri = b − Ax i measure the diﬀerence between 
+our objective b and the result Ax i of our approximation in “range space,” whereas the errors ei = xi − x 
+measure the diﬀerence between our approximation and the true solution in “domain space.” Thus, the 
+previous orthogonalit y relation that holds for residual vectors does not mean that successiv e error vectors 
+in the domain are orthogonal. It does, however, imply that successiv e diﬀerences between consecutiv e 
+approximations are orthogonal because these diﬀerences xi+1 − xi = αiri are proportional to the residuals. 
+4.2	 Algorithm 
+To summarize the developmen t thus far, we have obtained an iterativ e algorithm for steepest descen t with 
+the following update step: 
+ri = b − Ax i (5) 
+αi = rT 
+i ri 
+rT 
+i Ar i (6) 
+xi+1 = xi + αiri. (7) 
+As an implemen tation note, we point out that the runtime of this algorithm is dominated by the two 
+matrix-v ector multiplications: Ax i (used to compute ri) and Ar i (used in ﬁnding the step size αi). In fact, 
+it is enough to do just the latter multiplication because as we saw before, we can alternativ ely write 
+ri+1 = ri − αiAr i, 
+so that after the ﬁrst step we can ﬁnd residuals by reusing the computation Ar i, which was already done 
+in the previous step. In practice, one needs to be careful about accum ulation of roundoﬀ errors, but this 
+problem may be resolv ed by using (5) every once in a while to recalibrate. 
+4.3	 Analysis 
+Before dealing with general bounds on the rate of convergence of steepest descen t, we make the preliminary 
+observ ation that in certain special cases, steepest descen t converges to the exact solution in just one step. 
+More precisely , we make the following claim. 
+Claim 3 If the current error vector ei is an eigenve ctor of A, then the subsequent descent step moves directly 
+to the correct answer. That is, ei+1 =0. 
+21-5 /parenleftBigg /parenrightBigg Pro of Apply (5)–(7) and the deﬁnition of the error (3) to ﬁnd 
+T 
+ei+1 = ei + r
+Ti ri ri, (8) ri Ar i 
+giving the change in the error from step i to step i + 1. In the case that ei is an eigenvector of A, say with 
+eigenvalue λ, we have from (4) that ri = −Ae i = −λe i, and hence (8) reduces to 
+1 ei+1 = ei +(−λe i)=0. λ 
+Remark The above result tells us that steepest descen t works instan tly for error vectors in the eigenspaces 
+of A. These spaces have dimensions equal to the multiplicities of the corresp onding eigenvalues, and in 
+particular, if A is a multiple of the identity, then steepest descen t converges immediately from any starting 
+point. In general, we are not nearly so lucky and the eigenspaces each have dimension 1, but it is worth 
+noting that even in this case convergence is qualitativ ely diﬀeren t from that of our ﬁrst iterativ e approac h: 
+there are particular directions along which steepest descen t works perfectly , whereas our ﬁrst approac h only 
+gave the correct answer in the trivial case in which the error was already zero. 
+In light of the preceding remark, we can expect that convergence should be faster along some directions 
+than others, and we will see that this is indeed the case. Before jumping headlong into the convergence 
+analysis, however, it is worthwhile to deﬁne a more convenient measure of error. 
+Deﬁnition 4 The energy norm of a vector e is given by 
+||e||A = e T Ae. (9) 
+Motiv ation for this deﬁnition will be provided in the next lecture; for now, we simply take for granted that 
+it obeys the usual properties of a norm—and hence produces the same qualitativ e notion of convergence— 
+but lends itself to a cleaner convergence bounds. We will satisfy ourselv es with simply stating the result 
+and focus on discussing its consequences, since the proof is just a computation using (8) and (9). A more 
+intuitive line of reasoning will also come in the next lecture. 
+Theorem 5 Let ei denote the error vector at step i of steepest descent. Let {vj }n be a normalize d eigen­j=1 
+basis of A with corresponding eigenvalues λj , and let ei = /summationtext 
+j ξj vj denote the expansion of ei with respect to 
+this eigenbasis. Then 
+(/summationtext 
+j ξj 2λ2 
+j )2 
+||ei+1||2 = ||ei||2 1 − (/summationtext ξ2λ3)(/summationtext ξ2λj ) . (10)A A 
+j j j j j 
+The general result (10) is quite a mouthful, but fortunately we can understand its ﬂavor just by looking 
+at the two-dimensional case. In this case we have only two eigenvectors v1 and v2. Assume λ1 >λ 2, so the 
+condition number of A is κ = λ1/λ2. Deﬁne μ = ξ1/ξ2 to be the ratio of the components of ei along the 
+basis vectors. Then (10) simpliﬁes to 
+||ei+1||2 (κ2 + μ2)2 
+A =1 − ||ei||2 (κ + μ2)(κ3 + μ2) . 
+A 
+Note that the form of the expression on the right corrob orates our preliminary observ ations. If the condition 
+number κ = 1, convergence occurs instan tly, and if κ is close to 1, convergence occurs quickly for all values 
+of μ.If κ is large, convergence still occurs instan tly if μ =0 or ∞, but now the rate of convergence varies 
+substan tially with μ, with the worst case being when ei is closer to the smaller eigenvector than the larger 
+one by a factor of κ, i.e., μ = ±κ (see the lecture slides or [1] for helpful pictures). 
+21-6 4.4 Some Motiv ation 
+To summarize, we have seen that the performance of steepest descen t varies depending on the error direction 
+and can sometimes be excellen t; however, in the worst case (obtained by maximizing the factor on the right 
+side of (10) over all ξj ) convergence is still only geometric. 
+The problem, as can be seen in the lecture ﬁgures, is that steepest descen t has the potential to “zig-zag 
+too much.” We will see in the next lecture how the metho d of conjugate gradients overcomes this issue. The 
+big idea here is that the so-called “zig-zagging” comes from situations when the ellipsoidal curves are very 
+skew; the disparit y between the magnitudes of the axes of the ellipses causes us to take very tiny steps. Note 
+we can then think of the energy norm is really a normalization of the ellipses into spheres, which removes 
+this issue. 
+References 
+[1] Shewchuk, Jonathan. “An Introduction to the Conjugate Gradien t Metho d Without the Agonizing Pain.” 
+August 1994. http://www.cs.cmu.edu/~jrs/jrspapers.html. 
+21-7 MIT OpenCourseWare
+http://ocw.mit.edu 
+18.409  Topics in Theoretical Computer Science: An Algorithmist's Toolkit 
+Fall 2009 
+For information about citing these materials or our Terms of Use, visit: http://ocw.mit.edu/terms . 

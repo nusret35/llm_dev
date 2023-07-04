@@ -1,0 +1,664 @@
+   
+  6.033 Spring 2018
+Lecture #16 
+•Atomicity via Write -ahead logging
+6.033 | spring 2018 | Katrina LaCurts 
+1  
+    
+     
+  
+ 
+  goal: build reliable systems from unreliable components 
+the abstraction that makes that easier is 
+transactions , which provide atomicity and 
+isolation , while not hindering performance 
+shadow copies (simple, poor atomicity performance) 
+? isolation 
+eventually, we also want transaction -based sys t ems to 
+be distributed: to run across multiple machines 
+6.033 | spring 2018 | Katrina LaCurts 
+2  
+ 
+  
+  
+    
+    
+     
+  goal: build reliable systems from unreliable components 
+the abstraction that makes that easier is 
+transactions , which provide atomicity and 
+isolation , while not hindering performance 
+shadow copies (simple, poor 
+performance) or logs (better atomicity 
+performance, a bit more complex) 
+? isolation 
+eventually, we also want transaction -based sys t ems to 
+be distributed: to run across multiple machines 
+6.033 | spring 2018 | Katrina LaCurts 
+3  transfer(bankfile, account_a, account_b, amount): 
+bank = read_accounts(bankfile) 
+bank[account_a] = bank[account_a] – amount 
+bank[account_b] = bank[account_b] + amount write_accounts(tmp_bankfile) 
+rename(tmp_bankfile, bankfile) 
+6.033 | spring 2018 | Katrina LaCurts 
+4    
+  using shadow copies to abort on error 
+transfer(bankfile, account_a, account_b, amount): 
+bank = read_accounts(bankfile) 
+bank[account_a] = bank[account_a] – amount 
+bank[account_b] = bank[account_b] + amount if bank[account_a] < 0: 
+print "Not enough funds" 
+else: 
+write_accounts("tmp_bankfile") rename(tmp_bankfile, bankfile) 
+6.033 | spring 2018 | Katrina LaCurts 
+5  
+  with transaction syntax 
+transfer(account_a, account_b, amount): 
+begin 
+write(account_a, read(account_a) - amount) 
+write (account_b, read(account_b) + amount) 
+if read(account_a) < 0: // not enough funds 
+abort 
+else: 
+commit 
+6.033 | spring 2018 | Katrina LaCurts 
+6  
+  
+       
+   
+  begin // T1 
+A = 100 
+B = 50 
+commit // A=100; B=50 
+begin // T2 
+A = A- 20 
+B = B+20 commit // A=80; B=70 
+begin // T3 
+A = A+30
+crash! ! problem: after crash, A=110,
+but T3 never committed
+we need a way to revert to
+A’s previ o
+us committed value 
+6.033 | spring 2018 | Katrina LaCurts 
+7                  
+               
+  +--------+--------+--------+--------+--------+--------+--------+ 
+TID | T1 | T1 | T1 | T2 | T2 | T2 | T3 | 
+| UPDATE | UPDATE | COMMIT | UPDATE | UPDATE | COMMIT | UPDATE | 
+OLD | A=0 | B=0 | | A=100 | B=50 | | A=80 | 
+NEW | A=100 
+| B=50 | | A=80 | B=70 | | A=110 | 
++--------+--------+--------+--------+--------+--------+--------+ 
+begin // T1 
+A = 100 
+B = 50 
+commit // A=100; B=50 
+begin // T2 
+A = A- 20 
+B = B+20 commit // A=80; B=70 
+begin // T3 
+A = A+30 
+6.033 | spring 2018 | Katrina LaCurts 
+8                  
+               
+  +--------+--------+--------+--------+--------+--------+--------+ 
+TID | T1 | T1 | T1 | T2 | T2 | T2 | T3 | 
+| UPDATE | UPDATE | COMMIT | UPDATE | UPDATE | COMMIT | UPDATE | 
+OLD | A=0 | B=0 | | A=100 | B=50 | | A=80 | 
+NEW | A=100 | B=50 | | A=80 | B=70 | | A=110 | 
++--------+--------+--------+--------+--------+--------+--------+ 
+read(log, var): 
+commits = {} 
+// scan backwards 
+for record r in log[len(log) -1] .. log[0]: 
+// keep track of commits 
+if r.type == commit: 
+commits.add(r.tid) 
+// find var’s last committed value if r.type == update and 
+r.tid in commits andr.var == var:
+return r.new_value
+6.033 | spring 2018 | Katrina LaCurts 
+9          
+       
+  +--------+--------+--------+ 
+TID | T1 | T1 | T1 | begin // T2
+| UPDATE | UPDATE | COMMIT | A = A- 20 OLD | A=0 | B=0 | | 
+NEW | A=100 | B=50 | | 
++--------+--------+--------+ 
+read(log, var): commits = {}commits = {} 
+// scan backwards 
+for record r in log[len(log) -1] .. log[0]: 
+// keep track of commits 
+if r.type == commit: 
+commits.add(r.tid) 
+// find var’s last committed value if r.type == update and 
+r.tid in commits andr.var == var:
+return r.new_value
+6.033 | spring 2018 | Katrina LaCurts 
+10          
+       
+  +--------+--------+--------+ 
+TID | T1 | T1 | T1 | begin // T2
+| UPDATE | UPDATE | COMMIT | A = A- 20 OLD | A=0 | B=0 | | 
+NEW | A=100 | B=50 | | 
++--------+--------+--------+ 
+read(log, var): commits = {T1}commits = {} 
+// scan backwards 
+for record r in log[len(log) -1] .. log[0]: 
+// keep track of commits 
+if r.type == commit: 
+commits.add(r.tid) 
+// find var’s last committed value if r.type == update and 
+r.tid in commits andr.var == var:
+return r.new_value
+6.033 | spring 2018 | Katrina LaCurts 
+11          
+        
+  +--------+--------+--------+--------+ 
+TID | T1 | T1 | T1 | T2 | begin // T2
+| UPDATE | UPDATE | COMMIT | UPDATE | A = A- 20 OLD | A=0 | B=0 | | A=100 | 
+NEW | A=100 | B=50 | | A=80 | 
++--------+--------+--------+--------+ 
+read(log, var): 
+commits = {} 
+// scan backwards 
+for record r in log[len(log) -1] .. log[0]: 
+// keep track of commits 
+if r.type == commit: 
+commits.add(r.tid) 
+// find var’s last committed value if r.type == update and 
+r.tid in commits andr.var == var:
+return r.new_value
+6.033 | spring 2018 | Katrina LaCurts 
+12          
+        
+  +--------+--------+--------+--------+ 
+TID | T1 | T1 | T1 | T2 | begin // T2
+| UPDATE | UPDATE | COMMIT | UPDATE | A = A- 20 OLD | A=0 | B=0 | | A=100 | 
+NEW | A=100 | B=50 | | A=80 | A = A- 30 
++--------+--------+--------+--------+ 
+read(log, var): 
+commits = {} 
+// scan backwards 
+for record r in log[len(log) -1] .. log[0]: 
+// keep track of commits 
+if r.type == commit: 
+commits.add(r.tid) 
+// find var’s last committed value if r.type == update and 
+r.tid in commits andr.var == var:
+return r.new_value
+6.033 | spring 2018 | Katrina LaCurts 
+13          
+        
+  +--------+--------+--------+--------+ 
+TID | T1 | T1 | T1 | T2 | begin // T2
+| UPDATE | UPDATE | COMMIT | UPDATE | A = A- 20 OLD | A=0 | B=0 | | A=100 | 
+NEW | A=100 | B=50 | | A=80 | A = A- 30 
++--------+--------+--------+--------+ 
+read(log, var): 
+commits = {} 
+// scan backwards 
+for record r in log[len(log) -1] .. log[0]: 
+// keep track of commits 
+if r.type == commit: 
+commits.add(r.tid) 
+// find var’s last committed value if r.type == update and 
+(r.tid in commits or r.tid == current_tid ) and 
+r.var == var:
+return r.new_value
+6.033 | spring 2018 | Katrina LaCurts 
+14                  
+               
+   
+   
+    
+  +--------+--------+--------+--------+--------+--------+--------+ 
+TID | T1 | T1 | T1 | T2 | T2 | T2 | T3 | 
+| UPDATE | UPDATE | COMMIT | UPDATE | UPDATE | COMMIT | UPDATE | 
+OLD | A=0 | B=0 | | A=100 | B=50 | | A=80 | 
+NEW | A=100 
+| B=50 | | A=80 | B=70 | | A=110 | 
++--------+--------+--------+--------+--------+--------+--------+ 
+begin // T1 
+A = 100 
+B = 50 
+commit 
+after a crash, the log is 
+begin // T2 still correct; uncommitted 
+A = A- 20 updates will not be read B = B+20 commit 
+begin // T3 
+A = A+30
+crash! ! 
+6.033 | spring 2018 | Katrina LaCurts 
+15                  
+               
+  
+  +--------+--------+--------+--------+--------+--------+--------+ 
+TID | T1 | T1 | T1 | T2 | T2 | T2 | T3 | 
+| UPDATE | UPDATE | COMMIT | UPDATE | UPDATE | COMMIT | UPDATE | 
+OLD | A=0 | B=0 | | A=100 | B=50 | | A=80 | 
+NEW | A=100 
+| B=50 | | A=80 | B=70 | | A=110 | 
++--------+--------+--------+--------+--------+--------+--------+ 
+performance? 
+problem: reads are s l ow 
+6.033 | spring 2018 | Katrina LaCurts 
+16                  
+               
+  +--------+--------+--------+--------+--------+--------+--------+ 
+TID | T1 | T1 | T1 | T2 | T2 | T2 | T3 | 
+| UPDATE | UPDATE | COMMIT | UPDATE | UPDATE | COMMIT | UPDATE | 
+OLD | A=0 | B=0 | | A=100 | B=50 | | A=80 | 
+NEW | A=100 
+| B=50 | | A=80 | B=70 | | A=110 | 
++--------+--------+--------+--------+--------+--------+--------+ 
+cell storage A 110 B 70 (on disk) 
+read(var): 
+return cell_read(var) 
+write(var, value) : 
+log.append(current_tid, update, var, read(var), value) 
+cell_write(var, value) 
+6.033 | spring 2018 | Katrina LaCurts 
+17                  
+               
+  +--------+--------+--------+--------+--------+--------+--------+ 
+TID | T1 | T1 | T1 | T2 | T2 | T2 | T3 | 
+| UPDATE | UPDATE | COMMIT | UPDATE | UPDATE | COMMIT | UPDATE | 
+OLD | A=0 | B=0 | | A=100 | B=50 | | A=80 | 
+NEW | A=100 | B=50 | | A=80 | B=70 | | A=110 | 
++--------+--------+--------+--------+--------+--------+--------+ 
+cell storage A 110 B 70 (on disk) 
+recover(log): 
+commits = {} 
+for record r in log[len(log)- 1] .. log[0]: 
+if r.type == commit: 
+commits.add(r.tid) 
+if r.type == update and r.tid not in commits: 
+cell_write(r.var, r.old_val) // undo 
+6.033 | spring 2018 | Katrina LaCurts 
+18                  
+               
+  +--------+--------+--------+--------+--------+--------+--------+ 
+TID | T1 | T1 | T1 | T2 | T2 | T2 | T3 | 
+| UPDATE | UPDATE | COMMIT | UPDATE | UPDATE | COMMIT | UPDATE | 
+OLD | A=0 | B=0 | | A=100 | B=50 | | A=80 | 
+NEW | A=100 
+| B=50 | | A=80 | B=70 | | A=110 | 
++--------+--------+--------+--------+--------+--------+--------+ 
+cell storage A 110 B 70 commits = {}(on disk) 
+recover(log): 
+commits = {} 
+for record r in log[len(log)- 1] .. log[0]: 
+if r.type == commit: 
+commits.add(r.tid) 
+if r.type == update and r.tid not in commits: 
+cell_write(r.var, r.old_val) // undo 
+6.033 | spring 2018 | Katrina LaCurts 
+19                  
+               
+  +--------+--------+--------+--------+--------+--------+--------+ 
+TID | T1 | T1 | T1 | T2 | T2 | T2 | T3 | 
+| UPDATE | UPDATE | COMMIT | UPDATE | UPDATE | COMMIT | UPDATE | 
+OLD | A=0 | B=0 | | A=100 | B=50 | | A=80 | 
+NEW | A=100 
+| B=50 | | A=80 | B=70 | | A=110 | 
++--------+--------+--------+--------+--------+--------+--------+ 
+cell storage A 110 B 70 commits = {}(on disk) 
+recover(log): 
+commits = {} 
+for record r in log[len(log)- 1] .. log[0]: 
+if r.type == commit: 
+commits.add(r.tid) 
+if r.type == update and r.tid not in commits: 
+cell_write(r.var, r.old_val) // undo 
+6.033 | spring 2018 | Katrina LaCurts 
+20                  
+               
+  +--------+--------+--------+--------+--------+--------+--------+ 
+TID | T1 | T1 | T1 | T2 | T2 | T2 | T3 | 
+| UPDATE | UPDATE | COMMIT | UPDATE | UPDATE | COMMIT | UPDATE | 
+OLD | A=0 | B=0 | | A=100 | B=50 | | A=80 | 
+NEW | A=100 
+| B=50 | | A=80 | B=70 | | A=110 | 
++--------+--------+--------+--------+--------+--------+--------+ 
+cell storage A80 B70 commits = {}(on disk) 
+recover(log): 
+commits = {} 
+for record r in log[len(log)- 1] .. log[0]: 
+if r.type == commit: 
+commits.add(r.tid) 
+if r.type == update and r.tid not in commits: 
+cell_write(r.var, r.old_val) // undo 
+6.033 | spring 2018 | Katrina LaCurts 
+21                  
+               
+  +--------+--------+--------+--------+--------+--------+--------+ 
+TID | T1 | T1 | T1 | T2 | T2 | T2 | T3 | 
+| UPDATE | UPDATE | COMMIT | UPDATE | UPDATE | COMMIT | UPDATE | 
+OLD | A=0 | B=0 | | A=100 | B=50 | | A=80 | 
+NEW | A=100 | B=50 
+| | A=80 | B=70 | | A=110 | 
++--------+--------+--------+--------+--------+--------+--------+ 
+cell storage A80 B70 commits = {}(on disk) 
+recover(log): 
+commits = {} 
+for record r in log[len(log)- 1] .. log[0]: 
+if r.type == commit: 
+commits.add(r.tid) 
+if r.type == update and r.tid not in commits: 
+cell_write(r.var, r.old_val) // undo 
+6.033 | spring 2018 | Katrina LaCurts 
+22                  
+               
+  +--------+--------+--------+--------+--------+--------+--------+ 
+TID | T1 | T1 | T1 | T2 | T2 | T2 | T3 | 
+| UPDATE | UPDATE | COMMIT | UPDATE | UPDATE | COMMIT | UPDATE | 
+OLD | A=0 | B=0 | | A=100 | B=50 | | A=80 | 
+NEW | A=100 | B=50 
+| | A=80 | B=70 | | A=110 | 
++--------+--------+--------+--------+--------+--------+--------+ 
+cell storage A80 B70 commits = {T2}(on disk) 
+recover(log): 
+commits = {} 
+for record r in log[len(log)- 1] .. log[0]: 
+if r.type == commit: 
+commits.add(r.tid) 
+if r.type == update and r.tid not in commits: 
+cell_write(r.var, r.old_val) // undo 
+6.033 | spring 2018 | Katrina LaCurts 
+23                  
+               
+  +--------+--------+--------+--------+--------+--------+--------+ 
+TID | T1 | T1 | T1 | T2 | T2 | T2 | T3 | 
+| UPDATE | UPDATE | COMMIT | UPDATE | UPDATE | COMMIT | UPDATE | 
+OLD | A=0 | B=0 | | A=100 | B=50 | | A=80 | 
+NEW | A=100 
+| B=50 | | A=80 | B=70 | | A=110 | 
++--------+--------+--------+--------+--------+--------+--------+ 
+cell storage A80 B70 commits = {T2}(on disk) 
+recover(log): 
+commits = {} 
+for record r in log[len(log)- 1] .. log[0]: 
+if r.type == commit: 
+commits.add(r.tid) 
+if r.type == update and r.tid not in commits: 
+cell_write(r.var, r.old_val) // undo 
+6.033 | spring 2018 | Katrina LaCurts 
+24                  
+               
+  +--------+--------+--------+--------+--------+--------+--------+ 
+TID | T1 | T1 | T1 | T2 | T2 | T2 | T3 | 
+| UPDATE | UPDATE | COMMIT | UPDATE | UPDATE | COMMIT | UPDATE | 
+OLD | A=0 | B=0 | | A=100 | B=50 | | A=80 | 
+NEW | A=100 
+| B=50 | | A=80 | B=70 | | A=110 | 
++--------+--------+--------+--------+--------+--------+--------+ 
+cell storage A80 B70 commits = {T2}(on disk) 
+recover(log): 
+commits = {} 
+for record r in log[len(log)- 1] .. log[0]: 
+if r.type == commit: 
+commits.add(r.tid) 
+if r.type == update and r.tid not in commits: 
+cell_write(r.var, r.old_val) // undo 
+6.033 | spring 2018 | Katrina LaCurts 
+25                  
+               
+  +--------+--------+--------+--------+--------+--------+--------+ 
+TID | T1 | T1 | T1 | T2 | T2 | T2 | T3 | 
+| UPDATE | UPDATE | COMMIT | UPDATE | UPDATE | COMMIT | UPDATE | 
+OLD | A=0 | B=0 | | A=100 | B=50 | | A=80 | 
+NEW | A=100 | B=50 
+| | A=80 | B=70 | | A=110 | 
++--------+--------+--------+--------+--------+--------+--------+ 
+cell storage A80 B70 commits = {T2}(on disk) 
+recover(log): 
+commits = {} 
+for record r in log[len(log)- 1] .. log[0]: 
+if r.type == commit: 
+commits.add(r.tid) 
+if r.type == update and r.tid not in commits: 
+cell_write(r.var, r.old_val) // undo 
+6.033 | spring 2018 | Katrina LaCurts 
+26                  
+               
+  +--------+--------+--------+--------+--------+--------+--------+ 
+TID | T1 | T1 | T1 | T2 | T2 | T2 | T3 | 
+| UPDATE | UPDATE | COMMIT | UPDATE | UPDATE | COMMIT | UPDATE | 
+OLD | A=0 | B=0 | | A=100 | B=50 | | A=80 | 
+NEW | A=100 | B=50 
+| | A=80 | B=70 | | A=110 | 
++--------+--------+--------+--------+--------+--------+--------+ 
+cell storage A80 B70 commits = {T2, T1}(on disk) 
+recover(log): 
+commits = {} 
+for record r in log[len(log)- 1] .. log[0]: 
+if r.type == commit: 
+commits.add(r.tid) 
+if r.type == update and r.tid not in commits: 
+cell_write(r.var, r.old_val) // undo 
+6.033 | spring 2018 | Katrina LaCurts 
+27+--------+--------+--------+--------+--------+--------+--------+
+TID |  T1 |  T1 |   T1 |  T2 |  T2 |   T2 |  T3 |
+| UPDATE | UPDATE | COMMIT | UPDATE | UPDATE | COMMIT | UPDATE |
+OLD | A=0    | B=0    |        | A=100  | B=50   |        | A=80   |
+NEW | A=100  | B=50   | | A=80   | B=70   |        | A=110  |
++--------+--------+--------+--------+--------+--------+--------+
+commits = {T2, T1} A80B70
+recover(log):
+commits = {}
+for record r in log[len(log)- 1] .. log[0]:
+if r.type == commit:
+commits.add(r.tid)
+if r.type == update and r.tid not in commits:
+cell_write(r.var, r.old_val) // undocell storage
+(on disk)
+6.033 | spring 2018 | Katrina LaCurts 
+28commits = {T2, T1} A80B70
+recover(log):
+commits = {}
+for record r in log[len(log)- 1] .. log[0]:
+if r.type == commit:
+commits.add(r.tid)
+if r.type == update and r.tid not in commits:
+cell_write(r.var, r.old_val) // undo+--------+--------+--------+--------+--------+--------+--------+
+TID |  T1 |  T1 |   T1 |  T2 |  T2 |   T2 |  T3 |
+| UPDATE | UPDATE | COMMIT | UPDATE | UPDATE | COMMIT | UPDATE |
+OLD | A=0    | B=0    |        | A=100  | B=50   |        | A=80   |
+NEW | A=100  | B=50   | | A=80   | B=70   |        | A=110  |
++--------+--------+--------+--------+--------+--------+--------+
+cell storage
+(on disk)
+6.033 | spring 2018 | Katrina LaCurts 
+29read(var):
+return cell_read(var)
+write(var, value):
+log.append(current_tid, update, var, read(var), value)
+cell_write(var, value)B70 A80+--------+--------+--------+--------+--------+--------+--------+
+TID |  T1 |  T1 |   T1 |  T2 |  T2 |   T2 |  T3 |
+| UPDATE | UPDATE | COMMIT | UPDATE | UPDATE | COMMIT | UPDATE |
+OLD | A=0    | B=0    |        | A=100  | B=50   |        | A=80   |
+NEW | A=100  | B=50   | | A=80   | B=70   |        | A=110  |
++--------+--------+--------+--------+--------+--------+--------+
+cell storage
+(on disk)
+6.033 | spring 2018 | Katrina LaCurts 
+30B70 A110+--------+--------+--------+--------+--------+--------+--------+
+TID |  T1 |  T1 |   T1 |  T2 |  T2 |   T2 |  T3 |
+| UPDATE | UPDATE | COMMIT | UPDATE | UPDATE | COMMIT | UPDATE |
+OLD | A=0    | B=0    |        | A=100  | B=50   |        | A=80   |
+NEW | A=100  | B=50   | | A=80   | B=70   | | A=110  |
++--------+--------+--------+--------+--------+--------+--------+
+performance?
+problem: read performance is now 
+great, but writes got (a little bit) 
+slower and recovery got (a lot) slowercell storage
+(on disk)
+6.033 | spring 2018 | Katrina LaCurts 
+31326.033 | spring 2018 | Katrina LaCurts +--------+--------+--------+--------+--------+--------+--------+ 
+TID | T1 | T1 | T1 | T2 | T2 | T2 | T3 | 
+| UPDATE | UPDATE | COMMIT | UPDATE | UPDATE | COMMIT | UPDATE | 
+OLD | A=0 | B=0 | | A=100 | B=50 | 
+NEW | A=100 | B=50 | | A=80 | B=70 | | A=80  | | A=110  | 
++--------+--------+--------+--------+--------+--------+--------+ 
+A110 B70 cache
+ A110B70cell storage 
+(on disk) (memory)
+read(var): 
+if var in cache: 
+return cache[var] 
+else: 
+// may evict others from cache to cell storage 
+cache[var] = cell_read(var) 
+return cache[var] 
+write(var, value): 
+log.append(current_tid, update, var, read(var), value) 
+cache[var] = value 
+flush(): // called “occasionally” 
+cell write(var, cache[var]) for each var336.033 | spring 2018 | Katrina LaCurts +--------+--------+--------+--------+--------+--------+--------+ 
+TID | T1 | T1 | T1 | T2 | T2 | T2 | T3 | 
+| UPDATE | UPDATE | COMMIT | UPDATE | UPDATE | COMMIT | UPDATE | 
+OLD | A=0 | B=0 | | A=100 | B=50 | 
+NEW | A=100 | B=50 | | A=80 | B=70 | | A=80  | | A=110  | 
++--------+--------+--------+--------+--------+--------+--------+ 
+A100 B50 cache
+ A110B70cell storage 
+(on disk) (memory)
+suppose we flushed the cache after T1 committed, 
+but have not flushed it since then 346.033 | spring 2018 | Katrina LaCurts +--------+--------+--------+--------+--------+--------+--------+ 
+TID | T1 | T1 | T1 | T2 | T2 | T2 | T3 | 
+| UPDATE | UPDATE | COMMIT | UPDATE | UPDATE | COMMIT | UPDATE | 
+OLD | A=0 | A=100 | B=50 | | B=0 |   | A=80  | 
+NEW | A=100 | B=50 | | A=80 | B=70 | | A=110  | 
++--------+--------+--------+--------+--------+--------+--------+ 
+cell storage 
+(on disk) A 100 B 50 cache 
+(memory) 
+recover(log): 
+commits = {} 
+for record r in log[len(log)- 1] .. log[0]: 
+if r.type == commit: 
+commits.add(r.tid) 
+if r.type == update and r.tid not in commits: 
+cell_write(r.var, r.old_val) // undo 356.033 | spring 2018 | Katrina LaCurts +--------+--------+--------+--------+--------+--------+--------+ 
+TID | T1 | T1 | T1 | T2 | T2 | T2 | T3 | 
+| UPDATE | UPDATE | COMMIT | UPDATE | UPDATE | COMMIT | UPDATE | 
+OLD | A=0 | A=100 | B=50 | | B=0 |   | A=80  | 
+NEW | A=100 | B=50 | | A=80 | B=70 | | A=110  | 
++--------+--------+--------+--------+--------+--------+--------+ 
+cell storage 
+(on disk) A 80 B 50 cache 
+(memory) 
+recover(log): 
+commits = {} 
+for record r in log[len(log)- 1] .. log[0]: 
+if r.type == commit: 
+commits.add(r.tid) 
+if r.type == update and r.tid not in commits: 
+cell_write(r.var, r.old_val) // undo 366.033 | spring 2018 | Katrina LaCurts +--------+--------+--------+--------+--------+--------+--------+ 
+TID | T1 | T1 | T1 | T2 | T2 | T2 | T3 | 
+| UPDATE | UPDATE | COMMIT | UPDATE | UPDATE | COMMIT | UPDATE | 
+OLD | A=0 | A=100 | B=50 | | B=0 |   | A=80  | 
+NEW | A=100 | B=50 | | A=80 | B=70 | | A=110  | 
++--------+--------+--------+--------+--------+--------+--------+ 
+cell storage 
+(on disk) A 80 B 50 cache 
+(memory) 
+recover(log): 
+commits = {} 
+for record r in log[len(log)- 1] .. log[0]: 
+if r.type == commit: 
+commits.add(r.tid) 
+if r.type == update and r.tid not in commits: 
+cell_write(r.var, r.old_val) // undo 376.033 | spring 2018 | Katrina LaCurts +--------+--------+--------+--------+--------+--------+--------+ 
+TID | T1 | T1 | T1 | T2 | T2 | T2 | T3 | 
+| UPDATE | UPDATE | COMMIT | UPDATE | UPDATE | COMMIT | UPDATE | 
+OLD | A=0 | B=0 | | A=100 | B=50 | 
+NEW | A=100 | B=50 | | A=80 | B=70 | | A=80  | | A=110  | 
++--------+--------+--------+--------+--------+--------+--------+ 
+cell storage 
+(on disk) A 80 B 50 cache 
+(memory) 
+recover(log): 
+commits = {} 
+for record r in log[len(log)- 1] .. log[0]: 
+if r.type == commit: 
+commits.add(r.tid) 
+if r.type == update and r.tid not in commits: 
+cell_write(r.var, r.old_val) // undo 
+all other updates were committed; B’s value won’t 
+ever be changed 386.033 | spring 2018 | Katrina LaCurts +--------+--------+--------+--------+--------+--------+--------+ 
+TID | T1 | T1 | T1 | T2 | T2 | T2 | T3 | 
+| UPDATE | UPDATE | COMMIT | UPDATE | UPDATE | COMMIT | UPDATE | 
+OLD | A=0 | A=100 | B=50 | | B=0 |   | A=80  | 
+NEW | A=100 | B=50 | | A=80 | B=70 | | A=110  | 
++--------+--------+--------+--------+--------+--------+--------+ 
+A80 B50cell storage 
+(on disk) cache
+(memory) 
+recover(log): 
+commits = {} 
+for record r in log[len(log)- 1] .. log[0]: 
+if r.type == commit: 
+commits.add(r.tid) 
+if r.type == update and r.tid not in commits: 
+cell_write(r.var, r.old_val) // undo 
+for record r in log[0] .. log[len(log)- 1]: 
+if r.type == update and r.tid in commits: 
+cell_write(r.var, r.new_value) // redo 396.033 | spring 2018 | Katrina LaCurts +--------+--------+--------+--------+--------+--------+--------+ 
+TID | T1 | T1 | T1 | T2 | T2 | T2 | T3 | 
+| UPDATE | UPDATE | COMMIT | UPDATE | UPDATE | COMMIT | UPDATE | 
+OLD | A=0 | A=100 | B=50 | | B=0 |   | A=80  | 
+NEW | A=100 | B=50 | | A=80 | B=70 | | A=110  | 
++--------+--------+--------+--------+--------+--------+--------+ 
+A80 B70cell storage 
+(on disk) cache
+(memory) 
+recover(log): 
+commits = {} 
+for record r in log[len(log)- 1] .. log[0]: 
+if r.type == commit: 
+commits.add(r.tid) 
+if r.type == update and r.tid not in commits: 
+cell_write(r.var, r.old_val) // undo 
+for record r in log[0] .. log[len(log)- 1]: 
+if r.type == update and r.tid in commits: 
+cell_write(r.var, r.new_value) // redo 406.033 | spring 2018 | Katrina LaCurts +--------+--------+--------+--------+--------+--------+--------+ 
+TID | T1 | T1 | T1 | T2 | T2 | T2 | T3 | 
+| UPDATE | UPDATE | COMMIT | UPDATE | UPDATE | COMMIT | UPDATE | 
+OLD | A=0 | B=0 | | A=100 | B=50 | 
+NEW | A=100 | B=50 | | A=80 | B=70 | | A=80  | | A=110  | 
++--------+--------+--------+--------+--------+--------+--------+ 
+A80 B70cell storage 
+(on disk) cache
+(memory) 
+performance?
+problem: recovery is still slow 416.033 | spring 2018 | Katrina LaCurts +--------+--------+--------+--------+--------+--------+--------+ 
+TID | T1 | T1 | T1 | T2 | T2 | T2 | T3 | 
+| UPDATE | UPDATE | COMMIT | UPDATE | UPDATE | COMMIT | UPDATE | 
+OLD | A=0 | B=0 | | A=100 | B=50 | 
+NEW | A=100 | B=50 | | A=80 | B=70 | | A=80  | | A=110  | 
++--------+--------+--------+--------+--------+--------+--------+ 
+A80 B70cell storage 
+(on disk) cache
+(memory) 
+performance?
+solution: write checkpoints and
+truncate the log •(Write -ahead) logs provide atomicity with better
+performance than shadow copies.  The primary benefit is
+making small appends for each update, rather than
+copying and entire file over for every change.
+•Cell storage is used with the log to improve read -
+performance, and caches and truncation can be used to
+improve write -and recovery- performance.
+6.033 | spring 2018 | Katrina LaCurts 
+42 
+ 
+ 
+            MIT OpenCourseWare 
+https://ocw.mit.edu  
+6.033 Computer System Engineering
+Spring 2018 
+For information about citing these materials or our Terms of Use, visit: https: //ocw.mit.edu/terms. 
+43

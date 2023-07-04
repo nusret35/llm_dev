@@ -1,0 +1,185 @@
+18.409 An Algorithmist’s Toolkit 11/17/2009 
+Lecture 19 
+Lectur er: Jonathan Kelner Scrib e: Steven Sam 
+1 Review of last lecture 
+Recall that L ⊂ Rn is a lattic e if L is a discrete set and is closed under addition and negation. In this 
+lecture, we assume that all lattices are full-rank, i.e., the vectors in the lattice span Rn . 
+Given linearly independen t b1,...,b n ∈Rn, one can form a lattice 
+L(B)= L(b1,...,b n)= {Bx|x ∈Zn}, 
+where B is the set of the bi’s. We call the bi’s (and also the set B) a basis for L(B). Recall that a lattice can 
+have many diﬀeren t bases. As opposed to linear algebra over a ﬁeld, change of bases for lattices is more rigid, 
+since the integralit y constrain ts must be preserv ed. Because of this, one cannot usually ﬁnd an orthonormal 
+basis, and instead one of the most fundamen tal problems becomes ﬁnding a nice basis, which consists of 
+short and almost orthogonal vectors. 
+Recall that for a basis B of L, the fundamental parallelepip ed is 
+P(B)= {Bx|x ∈[0,1)n}. 
+Furthermore, if L is full rank, then the determinant of L is deﬁned as Vol(P(B)) = |det(B)|, and this is 
+independen t of the choice of a basis. The determinan t is inversely proportional to the densit y of a lattice. 
+We say that an n×n matrix M is unimo dular if all entries of M are integers, and |det(M)|= 1. Last 
+time we saw that a matrix U is unimo dular if and only if U−1 is unimo dular. This implies that an inverse 
+of a unimo dular matrix has integer entries. Unimo dular matrices are interesting for us, because two lattice 
+bases B1 and B2 are equivalent if and only if B1 = UB 2, for some unimo dular matrix U. Moreo ver two 
+bases are equivalent if and only if one can be obtained from the other by the following operations: 
+• bi ←bi + k·bj , for i =/negationslashj and k ∈Z, 
+• swapping vectors: bi ↔bj , 
+• bi ←−bi. 
+Last time, we proved the following theorem, which we will need for the proof of Minkowski’s theorem. 
+Theorem 1 (Blic hﬁeld) For any full rank lattic e L and measur able set S ⊆ Rn with Vol(S) > det(L), 
+ther e exist distinct z1,z2 ∈S such that z1 −z2 ∈L. 
+2 Mink owski’s theorem 
+Theorem 2 (Mink owski’s Theorem) If L is a full rank lattic e, and S any centr ally-symmetric convex 
+set of volume greater than 2n ·det(L), then K contains a nonzer o point of L. 
+Pro of Consider the set Sˆ= 1
+2 S. Then Vol( Sˆ)=2−nVol(S) > det(L) by assumption. So we can 
+apply Blichﬁeld’s theorem to conclude that there exist distinct points z1,z2 ∈ Sˆsuch that z1 −z2 ∈ L. 
+In particular, 2z1,2z2 ∈ K. Since K is centrally-symmetric, we also have −2z2 ∈ K. Hence the point 
+z1 −z2 = 1
+2 (2z1 +(−2z2)) is in K since it is convex. 
+This theorem is very useful in many settings. For one, many nice number theory theorems follow from 
+it. It also guaran tees that the length λ1(L) of the shortest vector in the lattice is not too big. 
+19-1 Corollary 3 For any full-rank lattic e L, 
+√ λ1(L) ≤ n·(det L)1/n. 
+Pro of We ﬁrst bound the volume of the ball B(0,r), for some radius r. This ball contains the hypercube /bracketleftBig /bracketrightBig	 /parenleftBig/parenrightBign n
+−√r
+n , √r
+n . Hence, its volume is greater than √2r
+n .
+√For r = n·det(L)1/n, the volume of B(0,r) is greater than 2n ·det(√L), so the ball contains a nonzero 
+lattice vector, and therefore, the length of the shortest vector is at most n·det(L)1/n. 
+The above corollary easily generalizes to other minima. For instance, we will see in a problem set that 
+/parenleftBigg /parenrightBigg1/nn /productdisplay √ λi(L) ≤ n·(det L)1/n , 
+i=1 
+where λi(L) is the length of the ith shortest vector. 
+3 Algorithmic questions 
+One could ask, for instance, if the bound given above for λ1(L) is tight, and when it holds. Here we will focus 
+on the algorithmic aspect of lattices. There are several interesting questions that one can ask for lattices. We 
+assume that all lattices have integer coordinates. This is the same as giving them rational coordinates, since 
+we can always multiply all coordinates of all vectors by the least common multiple of their denominators. 
+•	Shortest Vector Problem (SVP) : Find the shortest vector in L. Finding just the length of the 
+shortest vector is equivalent. 
+•	Closest Vector Problem (CVP) : Find the vector in L closest to some given point p. 
+Both of the above problems are NP-hard, so one usually focuses on the approximate version of them: 
+“Find a vector within γ of the optim um”. Some similar questions, like “Does a vector of a given length 
+exist?” turn out to be non-equiv alent. 
+For the approximation versions of SVP and CVP, the gaps between the best known upper and lower 
+bounds are very large. For instance, the best polynomial time algorithms for these problems get approxi­
+mation factors which are essentially exponential in n. The best known factor is roughly 2O(n log log n/ log n). 
+The best exact algorithm runs in 2O(n) time. It turns out that one cannot ﬁnd the vector guaran teed by 
+Minkowski’s Theorem. SVP is hard to approximate within any constan t factor unless NP = RP. CVP is √hard to approximate within nO(1/ log log n). Appro ximation within the factor n is in NP ∩co-NP. 
+4 Lattice basis reduction 
+We will show a polynomial time algorithm to approximately solve the SVP within a factor of 2O(n). Because 
+of an exponential error this might seem to be a very weak and useless result. Nevertheless, this algorithm is 
+good enough to give extremely striking results both in theory and practice. For instance, it can be used to 
+show that an integer program with a constan t number of variables can be solved in polynomial time. 
+4.1 Review of the Gram–Sc hmidt algorithm 
+Since our approac h resembles the Gram–Sc hmidt algorithm, we ﬁrst review this metho d for orthogonalizing 
+a basis for inner product spaces. 
+We are given a basis b1,...,b n for a vector space, and we want to construct an orthogonal basis b1⋆,...,b⋆
+n 
+such that span(b1,...,b k) = span(b⋆ 
+1,...,b⋆ ), for all k ∈{1,...,k }. In the Gram–Sc hmidt algorithm, the k
+vectors b⋆
+i are usually normalized, but we will not do it here. 
+The process works as follows: 
+19-2 /summationdisplay /summationdisplay 
+/summationdisplay 
+/summationdisplay /summationdisplay /summationdisplay /summationdisplay /summationdisplay • Let b⋆ 
+1 := b1. 
+• For k =2 to n: b⋆
+k := bk −[projection of bk onto span(b1,...,b k−1)]. 
+The projection is computed in the following way: 
+projection of bk onto span(b1,...,b k−1) = projection of bk onto span(b⋆ 
+1,...,bk⋆ 
+−1) 
+= k−1 
+projection of bk onto b⋆
+i = k−1 b
+/bardblk 
+b⋆ ·
+/bardblb
+2 ⋆
+i b⋆
+i 
+i=1 i=1 i 
+We set coeﬃcien ts μki so that μkk = 1, and 
+k 
+bk = μkibi⋆ . 
+i=1 
+Therefore, we can write the above as B = MB⋆, where the basis vectors are rows of B and B⋆, and 
+⎡ ⎤⎡ ⎤ μ11 0 0 ··· 0 1 0 0 ··· 0 
+⎢ μ21 μ22 0 ··· 0 ⎥⎢ μ21 1 0 ··· 0 ⎥ 
+M = ⎢⎢ . . .. . ⎥⎥ = ⎢⎢ . . ... ⎥⎥ . . . ... . . ... ⎣ . ⎦⎣ . ⎦ . . . . . . . . 
+μn1 μn2 μn3 ··· μnn μn1 μn2 μn3 ··· 1 
+Note that det(M) = 1, so for lattices, we have Vol(B) = Vol(B⋆), but since entries of M are not 
+necessarily integers, L(B)= L(B⋆) does not have to hold. However, B⋆ can be used to bound the length 
+λ1(L(B)) of the shortest vector in L(B). 
+Lemma 4 For any nonzer o b ∈ L(B), /bardblb/bardbl≥ mini /bardblb⋆
+i /bardbl. 
+Pro of Every nonzero b ∈ L(B) can be expressed as b = /summationtext
+ik 
+=1 λibi, where λk /negationslash0 and for each λi = is an 
+integer. We have 
+k k i k−1 k 
+b= λibi = λi μij bj⋆ = λkb⋆
+k + λiμij bj⋆ , 
+i=1 i=1 j=1 j=1 i=1 
+and therefore, 
+/bardblb/bardbl2 ≥/bardblλkb⋆
+k/bardbl≥/bardblb⋆
+k/bardbl2 , 
+which ﬁnishes the proof. 
+4.2 Gauss’s Algorithm 
+We start by presen ting an algorithm for solving the 2-dimensional SVP exactly . 
+We call a basis u,v for a 2-dimensional lattice reduced if /bardblu/bardbl≤/bardblv/bardbl, and 2|u·v|≤/bardblu/bardbl2 . One can show 
+that the following claim holds. 
+Prop osition 5 A reduced basis for a 2-dimensional lattic e contains the ﬁrst two successive minima of L. 
+Sketch of Pro of Rotate the plane, so that u =(u1,0), and v =(v1,v2). We claim that the vector v is a 
+vector with the smallest possible nonnegativ e second coordinate. The property 2|u·v|≤/bardblu/bardbl2 implies that 
+v1 ∈ [−√ u
+2 1 , u
+2 1 ], which in turn implies that v is the shortest vector whose second coordinate is v2. Because 
+|v2|≥ 3/2|u|, every vector whose second coordinate is greater than |v2| (that is, at least 2|v2|) has length √ √ 
+at least 3|u| and cannot be shorter than u. Therefore, u is the shortest vector. Also, since |v2|≥ 3/2|v|, 
+19-3 √ 
+one can show that every vector with second coordinate greater than |v2| has length at least 3|v|. This 
+implies that v is the shortest vector not generated by u. 
+A formal description of Gauss’s algorithm follows. 
+While {u,v}, where /bardblu/bardbl≤/bardblv/bardbl, is not reduced: 
+• Set v := v−mu, where m ∈Z is chosen to minimize the length of v−mu. 
+• If /bardblu/bardbl≤/bardblv/bardbl, break. 
+• If /bardblv/bardbl≤/bardblu/bardbl, then swap u and v, and repeat. 
+In the second step, if /bardblu/bardbl≤/bardblv/bardbleven after the reduction, the basis cannot be further reduced and one can 
+prove that 2|u·v|≤/bardblu/bardbl2 . 
+The algorithm is like a 2-dimensional discrete version of Gram–Sc hmidt, and is similar to the Euclidean 
+GCD algorithm. Can we make it run in polynomial time? It turns out that it actually does run in polynomial 
+time, but the proof of this fact is not obvious, and therefore, we do not presen t it here. Instead of this, we 
+replace the termination criterion with 
+If (1 −ε)/bardblu/bardbl≤/bardblv/bardbl, break. 
+It is easy to prove that the modiﬁed algorithm gives an (1 −ε) approximate answer. Now in each reduction, 
+we decrease the length of one of the vectors by at least a constan t factor. Therefore the modiﬁed algorithm 
+runs in weakly polynomial O(log(/bardblu/bardbl+ /bardblv/bardbl)/ε) time. 
+The proof that Gauss’s algorithm runs in polynomial time uses the fact that for a suﬃcien tly small ε, 
+after the modiﬁed algorithm stops, only one more reduction suﬃces to get a reduced basis. 
+4.3 Reduced bases 
+We want to extend the notion of reduced bases to higher dimensions. In order to ﬁnd a short vector in 
+the lattice, we would like to perform a discrete version of the Gram–Sc hmidt. So we need to formalize the 
+notion of being orthogonal in lattice problems. One way to do this is to say that the result of our procedure 
+is “almost orthogonalized” so that doing Gram–Sc hmidt does not change much. In this section, we use the 
+notation from Section 4.1. 
+Deﬁnition 6 (Reduced bases) Let {b1,...,b n}be a basis for a lattic e L and let M be its Gram–Schmidt 
+matrix deﬁne d above. Then {b1,...,b n}is a reduced basis if it meets the following two conditions: 
+1. All the non-diagonal entries of M satisfy |μik|≤1/2. 
+2. For each i, /bardblπSi bi/bardbl2 ≤ 4
+3 /bardblπSi bi+1/bardbl2, wher e Si is the subsp ace ortho gonal to span(b1,...,b i−1). 
+Remark The constan t 4/3 here is somewhat arbitrary . In fact, any number strictly between 1 and 4 will 
+do. 
+Remark Condition 2 is equivalent to /bardblb⋆
+i+1 + μi+1,ib⋆
+i /bardbl2 ≥ 43 /bardblbi⋆/bardbl2 and one may think it as requiring 
+that the projections of any two successiv e basis vectors bi and bi+1 onto Si satisfy a gapped norm ordering 
+condition, analogous to what we did in Gauss’s algorithm for 2-dimensional case. 
+19-4 MIT OpenCourseWare
+http://ocw.mit.edu 
+18.409  Topics in Theoretical Computer Science: An Algorithmist's Toolkit 
+Fall 2009 
+For information about citing these materials or our Terms of Use, visit: http://ocw.mit.edu/terms . 

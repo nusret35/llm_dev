@@ -1,0 +1,259 @@
+18.409 An Algorithmist’s Toolkit 10/8/2009 
+Lecture 9 
+Lectur er: Jonathan Kelner 
+At the end of the previous lecture, we began to motivate a technique called Sparsiﬁcation. In this lecture, 
+we describ e sparsiﬁers and their use, and give an overview of Combinatorial and Spectral Sparsiﬁers. We 
+also deﬁne Spectral Sparsiﬁers, and create tools and language with which to construct and analyze them. 
+1 Sparsiﬁcation 
+Suppose we are given a graph G =(V,E). We would like to solve some cut problem (i.e. min-cut, s-t min 
+cut, sparsest cut) and so on. The running time of algorithms for these problems typically depends on the 
+number of edges in the graph, which might be as high as O(n2). Is there any way to approximate our graph 
+with a sparse graph G/prime in which all cuts are approximately of the same size? 
+We will describ e two ways of “sparsifying” our graph. The ﬁrst is the metho d of Benczur-Karger, and 
+relies on random sampling of edges. The second technique is Spectral Sparsiﬁcation, and uses spectral 
+techniques to impro ve upon Benczur-Karger’s algorithm. 
+1.1 First Try 
+Our ﬁrst attempt at sparsifying will use random sampling. Let’s start by sampling each edge with probabilit y 
+p. Then, if a cut has c edges crossing it in G, the expected value of edges crossing it in the new graph G/prime is 
+pc. Our algorithm will solve the cut problem in G/prime. Say the answer is a cut with value S/prime; then our algorithm 
+will output the estimate S = S/prime/p for the original graph G. 
+Denoting the number of edges between S and S ¯ by e(S)= pc, we have the following concen tration result 
+due to Chernoﬀ ’s inequalit y: 
+P (|eG� (S) −pc|≥/epsilon1pc) ≥e −/epsilon12 pc/2 . (1) 
+So our result will be close to the correct answer provided pc is large. In particular, picking 
+d log n p =Ω( ),/epsilon12c 
+will make the right side of Eq. (1) at most n−d . Summarizing, we can choose p to get an /epsilon1 multiplicativ e 
+approximation with probabilit y at least 1 −n−d . 
+Is it possible to choose p to get this multiplicativ e approximation for all cuts, rather than just one as 
+above? The answer is yes; the main ingredien t is a result of Karger that the number of small cuts in a graph 
+is not too large: 
+Theorem 1 (Karger) If G has a min-cut of size c, then the numb er of cuts of value αc or less is at most 
+2αn . 
+1.2 Second try 
+The problem with this proposal is that it breaks for small cuts. Say c is small, but an edge e is only involved 
+in cuts of size ≥k. What we want to do is to sample these edges with a small probabilit y of failure. 
+The idea that we use is to sample edges, but with a “weight” of 1/p. This metho d is called importance 
+sampling. To do this, we need a slightly modiﬁed version of the Chernoﬀ bound: 
+9-1 /summationtext 
+/summationdisplay 
+/summationdisplay 
+/summationdisplay 2 Theorem 2 (Chernoﬀ Bound) Let X1,...,X n be random variables so that Xi ∈[0, 1], and let X = Xi. 
+Then, 
+Pr[|X −E[X]|≥/epsilon1X] ≤2e −Θ(1)/epsilon12E[X] 
+Proof The only diﬀerence here is that the random variables Xi are no longer discrete variables, but lie in 
+the interval [0, 1]. The proof is carried out the same as with the regular Chernoﬀ bound. 
+What this allows us to do is to scale our random variables without changing the error bounds. Returning 
+to our case, we assign to every edge e a random variable Ye and a weight we.If e is in a cut of size c,we 
+require that we ≤c. We will set Ye = 1 with probabilit y p/we; and Ye = 0 with probabilit y 1−p/we. Instead 
+of counting how many edges cross a cut (S,S¯), we will compute a weighted sum: 
+YS = weYe 
+e∈∂(S,S¯) 
+The expectation is still correct; if there are c edges across the cut (S,S¯)in G, then 
+E[YS ]= we p = pc. 
+e∈∂(S,S¯) we 
+This scheme gives us an advantage: if an edge is presen t in only cuts of large size, we can keep it with low 
+probabilit y, which corresp onds to setting we to be large. On the other hand, if an edge is presen t in cuts of 
+small size, we will keep it with high probabilit y, which corresp onds to setting we to be small. In this way, we 
+can approximate cut problems while throwing away more edges which are presen t in only cuts of high size. 
+Thus, a natural choice for we would be the size of the smallest cut containing e. Unfortunately , we 
+do not know we; however, it is possible to approximate it quickly. The ﬁnal result is an /epsilon1 multiplicativ e 
+approximation based on this scheme. We refer the reader to [1] for details. 
+Spectral Sparsiﬁers 
+The construction shown above is known as a Combinatorial Sparsiﬁer . In the upcoming section and following 
+lecture, we will see how to impro ve upon it with the spectral metho ds that we have been learning. 
+Let G =(V,E) be our original graph. Recall that the laplacian has the property that 
+x T LGx = (xi −xj )2 , 
+(i,j)∈E 
+for some x ∈Rn, and the sum is being taken over all edges in G.If x takes value 1 on the set S and −1on 
+the S¯, this equation becomes 
+x T LGx =4e(S). 
+Let G/prime be a combinatorial sparsiﬁer of the graph G. The condition that all cuts in G are approximated 
+with a multiplicativ e error of at most /epsilon1 by cuts in G/prime can be restated as 
+(1 −/epsilon1)x T LG� x ≤x T LGx ≤(1 + /epsilon1)x T LG� x, (2) 
+for all x that take on only the values 1 and −1. This is true for all such discrete values of x. 
+On the other hand, consider if Eq. (2) is true for all x ∈Rn. Note that in this case we can limit ourselv es 
+to the instances x ∈ [−1, 1]n by normalization. We now have a good deﬁnition for a spectral version of 
+sparsiﬁcation: 
+Deﬁnition 3 A Spectral Sparsiﬁer G/prime of a graph G is one for which the relation 
+(1 −/epsilon1)x T LG� ≤x T LGx ≤(1 + /epsilon1)x T LG� x 
+for all x ∈[0, 1]n 
+9-2 It is clear from this deﬁnition that spectral sparsiﬁers are combinatorial sparsiﬁers. A natural question 
+is then to ask if all combinatorial sparsiﬁers also spectral sparsiﬁers. 
+The answer is no, and we provide a proof by counterexample. Consider the graph G/prime with vertex set 
+{1,2,...,n } and an edge between i,j when i− j mod n ≤ k. G is G/prime with the edge (1,n/2) added. The 
+graph looks something like the ﬁgure below. 
+Then, for an appropriate /epsilon1, G/prime is a combinatorial sparsiﬁer of G. Indeed, the min cut in G cuts Θ(k) 
+edges; the min cut in G/prime cuts one less. With /epsilon1= Θ(1/k), we have that G/prime is a combinatorial sparsiﬁer of G. 
+On the other hand, G/prime is not a spectral sparsiﬁer of G.Let 
+x= /parenleftbig 
+01 ... n/2 − 1 n/2 − 1 ... 10 /parenrightbig 
+. 
+Then, we have that 
+x T LG� x=Θ(nk3) 
+since each vertex contributes Θ( /summationtext
+ik 
+=1 k2) to the sum. On the other hand, 
+x T LGx=Θ(nk3)+( n − 1)2 
+2 
+If k is constan t, we get that we need /epsilon1= Θ(1/n) for G/prime to be a spectral sparsiﬁer of G. 
+2.1 Order Relations on Laplacians 
+In order to deﬁne spectral approximations, we ﬁrst need to deﬁne the appropriate vocabulary . Earlier, we 
+made error approximations based on cut size. In the spectral case, we will be using the laplacian of the 
+graph instead -so a nice way to compare laplacians would be idea. That is to say, we want a good relation 
+/followsequal on symmetric matrices that is an ordering on them, and also is somewhat consisten t with the notions of 
+cuts. 
+How will we deﬁne this ordering? An immediate idea is the following: 
+M /followsequal N ⇔ mi,j ≥ ni,j ∀i,j 
+Upon second though t, we realize that this is no good for our purposes. For one, spectral graph theory is 
+all about eigenvalues, and this relation tells us nothing about the eigenvalues of the matrix! Furthemore, the 
+values of individual entries are highly dependen t on choice of basis, which would be bad. If such a deﬁnition 
+were used, a process like diagonalizing the Laplacians could possibly aﬀect the graph orders. 
+We try again with another deﬁnition: 
+M /followsequal N if the ith eigenvalue of M is ≥ the ith eigenvalue of N for all indices i 
+This is better in that it is basis independen t -but it is too basis independen t. Under this deﬁnition, we 
+have both 
+9-3 /parenleftbigg /parenrightbigg /parenleftbigg /parenrightbigg 
+10 111 
+0 −1 /followsequal√ 
+21 −1 
+as well as 
+1 /parenleftbigg 
+11 /parenrightbigg/parenleftbigg 
+10 /parenrightbigg 
+√ /followsequal 21 −1 0 −1
+After this experimen tation, we claim that the following is the “right” deﬁnition of order.
+Deﬁnition 4 We write that M /followsequal N if 
+x T Mx ≥ XT Nx ∀x ∈ Rn 
+Note that this deﬁnition of order has the following properties: 
+1. If M /followsequal N and N /followsequal M, then M = n 
+2. M /followsequal 0if M is a positive semideﬁnite matrix. 
+3. M /followsequal N if M − N is positive semideﬁnite 
+4. If M1 /followsequal N1 and M2 /followsequal N2, then
+M1 + M2 /followsequal N1 + N2
+These properties suﬃce for our purposes, and with this, we can deﬁne an associated order on graphs as 
+well. 
+Deﬁnition 5 Given graphs G and H, say that G /followsequal H if LG /followsequal LH . 
+Claim 6 Let G =(V,EG,wG) and H =(V,EH ,wH ) be weighte d graphs on the same vertex set such that 
+wG(i,j) ≥ wH (i,j) for all edges (i,j) ∈ E. Then, G /followsequal H 
+2.2 Towards Spectral Sparsiﬁcation 
+With this order relation on graphs, we can now restate the goal of spectral sparsiﬁcation: Given a dense 
+graph G, we want to create a sparse graph H where 
+Lh /precedesequal LG /precedesequal (1 + /epsilon1)LH 
+By “sparse,” we mean that H has polylog( n) edges, where n is the number of nodes. We will show in this 
+and the next lecture how to construct spectral sparsiﬁers with O(nlogn) edges in Polynomial time. This 
+can actually be impro ved to a linear time construction, but will use geometric techniques that we will learn. 
+Moreo ver, it is possible to construct O(n) edge sparsiﬁers in polynomial time. The beneﬁts of this are that 
+the problem is more geometrically ﬂavored. It is also a nice example of how generalizing can make things 
+easier sometimes. 
+The algorithm that we propose is very simple. It is similar in structure to the B-K algorithm, but we use 
+diﬀeren t probabilities for sampling the edges. 
+• Compute probabilit y pe for each edge e. 
+• Sample each edge uniformly with probabilit y pe, and if an edge is selected, include it with weight 1/pe. 
+These probabilities are based on a linear algebra sense of importance, and have a nice interpretation in terms 
+of eﬀectiv e resistance of circuits. To proceed with our analysis, however, we need to develop the ideas of 
+pseudoin verses, calculating eﬀectiv e resistances, and a matrix version of the Chernoﬀ Bound. 
+9-4 /summationdisplay 
+/summationtext 2.3 Pseudoin verses 
+In our analysis, we will come across the need to “invert” a singular matrix. Since this is obviously not 
+possible, we redeﬁne our question to one that makes more sense. Let M be a n × n symmetric matrix. We 
+can diagonalize M: 
+n 
+M = λiviviT 
+i=1 
+If all the eigenvalues are nonzero, then it obviously invertible, and M−1 = /summationtext
+in 
+=1 λ1 
+i vivit 
+The case we worry about is when there is a zero eigenvalue. But this is okay too: when M is degenerate, 
+we deﬁne the pseudoinverse by throwing away the zero eigenvalues and eigenvectors. In that case, we have 
+/summationdisplay 1 M+ = λi viviT 
+i|λi/negationslash=0 
+The pseudoin verse has many nice properties. Of these, we use: 
+• ker(L)= ker(L+ 
+• MM+ = i|λi/negationslash iT = the projection onto the nonzero eigenvectors. =0 viv
+It is easy to see that MM+ = I when restricted to the image of M. 
+2.4 Eﬀectiv e Resistance 
+We mentioned earlier that Spectral Sparsiﬁcation also samples edges with diﬀeren t probabilit y. It turns 
+out that the correct way to do this is to sample each edge with probabilit y proportional to its “eﬀectiv e 
+resistance.” 
+The basic idea is to treat each edge as a resistor with resistance 1. If the edge had a capacit y of c, we give 
+it a resistance of 1/c. After calculating these values, we sample the edge (u,v) with probabilit y proportional 
+to the eﬀectiv e resistance between nodes u and v. 
+Studen ts may recall learning metho ds to solve circuits from their previous classes. For example, studen ts 
+may use a combination of Ohm’s law and Kirchoﬀ’s law, as well as the rules for calculating eﬀectiv e resistances 
+of resistors in series and parallel. To those who are comfortable with solving circuits, this may be a good 
+way to think about the problem. However, the studen ts who don’t like solving circuits are in luck too: now 
+that we have the tools of Spectral Graph Theory , we can solve circuits with only linear algebra! In fact, we 
+will combine our frequen t use of the graph Laplacian with the pseudoin verse deﬁned above. 
+Let U be the edge-v ertex adjacency matrix, C be the diagonal matrix with the various capacitances, and 
+re =1/ce. 
+That is, we deﬁne U as in: 
+⎧ 
+⎨ 1 if v is the head of e 
+U(e,v)= −1 if v is the tail of e ⎩ 0 otherwise 
+Then, we have that L = UT CU. From ohm’s law, we have i = CUv for i ∈ RE , and v ∈ Rv . From the 
+conserv ation of curren t, we have iext = UT i, for iext ∈ RV . Finally , we have iext = Lv, and v = L+iext 
+We deﬁne U(e,v) to be the adjacency matrix with ±1 values. Let ue be the eth row, and v = L+iext. 
+We have 
+Reff (e)= ueL+ ueT 
+and as a result, 
+Reff (e)=(UL+UT )e,e 
+Thus, calculating the eﬀectiv e resistance of an edge is as simple as calculating the pseudoin verse of the 
+Laplacian. Simple! 
+9-5 /summationdisplay /radicalBigg 
+/summationdisplay /summationdisplay 
+/summationdisplay /summationdisplay 2.5 Error Bounds 
+The last tool that we need to build is a way to deﬁne error bounds for matrices. In particular, we will use 
+the following theorem. 
+Theorem 7 For distributions on vectors y wher e /bardbl y /bardbl≤ t and /bardbl Eyyt /bardbl2≤ 1 (wher e we are using the l2 
+norm) then: 
+E /bardbl EyyT − 1 q 
+yiyiT /bardbl2≤ kt log q 
+q qi=1 
+This is a “concen tration of measure theorem, and we claim that it is similar to the Chernoﬀ bound. 
+Now, onto approximation. For our sparisiﬁer H to approximate the original dense graph G, we want that 
+xT LH x1 − /epsilon1 ≤ ≤ 1+ /epsilon1 xT LGx 
+for all vectors x. Rather, it is suﬃcien t to show that 
+zT MT LH Mz1 − /epsilon1 ≤ ≤ 1+ /epsilon1 zT MT LGMz 
+for all vectors z, provided that x ⊥ (LG) ⇒ x ∈ range(M). Choose M so that MT LGM is a projection. 
+Then, it suﬃces to show that 
+/bardbl MT LH M − MT LGM /bardbl2≤ /epsilon1 
+From before, we have that LG = UT CU. Choose M = L+UT C1/2 . Then, we have G
+Π= MT LGM = C1/2UL+UT C1/2 =ΠΠ G
+Now, recall that LG = UT CU. Ifwelet de be the weight of e in the sparsiﬁer H, set Se,e = d
+cee . Then, 
+we can write 
+LH = UT CSU = UT C1/2SC1/2U 
+yielding 
+MT LH M =ΠSΠ 
+We need to choose a diagonal S such that the number of nonzero elemen ts of S is O(nlogn//epsilon12) With this 
+choice, we have 
+/bardbl ΠSΠ − Π /bardbl2≤ /epsilon1 
+Deﬁne πe as the eth column of Π: that is, πe =Π(·,e). Then, ΠSΠ= /summationtext Se,eπeπeT ,so 
+/bardbl πe /bardbl2=Π e,e = ceReff (e) 
+(this is because Π = Π2 = C1/2(UL+UT )C1/2) /radicalBig G√ n−1 c2Reff (e)We then set τe = ceReff (e) πe with /bardbl τe /bardbl= n − 1. Choose edges with probabilit y pe = n−1 . 
+Recall that 
+ceReff (e)= Πe,e = n − 1 
+e e 
+Then, we ﬁnd that 
+E[τeτeT ]= peτeτeT = πeπeT =Π 
+e e 
+Sample q times with replacemen t, and set S(e,e)= 1 × the number of times that e is chosen. qceReff (e) 
+Then, from the theorem above, we have 
+9-6 /radicalBigg 
+√ logq E[/bardbl Π − ΠSΠ /bardbl2] ≤ kn − 1 ≤ /epsilon1/2 q 
+for q = O(n log n//epsilon12). Thus, we see that our construction yields a spectral sparsiﬁer as desired. 
+From the algorithmics of the construction, it is easy to see that this is a poly-time procedure. The whole 
+procedure is constructiv e, and uses the standard linear algebra operations. The bottlenec k in this procedure 
+comes from computing eﬀectiv e resistances, and in particular, the matrix inversions and multiplications. We 
+claim that the procedure can be impro ved to nearly linear time. Doing so would involve two components: 
+•	Close to linear algorithms for solving linear equations of the form Lx = b for a laplacian L. 
+•	A way to compute all the eﬀectiv e resistances by solving logarithmically many linear systems. This 
+uses the Johnson-Lindenstrauss Lemma. 
+References 
+[1]	 “Randomized Appro ximation Schemes for Cuts and Flows in Capacitated Graphs, ” A. Benczur, D. Karger, 
+man uscript. 
+9-7 MIT OpenCourseWare
+http://ocw.mit.edu 
+For information about citing these materials or our Terms of Use, visit: http://ocw.mit.edu/terms. 18.409 Topics in Theoretical Computer Science: An Algorithmist's Toolkit
+Fall 2009 

@@ -1,0 +1,235 @@
+18.409 An Algorithmist’s Toolkit Octob er 6, 2009 
+Lecture 8 
+Lectur er: Jonathan Kelner Scrib e:Alessandr o Chiesa (2009) 
+1 Administrivia 
+You should probably know that 
+•	the ﬁrst problem set (due Octob er 15) is posted on the class website, and 
+•	its hints are also posted there. 
+Also, today in class there was a majority vote for posting problem sets earlier. Professor Kelner will post 
+the problem sets from two years ago, but he reserv es the right to add new problems once a problem set has 
+already been posted. 
+Questions from last time. 
+•	What is a level set? The level set of a function corresp onding to a (ﬁxed) constan t c is the set of 
+points in the function’s domain whose image equals c. 
+•	What is a good reference on applic ations of expander graphs? A course taught by Nathan Linial and 
+Avi Wigderson [3]. 
+Plan for today. We use what we proved last time to obtain a local clustering algorithm from a random 
+walk scheme. Then, noting that similar results to the ones proved last time also hold for PageRank, we 
+obtain a second scheme that yields a second, better local clustering algorithm. Finally , we brieﬂy motivate 
+the technique of sparsiﬁcation, which we will discuss next time. 
+2 Local and Almost Linear-Time Clustering and Partitioning 
+2.1 Review of Local Clustering 
+Let us brieﬂy review local clustering, which we introduced last time. Given a vertex v in some graph G,we 
+would like know if v is contained in a cluster, i.e. a subset of vertices that deﬁnes a cut with low conductance. 
+However, we want the running time of our algorithm to depend on the cluster size, and not on the size of 
+the graph. Last time we mentioned that a good example of a problem of this sort is trying to ﬁnd a cluster 
+of web pages around mit.edu; we surely do not want the running time of this task to depend on the number 
+of sites created on the other side of the world. Let us make our goal a little bit more precise: in this lecture 
+we will describ e an algorithm that, after running for time almost linear in K, outputs a cluster of size at 
+least K/2 around the starting vertex, if such a cluster exists. 
+2.2 General Strategy 
+We observ e that if we run a random walk starting from some vertex v contained in a cluster, then low-
+conductance cuts will be an obstacle to mixing; i.e., the random walk has trouble leaving the cluster. Hence, 
+a good guess for the cluster is the set of vertices with the highest probabilit y masses after a given number 
+of steps (of a random walk that started at v). Last time we showed that this makes sense by proving the 
+Lov´asz-Simono vits theorem [4]. 
+8-1 � 
+� � 
+� � � Therefore, a good primitiv e to construct an almost linear-time global algorithm is the following. Run a 
+random walk starting from v, and, at each step, for every vertex w, approximate the probabilit y that the 
+random walk is at w; then take the vertices with the k largest probabilit y masses as a possible cut. Repeat 
+this until you get a good cut or you reach a predetermined limit. 
+2.3 Obstacles 
+We need a bound that says that our general strategy works, and that is why we proved the Lov´asz-Simono vits 
+theorem. However, the bound we have is global, i.e., it involves the conductance φ(G) and we do not have 
+the time to compute λ2 for the whole graph to bound the conductance. Moreo ver, if we exactly compute all 
+the probabilities of the random walk, it will take too long. Finally , even if we approximate the probabilities, 
+we would need a stronger bound, and the goodness of the approximation depends on the cluster size, which 
+we do not know in advance. 
+2.4 One Solution 
+A reasonable solution goes as follows. We recall that the proof of the Lov´asz-Simono vits theorem that we 
+discussed last time used cuts on level sets of ρt . This implies that if a walk does not mix too quickly, 
+we know that one of the cuts had bad conductance. Therefore, obtain the following corollary from the 
+Lov´asz-Simono vits theorem. 
+Corollary 1 Let G =(V,E) be a conne cted, undir ected graph with m edges and let π(x) be its stationary 
+distribution Pdx 
+dv . For every subset of vertic es W ⊂ V and and every time t,if x ≡ w∈W dw and ϕ(W ) 
+v∈V 
+is the conductanc e of the cut (W, W ), then the following inequality holds: 
+� ��√√ �� 1 �t 
+� p t(w) − π(w)� ≤ min x, 2m − x 1 − φ(W )2 . � � 2 w∈W 
+Note that in the last lecture we stated a slightly weaker form of the theorem, where the conductance 
+ϕ(W ) of the cut (W,W ) was replaced by the conductance φ(G)of the whole graph. Nevertheless, we did 
+actually prove the stronger version stated above. 
+The bound above has nothing to do with global properties of the graph. Therefore, we can use Corollary 1 
+for local clustering in the following way. If after O �� log 
+φm �2� 
+steps a set of vertices contains a constan t factor 
+more than what it would have under the stationary distribution, then we can get a cut C such that ϕ(C) ≤ φ. 
+(The cut can be obtained by mapping the probabilities to the real line and cut like we did with v2 a few 
+lectures ago). 
+A problem with this approac h is that computing all the probabilities will be too slow. In particular, after 
+only a few steps we will have too many nonzero values to keep track of. Lov´asz and Simono vits proposed to 
+simply zero out the smaller probabilities and then prove that it does not hurt much to do so. However, the 
+analysis is really messy . Instead, Andersen, Chung, and Lang [1] propose an approac h that, instead of using 
+the probabilit y vector of a lazy random walk, uses a slightly diﬀeren t vector called PageRank; we discuss 
+this approac h in the following section. 
+(Note that for all of this to work we still need to prove a partial converse. Indeed, one can show that if 
+there exists a cut C of conductance φ2, then at least |C|/2 of its vertices will give a cut of conductance φ, 
+otherwise the random walk would mix too quickly.) 
+8-2 � � 3 PageRank 
+3.1 Deﬁnition 
+Consider an undirected1 connected graph G =(V,E). Recall that a simple random walk on G is a walk that, 
+starting at some initial vertex, at each step moves from the curren t vertex to a randomly chosen neighbor 
+of the vertex; a lazy random walk on G is a walk that, starting at some initial vertex, at each step with 0.5 
+probabilit y stays on the curren t vertex and with 0.5 probabilit y moves from the curren t vertex to a randomly 
+chosen neighbor of the vertex. 
+We now consider a new Markov process that is a modiﬁcation of a lazy random walk on a graph. Fix 
+some distribution s over the vertices V of G and ﬁx a parameter α ∈ (0, 1) (called the telep ort probability ). 
+Starting from some initial vertex, at each step of the process we do the following: with probabilit y 1 − α we 
+take a step of a lazy random walk on G, and with probabilit y α we “telep ort” to a vertex drawn from s.For 
+simplicit y, we will take s to be a single vertex, i.e., all the probabilit y mass is concen trated on one vertex. 
+The process converges to a stationary distribution (because it corresp onds to an aperiodic, irreducible 
+Markov chain). For consistency with [1], we denote this stationary distribution (which depends on the 
+parameters s and α)by prα(s) and call it the PageR ank vector; note that prα(s) is a vector in Rn, where 
+n = |V |. Moreo ver, it is easy to see that the stationary distribution prα(s) is the unique solution to the 
+following equation: 
+prα(s)= αs +(1 − α)W prα(s) , (1) 
+where W is the transition matrix corresp onding to a lazy random walk on G. 
+The point is that one can show that the Lov´asz-Simono vits theorem and its corollary hold for the 
+PageRank vector prα(s), where s corresp onds to the starting vertex and α corresp onds to the number 
+of time steps. Hence, rephrasing the discussion in Section 2.4, we know that if a subset of vertices S contains 
+more than a constan t factor more probabilit y under prα(s) than under the stationary distribution, then we 
+can ﬁnd a cut with conductance O( α log v∈Sd v ). Moreo ver, approximating the PageRank vector prα(s) 
+is robust under smal l errors, because it is the solution of an equation rather than being the result of many 
+successiv e computations each with approximations. 
+Next, we prove some properties about the PageRank vector and then show how to approximate it. 
+(Note that, just like before, we still need to prove a partial converse. Indeed, one can show that if there √exists a cut C of conductance α, then at least |C|/2 of its vertices will give a cut of conductance O(α)). 
+3.2 Prop erties 
+We now prove three properties about the stationary distribution prα. 
+Prop osition 2 (Uniqueness) prα(s) is unique. 
+Pro of We must show that Equation (1) has a unique solution. Rewrite the equation as (I − (1 − 
+α)W )prα(s)= αs. The matrix I − (1 − α)W is strictly diagonally dominan t2 because the oﬀ-diagonal 
+elemen ts in each column add up to 1/2, while each diagonal elemen t is 1 − (1 − α)(1/2). By the Gershgorin 
+circle theorem [2], it must be nonsingular, so that the equation has a unique solution. 
+Proposition 2 allows us to extend the deﬁnition of PageRank: given any vector s ∈ Rn , not necessarily a 
+probabilit y distribution over the vertices of the graph, we deﬁne prα(s) as the unique solution of Equation (1). 
+Prop osition 3 (Linearit y) prα(cv + dw)= c · prα(v)+ d · prα(w). 
+1Google uses the directed version, because hyperlinks “go only one way”.
+2A matrix is strictly diagonal ly dominant if aii > P|aji| for all i.
+j /negationslash=i 
+8-3 /prime 
+/prime Pro of By deﬁnition, the vector x ≡ prα(cv + dw) satisﬁes the following equation 
+x = α(cv + dw)+(1 − α)Wx . 
+Let us verify that x/prime ≡ cprα(v)+ dprα(w) satisﬁes the same equation: 
+α(cv + dw)+(1 − α)Wx/prime = α(cv + dw)+(1 − α)W (cprα(v)+ dprα(w)) 
+= αcv +(1 − α)Wc prα(v)+ αdw +(1 − α)Wd prα(w) 
+= cprα(v)+ dprα(w) 
+= x. 
+By Proposition 2, the equation has a unique solution, so that x = x/prime and the result follows. 
+Prop osition 4 (Comm utativit y with W ) prα(Ws)= W prα(s). 
+Pro of By deﬁnition, the vector x ≡ prα(Ws) satisﬁes the following equation 
+x = α(cv + dw)+(1 − α)Wx . 
+Let us verify that x/prime ≡ W prα(s) satisﬁes the same equation: 
+α(cv + dw)+(1 − α)Wx/prime = αWs +(1 − α)W 2 prα(s) 
+= W (αs +(1 − α)W prα(s)) 
+= W prα(s) 
+= x. 
+By Proposition 2, the equation has a unique solution, so that x = x/prime and the result follows. 
+As a corollary of Propositions 2 and 4, we deduce that prα(s) is the unique solution to 
+prα(s)= αs +(1 − α)prα(Ws) . (2) 
+3.3 Appro ximating PageRank 
+We would like to come up with a fast way to ﬁnd an approximation to the unique solution prα(s)of 
+Equation (1). We now describ e an iterativ e procedure that does that. 
+We maintain two vectors p, the appr oximation vector, and r, the error vector, that satisfy the following 
+invariant 
+p = prα(s − r) . 
+Starting with initial values p = 0 and r = s, in each iteration, we pick a vertex u, and update the two vectors 
+p and r to the new vectors p/prime and r/prime deﬁned as follows: 
+p /prime = p + αr(u)χu ,
+r /prime = r − r(u)χu +(1 − α)r(u)Wχu .
+The vector χu is the char acteristic vector of u, i.e., the vector witha1i nthe coordinate corresp onding to 
+vertex u and 0 elsewhere. Given a ﬁxed /epsilon1> 0, we keep iterating as long as there exists some vertex u such 
+that r(u) ≥ /epsilon1d(u). 
+First, we prove that each iteration of the algorithm preserv es the invariant p = prα(s − r). 
+Prop osition 5 p/prime = prα(s − r/prime). 
+8-4 � � 
+� � Pro of By Proposition 3, it suﬃces to show that p/prime + prα(r/prime)= p + prα(r). So let us verify that: 
+p + prα(r)= p + prα(r − r(u)χu)+ prα(r(u)χu) 
+= p + prα(r − r(u)χu)+ αr(u)χu +(1 − α)prα(Wr(u)χu) 
+=(p + αr(u)χu)+ prα(r − r(u)χu +(1 − α)r(u)Wχu) 
+= p /prime + prα(r /prime) . 
+where the third equation resulted from an application of Equation (2). 
+Next, we prove a bound on the error vector. 
+Prop osition 6 ||r/prime||1 ≤||r||1 − αr(u). 
+Pro of Using the triangle inequalit y, 
+||r /prime||1 = ||r − r(u)χu +(1 − α)r(u)Wχu||1 ≤||r − r(u)χu||1 +(1 − α)r(u)||Wχu||1 . 
+However, ||Wχu||1 ≤ 1. Indeed, the ith elemen t of Wχu is 1 when i =/negationslashu and 1 when i = u. Therefore,2d(u) 2 
+||r /prime||1 ≤||r||1 − r(u)+(1 − α)r(u)= ||r||1 − αr(u) , 
+as desired. 
+Finally , we prove that the iterativ e procedure works. 
+Theorem 7 Fix /epsilon1> 0. Supp ose that in each iteration we pick a vertex u with the property that r(u) ≥ /epsilon1d(u). 
+Then the process terminates in O 1 iterations with vectors p and r that satisfy the following properties: /epsilon1α 
+1. max v dr(
+(v
+v)
+) ≤ /epsilon1. 
+2. vol(supp(p)) ≤ 1 , wher e supp(p) is the set of vertic es for which p is nonzer o and vol(S) ≡ � dx./epsilon1α x∈S 
+Pro of Initially , ||r||1 = 1. By Proposition 6, ||r||1 decreases at each iteration by αr(u), which by as­
+sumption is at least α/epsilon1d(u). Therefore, since the degree of each vertex is at least 1, ||r||1 decreases at each 
+1iteration by at least α/epsilon1. We deduce that the algorithm must terminate in at most O /epsilon1α iterations. 
+Next, by deﬁnition, the process terminates when there are no more vertices u such that r(u) ≥ /epsilon1d(u). 
+Therefore, condition (1) is automatically satisﬁed. 
+Moreo ver, if we let T denote the number of iterations that the algorithm takes to terminate and let 
+di denote the degree of the vertex picked in the ith step of the algorithm, then α/epsilon1 �
+iT 
+=1 di ≤ 1, so that �T di ≤ 1 . Now note that every vertex in supp(p) must have been picked at least once during the i=1 /epsilon1α 
+execution of the algorithm, so that 
+T � 1 vol(supp(p)) ≤ di ≤ ,/epsilon1α i=1 
+thus showing (2), and completing the proof of the theorem. 
+The theorem we just proved gives the approximation to the PageRank vector that we need, and we ﬁnally 
+get a local clustering algorithm. Note that to ﬁnd a cut C we need /epsilon1 = O(1/vol(C)), so that the running 
+time of the process is proportional to vol
+α (C) . 
+In order to obtain from this an almost-linear global partitioning algorithm, we do as follows. Let us 
+suppose that φ(G)is polylog(n). If we pick a random vertex v in a cluster of vertices C with conductance 
+φ2, we will ﬁnd with probabilit y at least 0.5 a set with volume at least vol(C)/2. However, this holds only 
+if we use “appropriate” parameters α and /epsilon1, which we do not know! The ﬁx is to binary search over the 
+8-5 4 possibilities, incurring an additional cost that is only a logarithmic multiplicativ e factor. In conclusion, we 
+can ﬁnd a globally optimal φ (up to the usual squaring error times some log factors) by cutting oﬀ chunks 
+of the graph and repeating. The total running time is almost linear because the running time on each chunk 
+is almost linear in its volume. 
+Caveat. In a random walk scheme, we need to take 1/φ steps in order to get a cut of conductance √ 1/φ; hence, that takes time that is about (size of chunk) · poly(1√/φ). Similarly , in a PageRank scheme, 
+we need to take 1/α steps in order to get a cut of conductance 1/α; again, that takes time that is about 
+(size of chunk) · poly(1/φ). As a consequence, the algorithm will run in time that is almost linear times some 
+poly(1/φ), which is almost linear only if φ is at least polylog(n). Impro ving this for smaller conductances is 
+still an open problem. 
+Intro to Sparsiﬁcation 
+Sparsiﬁcation is a technique used in dynamic graph algorithms to reduce the dependence of an algorithm’s 
+time on the number of edges in a graph. We brieﬂy motivate this technique now, and will discuss it next 
+time. 
+Suppose that we have a graph G =(V,E) with m =Θ(n2) edges. We would like to solve some cut 
+problem (e.g., sparsest cut, min cut, s-t min cut). Most algorithms that solve these kinds of problems 
+have running times that typically grow with m, the number of edges in the graph. As a consequence, such 
+algorithms are much slower for dense graphs than for sparse graphs. 
+It would be really nice if we could someho w throw out a lot of edges from G and still get an approximate 
+answer, because the running time of the algorithm for the resulting graph will be close to that for a sparse 
+graph. More precisely , is there any way to “appro ximate” our graph G with a sparse graph G/prime that has the 
+property that all of its cuts have more or less the same size as the original graph G? 
+To answer this question, next time we will introduce the idea of randomize d sampling . It is not a spectral 
+technique, but we will discuss spectral techniques that impro ve it. 
+References 
+[1]	 Reid Andersen, Fan Chung, and Kevin Lang. Local Graph Partitioning using PageR ank Vectors . In FOCS ’06: 
+Pro ceedings of the 47th Ann ual IEEE Symp osium on Foundations of Computer Science, pages 475–486, Wash­
+ington, DC, USA, 2006. IEEE Computer Society. Full version available at http://www.math.ucsd.edu/ ~fan/ 
+wp/localpartfull.pdf. 8-2, 8-3 
+[2] Gershgorin circle theorem. http://en.wikipedia.org/wiki/Gershgorin_circle_theorem 8-3 
+[3]	 Nathan Linial and Avi Wigderson. Expander Graphs And Their Applic ations . http://www.math.ias.edu/ ~boaz/ 
+ExpanderCourse/ 8-1 
+[4]	 L´aszl´ oLov´asz and Mikl´ os Simono vits. The mixing rate of Markov chains, an isop erimetric inequality, and com­
+puting the volume. In FOCS ’90: Pro ceedings of the 31st Ann ual IEEE Symp osium on Foundations of Computer 
+Science, pages 346–354, Washington, DC, USA, 1990. IEEE Computer Society. 8-1 
+8-6 MIT OpenCourseWare
+http://ocw.mit.edu 
+For information about citing these materials or our Terms of Use, visit: http://ocw.mit.edu/terms. 18.409 Topics in Theoretical Computer Science: An Algorithmist's Toolkit
+Fall 2009 

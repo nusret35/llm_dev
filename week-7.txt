@@ -1,0 +1,172 @@
+6.033 Spring 2018
+Lecture #12
+•In-network resource management
+•Queue management schemes
+•Traffic differentiation
+6.033 | spring 2018 | Katrina LaCurts 
+1How do we route (and address) 
+scalably, while dealing with 
+issues of policy and economy?
+How do we transport data 
+scalably, while dealing with 
+varying application demands?
+How do we adapt new 
+applications and technologies 
+to an inflexible architecture?Internet of Problems
+BGP
+TCP,
+in-network
+resource management
+6.033 | spring 2018 | Katrina LaCurts 
+2problem: TCP reacts to drops, and packets 
+aren’t dropped until queues are full
+6.033 | spring 2018 | Katrina LaCurts 
+3Queue Management
+given a queue, when do we drop packets?
+1. droptail
+drop packets only when the queue is full. simple, but 
+leads to high delays and synchronizes flows.
+2. RED
+drop packets before the queue is full
+6.033 | spring 2018 | Katrina LaCurts 
+4average queue sizedrop probability
+01
+qmin qmaxnever drop always dropdrop more frequently 
+as queue size 
+increases
+pmax
+6.033 | spring 2018 
+5Queue Management
+given a queue, when do we drop packets?
+1. droptail
+drop packets only when the queue is full. simple, but 
+leads to high delays and synchronizes flows.
+2. RED
+drop packets before the queue is full: with increasing probability as the queue grows. prevents queue lengths from oscillating, decreases delay, flows don’t 
+synchronize
+6.033 | spring 2018 | Katrina LaCurts 
+6Queue Management
+given a queue, when do we drop (or mark) packets?
+1. droptail
+drop packets only when the queue is full. simple, but 
+leads to high delays and synchronizes flows.
+2. RED (drops) / ECN (marks)
+drop (or mark) packets before the queue is full: with increasing probability as the queue grows. prevents queue lengths from oscillating, decreases delay, flows 
+don’t synchronize, but complex and hard to pick 
+parameters
+6.033 | spring 2018 | Katrina LaCurts 
+7what if we want to give latency
+guarantees to certain types of 
+traffic?
+(or at least try to prioritize latency -sensitive traffic)
+6.033 | spring 2018 | Katrina LaCurts 
+8Delay- based Scheduling
+how could we give latency guarantees for some traffic?
+1. priority queueing
+put latency- sensitive traffic in its own queue and serve 
+that queue first (can extend this idea to multiple 
+queues/types of traffic).
+6.033 | spring 2018 | Katrina LaCurts 
+9Delay- based Scheduling
+how could we give latency guarantees for some traffic?
+1. priority queueing
+put latency- sensitive traffic in its own queue and serve 
+that queue first. does not prevent the latency -sensitive 
+traffic from “starving out” the other traffic (in other 
+queues).
+6.033 | spring 2018 | Katrina LaCurts 
+10what if we want to allocate different 
+amounts of bandwidth to different 
+types of traffic?
+6.033 | spring 2018 | Katrina LaCurts 
+111. round-robin
+can’t handle variable packet sizes (and in its most basic 
+form doesn’t allow us to weight traffic differently)
+2. weighted round-robin
+can set weights and deal with variable packet sizesBandwidth- based Scheduling
+how can we allocate a specific amount of network bandwidth to some traffic?
+6.033 | spring 2018 | Katrina LaCurts 
+12in each round:
+for each queue q:
+q.norm= q.weight/ q.mean_packet_size
+min = min of q.norm ’s over all flows
+for each queue q:
+q.n_packets = q.norm/ min
+send q.n_packets from queue qWeighted Round Robin
+6.033 | spring 2018 | Katrina LaCurts 
+131. round-robin
+2.weighted round-r obincan’t handle variable packet sizes (and in its most basic 
+form doesn’t allow us to weight traffic differently)
+can set weights and deal with variable packet sizes, but needs to know mean packet sizes
+3. deficit round-robinBandwidth- based Scheduling
+how can we allocate a specific amount of network bandwidth to some traffic?
+6.033 | spring 2018 | Katrina LaCurts 
+14in each round:
+for each queue q:
+q.credit += q.quantum
+while q. credit>= size of next packet p:
+q.credit -= size of p
+send pDeficit Round Robin
+6.033 | spring 2018 | Katrina LaCurts 
+151. round-robin
+2.weighted round-r obincan’t handle variable packet sizes (and in its most basic 
+form doesn’t allow us to weight traffic differently)
+can set weights and deal with variable packet sizes, but needs to know mean packet sizes
+3. deficit round-robin
+doesn’t need mean packet sizes.  near- perfect 
+fairness and low packet processing overheadBandwidth- based Scheduling
+how can we allocate a specific amount of network bandwidth to some traffic?
+6.033 | spring 2018 | Katrina LaCurts 
+16Delay- based Scheduling
+how could we give latency guarantees for some traffic?
+1. priority queueing
+put latency- sensitive traffic in its own queue and serve 
+that queue first. does not prevent the latency -sensitive 
+traffic from “starving out” the other traffic (in other 
+queues).
+can solve this problem by doing 
+something similar to bandwidth -based 
+scheduling across the two queues
+6.033 | spring 2018 | Katrina LaCurts 
+17In-network Resource Management
+Queue
+Management
+Delay -based
+Scheduling
+Bandwidth -based
+SchedulingDropTail
+RED
+ECN
+Priority Queueing
+Round-robin
+Weighted Round -robin
+Deficit Round -robinswitches can signal 
+congestion before 
+queues are full
+switches can prioritize 
+latency- sensitive traffic
+switches can enforce 
+(weighted) fairness among 
+different types of traffic
+in-network resource management: 
+a good idea?
+6.033 | spring 2018 | Katrina LaCurts 
+18•Active queue management schemes , such as RED or
+ECN, drop or mark packets before a queue is full, in
+hopes of getting TCP senders to react earlier t o
+congestion.  They are difficult to get to work on theInternet -at-large, but the ideas can be useful in other
+types of networks.
+•Traffic differentiation requires a scheduling discipline,
+such as weighted round robin or deficit round robin .
+The goal of these schemes is to give weighted fairness in
+the face of variable packet sizes while having low
+processing overhead
+•Both of these are examples of in -network resource
+management
+6.033 | spring 2018 | Katrina LaCurts 
+19MIT OpenCourseWare 
+https://ocw.mit.edu  
+�.�����ompute����stem����i�ee�i��
+Spring 201� 
+For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms. 
+20
