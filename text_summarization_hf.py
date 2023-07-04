@@ -188,4 +188,4 @@ optimizer = Adam(learning_rate=3e-4)
 
 model.compile(loss="binary_crossentropy", optimizer=optimizer, metrics=["accuracy"])
 
-print(model.summary())
+model.summary()
