@@ -1,5 +1,0 @@
-The students will have an understanding of the role computation can play in solving problems.
-
-The students will feel confident of their ability to write small programs that allow them to accomplish useful goals.
-
-The students will be able to compete for research projects and excel in subjects with programming components.
