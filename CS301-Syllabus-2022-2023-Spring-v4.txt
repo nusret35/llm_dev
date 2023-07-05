@@ -10,7 +10,6 @@ change.
 Instructor
 Name
 Lectures
-
 : Hüsnü Yenigün
 : Monday 12:40-14:30
 Friday 09:40-10:30
