@@ -1,4 +1,3 @@
-
 from nltk.corpus import stopwords
 import nltk
 from collections import Counter
@@ -15,11 +14,12 @@ from keras.optimizers import Adam
 # Function to count unique words
 def count_unique_words(documents):
     counter = Counter()
-    for doc in documents:
-        # Tokenize the document into words
-        words = nltk.word_tokenize(doc)
-        # Update the counter with the words
-        counter.update(words)
+    for course in documents:
+        for weekly_content in course:
+            # Tokenize the document into words
+            words = nltk.word_tokenize(weekly_content)
+            # Update the counter with the words
+            counter.update(words)
     return dict(counter)
 
 def decode(text,word_index):

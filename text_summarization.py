@@ -177,6 +177,8 @@ print(train_sequences[0])
 print(train_padded[0])
 
 # Padding test sequences
+# Padding is used to make all examples same length so that you can pack them in batch
+# Sequences with uneven length can’t be batched
 test_sequences = tokenizer.texts_to_sequences(test_docs)
 test_padded = pad_sequences(test_sequences,maxlen=max_length,padding='post',truncating='post')
 
