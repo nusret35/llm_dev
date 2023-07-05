@@ -25,15 +25,12 @@ def convert_pdf_to_text(pdf_path):
     with open(pdf_path, 'rb') as pdf_file:
         pdf_reader = PyPDF2.PdfReader(pdf_file)
         file_name = pdf_path.stem
-        txt_path = f"{file_name}.txt"
         whole_text = ''
-        with open(txt_path, 'w') as txt_file:
-            for page_num in range(len(pdf_reader.pages)):
-                page = pdf_reader.pages[page_num]
-                if page != None:
-                    text = page.extract_text()
-                    #txt_file.write(text)
-                    whole_text += text
+        for page_num in range(len(pdf_reader.pages)):
+            page = pdf_reader.pages[page_num]
+            if page != None:
+                text = page.extract_text()
+                whole_text += text
         return whole_text
                 
 
