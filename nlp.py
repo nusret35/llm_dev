@@ -26,6 +26,7 @@ def count_unique_words(documents):
 def decode(text,word_index):
     return " ".join([word_index.get(i, "?") for i in text])
 
+
 def create_tokens(docs, num_words, max_length):
 
     #Text Tokenizer

@@ -13,10 +13,10 @@ z = Path('datasets/')
 
 texts, targets = output_text(z)
 
-# 'texts' array is a list of dictionaries, where each dictionary represents a course
-# 'targets' array is a list of strings, where each string is the content of the learning outcome of a course
-
 texts = clean_data(texts)
+
+# 'texts' array is a list of arrays (after the data cleaning), where each array represents a course
+# 'targets' array is a list of arrays, where each array stores a single string and is the content of the learning outcome of a course
 
 train_nlp(texts,targets)
 
