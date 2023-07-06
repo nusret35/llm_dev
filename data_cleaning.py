@@ -14,6 +14,9 @@ def format_text(text):
     return formatted_text
 
 # Functions to conduct data cleaning
+def make_case_insensitive(text):
+    return re.sub('[^a-zA-Z]',' ',text)
+
 def remove_html(text):
     html = re.compile(r"<.*?>")
     return html.sub(r"",text)
@@ -41,6 +44,7 @@ def clean_data(documents):
             cleaned_text = remove_punct(cleaned_text)
             cleaned_text = remove_URL(cleaned_text)
             cleaned_text = remove_stopwords(cleaned_text)
+            cleaned_text = make_case_insensitive(cleaned_text)
             cleaned_text = format_text(cleaned_text)
             clean_course.append(cleaned_text)
         clean_documents.append(clean_course)

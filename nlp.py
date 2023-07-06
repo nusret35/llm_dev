@@ -82,5 +82,4 @@ def train_nlp(docs,targets):
 
     model.compile(loss='sparse_categorical_crossentropy', optimizer=optimizer, metrics=['accuracy'])
     model.summary()
-    history = model.fit(np.array(train_docs_padded),np.array(train_targets_padded),epochs=20,validation_data=(np.array(test_docs_padded),np.array(test_targets_padded)))
-    
+    history = model.fit(np.array(train_docs_padded),np.array(train_targets_padded),epochs=0,validation_data=(np.array(test_docs_padded),np.array(test_targets_padded)))
