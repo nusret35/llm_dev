@@ -12,11 +12,12 @@ dataset = get_dataset(GOOGLE_DRIVE_DATASET_FOLDER_ID)
 z = Path('datasets/')
 
 texts, targets = output_text(z)
+
 # 'texts' array is a list of dictionaries, where each dictionary represents a course
 # 'targets' array is a list of strings, where each string is the content of the learning outcome of a course
 
 texts = clean_data(texts)
-print(texts[0])
 
-train_nlp(texts[:2],targets[:2],texts[2:],targets[2:])
+train_nlp(texts,targets)
+
 

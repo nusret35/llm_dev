@@ -52,9 +52,11 @@ def output_text(z):
             for file in directory.iterdir():
                 if "learning_outcome.txt" in file.name:
                     full_path = file.resolve()
+                    outcome = []
                     with open(full_path, 'r') as file:
                         data = file.read()
-                        outcomes.append(data)
+                        outcome.append(data)
+                    outcomes.append(outcome)
                 if ".pdf" in file.name:
                     full_path = file.resolve()
                     text = convert_pdf_to_text(full_path)
