@@ -20,4 +20,3 @@ texts = clean_data(texts)
 
 train_nlp(texts,targets)
 
-

@@ -23,8 +23,13 @@ def count_unique_words(documents):
             counter.update(words)
     return dict(counter)
 
+
 def decode(text,word_index):
-    return " ".join([word_index.get(i, "?") for i in text])
+    reversed_dict = {}
+    reversed_dict[0] = ''
+    for key, value in word_index.items():
+        reversed_dict[value] = key
+    return " ".join([reversed_dict.get(i, "?") for i in text])
 
 
 def create_tokens(docs, num_words, max_length):
@@ -33,7 +38,6 @@ def create_tokens(docs, num_words, max_length):
     tokenizer = Tokenizer(num_words)
     tokenizer.fit_on_texts(docs)
     word_index = tokenizer.word_index
-    print(word_index)
 
     # Data partitioning
     train_docs, test_docs = train_test_split(docs, test_size=0.2, random_state=42)
@@ -42,11 +46,12 @@ def create_tokens(docs, num_words, max_length):
     train_sequences = tokenizer.texts_to_sequences(train_docs)
     train_padded = pad_sequences(train_sequences,maxlen=max_length,padding='post',truncating='post')
 
+
     # Padding test sequences
     test_sequences = tokenizer.texts_to_sequences(test_docs)
     test_padded = pad_sequences(test_sequences,maxlen=max_length,padding='post',truncating='post')
 
-    return train_padded, test_padded
+    return train_padded, test_padded, word_index
 
 def get_max_length(docs):
 
@@ -64,9 +69,9 @@ def train_nlp(docs,targets):
     num_words, max_length = get_max_length(docs)
     targets_num_words, targets_max_length = get_max_length(targets)
     
-    train_docs_padded, test_docs_padded = create_tokens(docs, num_words, max_length)
+    train_docs_padded, test_docs_padded, docs_word_index = create_tokens(docs, num_words, max_length)
 
-    train_targets_padded, test_targets_padded = create_tokens(targets, targets_num_words, targets_max_length)
+    train_targets_padded, test_targets_padded, targets_words_index = create_tokens(targets, targets_num_words, targets_max_length)
 
     print(f"Shape of train docs {train_docs_padded.shape}")
     print(f"Shape of train targets {train_targets_padded.shape}")
@@ -74,7 +79,6 @@ def train_nlp(docs,targets):
     print(f"Shape of test targets {test_targets_padded.shape}")
 
     model = Sequential()
-
     model.add(Embedding(num_words, 32, input_length=max_length))
     model.add(LSTM(64))
     model.add(Dense(num_words, activation='softmax'))
@@ -84,3 +88,12 @@ def train_nlp(docs,targets):
     model.compile(loss='sparse_categorical_crossentropy', optimizer=optimizer, metrics=['accuracy'])
     model.summary()
     history = model.fit(np.array(train_docs_padded),np.array(train_targets_padded),epochs=20,validation_data=(np.array(test_docs_padded),np.array(test_targets_padded)))
+
+    #output prediction
+    predicted_output = model.predict(np.array(test_docs_padded))
+    max_prob_index = np.argmax(predicted_output[0])
+    print(test_docs_padded[0])
+    print(predicted_output)
+    print('Output index: ',max_prob_index)
+    print('Output: ',decode(np.array([max_prob_index]),word_index=docs_word_index))
+
