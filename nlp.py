@@ -6,9 +6,10 @@ from sklearn.model_selection import train_test_split
 from keras.preprocessing.text import Tokenizer
 from keras.preprocessing.sequence import pad_sequences
 from keras.models import Sequential
-from keras.layers import Embedding, LSTM, Dense, Dropout
+from keras.layers import Embedding, LSTM, Dense, Attention, Concatenate
 from keras.initializers import Constant
 from keras.optimizers import Adam
+from transformers import BertTokenizer, BertForPreTraining
 
 # Basic NLP
 
