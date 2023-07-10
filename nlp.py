@@ -47,12 +47,12 @@ def create_tokens(docs, num_words, max_length):
     train_sequences = tokenizer.texts_to_sequences(train_docs)
     train_padded = pad_sequences(train_sequences,maxlen=max_length,padding='post',truncating='post')
 
-
     # Padding test sequences
     test_sequences = tokenizer.texts_to_sequences(test_docs)
     test_padded = pad_sequences(test_sequences,maxlen=max_length,padding='post',truncating='post')
 
     return train_padded, test_padded, word_index
+
 
 def get_max_length(docs):
 
@@ -97,4 +97,3 @@ def train_nlp(docs,targets):
     print(predicted_output)
     print('Output index: ',max_prob_index)
     print('Output: ',decode(np.array([max_prob_index]),word_index=docs_word_index))
-
