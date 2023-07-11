@@ -1,24 +1,7 @@
-import json
-import pandas as pd
-import numpy as np
-import torch
-from pathlib import Path
 import lightning as pl
 
-from sklearn.model_selection import train_test_split
-from termcolor import colored
-import textwrap
 
-from torch.utils.data import Dataset, DataLoader
-from lightning.pytorch import Trainer
-from lightning.pytorch.callbacks import ModelCheckpoint
-
-from lightning.pytorch.loggers import TensorBoardLogger
 from transformers import AdamW, T5ForConditionalGeneration, T5TokenizerFast as T5Tokenizer
-from tqdm.auto import tqdm
-
-import seaborn as sns
-import matplotlib.pyplot as plt
 
 MODEL_NAME = "t5-base"
 tokenizer = T5Tokenizer.from_pretrained(MODEL_NAME)

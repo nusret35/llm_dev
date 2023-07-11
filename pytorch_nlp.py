@@ -1,7 +1,6 @@
 import json
 import pandas as pd
 import numpy as np
-import torch
 from pathlib import Path
 import lightning as pl
 
@@ -61,17 +60,18 @@ callbacks = ModelCheckpoint(
     mode='min'
 )
 
-logger = TensorBoardLogger("lightning_logs", name="news_summary")
+logger = TensorBoardLogger("lightning_logs", name="news_summary") 
 
 trainer= Trainer(
     logger=logger,
     callbacks=callbacks,
-    max_epochs=N_EPOCHS
+    max_epochs=N_EPOCHS,
 )
 
+trainer.fit(model_1,datamodule=data_module)
 
 best_model = SummaryModel.load_from_checkpoint(
-    '/checkpoints/base-checkpoint'
+    trainer.best_model_path
 )
 
 best_model.freeze()
@@ -92,6 +92,7 @@ def encode_text(text):
         return_tensors='pt'
     )
     return encoding["input_ids"], encoding["attention_mask"]
+
 
 def generate_summary(input_ids, attention_mask):
     # Generate a summary using the best model

@@ -35,6 +35,7 @@ class NewsDataset(Dataset):
         self.data = data
         self.text_max_token_len = text_max_token_len
         self.summary_max_token_len = summary_max_token_len
+
         
     def __len__(self):
         """
@@ -70,7 +71,7 @@ class NewsDataset(Dataset):
             truncation=True,
             return_attention_mask=True,
             add_special_tokens=True,
-            return_tensors="pt"
+            return_tensors="pt",
         )
 
         # Encode the summary
@@ -143,14 +144,10 @@ class NewsDataModule(pl.LightningDataModule):
             self.summary_max_token_len)
     
     def train_dataloader(self):
-        """
-        Returns the DataLoader for the training set.
-        """
-        return DataLoader(
-            self.train_dataset,
-            batch_size=self.batch_size,
-            shuffle=True
-        )
+            train_dataset = NewsDataset(self.train_df, self.tokenizer)
+            train_loader = DataLoader(train_dataset, batch_size=self.batch_size, shuffle=True)
+            return train_loader
+
     
     def test_dataloader(self):
         """
