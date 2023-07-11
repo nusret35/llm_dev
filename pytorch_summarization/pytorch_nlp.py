@@ -24,7 +24,7 @@ from pytorch_models import SummaryModel
 
 pl.seed_everything(1234)
 
-df = pd.read_csv('./news_summary.csv', encoding="latin-1")
+df = pd.read_csv('./pytorch_summarization/news_summary.csv', encoding="latin-1")
 df = df[['text', 'ctext']]
 df.columns = ['summary', 'text']
 df = df.dropna()
@@ -92,7 +92,6 @@ def encode_text(text):
         return_tensors='pt'
     )
     return encoding["input_ids"], encoding["attention_mask"]
-
 
 def generate_summary(input_ids, attention_mask):
     # Generate a summary using the best model

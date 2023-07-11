@@ -19,4 +19,3 @@ texts = clean_data(texts)
 # 'targets' array is a list of arrays, where each array stores a single string and is the content of the learning outcome of a course
 
 train_nlp(texts,targets)
-

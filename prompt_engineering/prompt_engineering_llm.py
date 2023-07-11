@@ -65,8 +65,7 @@ def send_query(prompt, model="text-davinci-003"):
     message = response.choices[0].text.strip()
     return message
 
-#doc = textract.process("./CS301-Syllabus-2022-2023-Spring-v4.pdf")
-doc = textract.process("/Users/selinceydeli/Desktop/AI Research/llm_dev/CS301-Syllabus-2022-2023-Spring-v4.pdf")
+doc = textract.process("./prompt_engineering/CS301-Syllabus-2022-2023-Spring-v4.pdf")
 
 with open('CS301-Syllabus-2022-2023-Spring-v4.txt', 'w') as f:
     f.write(doc.decode('utf-8'))

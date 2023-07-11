@@ -58,5 +58,3 @@ def get_dataset(folder_id):
     except HttpError as error:
         print(f'An error occurred: {error}')
         return []
-
-
