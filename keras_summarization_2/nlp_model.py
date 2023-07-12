@@ -3,7 +3,7 @@ import pandas as pd
 from keras.preprocessing.text import Tokenizer
 from keras.preprocessing.sequence import pad_sequences
 from keras.models import Model
-from keras.layers import Input, LSTM, Dense, Embedding
+from keras.layers import Input, LSTM, Dense, Embedding, Attention
 
 df = pd.read_csv('./pytorch_summarization/news_summary.csv', encoding="latin-1")
 df = df[['text', 'ctext']]
@@ -69,7 +69,7 @@ decoder_outputs = decoder_dense(decoder_outputs)
 model = Model([encoder_inputs, decoder_inputs], decoder_outputs)
 
 # Compile the model
-model.compile(optimizer='rmsprop', loss='sparse_categorical_crossentropy')
+model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
 
 # Define the decoder target data
 decoder_target_data = np.zeros_like(padded_summaries)
@@ -77,9 +77,16 @@ decoder_target_data[:,:-1] = padded_summaries[:,1:]
 decoder_target_data = decoder_target_data.reshape(decoder_target_data.shape[0], decoder_target_data.shape[1], 1)
 
 # Train the model
-model.fit([padded_texts, padded_summaries], decoder_target_data,
+history = model.fit([padded_texts, padded_summaries], decoder_target_data,
           batch_size=64,
           epochs=3,
           validation_split=0.2)
 
+# Plot the accuracy over epochs
+import matplotlib.pyplot as plt
+
+plt.plot(history.history['accuracy'], label='train')
+plt.plot(history.history['val_accuracy'], label='test')
+plt.legend()
+plt.show()
 
