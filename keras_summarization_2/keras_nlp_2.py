@@ -6,8 +6,8 @@ from collections import Counter
 from sklearn.model_selection import train_test_split
 from keras.preprocessing.text import Tokenizer
 from keras.preprocessing.sequence import pad_sequences
-from keras.models import Sequential
-from keras.layers import Embedding, LSTM, Dense, Attention, Concatenate
+from keras.models import Sequential, Model
+from keras.layers import Embedding, LSTM, Dense, Attention, Concatenate, Input, RepeatVector
 from keras.initializers import Constant
 from keras.optimizers import Adam
 from transformers import BertTokenizer, BertForPreTraining
@@ -85,6 +85,7 @@ print(f"Shape of train targets {train_targets_padded.shape}")
 print(f"Shape of test docs {test_docs_padded.shape}")
 print(f"Shape of test targets {test_targets_padded.shape}")
 
+"""
 model = Sequential()
 model.add(Embedding(src_num_words, 32, input_length=src_max_length))
 model.add(LSTM(64))
@@ -103,3 +104,31 @@ print(test_docs_padded[0])
 print(predicted_output)
 print('Output index: ',max_prob_index)
 #print('Output: ',decode(np.array([max_prob_index]),word_index=docs_word_index))
+"""
+
+# Prepare input data
+input_data = [...]  # Your input data as a list of texts/documents
+
+# Tokenization
+tokenizer = Tokenizer()
+tokenizer.fit_on_texts(input_data)
+sequences = tokenizer.texts_to_sequences(input_data)
+
+max_length = 100  # Maximum sequence length
+vocab_size = len(tokenizer.word_index) + 1  # Vocabulary size
+
+padded_sequences = pad_sequences(sequences, maxlen=max_length, padding='post', truncating='post')
+
+# Define the layers
+encoder_inputs = Input(shape=(max_length,))
+embedding_dim = 100
+
+embedding_layer = Embedding(vocab_size, embedding_dim)(encoder_inputs)
+encoder_lstm = LSTM(256)(embedding_layer)
+decoder_inputs = RepeatVector(max_length)(encoder_lstm)
+decoder_lstm = LSTM(256, return_sequences=True)(decoder_inputs)
+decoder_dense = Dense(vocab_size, activation='softmax')(decoder_lstm)
+
+# Create the model
+model = Model(inputs=encoder_inputs, outputs=decoder_dense)
+model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
