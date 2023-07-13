@@ -5,6 +5,8 @@ from keras.preprocessing.sequence import pad_sequences
 from keras.models import Model
 from keras.layers import Input, LSTM, Dense, Embedding, Attention
 from keras.callbacks import EarlyStopping
+from data_cleaning import clean_data
+
 
 df = pd.read_csv('./pytorch_summarization/news_summary.csv', encoding="latin-1")
 df = df[['text', 'ctext']]
@@ -19,6 +21,18 @@ summaries = []
 for index, row in df.iterrows():
     texts.append(row['text'])
     summaries.append(row['summary'])
+
+clean_texts = []
+clean_summaries = []
+
+for summary in summaries:
+    clean_summaries.append(clean_data(summaries))
+
+for text in texts:
+    clean_texts.append(clean_data(text))
+
+texts = clean_texts
+summaries = clean_summaries
 
 # Initialize and fit the tokenizer
 tokenizer = Tokenizer()
@@ -40,6 +54,8 @@ padded_summaries = pad_sequences(tokenized_summaries, maxlen=maxlen_summaries, p
 
 # Find the size of the vocabulary
 vocab_size = len(tokenizer.word_index) + 1  # Adding 1 because of reserved 0 index
+
+print(vocab_size)
 
 # Define parameters
 embedding_dim = 200
@@ -105,3 +121,4 @@ plt.plot(history.history['loss'], label='train')
 plt.plot(history.history['val_loss'], label='test')
 plt.legend()
 plt.show()
+
