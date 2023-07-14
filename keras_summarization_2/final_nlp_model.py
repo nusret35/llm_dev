@@ -5,6 +5,12 @@ from keras.preprocessing.sequence import pad_sequences
 from keras.models import Model
 from keras.layers import Input, LSTM, Dense, Embedding, Attention
 from keras.callbacks import EarlyStopping
+import nltk
+from nltk.corpus import stopwords
+
+# Download stopwords from NLTK and create a set of English stopwords
+nltk.download('stopwords')
+stop_words = set(stopwords.words('english'))
 
 df = pd.read_csv('./pytorch_summarization/news_summary.csv', encoding="latin-1")
 df = df[['text', 'ctext']]
@@ -17,8 +23,10 @@ texts = []
 summaries = []
 
 for index, row in df.iterrows():
-    texts.append(row['text'])
-    summaries.append(row['summary'])
+    text = ' '.join([word for word in row['text'].split() if word not in stop_words])
+    summary = ' '.join([word for word in row['summary'].split() if word not in stop_words])
+    texts.append(text)
+    summaries.append(summary)
 
 # Initialize and fit the tokenizer
 tokenizer = Tokenizer()
