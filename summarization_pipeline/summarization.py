@@ -13,11 +13,14 @@ summarizer = pipeline(
 # Load the summarization pipeline
 summarizer = pipeline("summarization")
 
+# Read txt document
 with open('summarization_pipeline/data2.txt', 'r') as file:
     text = file.read()
 
 sections = re.split('\d+\..+\n', text)  # Split on lines that start with "number.title"
 sections = [section.strip() for section in sections if section.strip()]
+
+print(len(sections))
 
 summaries = []
 
