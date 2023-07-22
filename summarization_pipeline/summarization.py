@@ -11,12 +11,12 @@ summarizer = pipeline(
 )
 """
 
-
 def alpaca_model_summarization(input):
     
     prompt = 'Summarize this text: ' + input
     # Path to the compiled C++ executable 'chat_app'
-    cpp_executable = './alpaca-model'
+    cpp_executable = './alpaca-exec-s'
+    #cpp_executable = './alpaca-exec-n'
 
     # Prepare the command-line arguments for the C++ executable
     # Replace any spaces or special characters in 'prompt' with underscores (_) 
@@ -108,7 +108,6 @@ if __name__ == "__main__":
                 subsubsection = subsubsection.strip() 
                 summaries.append(summarizer(subsubsection, max_length=50, min_length=25, do_sample=False)[0]['summary_text'])
     """
-
 
     final_summary = recursive_grouping(summaries)
 
