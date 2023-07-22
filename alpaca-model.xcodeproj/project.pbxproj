@@ -7,10 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		80C6829D2A6B1C3E002926F8 /* utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80C682912A6B1C3E002926F8 /* utils.cpp */; };
-		80C6829E2A6B1C3E002926F8 /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = 80C682932A6B1C3E002926F8 /* Makefile */; };
-		80C682A12A6B1C3E002926F8 /* ggml.c in Sources */ = {isa = PBXBuildFile; fileRef = 80C682992A6B1C3E002926F8 /* ggml.c */; };
-		80C682A32A6B1DCB002926F8 /* chat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80C682972A6B1C3E002926F8 /* chat.cpp */; };
+		80C682B32A6BD6BE002926F8 /* utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80C682A72A6BD6BE002926F8 /* utils.cpp */; };
+		80C682B42A6BD6BE002926F8 /* chat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80C682AA2A6BD6BE002926F8 /* chat.cpp */; };
+		80C682B52A6BD6BE002926F8 /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = 80C682AC2A6BD6BE002926F8 /* Makefile */; };
+		80C682B62A6BD6BE002926F8 /* ggml.c in Sources */ = {isa = PBXBuildFile; fileRef = 80C682AD2A6BD6BE002926F8 /* ggml.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -27,20 +27,19 @@
 
 /* Begin PBXFileReference section */
 		80C682862A6B1B3B002926F8 /* alpaca-model */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "alpaca-model"; sourceTree = BUILT_PRODUCTS_DIR; };
-		80C682902A6B1C3E002926F8 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
-		80C682912A6B1C3E002926F8 /* utils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = utils.cpp; sourceTree = "<group>"; };
-		80C682922A6B1C3E002926F8 /* utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utils.h; sourceTree = "<group>"; };
-		80C682932A6B1C3E002926F8 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
-		80C682942A6B1C3E002926F8 /* convert-pth-to-ggml.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = "convert-pth-to-ggml.py"; sourceTree = "<group>"; };
-		80C682952A6B1C3E002926F8 /* quantize.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = quantize.cpp; sourceTree = "<group>"; };
-		80C682962A6B1C3E002926F8 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		80C682972A6B1C3E002926F8 /* chat.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = chat.cpp; sourceTree = "<group>"; };
-		80C682982A6B1C3E002926F8 /* screencast.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = screencast.gif; sourceTree = "<group>"; };
-		80C682992A6B1C3E002926F8 /* ggml.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ggml.c; sourceTree = "<group>"; };
-		80C6829A2A6B1C3E002926F8 /* ggml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ggml.h; sourceTree = "<group>"; };
-		80C6829B2A6B1C3E002926F8 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
-		80C6829C2A6B1C3E002926F8 /* quantize.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = quantize.sh; sourceTree = "<group>"; };
-		80C682A42A6B1EE7002926F8 /* ggml-alpaca-7b-q4.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ggml-alpaca-7b-q4.bin"; sourceTree = "<group>"; };
+		80C682A62A6BD6BE002926F8 /* utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utils.h; sourceTree = "<group>"; };
+		80C682A72A6BD6BE002926F8 /* utils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = utils.cpp; sourceTree = "<group>"; };
+		80C682A82A6BD6BE002926F8 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
+		80C682A92A6BD6BE002926F8 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		80C682AA2A6BD6BE002926F8 /* chat.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = chat.cpp; sourceTree = "<group>"; };
+		80C682AB2A6BD6BE002926F8 /* convert-pth-to-ggml.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = "convert-pth-to-ggml.py"; sourceTree = "<group>"; };
+		80C682AC2A6BD6BE002926F8 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		80C682AD2A6BD6BE002926F8 /* ggml.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ggml.c; sourceTree = "<group>"; };
+		80C682AE2A6BD6BE002926F8 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		80C682AF2A6BD6BE002926F8 /* quantize.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = quantize.sh; sourceTree = "<group>"; };
+		80C682B02A6BD6BE002926F8 /* alpaca-model */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = "alpaca-model"; sourceTree = "<group>"; };
+		80C682B12A6BD6BE002926F8 /* quantize.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = quantize.cpp; sourceTree = "<group>"; };
+		80C682B22A6BD6BE002926F8 /* ggml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ggml.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,7 +56,7 @@
 		80C6827D2A6B1B3B002926F8 = {
 			isa = PBXGroup;
 			children = (
-				80C682882A6B1B3B002926F8 /* alpaca-model */,
+				80C682A52A6BD6BE002926F8 /* model-alpaca */,
 				80C682872A6B1B3B002926F8 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -70,25 +69,24 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		80C682882A6B1B3B002926F8 /* alpaca-model */ = {
+		80C682A52A6BD6BE002926F8 /* model-alpaca */ = {
 			isa = PBXGroup;
 			children = (
-				80C682972A6B1C3E002926F8 /* chat.cpp */,
-				80C682A42A6B1EE7002926F8 /* ggml-alpaca-7b-q4.bin */,
-				80C6829B2A6B1C3E002926F8 /* CMakeLists.txt */,
-				80C682942A6B1C3E002926F8 /* convert-pth-to-ggml.py */,
-				80C682992A6B1C3E002926F8 /* ggml.c */,
-				80C6829A2A6B1C3E002926F8 /* ggml.h */,
-				80C682902A6B1C3E002926F8 /* LICENSE */,
-				80C682932A6B1C3E002926F8 /* Makefile */,
-				80C682952A6B1C3E002926F8 /* quantize.cpp */,
-				80C6829C2A6B1C3E002926F8 /* quantize.sh */,
-				80C682962A6B1C3E002926F8 /* README.md */,
-				80C682982A6B1C3E002926F8 /* screencast.gif */,
-				80C682912A6B1C3E002926F8 /* utils.cpp */,
-				80C682922A6B1C3E002926F8 /* utils.h */,
+				80C682A62A6BD6BE002926F8 /* utils.h */,
+				80C682A72A6BD6BE002926F8 /* utils.cpp */,
+				80C682A82A6BD6BE002926F8 /* CMakeLists.txt */,
+				80C682A92A6BD6BE002926F8 /* LICENSE */,
+				80C682AA2A6BD6BE002926F8 /* chat.cpp */,
+				80C682AB2A6BD6BE002926F8 /* convert-pth-to-ggml.py */,
+				80C682AC2A6BD6BE002926F8 /* Makefile */,
+				80C682AD2A6BD6BE002926F8 /* ggml.c */,
+				80C682AE2A6BD6BE002926F8 /* README.md */,
+				80C682AF2A6BD6BE002926F8 /* quantize.sh */,
+				80C682B02A6BD6BE002926F8 /* alpaca-model */,
+				80C682B12A6BD6BE002926F8 /* quantize.cpp */,
+				80C682B22A6BD6BE002926F8 /* ggml.h */,
 			);
-			path = "alpaca-model";
+			path = "model-alpaca";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -148,10 +146,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				80C6829E2A6B1C3E002926F8 /* Makefile in Sources */,
-				80C682A32A6B1DCB002926F8 /* chat.cpp in Sources */,
-				80C682A12A6B1C3E002926F8 /* ggml.c in Sources */,
-				80C6829D2A6B1C3E002926F8 /* utils.cpp in Sources */,
+				80C682B52A6BD6BE002926F8 /* Makefile in Sources */,
+				80C682B32A6BD6BE002926F8 /* utils.cpp in Sources */,
+				80C682B62A6BD6BE002926F8 /* ggml.c in Sources */,
+				80C682B42A6BD6BE002926F8 /* chat.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
