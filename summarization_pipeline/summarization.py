@@ -11,8 +11,7 @@ summarizer = pipeline(
 )
 """
 
-def alpaca_model_summarization(input):
-    
+def alpaca_model_summarization(input): 
     prompt = 'Summarize this text: ' + input
     # Path to the compiled C++ executable 'chat_app'
     cpp_executable = './alpaca-exec-s'
@@ -26,17 +25,16 @@ def alpaca_model_summarization(input):
     try:
         # Run the C++ executable and capture the output
         result = subprocess.run(args, capture_output=True, text=True, check=True)
-
         # Extract the output from the subprocess
         output = result.stdout.strip()
-
-        return output
+        return output    
     except subprocess.CalledProcessError as e:
         print(f"Error executing C++ code: {e}")
         print(f"Error message: {e.stderr}")
         return None
 
- # Define a function to handle the iterative grouping of summaries
+
+# Define a function to handle the iterative grouping of summaries
 
 def recursive_grouping(summaries, max_length=70):
     # Base case: if there's only one summary, return it
@@ -56,11 +54,11 @@ def recursive_grouping(summaries, max_length=70):
         summary = alpaca_model_summarization(text)
         new_summaries.append(summary)
 
-
     return recursive_grouping(new_summaries, max_length + 10)  # Increase max_length for each new round
 
 
 if __name__ == "__main__":
+    
     # Load the summarization pipeline
     # summarizer = pipeline("summarization")
 
