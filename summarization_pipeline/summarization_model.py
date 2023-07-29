@@ -14,8 +14,8 @@ summarizer = pipeline(
 def alpaca_model_summarization(input): 
     prompt = 'Summarize this text: ' + input
     # Path to the compiled C++ executable 'chat_app'
-    cpp_executable = './alpaca-exec-s'
-    #cpp_executable = './alpaca-exec-n'
+    #cpp_executable = './alpaca-exec-s'
+    cpp_executable = './alpaca-exec-n'
 
     # Prepare the command-line arguments for the C++ executable
     # Replace any spaces or special characters in 'prompt' with underscores (_) 
@@ -56,6 +56,25 @@ def recursive_grouping(summaries, max_length=70):
 
     return recursive_grouping(new_summaries, max_length + 10)  # Increase max_length for each new round
 
+def divide_article_into_sections(article):
+    sections = {}
+    section_titles = re.findall(r'\d+\..+?\n', article)  # Find all lines that start with "number.title"
+    
+    # Use zip to pair section titles with their corresponding text
+    for title, next_title in zip(section_titles, section_titles[1:] + ['']):
+        # Get the start and end positions of each section
+        start_pos = article.find(title)
+        end_pos = article.find(next_title)
+        
+        # Extract the section text and remove the section title
+        section_text = article[start_pos + len(title):end_pos].strip()
+        
+        # Store the section in the dictionary with the title as the key
+        sections[title.strip()] = section_text
+
+    return sections
+
+
 
 if __name__ == "__main__":
     
@@ -66,14 +85,13 @@ if __name__ == "__main__":
     with open('summarization_pipeline/data2.txt', 'r') as file:
         text = file.read()
 
-    sections = re.split('\d+\..+\n', text)  # Split on lines that start with "number.title"
-    sections = [section.strip() for section in sections if section.strip()]
+    sections = divide_article_into_sections(text)
 
-    print(len(sections))
+    print(sections)
 
     summaries = []
 
-    for section in sections:
+    for section in sections.values():
         section = section.strip()  # Remove any leading/trailing whitespace
         # Hugging Face pipeline summarization
         #summaries.append(summarizer(section, max_length=50, min_length=20, do_sample=False)[0]['summary_text'])
