@@ -47,7 +47,7 @@ def divide_article_into_sections(article):
         section_text = article[start_pos + len(title):end_pos].strip()
         
         # Store the section in the dictionary with the title as the key
-        sections[title.strip()] = section_text
+        sections[title[:-2].strip()] = section_text
 
     return sections
 

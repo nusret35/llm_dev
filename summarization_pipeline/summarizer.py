@@ -1,14 +1,11 @@
 import subprocess
 
 class Summarizer :
+
     def __init__(self,model_path):
         self.model_path = model_path
-        pass
-
-
 
     def _send_prompt(self,prompt):
-
         prompt = prompt.replace(' ', '_').replace('-', '_').replace('@', '_')
         args = [self.model_path, '--prompt', prompt]
         try:
@@ -21,3 +18,14 @@ class Summarizer :
             print(f"Error executing C++ code: {e}")
             print(f"Error message: {e.stderr}")
             return None
+
+    def summarize(self,text):
+        prompt = "Summarize this text: " + text
+        output = self._send_prompt(text)
+        return output
+
+    def find_thesis_statament(self,introduction):
+        prompt = 'What is the thesis statement of this introduction: ' + introduction
+        output = self._send_prompt(prompt)
+        return output
+    
