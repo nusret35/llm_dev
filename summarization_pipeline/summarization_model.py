@@ -2,7 +2,6 @@ from transformers import pipeline
 from summarizer import Summarizer
 import torch
 import re
-import subprocess
 
 """
 summarizer = pipeline(
@@ -57,7 +56,6 @@ if __name__ == "__main__":
 
     #exec_path = './alpaca-exec-s'
     exec_path = './alpaca-exec-n'
-
 
     # Summarizer model
     summarizer = Summarizer(model_path=exec_path)
