@@ -25,11 +25,11 @@ class Summarizer :
         output = self._send_prompt(text)
         return output
 
-    def select_sections(self,section_names, thesis_statement):
+    def select_sections(self, section_names):
         section_names_string = ''
         for section_name in section_names:
             section_names_string += section_name + ' '
-        prompt = 'Thesis statement: ' + thesis_statement + '\n Sections: ' + section_names_string + '\n Give the important sections of this article to summarize the article with the given thesis statement'
+        prompt = 'Sections: ' + section_names_string + '\n Give the important sections of this article to summarize the article with the given thesis statement'
         output = self._send_prompt(prompt)
         return output 
 
@@ -38,4 +38,26 @@ class Summarizer :
         output = self._send_prompt(prompt)
         return output
     
+    def section_text(self,section_name,sections_dict):
+        if section_name in list(sections_dict.keys()):
+            if isinstance(sections_dict[section_name],str):
+                return sections_dict[section_name]
+            else:
+                output = ''
+                for item in list(sections_dict[section_name].values()):
+                    output += item
+                return output
+        return ''
+    
+    # What did the author set out to do? 
+    # What was the outcome?
+    def find_objective(self,title,sections_dict):
+
+        abstract = self.section_text('Abstract',sections_dict)
+        introduction = self.section_text('Introduction',sections_dict)
+        conclusion = self.section_text('Conclusion',sections_dict)
+
+        prompt = 'I have an article at hand, whose title is: ' + title + 'Whose abstract is: ' + abstract + 'Whose introduction is: ' + introduction + 'Whose conclusion is: ' + conclusion + '/n What did the author set out to do and what was the outcome?'
+        output = self._send_prompt(prompt)
+        return output
     
