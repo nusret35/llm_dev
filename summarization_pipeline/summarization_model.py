@@ -50,6 +50,44 @@ def divide_article_into_sections(article):
 
     return sections
 
+def parse_article(article_text):
+    sections = {}
+    current_section = None
+    current_subsection = None
+
+    # Define regular expressions for section and subsection headings
+    section_pattern = re.compile(r'^(\d+)\.(.*)$')
+    subsection_pattern = re.compile(r'^(\d+\.\d+)\s+(.*)$')
+
+    lines = article_text.splitlines()
+    for line in lines:
+        line = line.strip()
+        if line:
+            # Check if the line matches the section pattern
+            match_section = section_pattern.match(line)
+            if match_section:
+                section_number = match_section.group(1)
+                section_name = match_section.group(2).strip()
+                sections[section_number] = {'name': section_name, 'text': ''}
+                current_section = section_number
+                current_subsection = None  # Reset current_subsection when a new section is encountered
+            else:
+                # Check if the line matches the subsection pattern
+                match_subsection = subsection_pattern.match(line)
+                if match_subsection and current_section:
+                    subsection_number = match_subsection.group(1)
+                    subsection_name = match_subsection.group(2).strip()
+                    sections[current_section][subsection_number] = {'name': subsection_name, 'text': ''}
+                    current_subsection = subsection_number
+                elif current_section and current_subsection:
+                    # If not a subsection, add the line to the current section's text
+                    sections[current_section][current_subsection]['text'] += line + '\n'
+                elif current_section:
+                    # If in a subsection, add the line to the current subsection's text
+                    sections[current_section]['text'] += line + '\n'
+
+    return sections
+
 
 
 if __name__ == "__main__":
@@ -65,10 +103,21 @@ if __name__ == "__main__":
         text = file.read()
 
     # Divide article into sections and return a dictionary (section names as keys and texts as values)
-    sections = divide_article_into_sections(text)
+    sections = parse_article(text)
 
     print(sections)
 
+    absract = list(sections.values())[0]
+
+    thesis_statement = summarizer.find_thesis_statament(text=absract)
+
+    print(thesis_statement)
+
+    sections_keys = list(sections.keys())
+
+    sections_output = summarizer.select_sections(sections_keys,thesis_statement)
+
+    print(sections_output)
     summaries = []
 
     for section in sections.values():

@@ -11,6 +11,7 @@ class Summarizer :
         try:
             # Run the C++ executable and capture the output
             result = subprocess.run(args, capture_output=True, text=True, check=True)
+            
             # Extract the output from the subprocess
             output = result.stdout.strip()
             return output    
@@ -24,8 +25,17 @@ class Summarizer :
         output = self._send_prompt(text)
         return output
 
-    def find_thesis_statament(self,introduction):
-        prompt = 'What is the thesis statement of this introduction: ' + introduction
+    def select_sections(self,section_names, thesis_statement):
+        section_names_string = ''
+        for section_name in section_names:
+            section_names_string += section_name + ' '
+        prompt = 'Thesis statement: ' + thesis_statement + '\n Sections: ' + section_names_string + '\n Give the important sections of this article to summarize the article with the given thesis statement'
+        output = self._send_prompt(prompt)
+        return output 
+
+    def find_thesis_statament(self,text):
+        prompt = 'What is the thesis statement of this text: ' + text
         output = self._send_prompt(prompt)
         return output
+    
     
