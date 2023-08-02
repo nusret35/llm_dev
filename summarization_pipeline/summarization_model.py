@@ -28,27 +28,49 @@ if __name__ == "__main__":
     sections_dict = divide_article_into_sections(text)
 
     sections_dict = group_subsections(sections_dict)
-    print(sections_dict)
 
     title = 'Climate Change: Trends, Consequences, and Mitigation Strategies'
+    abstract = summarizer.section_text('Abstract',sections_dict)
 
     objective = summarizer.find_objective(title,sections_dict)
-    print(objective)
+    thesis = summarizer.find_thesis_statament(abstract)
     
-    sections_keys = list(sections_dict.keys())
+    section_names = list(sections_dict.keys())
+    print(section_names)
+
+    important_sections = summarizer.select_sections_t(section_names,thesis)
+    print(important_sections)
+
+    important_section = summarizer.select_5_sections_t(section_names,thesis)
 
     summaries = []
 
+    """
+    # Summarizing the entirity of the article
     for section in sections_dict.values():
         section = section.strip()  # Remove any leading/trailing whitespace
 
-        # Hugging Face pipeline summarization
+        # Hugging face pipeline summarization
         #summaries.append(summarizer(section, max_length=50, min_length=20, do_sample=False)[0]['summary_text'])
 
         # Alpaca model summarization
         summary = summarizer.summarize(section)
         print(summary)
         summaries.append(summary)
+    """
+
+    # Summarizing the important sections of the article
+    for key, value in sections_dict.items():
+        if key in important_sections:
+            text = value.strip()  # Remove any leading/trailing whitespace
+
+            # Hugging Face pipeline summarization
+            #summaries.append(summarizer(text, max_length=50, min_length=20, do_sample=False)[0]['summary_text'])
+
+            # Alpaca model summarization
+            summary = summarizer.summarize(text)
+            print(summary)
+            summaries.append(summary)
 
     final_summary = recursive_grouping(summaries,summarizer)
 

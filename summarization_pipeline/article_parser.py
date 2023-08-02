@@ -17,15 +17,20 @@ def group_subsections(sections_dict):
     sub_dict = {}
     prev_section = ''
     for index in range(len(sections_dict)):
-        if is_section(list(sections_dict.keys())[index]):
+        key = list(sections_dict.keys())[index]
+        if is_section(key):
             if sub_dict != {} and prev_section != '':
                 new_dict[prev_section] = sub_dict
                 sub_dict = {}
-            prev_section = list(sections_dict.keys())[index]
+            key = re.sub(r'[0-9.:]', '', key).strip()  # Remove integers and punctuation from key
+            prev_section = key
             if prev_section not in list(new_dict.keys()):
                 new_dict[prev_section] = list(sections_dict.values())[index]
         else:
-           sub_dict[list(sections_dict.keys())[index]] = list(sections_dict.values())[index]
+            key = re.sub(r'[0-9.:]', '', key).strip()  # Remove integers and punctuation from key
+            sub_dict[key] = list(sections_dict.values())[index]
+    if sub_dict != {} and prev_section != '':
+        new_dict[prev_section] = sub_dict  # Don't forget the last section
     return new_dict
 
 
