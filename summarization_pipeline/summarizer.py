@@ -19,6 +19,10 @@ class Summarizer :
             print(f"Error executing C++ code: {e}")
             print(f"Error message: {e.stderr}")
             return None
+        
+    def prompt_generator(self,instruction,input):
+        prompt = 'Instruction: ' + instruction + ". \n Input: " + input 
+        return prompt
 
     def summarize(self,text):
         prompt = "Summarize this text: " + text
@@ -52,21 +56,37 @@ class Summarizer :
         output = self._send_prompt(prompt)
         return output
     
+    """
+    def select_sections(self,section_names,title):
+        section_names_string = ''
+        for section_name in section_names:
+            section_names_string += section_name + ', '
+        prompt= "Title of the article: " + title + "The above article is an important scholarly work on {field of study}. Considering its significance, the wide range of content it covers, and its impact on the field, identifying key sections for summarization is crucial. Please review the given sections and provide a list of the most important sections that would provide a comprehensive summary of the paper's main arguments, findings, and implications. Choose the sections from the given section names and return only these important section names!"
+        output = self._send_prompt(prompt)
+        output = output.split()
+        return output
+    """
+
+    def select_sections(self, section_names):
+         section_names_string = ''
+         for section_name in section_names:
+             section_names_string += section_name + ' '
+         prompt = 'Sections: ' + section_names_string + '\n Give the important sections of this article to summarize the article'
+         output = self._send_prompt(prompt)
+         return output
+
     # The section names are outputted as an array
     def select_sections_t(self,section_names,thesis):
         section_names_string = ''
         for section_name in section_names:
             section_names_string += section_name + ' '
-        prompt = 'Given the section names of the article: ' + section_names_string + 'And the thesis statement: ' + thesis + '\n Give the most important section names of this article to summarize the article: '
+        instruction = 'Find the 5 most significant section names of the scholarly article.'
+        input = 'Section names: ' + section_names_string + '. \n Thesis statement: ' + thesis
+        prompt = self.prompt_generator(instruction,input)
+        #prompt = 'Given the section names of the article: ' + section_names_string + '. \n \n And the thesis statement: ' + thesis + '. \n \n For the purpose of summarization, give the most important 5 section names of this article: '
         output = self._send_prompt(prompt)
-        important_sections = []
-        prev_word = ''
-        for char in output:
-            while char != ' ':
-                prev_word += char
-            important_sections.append(prev_word)
-            prev_word = ''
-        return important_sections 
+        output = output.split()
+        return output
 
     # The section names are outputted as an array
     def select_sections_o(self,section_names,objective):
@@ -75,27 +95,15 @@ class Summarizer :
             section_names_string += section_name + ' '
         prompt = 'Given the section names of the article: ' + section_names_string + 'And the objective: ' + objective + '\n Give the most important section names of this article to summarize the article: '
         output = self._send_prompt(prompt)
-        important_sections = []
-        prev_word = ''
-        for char in output:
-            while char != ' ':
-                prev_word += char
-            important_sections.append(prev_word)
-            prev_word = ''
-        return important_sections 
+        output = output.split()
+        return output
     
     # The most important 5 section names are outputted as an array
-    def select_5_sections_t(self,section_names,objective):
+    def select_5_sections_t(self,section_names,thesis):
         section_names_string = ''
         for section_name in section_names:
             section_names_string += section_name + ' '
-        prompt = 'Given the section names of the article: ' + section_names_string + 'And the thesis statement: ' + objective + '\n Give the 5 most important section names of this article, on top of the introduction and the conclusion, to summarize the article: '
+        prompt = 'Given the section names of the article: ' + section_names_string + 'And the thesis statement: ' + thesis + '\n Give the 5 most important section names of this article, on top of the introduction and the conclusion, to summarize the article: '
         output = self._send_prompt(prompt)
-        important_sections = []
-        prev_word = ''
-        for char in output:
-            while char != ' ':
-                prev_word += char
-            important_sections.append(prev_word)
-            prev_word = ''
-        return important_sections 
+        output = output.split()
+        return output

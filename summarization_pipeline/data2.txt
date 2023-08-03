@@ -87,7 +87,9 @@ The data analysis affirmed the consensus that human-induced climate change is oc
 
 The challenges posed by climate change are daunting but not insurmountable. An integrative approach encompassing proactive mitigation and adaptive strategies, underpinned by global cooperation, is required to address this existential crisis. As the implications of climate change become more tangible, it is critical that science guides our understanding, public discourse, and policy decisions. This paper hopes to contribute to that endeavor, offering an overview of the current scientific understanding of climate change and potential strategies for mitigation and adaptation.
 
-9.Keywords: Climate change, global warming, greenhouse gases, mitigation strategies, climate change impacts.
+9.Keywords: 
+
+Climate change, global warming, greenhouse gases, mitigation strategies, climate change impacts.
 
 10.Acknowledgements:
 

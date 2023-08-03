@@ -32,16 +32,15 @@ if __name__ == "__main__":
     title = 'Climate Change: Trends, Consequences, and Mitigation Strategies'
     abstract = summarizer.section_text('Abstract',sections_dict)
 
-    objective = summarizer.find_objective(title,sections_dict)
+    #objective = summarizer.find_objective(title,sections_dict)
     thesis = summarizer.find_thesis_statament(abstract)
     
     section_names = list(sections_dict.keys())
-    print(section_names)
+    numbered_section_names = ["{}. {}".format(i+1, section) for i, section in enumerate(section_names)]
+    print(numbered_section_names)
 
-    important_sections = summarizer.select_sections_t(section_names,thesis)
+    important_sections = summarizer.select_sections(numbered_section_names)
     print(important_sections)
-
-    important_section = summarizer.select_5_sections_t(section_names,thesis)
 
     summaries = []
 
