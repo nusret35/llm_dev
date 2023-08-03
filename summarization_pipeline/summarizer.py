@@ -67,11 +67,11 @@ class Summarizer :
         return output
     """
 
-    def select_sections(self, section_names):
+    def select_sections(self, section_names,thesis_statement):
          section_names_string = ''
          for section_name in section_names:
              section_names_string += section_name + ' '
-         prompt = 'Sections: ' + section_names_string + '\n Give the important sections of this article to summarize the article'
+         prompt = 'Sections: ' + section_names_string + '\n Thesis statement: ' + thesis_statement + '\n Give the five most important section names among the given sections'
          output = self._send_prompt(prompt)
          return output
 

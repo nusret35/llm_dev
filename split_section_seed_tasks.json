@@ -1,0 +1,42 @@
+[
+        {
+            "instruction":"Give the most important section names among the given sections relevant to the given thesis statement",
+            "input" : "Sections = ['1. Overview', '2. Introduction', '3. Previous Works', '4. AI in Healthcare', '5. Machine Learning Techniques', '6. Case Studies', '7. Future Prospects', '8. Conclusion', '9. Keywords', '10. Acknowledgements', '11. References']\nThesis statement = This research aims to investigate the role of AI in healthcare with a specific focus on machine learning techniques and their future prospects.",
+            "output": "Introduction, AI in Healthcare, Machine Learning Techniques, Case Studies, Future Prospects"
+        },
+        {
+            "instruction":"Give the most important section names among the given sections relevant to the given thesis statement",
+            "input" : "Sections = ['1. Abstract', '2. Introduction', '3. Historical Background', '4. Modern Cryptography', '5. Case Studies', '6. Future of Cryptography', '7. Conclusion', '8. Keywords', '9. Acknowledgements', '10. References']\nThesis statement = The goal of this thesis is to explore the evolution and current state of cryptography with a focus on modern techniques and its potential future.",
+            "output": "Abstract, Introduction, Modern Cryptography, Case Studies, Future of Cryptography"
+        },
+        {
+            "instruction":"Give the most important section names among the given sections relevant to the given thesis statement",
+            "input" : "Sections = ['1. Introduction', '2. Definition of Smart Cities', '3. Case Studies', '4. Technology behind Smart Cities', '5. Benefits and Challenges', '6. Future Trends', '7. Conclusion', '8. Keywords', '9. Acknowledgements', '10. References']\nThesis statement = This work delves into the concept of smart cities, the technology that powers them, their benefits and challenges, and trends for the future.",
+            "output": "Introduction, Definition of Smart Cities, Technology behind Smart Cities, Benefits and Challenges, Future Trends"
+        },
+        {
+            "instruction":"Give the most important section names among the given sections relevant to the given thesis statement",
+            "input" : "Sections = ['1. Abstract', '2. Introduction', '3. Carbon Capture Technologies', '4. Case Studies', '5. Economic Analysis', '6. Environmental Impact', '7. Future Perspectives', '8. Conclusion', '9. Keywords', '10. Acknowledgements', '11. References']\nThesis statement = The main focus of this research is to delve into carbon capture technologies, their economic feasibility, environmental impact, and future prospects.",
+            "output": "Introduction, Carbon Capture Technologies, Economic Analysis, Environmental Impact, Future Perspectives"
+        },
+        {
+            "instruction":"Give the most important section names among the given sections relevant to the given thesis statement",
+            "input" : "Sections = ['1. Abstract', '2. Introduction', '3. History of Robotics', '4. Robotics in Manufacturing', '5. Impact on Employment', '6. The Future of Robotics', '7. Conclusion', '8. References']\nThesis statement = This paper aims to analyze the rise of robotics in manufacturing, its impact on employment, and what the future holds.",
+            "output": "Introduction, Robotics in Manufacturing, Impact on Employment, The Future of Robotics, Conclusion"
+        },
+        {
+            "instruction":"Give the most important section names among the given sections relevant to the given thesis statement",
+            "input" : "Sections = ['1. Overview', '2. Introduction', '3. The Basics of Virtual Reality', '4. Applications of Virtual Reality', '5. Case Studies', '6. Challenges and Opportunities', '7. Conclusion', '8. References']\nThesis statement = This study focuses on the basics and applications of virtual reality, supported by case studies, while also discussing the challenges and opportunities ahead.",
+            "output": "Introduction, The Basics of Virtual Reality, Applications of Virtual Reality, Case Studies, Challenges and Opportunities"
+        },
+        {
+            "instruction":"Give the most important section names among the given sections relevant to the given thesis statement",
+            "input" : "Sections = ['1. Abstract', '2. Introduction', '3. Exploring Deep Learning', '4. Deep Learning in Image Recognition', '5. Techniques and Approaches', '6. Case Studies', '7. Conclusion', '8. References']\nThesis statement = This paper intends to delve into the realm of deep learning, its use in image recognition, different techniques, and approaches used, exemplified through various case studies.",
+            "output": "Introduction, Exploring Deep Learning, Deep Learning in Image Recognition, Techniques and Approaches, Case Studies"
+        },
+        {
+            "instruction":"Give the most important section names among the given sections relevant to the given thesis statement",
+            "input" : "Sections = ['1. Abstract', '2. Introduction', '3. IoT and Smart Homes', '4. Benefits of Smart Homes', '5. Security Concerns', '6. Future Trends', '7. Conclusion', '8. References']\nThesis statement = The research paper delves into the intersection of IoT and smart homes, elucidating the benefits, discussing the security concerns, and predicting future trends.",
+            "output": "Introduction, IoT and Smart Homes, Benefits of Smart Homes, Security Concerns, Future Trends"
+        }
+]

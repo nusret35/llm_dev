@@ -14,8 +14,8 @@ summarizer = pipeline(
 
 if __name__ == "__main__":
 
-    exec_path = './alpaca-exec-s'
-    #exec_path = './alpaca-exec-n'
+    #exec_path = './alpaca-exec-s'
+    exec_path = './alpaca-exec-n'
 
     # Summarizer model
     summarizer = Summarizer(model_path=exec_path)
@@ -39,7 +39,7 @@ if __name__ == "__main__":
     numbered_section_names = ["{}. {}".format(i+1, section) for i, section in enumerate(section_names)]
     print(numbered_section_names)
 
-    important_sections = summarizer.select_sections(numbered_section_names)
+    important_sections = summarizer.select_sections(numbered_section_names,thesis)
     print(important_sections)
 
     summaries = []
