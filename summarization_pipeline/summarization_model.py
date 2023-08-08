@@ -1,6 +1,7 @@
 from transformers import pipeline
 from summarizer import Summarizer
 from article_parser import group_subsections, recursive_grouping, divide_article_into_sections
+import threading
 import torch
 import re
 
@@ -11,6 +12,18 @@ summarizer = pipeline(
     device=0 if torch.cuda.is_available() else -1,
 )
 """
+
+
+def summarize_section(section, summarizer):
+    if isinstance(section,dict):
+        summary = ''
+        for sub_section in section.values():
+            summary += summarize_section(sub_section)
+    else:
+        text = section.strip() # Remove any leading/trailing whitespace
+        summary = summarizer.summarize(text)
+    return summary
+
 
 if __name__ == "__main__":
 
@@ -60,14 +73,10 @@ if __name__ == "__main__":
 
     # Summarizing the important sections of the article
     for key, value in sections_dict.items():
-        if key in important_sections:
-            text = value.strip()  # Remove any leading/trailing whitespace
-
-            # Hugging Face pipeline summarization
-            #summaries.append(summarizer(text, max_length=50, min_length=20, do_sample=False)[0]['summary_text'])
+        if key in important_sections: 
 
             # Alpaca model summarization
-            summary = summarizer.summarize(text)
+            summary = summarize_section(value,summarizer)
             print(summary)
             summaries.append(summary)
 

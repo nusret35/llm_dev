@@ -25,7 +25,7 @@ class Summarizer :
         return prompt
 
     def summarize(self,text):
-        prompt = "Summarize this text: " + text
+        prompt = "Summarize this text with maximum 100 words: " + text
         output = self._send_prompt(text)
         return output
 
@@ -107,3 +107,4 @@ class Summarizer :
         output = self._send_prompt(prompt)
         output = output.split()
         return output
+    
