@@ -13,7 +13,11 @@ summarizer = pipeline(
 )
 """
 
-
+"""
+The function takes a nested dictionary, where the nesting represents the subsections in a section, 
+and returns the summary of each section recursively. 
+If the number of words in a section is less than 25, then no need to call the summarize function. The text is taken as it is. 
+"""
 def summarize_section(section, summarizer):
     if isinstance(section,dict):
         summary = ''
@@ -21,7 +25,10 @@ def summarize_section(section, summarizer):
             summary += summarize_section(sub_section)
     else:
         text = section.strip() # Remove any leading/trailing whitespace
-        summary = summarizer.summarize(text)
+        if len(section.split()) > 25 :
+            summary = summarizer.summarize(text)
+        else :
+            summary = text
     return summary
 
 
@@ -75,7 +82,6 @@ if __name__ == "__main__":
     # Summarizing the important sections of the article
     for key, value in sections_dict.items():
         if key in important_sections: 
-
             # Alpaca model summarization
             summary = summarize_section(value,summarizer)
             print(summary)
