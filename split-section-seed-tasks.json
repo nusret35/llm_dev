@@ -38,5 +38,30 @@
             "instruction":"Give the most important section names among the given sections relevant to the given thesis statement",
             "input" : "Sections = ['1. Abstract', '2. Introduction', '3. IoT and Smart Homes', '4. Benefits of Smart Homes', '5. Security Concerns', '6. Future Trends', '7. Conclusion', '8. References']\nThesis statement = The research paper delves into the intersection of IoT and smart homes, elucidating the benefits, discussing the security concerns, and predicting future trends.",
             "output": "Introduction, IoT and Smart Homes, Benefits of Smart Homes, Security Concerns, Future Trends"
+        },
+        {
+            "instruction": "Give the most important section names among the given sections relevant to the given thesis statement",
+            "input": "Sections = ['1. Overview', '2. Introduction', '3. Fundamentals of Quantum Computing', '4. Quantum Algorithms', '5. Case Studies', '6. Challenges and Prospects', '7. Conclusion', '8. References']\nThesis statement = This research aims to explore the principles of quantum computing, highlight notable quantum algorithms, and discuss the challenges and prospects of the field.",
+            "output": "Introduction, Fundamentals of Quantum Computing, Quantum Algorithms, Case Studies, Challenges and Prospects"
+        },
+        {
+            "instruction": "Give the most important section names among the given sections relevant to the given thesis statement",
+            "input": "Sections = ['1. Abstract', '2. Introduction', '3. Basics of Renewable Energy', '4. Solar Energy Systems', '5. Wind Energy Systems', '6. Comparative Analysis', '7. Conclusion', '8. References']\nThesis statement = The study is focused on understanding the basics of renewable energy with a deep dive into solar and wind energy systems, culminating in a comparative analysis.",
+            "output": "Introduction, Basics of Renewable Energy, Solar Energy Systems, Wind Energy Systems, Comparative Analysis"
+        },
+        {
+            "instruction": "Give the most important section names among the given sections relevant to the given thesis statement",
+            "input": "Sections = ['1. Abstract', '2. Introduction', '3. Origin of Blockchains', '4. Use-cases of Blockchain', '5. Implementation Challenges', '6. Future Trajectories', '7. Conclusion', '8. References']\nThesis statement = This work intends to explore the inception of blockchains, their potential use-cases, the challenges faced during implementation, and possible future trajectories.",
+            "output": "Introduction, Origin of Blockchains, Use-cases of Blockchain, Implementation Challenges, Future Trajectories"
+        },
+        {
+            "instruction": "Give the most important section names among the given sections relevant to the given thesis statement",
+            "input": "Sections = ['1. Abstract', '2. Introduction', '3. Evolution of E-commerce', '4. Current E-commerce Models', '5. Impact on Retail', '6. E-commerce Trends', '7. Conclusion', '8. References']\nThesis statement = The study aims to understand the evolution of e-commerce, its current models, its impact on traditional retail, and upcoming trends in the domain.",
+            "output": "Introduction, Evolution of E-commerce, Current E-commerce Models, Impact on Retail, E-commerce Trends"
+        },        
+        {
+            "instruction": "Give the most important section names among the given sections relevant to the given thesis statement",
+            "input": "Sections = ['1. Abstract', '2. Introduction', '3. The Science of Genomics', '4. Applications in Medicine', '5. Ethical Considerations', '6. Future of Genomics', '7. Conclusion', '8. References']\nThesis statement = This paper explores the field of genomics, its applications in medicine, the ethical considerations it brings, and forecasts the future of genomics.",
+            "output": "Introduction, The Science of Genomics, Applications in Medicine, Ethical Considerations, Future of Genomics"
         }
 ]

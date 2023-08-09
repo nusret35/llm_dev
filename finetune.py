@@ -48,6 +48,7 @@ tokenizer.padding_side = "left"
 data = load_dataset("json", data_files="split-section-seed-tasks.json")
 print(data["train"])
 
+
 def generate_prompt(data_point):
     return f"""Below is an instruction that describes a task, paired with an input that provides further context. Write a response that appropriately completes the request.  # noqa: E501
 ### Instruction:
@@ -56,6 +57,7 @@ def generate_prompt(data_point):
 {data_point["input"]}
 ### Response:
 {data_point["output"]}"""
+ 
  
 CUTOFF_LEN = 256
 
@@ -83,6 +85,7 @@ def generate_and_tokenize_prompt(data_point):
     full_prompt = generate_prompt(data_point)
     tokenized_full_prompt = tokenize(full_prompt)
     return tokenized_full_prompt
+
 
 train_val = data["train"].train_test_split(
     test_size=200, shuffle=True, seed=42
@@ -140,26 +143,7 @@ training_arguments = transformers.TrainingArguments(
     report_to="tensorboard"
 )
 
+
 data_collator = transformers.DataCollatorForSeq2Seq(
     tokenizer, pad_to_multiple_of=8, return_tensors="pt", padding=True
 )
-
-trainer = transformers.Trainer(
-    model=model,
-    train_dataset=train_data,
-    eval_dataset=val_data,
-    args=training_arguments,
-    data_collator=data_collator
-)
-model.config.use_cache = False
-old_state_dict = model.state_dict
-model.state_dict = (
-    lambda self, *_, **__: get_peft_model_state_dict(
-        self, old_state_dict()
-    )
-).__get__(model, type(model))
- 
-model = torch.compile(model)
- 
-trainer.train()
-model.save_pretrained(OUTPUT_DIR)
