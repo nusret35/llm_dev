@@ -21,7 +21,7 @@ class Summarizer :
             return None
         
     def prompt_generator(self,instruction,input):
-        prompt = 'Instruction: ' + instruction + ". \n Input: " + input 
+        prompt = 'Instruction: ' + instruction + ".  Input: " + input 
         return prompt
 
     def summarize(self,text):
