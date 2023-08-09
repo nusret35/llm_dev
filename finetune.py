@@ -48,7 +48,6 @@ tokenizer.padding_side = "left"
 data = load_dataset("json", data_files="split-section-seed-tasks.json")
 print(data["train"])
 
-
 def generate_prompt(data_point):
     return f"""Below is an instruction that describes a task, paired with an input that provides further context. Write a response that appropriately completes the request.  # noqa: E501
 ### Instruction:
@@ -57,7 +56,6 @@ def generate_prompt(data_point):
 {data_point["input"]}
 ### Response:
 {data_point["output"]}"""
- 
  
 CUTOFF_LEN = 256
 
@@ -85,7 +83,6 @@ def generate_and_tokenize_prompt(data_point):
     full_prompt = generate_prompt(data_point)
     tokenized_full_prompt = tokenize(full_prompt)
     return tokenized_full_prompt
-
 
 train_val = data["train"].train_test_split(
     test_size=200, shuffle=True, seed=42
@@ -142,7 +139,6 @@ training_arguments = transformers.TrainingArguments(
     load_best_model_at_end=True,
     report_to="tensorboard"
 )
-
 
 data_collator = transformers.DataCollatorForSeq2Seq(
     tokenizer, pad_to_multiple_of=8, return_tensors="pt", padding=True
