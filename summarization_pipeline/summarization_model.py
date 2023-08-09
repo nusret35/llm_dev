@@ -27,8 +27,8 @@ def summarize_section(section, summarizer):
 
 if __name__ == "__main__":
 
-    #exec_path = './alpaca-exec-s'
-    exec_path = './alpaca-exec-n'
+    exec_path = './alpaca-exec-s'
+    #exec_path = './alpaca-exec-n'
 
     # Summarizer model
     summarizer = Summarizer(model_path=exec_path)
@@ -47,6 +47,7 @@ if __name__ == "__main__":
 
     #objective = summarizer.find_objective(title,sections_dict)
     thesis = summarizer.find_thesis_statament(abstract)
+    print(thesis)
     
     section_names = list(sections_dict.keys())
     numbered_section_names = ["{}. {}".format(i+1, section) for i, section in enumerate(section_names)]
