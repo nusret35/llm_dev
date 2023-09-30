@@ -22,10 +22,10 @@ def summarize_section(section, summarizer):
     if isinstance(section,dict):
         summary = ''
         for sub_section in section.values():
-            summary += summarize_section(sub_section)
+            summary += summarize_section(sub_section, summarizer) + " "
     else:
         text = section.strip() # Remove any leading/trailing whitespace
-        if len(section.split()) > 25 :
+        if len(section.split()) > 50 :
             summary = summarizer.summarize(text)
         else :
             summary = text
@@ -41,7 +41,7 @@ if __name__ == "__main__":
     summarizer = Summarizer(model_path=exec_path)
 
     # Read txt document
-    with open('summarization_pipeline/data2.txt', 'r') as file:
+    with open('summarization_pipeline/data3.txt', 'r') as file:
         text = file.read()
 
     # Divide article into sections and return a dictionary (section names as keys and texts as values)

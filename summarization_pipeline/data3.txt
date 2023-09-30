@@ -1,0 +1,283 @@
+A predictive model for the post-pandemic delay in elective treatment
+
+Authors: Romy Nehme, Alena Puchkova, Ajith Parlikad
+
+1.Abstract:
+
+The COVID-19 pandemic had a major impact on healthcare systems across the world. In the United
+Kingdom, one of the strategies used by hospitals to cope with the surge in patients infected with
+SARS-Cov-2 was to cancel a vast number of elective treatments planned and limit its resources for
+non-critical patients. This resulted in a 30% drop in the number of people joining the waiting list
+in 2020–2021 versus 2019–2020. Once the pandemic subsides and resources are freed for elective
+treatment, the expectation is that the patients failing to receive treatment throughout the pandemic
+would trigger a significant backlog on the waiting list post-pandemic with major repercussions to
+patient health and quality of life. As the nation emerges from the worst phase of the pandemic,
+hospitals are focusing on strategies to prioritise patients for elective treatments. A key challenge in this
+context is the ability to quantify the expected backlog and predict the delays experienced by patients
+as an outcome of the prioritisation policies. This study presents an approach based on discrete-event
+simulation to predict the elective waiting list backlog along with the delay in treatment based on a
+predetermined prioritisation policy. The model is demonstrated using data on the endoscopy waiting
+list at Cambridge University Hospitals. The model shows that 21% of the patients on the waiting list
+will experience a delay less than 18-weeks, the acceptable threshold set by the National Health Service
+(NHS). A longer-term scenario analysis based on the model reveals investment in NHS resources will
+have a significant positive outcome for addressing the waiting lists. The model presented in this paper
+has the potential to be an invaluable tool for post-pandemic planning for hospitals around the world
+that are facing a crisis of treatment backlog.
+
+2.Introduction:
+
+The Coronavirus SARS-Cov-2 (COVID-19) pandemic resulted in
+an unprecedented global health, economic, and social crisis and
+has exposed the vulnerabilities of healthcare systems around the
+world due to the scarcity of hospital resources. Many healthcare systems, including the NHS in the UK, diverted elective
+treatment resources towards the frontline as a main mitigation
+strategy throughout the pandemic. Consequently, a significant
+number of elective patients accumulated on the waiting list.
+For instance, in February 2021, 4,698,348 waiting list patients
+were recorded across England, 35.5% of which incurred a delay
+exceeding 18-weeks [1], the acceptable threshold set by the NHS.
+The implications of prolonged waiting time include increased
+mortality rates for patients, especially non-prioritised patients
+[2–4]. A recent study [5] examining historical data across England found that an average two month delay per cancer patient
+(considering a three-month lockdown) would result in 2.25% additional lives lost with a backlog on referrals of 25%. Similar studies on chronic cardiac disease [6] indicated significantly higher
+mortality rates among patients pending structural procedures.
+Given these implications, the main factors hindering elective treatment as COVID-19 stabilises are: shortages in staff
+due to sickness or enforced quarantine; inefficiencies in the
+supply-chain of surgical material (e.g. consumables, equipment);
+restricted availability of suitable operating theatres; rise in expenses for patients and insurance companies due to elaborate
+treatment protocols; and triaging non-emergency cases according
+to the risk–benefit ratio for the patient and community [7].
+In fact, Brown et al. [8] highlight the limitations within elective treatment services, particularly endoscopy, well before the
+pandemic exposed the healthcare system’s vulnerabilities. The
+authors cite ‘issues with data availability, quality and use’ as a
+recurring challenge. Particularly, the endoscopy datasets should
+be more comprehensive to present an indication of the reason the
+patient was referred for treatment. The authors also consider the
+process of accessing and processing these datasets complex due
+to inconsistent publishing schedules and formats across different
+datasets. Aside from how the data is presented and its timeliness, Greenhalgh et al. [9] and Guerriere [10] argue that a key
+issue is the absence of sufficient skills to analyse the available
+performance data and translate it into operational improvements.
+This study pursues the lack of data or visibility on the waiting list backlog to incite operational improvements across the
+recovery of elective waiting lists post-pandemic. Particularly,
+tracking the backlog would inform policy planning (e.g. challenge
+thresholds for acceptable waiting time), short- and long-term
+investments in expanding hospital resource capacities, shortterm hospital resource allocation, as well as offer estimates on the
+expected delay in treatment for waiting list patients. To address
+these issues, a predictive model for the delay in post-pandemic
+elective treatment is introduced based on a pre-determined
+scheduling policy. The proposed model-based on discrete-event
+simulation — estimates the short- and long-term trajectory of
+the elective waiting list to gauge the time period and resources
+required for recovery. The model is applied to the endoscopy
+department of Cambridge University Hospitals (CUH) as a case
+study to demonstrate its practical capability.
+The main research aims of the paper include: (i) presenting
+a flexible granular simulation model that can be adapted to
+different waiting list use cases and optimisation objectives; (ii)
+offering short- and long-term delay time and waiting list statistics that can be filtered down to different patient characteristics
+(e.g. priority class, elective procedure); (iii) informing waiting list
+policy planning and resource allocation through highlighting pain
+points (e.g. types of patients waiting longer, short resources);
+and (iv) gauging the benefit of post-pandemic treatment capacity
+investments limiting prolonged patient delays.
+This paper is structured as follows: Section 2 presents a review
+of the literature, Section 3 establishes the predictive model, and
+sections 4 and 5 detail the undertaken case study along with the
+findings. Sections 6 and 7 finally list the limitations of the study
+and conclude potential future prospects.
+
+3. Literature Review:
+
+In the literature, various studies have addressed patient waiting list problems and optimisation of resources in hospitals. Daldoul et al. [11] propose a stochastic mixed integer programming
+model to optimise resources such as physicians and nurses in
+order to minimise patient waiting time in the emergency department. The impact of transferring non-urgent patients as a
+result of emergency department overcrowding is examined by
+Nezamoddini et al. [12]. The transfer minimises patient waiting
+times while maintaining the same capacity of resources. The
+model suggested in Oh et al. [13] was used to investigate problem
+areas concerning process flow, resource allocation, and operational policies in order to optimise an emergency department’s
+throughput. Bhattacharjee and Ray [14] propose a model of a
+hospital appointment system that recognises different patient
+classes for a radiology department’s scanning machine. Multiple
+appointment system policies are evaluated with patient waiting
+time and resource utilisation being the monitored criteria for
+success. Both models [13,14] are implemented using discreteevent simulation. Mahmoudzadeh et al. [15] target rising waiting
+times for healthcare services by investigating patient scheduling
+policies using a robust optimisation approach.
+Data analytics have been widely explored in healthcare to
+fulfil a multitude of patient care targets. Among these targets,
+waiting time serves as a common measure for a healthcare system’s performance. In fact, most NHS trusts have continuously
+exceeded their maximum waiting targets [16]. As a result, waiting
+time predictions have been well-explored within pre-pandemic
+literature.
+
+3.1 Pre-pandemic predictive models
+Several authors adopted a machine learning methodology to
+predict patient waiting time among other KPIs. Kaul et al. [17]
+conduct a comparative study among different prediction-based
+algorithms (CARE, COHESY, and HARM) highlighting their key
+features and limitations. While this study [17] explores different
+machine learning algorithms, Curtis et al. [18] propose a universal
+predictive model for patient waiting time by assessing nine machine learning algorithms according to a set of evaluation criteria
+(e.g. root mean square error). The research objectives comprise
+encouraging superior staff responsiveness and patient satisfaction. Sun et al. [19] employ Quantile Regression to predict waiting
+time in real-time given a certain set of patient characteristics
+(e.g. patient acuity) to improve patient satisfaction and quality
+of care. The resulting forecasts incurred a prediction error of
+only 9 to 16 min. Joseph et al. [20] and Goncalves et al. [21]
+both adopt the Random Forest Regression methodology to predict waiting time and pinpoint the variables with the highest
+predictive power.
+While these studies have generated reasonably sound results
+(e.g. accuracy of 50.09% [21]), other authors have approached
+the problem using more holistic methodologies to mitigate the
+limitations of ‘black box’ machine learning techniques. In fact, Liu
+et al. [22] isolate the root cause of macro-level features (e.g. high
+waiting time and length of stay) using agent-based simulation
+modelling to improve resource allocation and strategic planning.
+Babashov et al. [23] adopt a discrete-event simulation model
+highlighting system bottlenecks and quantifying the impact of
+resource levels to reduce patient waiting time. Chong et al. [24]
+model patient flow using a system dynamics model to examine the trade-off between waiting time, occupancy, and safety
+outcomes.
+The studies listed above offer significant insight on healthcare
+predictive models. However, when it comes to the application
+pursued in this paper, a strong historical basis – an imperative
+and universal factor for the accuracy of these models – for pandemic patient delays sufficient for isolating patterns is lacking.
+The rest of this section explores approaches from existing literature on overcoming this shortcoming and adopted predictive
+models for unprecedented events.
+
+3.2 Pandemic predictive models
+Throughout the pandemic, predictive analytics have been
+utilised to forecast infection rates, admissions rates, and waiting
+list size among a multitude of KPIs.
+When it comes to predicting waiting list size and the corresponding costs, authors have relied on aggregated hospital data
+to draw out conclusions. In fact, based on NHS data, Macdonald
+et al. [25] estimate the building backlog of elective procedures
+to accentuate the current state of waiting lists and propose solutions. The authors highlight the diminishing compliance with
+pre-pandemic waiting time standards (87% in 2019 vs. 83.2% in
+2020). They anticipate 400,000 cases to be missed every month.
+Sud et al. [5] also examine the impact of different scenarios on
+the waiting list backlog for cancer referrals based on historical age- and cancer stage-stratified data. For every prospective
+level of backlog (ranging from 25% to 75%), the number of lives
+potentially lost is quantified. The implications of capacity investments are similarly measured in terms of the number of
+lives potentially saved. Fowler et al. [26] model the expected
+number of surgeries performed, the resources required, and the
+cost of delayed surgery. Garcia-Rojo et al. [27] conduct an observational descriptive study to assess the impact of the pandemic
+on urology surgical waiting lists in high-volume hospitals. The
+resulting mean waiting time observed substantially exceeded that
+of 2019 as well as acceptable delay thresholds in some cases.
+However, given the descriptive methodology design adopted in
+these studies, the analysis lacked a long-term outlook on patient
+waiting time.
+Other authors approached the problem using more analytical methodologies. Oussedik et al. [28] model the orthopaedic
+pathway as a dynamic system. The research objective comprises
+estimating the potential number of patients on elective waiting
+lists and proposing recovery strategies. The model suggests that
+while financially burdensome, expanding service capacity by 30%
+substantially reduces the time required to restore pre-COVID
+waiting list levels. Joshi et al. [29] employ machine learning
+(based on an optimisation algorithm) fed by internal hospital data
+to create an interactive predictive analytics tool. The tool offers
+real-time estimations on the expected backlog clearance time,
+overtime required, and potential costs associated with backlog
+reduction, assuming an optimal assignment of resources. While
+both studies focus on resource availability and allocation, the
+model proposed in this paper offers estimations on delay time
+which would highlight the groups of patients requiring resource
+investments.
+Wood [30] also approach predictions using a more systematic
+methodology, discrete-time simulation. The research objective is
+to quantify the implications of the pandemic on the backlog and
+estimate the service capacity required to restore pre-pandemic
+waiting list levels. The monitored outputs concern the waiting list
+size and the proportion of waiting patients in compliance with
+the 18-week standard. Given that the study was conducted back
+in March 2020, a series of simplifications were considered for the
+distribution of patient arrivals and priority classes. Ho et al. [31]
+serves as another study that directly pursues pandemic waiting lists. The model anticipates the cumulative deficit between
+the actual and expected procedures based on historical data, a
+method similarly considered in this paper. The authors postulate
+that even with mitigation measures, it could take longer than a
+year to eliminate the implications of the pandemic. Given that
+the model relies on national aggregated patient data, high-level
+conclusions regarding the overall trajectory of the waiting list are
+presented. Thus, the limitations restricting these studies [30,31]
+lies within the limited granularity in monitoring waiting time,
+irrespective of patient characteristics.
+To summarise the above, the main limitations of both pre- and
+post-pandemic predictive models are the limited granularity in
+monitoring waiting time, irrespective of patient types and characteristics, and the lack of a long-term outlook on the trajectory
+of the waiting list post-pandemic.
+Many papers [13,32], and [23] highlighted the value of simulation modelling and, in particular, discrete-event simulation as a
+highly informative tool for healthcare planning to minimise waiting lists and maintain acceptable waiting time thresholds, as well
+as to investigate the impact of what-if scenarios on various KPIs.
+The authors in Salmon et al. [33] provide a literature review of
+applications of simulation modelling to emergency departments.
+The rise in recent publications indicate the potential of simulation
+in reaching a clinical audience.
+The model introduced in this paper addresses the limitations
+identified above using simulation modelling given its modelcentricity as opposed to data-centric machine learning algorithms. That is, rare disruptions or soft factors (e.g. waiting list
+patient mortality) with little data basis to be picked up by pattern
+recognition can also be incorporated for accuracy. The model
+employs predictive analytics supported by waiting list policy
+planning to offer a short- and long-term outlook on the waiting
+list backlog, which directly corresponds to the research aims
+targeted by this study.
+
+4. Model
+The proposed model adopts discrete-event simulation to represent the waiting list system. This methodology is considered
+given its granular representation of the system, breaking it down
+to patient-by-patient events marking referral to treatment, entering the waiting list, receiving treatment, and leaving the system.
+This granularity also encourages the inclusion of different patient
+characteristics that define each event (e.g. a patient requiring a
+colonoscopy would spend 2.5 h receiving treatment versus 3 h
+in the case of gastroscopy patients). The patient characteristics
+would then characterise the predictions of delays in treatment
+generated by the model. The objectives of the model are detailed in Section 3.1 followed by a description of the model
+logic in Section 3.2. A comprehensive overview of the case study
+is then presented including the data used, the experimentation
+performed to set up the simulation, and the final implementation
+of the model (Section 4). This structure follows the ’Strengthening the Reporting of Empirical Simulation Studies’ (STRESS)
+guidelines for discrete-event simulation as presented in [34].
+
+4.1 Objectives
+
+4.1.1 Model purpose
+The objectives of this model are threefold: (i) estimating the
+average delay time for each patient type in the short-term, (ii)
+estimating waiting list levels in the long-term for a given treatment capacity and a set of resources, and (iii) studying the impact
+of inflated treatment capacities.
+
+4.1.2 Model outputs
+In fact, the model offers a wide range of outputs collected
+while the model is running. The following data was particularly
+collected to gain a short- and long-term outlook on the expected
+delay time for elective patients:
+1. Short-term Performance and Delay: Proportion of patients
+waiting less than 18-weeks and average delay in treatment
+2. Short-term Patient-specific Delay: For every patient type,
+confidence intervals for the average delay in treatment
+3. Long-term Waiting List Trajectory: Waiting list levels for a
+pre-determined timeframe
+
+4.1.3 Experimentation aims
+The sensitivity of these outputs in regards to treatment capacity is also studied using the model. Different levels of increased
+treatment capacity are considered with the objective of determining the most optimal level to mitigate the implications of the
+pandemic. These scenarios are further explained in Section 5.4.
+
+4.2 Logic
+
+4.2.1 Base model overview and logic
+To represent the waiting list system and break it down to
+different events dictating a patient’s journey, the model consists
+of two separate yet interdependent flows: patient and signal
+flow. The patient flow represents patients joining the waiting
+list with a set of characteristics/attributes and undergoing treatment. This flow allows the model to keep track of granular
+patient-by-patient time accounts.
+The signal flow serves as a series of periodic triggers for waiting list updates (e.g. updating the priority number of waiting patients every five minutes) and patient releases to treatment when
+resources are available. These entities support the collection of
+waiting list KPIs.
+Fig. 1 summarises the overall logic of the model. The sensitivity analysis in Section 5.4 adopts the same methodology with the
+only variable being treatment capacity or the number of patients
+that can be treated in a given time period.

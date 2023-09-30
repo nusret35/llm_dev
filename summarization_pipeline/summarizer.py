@@ -25,8 +25,10 @@ class Summarizer :
         return prompt
 
     def summarize(self,text):
-        prompt = "Summarize this text with maximum 100 words: " + text
-        output = self._send_prompt(text)
+        length = len(text.split())
+        summary_limit = max(30, int(length*0.5))
+        prompt = "Summarize this text with maximum " + str(summary_limit) + " words: " + text
+        output = self._send_prompt(prompt)
         return output
 
     def find_thesis_statament(self,text):
@@ -71,7 +73,7 @@ class Summarizer :
          section_names_string = ''
          for section_name in section_names:
              section_names_string += section_name + ' '
-         prompt = 'Sections: ' + section_names_string + '\n Thesis statement: ' + thesis_statement + '\n Give the five most important section names among the given sections'
+         prompt = 'Sections: ' + section_names_string + '\n Thesis statement: ' + thesis_statement + '\n Give the three most important section names among the given sections'
          output = self._send_prompt(prompt)
          return output
 
