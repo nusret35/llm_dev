@@ -1,5 +1,36 @@
 import re
+import subprocess
 
+#exec_path = './alpaca-exec-s'
+exec_path = './alpaca-exec-n'
+
+def send_prompt(prompt):
+    prompt = prompt.replace(' ', '_').replace('-', '_').replace('@', '_')
+    args = [exec_path, '--prompt', prompt]
+    try:
+        # Run the C++ executable and capture the output
+        result = subprocess.run(args, capture_output=True, text=True, check=True)
+        
+        # Extract the output from the subprocess
+        output = result.stdout.strip()
+        return output    
+    except subprocess.CalledProcessError as e:
+        print(f"Error executing C++ code: {e}")
+        print(f"Error message: {e.stderr}")
+        return None
+    
+def is_section_model_response(text) :
+        general_sections = ['Abstract','Introduction','Literature Review', 'Methodology', 'Keywords' 'Outcomes', 'Results', 'Acknowledgements','References']
+        for section in general_sections:
+            if section in text:
+                return True
+        prompt = 'Can \"' + text + '\" be a section for a scholarly article, yes or no?'
+        output = send_prompt(prompt)
+        if  output == 'Yes':
+            return True
+        else:
+            return False
+    
 def is_section(section_key) :
     counter = 0
     for character in section_key :
@@ -8,9 +39,9 @@ def is_section(section_key) :
         elif counter == 1 and character.isnumeric() :
             return False
         elif counter == 1 and character.isalpha() :
-            return True     
+            model_response = is_section_model_response(section_key)
+            return model_response     
     return True
-
 
 # Processes a dictionary of sections and groups subsections under their respective main sections.
 def group_subsections(sections_dict):
@@ -57,7 +88,7 @@ def recursive_grouping(summaries, summarizer, max_length=70):
     return recursive_grouping(new_summaries, summarizer, max_length + 10)  # Increase max_length for each new round
 
 
-def divide_article_into_sections(article):
+def divide_article_into_sections(article,):
     sections = {}
     section_titles = re.findall(r'\d+\..+?\n', article)  # Find all lines that start with "number.title"
     
@@ -74,8 +105,9 @@ def divide_article_into_sections(article):
             number = float(match.group(1))
             # Check if the main number (before the dot) is non-decreasing
             if number == previous_number or number == (previous_number + 1):
-                correct_titles.append(title)
-                previous_number = number
+                if is_section_model_response(title) == True :
+                    correct_titles.append(title)
+                    previous_number = number
 
     section_titles = correct_titles
     

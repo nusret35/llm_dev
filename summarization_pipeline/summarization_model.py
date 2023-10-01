@@ -34,8 +34,8 @@ def summarize_section(section, summarizer):
 
 if __name__ == "__main__":
 
-    exec_path = './alpaca-exec-s'
-    #exec_path = './alpaca-exec-n'
+    #exec_path = './alpaca-exec-s'
+    exec_path = './alpaca-exec-n'
 
     # Summarizer model
     summarizer = Summarizer(model_path=exec_path)
