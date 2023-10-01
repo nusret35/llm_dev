@@ -36,11 +36,15 @@ class Summarizer :
         output = self._send_prompt(prompt)
         return output
     
+    # Returns the text of a section together with the text of its subsections
     def section_text(self,section_name,sections_dict):
         if section_name in sections_dict:
+            # If the section exists and its value is a string, the function returns this string directly
             if isinstance(sections_dict[section_name], str):
                 return sections_dict[section_name]
-            else:
+            # If the section exists and its value is a dictionary, 
+            # the function concatenates all the string values from this dictionary
+            else:  
                 output = ''
                 for item in sections_dict[section_name].values():
                     output += item + ' '  # Add a space for separation

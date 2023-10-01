@@ -47,7 +47,13 @@ if __name__ == "__main__":
     # Divide article into sections and return a dictionary (section names as keys and texts as values)
     sections_dict = divide_article_into_sections(text)
 
+    print("Section names before grouping the subsections:")
+    print(sections_dict.keys())
+
     sections_dict = group_subsections(sections_dict)
+
+    print("Section names after grouping the subsections:")
+    print(sections_dict.keys())
 
     title = 'Climate Change: Trends, Consequences, and Mitigation Strategies'
     abstract = summarizer.section_text('Abstract',sections_dict)

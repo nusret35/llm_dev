@@ -12,6 +12,7 @@ def is_section(section_key) :
     return True
 
 
+# Processes a dictionary of sections and groups subsections under their respective main sections.
 def group_subsections(sections_dict):
     new_dict = {}
     sub_dict = {}
@@ -20,7 +21,7 @@ def group_subsections(sections_dict):
         key = list(sections_dict.keys())[index]
         if is_section(key):
             if sub_dict != {} and prev_section != '':
-                new_dict[prev_section] = sub_dict
+                new_dict[prev_section] = sub_dict # Insert the sub_dict as the value to the new_dict
                 sub_dict = {}
             key = re.sub(r'[0-9.:]', '', key).strip()  # Remove integers and punctuation from key
             prev_section = key
@@ -29,8 +30,8 @@ def group_subsections(sections_dict):
         else:
             key = re.sub(r'[0-9.:]', '', key).strip()  # Remove integers and punctuation from key
             sub_dict[key] = list(sections_dict.values())[index]
-    if sub_dict != {} and prev_section != '':
-        new_dict[prev_section] = sub_dict  # Don't forget the last section
+    if sub_dict != {} and prev_section != '': # Insert the last sub_dict as the value of the last section name
+        new_dict[prev_section] = sub_dict 
     return new_dict
 
 
@@ -59,6 +60,24 @@ def recursive_grouping(summaries, summarizer, max_length=70):
 def divide_article_into_sections(article):
     sections = {}
     section_titles = re.findall(r'\d+\..+?\n', article)  # Find all lines that start with "number.title"
+    
+    # Remove the falsely selected section titles
+    section_titles = [title for title in section_titles if '%' not in title] # EX: '2.5% ...' is not a section title
+
+    # Check the correctness of the chosen section titles by checking the non-decreasing order of the section numbers
+    correct_titles = []
+    previous_number = 0  # Start with a sentinel value
+    for title in section_titles:
+        # Extract the number at the start of the title
+        match = re.match(r'(\d+)(\.\d+)?', title)
+        if match:
+            number = float(match.group(1))
+            # Check if the main number (before the dot) is non-decreasing
+            if number == previous_number or number == (previous_number + 1):
+                correct_titles.append(title)
+                previous_number = number
+
+    section_titles = correct_titles
     
     # Use zip to pair section titles with their corresponding text
     for title, next_title in zip(section_titles, section_titles[1:] + ['']):

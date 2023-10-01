@@ -8,8 +8,7 @@ The COVID-19 pandemic had a major impact on healthcare systems across the world.
 Kingdom, one of the strategies used by hospitals to cope with the surge in patients infected with
 SARS-Cov-2 was to cancel a vast number of elective treatments planned and limit its resources for
 non-critical patients. This resulted in a 30% drop in the number of people joining the waiting list
-in 2020–2021 versus 2019–2020. Once the pandemic subsides and resources are freed for elective
-treatment, the expectation is that the patients failing to receive treatment throughout the pandemic
+in 2020–2021 versus 2019–2020.Once the pandemic subsides and resources are freed for elective treatment, the expectation is that the patients failing to receive treatment throughout the pandemic
 would trigger a significant backlog on the waiting list post-pandemic with major repercussions to
 patient health and quality of life. As the nation emerges from the worst phase of the pandemic,
 hospitals are focusing on strategies to prioritise patients for elective treatments. A key challenge in this
@@ -113,6 +112,7 @@ time predictions have been well-explored within pre-pandemic
 literature.
 
 3.1 Pre-pandemic predictive models
+
 Several authors adopted a machine learning methodology to
 predict patient waiting time among other KPIs. Kaul et al. [17]
 conduct a comparative study among different prediction-based
@@ -148,6 +148,7 @@ The rest of this section explores approaches from existing literature on overcom
 models for unprecedented events.
 
 3.2 Pandemic predictive models
+
 Throughout the pandemic, predictive analytics have been
 utilised to forecast infection rates, admissions rates, and waiting
 list size among a multitude of KPIs.
