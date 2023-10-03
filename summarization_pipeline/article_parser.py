@@ -24,7 +24,7 @@ def is_section_model_response(text) :
         for section in general_sections:
             if section in text:
                 return True
-        prompt = 'Can \"' + text + '\" be a section for a scholarly article, yes or no?'
+        prompt = 'Can "' + text + '" be a section for a scholarly article, yes or no?'
         output = send_prompt(prompt)
         if  output == 'Yes':
             return True

@@ -1,3 +1,4 @@
+# Use a pipeline as a high-level helper
 from transformers import pipeline
 from summarizer import Summarizer
 from article_parser import group_subsections, recursive_grouping, divide_article_into_sections
@@ -5,19 +6,8 @@ import threading
 import torch
 import re
 
-"""
-summarizer = pipeline(
-    "summarization",
-    "pszemraj/long-t5-tglobal-base-16384-book-summary",
-    device=0 if torch.cuda.is_available() else -1,
-)
-"""
 
-"""
-The function takes a nested dictionary, where the nesting represents the subsections in a section, 
-and returns the summary of each section recursively. 
-If the number of words in a section is less than 25, then no need to call the summarize function. The text is taken as it is. 
-"""
+
 def summarize_section(section, summarizer):
     if isinstance(section,dict):
         summary = ''
@@ -70,21 +60,7 @@ if __name__ == "__main__":
     print(important_sections)
 
     summaries = []
-
-    """
-    # Summarizing the entirity of the article
-    for section in sections_dict.values():
-        section = section.strip()  # Remove any leading/trailing whitespace
-
-        # Hugging face pipeline summarization
-        #summaries.append(summarizer(section, max_length=50, min_length=20, do_sample=False)[0]['summary_text'])
-
-        # Alpaca model summarization
-        summary = summarizer.summarize(section)
-        print(summary)
-        summaries.append(summary)
-    """
-
+    
     # Summarizing the important sections of the article
     for key, value in sections_dict.items():
         if key in important_sections: 
