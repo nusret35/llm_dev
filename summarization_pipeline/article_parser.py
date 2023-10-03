@@ -18,19 +18,22 @@ def send_prompt(prompt):
         print(f"Error executing C++ code: {e}")
         print(f"Error message: {e.stderr}")
         return None
-    
+
+
+# Function that sends a prompt to the model to check if a chosen section is a valid section name
 def is_section_model_response(text) :
-        general_sections = ['Abstract','Introduction','Literature Review', 'Methodology', 'Keywords' 'Outcomes', 'Results', 'Acknowledgements','References']
-        for section in general_sections:
-            if section in text:
-                return True
-        prompt = 'Can "' + text + '" be a section for a scholarly article, yes or no?'
-        output = send_prompt(prompt)
-        if  output == 'Yes':
+    general_sections = ['Abstract','Introduction','Literature Review', 'Methodology', 'Keywords' 'Outcomes', 'Results', 'Acknowledgements','References']
+    for section in general_sections:
+        if section in text:
             return True
-        else:
-            return False
+    prompt = 'Can "' + text + '" be a section for a scholarly article, yes or no?'
+    output = send_prompt(prompt)
+    if  output == 'Yes':
+        return True
+    else:
+        return False
     
+
 def is_section(section_key) :
     counter = 0
     for character in section_key :
@@ -42,6 +45,7 @@ def is_section(section_key) :
             model_response = is_section_model_response(section_key)
             return model_response     
     return True
+
 
 # Processes a dictionary of sections and groups subsections under their respective main sections.
 def group_subsections(sections_dict):

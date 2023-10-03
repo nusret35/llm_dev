@@ -8,7 +8,6 @@ class Summarizer :
     def __init__(self,model_path=None):
         self.model_path = model_path
 
-
     def _send_prompt(self,prompt):
         prompt = prompt.replace(' ', '_').replace('-', '_').replace('@', '_')
         args = [self.model_path, '--prompt', prompt]
