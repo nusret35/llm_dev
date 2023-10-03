@@ -6,8 +6,6 @@ import threading
 import torch
 import re
 
-
-
 def summarize_section(section, summarizer):
     if isinstance(section,dict):
         summary = ''
