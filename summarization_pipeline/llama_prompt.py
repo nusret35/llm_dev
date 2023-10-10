@@ -3,16 +3,9 @@ from transformers import AutoTokenizer
 import transformers
 import torch
 
-
 tokenizer = AutoTokenizer.from_pretrained("codellama/CodeLlama-7b-hf")
-pipeline = transformers.pipeline(
-    "text-generation",
-    model="codellama/CodeLlama-7b-hf",
-    torch_dtype=torch.float16,
-    device_map="auto",
-)
 
-llm = HuggingFacePipeline(pipeline = pipeline, model_kwargs = {'temperature':0})
+#llm = HuggingFacePipeline(pipeline = pipeline, model_kwargs = {'temperature':0})
 
 template = """
               Write a concise summary of the following text delimited by triple backquotes.
@@ -22,6 +15,8 @@ template = """
            """
 
 prompt = PromptTemplate(template=template, input_variables=["text"])
+
+print(prompt)
 
 llm_chain = LLMChain(prompt=prompt, llm=llm)
 
