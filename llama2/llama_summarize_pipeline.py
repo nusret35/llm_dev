@@ -1,4 +1,4 @@
-from summarizer import Summarizer
+from summarization_pipeline.summarizer import Summarizer
 import transformers 
 from langchain import PromptTemplate
 

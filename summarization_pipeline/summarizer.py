@@ -2,7 +2,6 @@ import subprocess
 from transformers import pipeline
 import torch
 
-
 class Summarizer :
 
     def __init__(self,model_path=None):
