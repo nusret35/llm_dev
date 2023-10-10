@@ -2,10 +2,9 @@ import subprocess
 from transformers import pipeline
 import torch
 
-class Summarizer :
-
-    def __init__(self,model_path=None):
-        self.model_path = model_path
+class Summarizer : 
+    def __init__(self,exec_path=None):
+        self.exec_path = exec_path
 
     def get_llama_response(self, prompt: str) -> None:
         pipe = pipeline("text-generation", model="meta-llama/Llama-2-70b-chat-hf",torch_dtype=torch.float16)
@@ -13,8 +12,9 @@ class Summarizer :
         print(output)
 
     def _send_prompt(self,prompt):
-        prompt = prompt.replace(' ', '_').replace('-', '_').replace('@', '_')
-        args = [self.model_path, '--prompt', prompt]
+        #./main -m ./models/7B/./ggml-model-q4_0.bin -n 1024 --repeat_penalty 1.0 --color -i -r "TEXT:" -f ./prompts/summarization2.txt
+        model_path = '/Users/nusretkizilaslan/Desktop/AIProject/llama2/llama.cpp/models/./7B/ggml-vocab-q4_0.bin'
+        args = [self.exec_path, '-m', model_path, '-n', '1024', '--repeat_penalty','1.0', '--color', '-i', '-r', '"TEXT:"', '-f', prompt]
         try:
             # Run the C++ executable and capture the output
             result = subprocess.run(args, capture_output=True, text=True, check=True)

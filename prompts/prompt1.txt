@@ -1,0 +1,9 @@
+You are a summarizer tool. You summarize given texts concisely.
+
+TEXT: This paper seeks to investigate and detail the scientific consensus surrounding climate change, focusing on its trends, impacts, and the effectiveness of various mitigation strategies. Data were gathered from multiple sources including satellite observations, ground-based measurements, and climate model simulations. Findings suggest that climate change consequences are already substantial and expected to worsen. However, targeted and aggressive mitigation strategies can significantly reduce future impacts.
+
+SUMMARY: The paper explores the scientific consensus on climate change, its effects, and mitigation effectiveness. Findings show worsening impacts, but aggressive strategies can reduce future consequences.
+
+TEXT: The COVID-19 pandemic had a major impact on healthcare systems across the world. In the United Kingdom, one of the strategies used by hospitals to cope with the surge in patients infected with SARS-Cov-2 was to cancel a vast number of elective treatments planned and limit its resources for non-critical patients. This resulted in a 30% drop in the number of people joining the waiting list in 2020–2021 versus 2019–2020. Once the pandemic subsides and resources are freed for elective treatment, the expectation is that the patients failing to receive treatment throughout the pandemic would trigger a significant backlog on the waiting list post-pandemic with major repercussions to patient health and quality of life. As the nation emerges from the worst phase of the pandemic, hospitals are focusing on strategies to prioritise patients for elective treatments.
+
+SUMMARY:

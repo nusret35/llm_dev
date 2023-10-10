@@ -24,14 +24,20 @@ if __name__ == "__main__":
 
     #exec_path = './alpaca-exec-s'
     exec_path = './alpaca-exec-n'
+    llama_exec_path = '/Users/nusretkizilaslan/Desktop/AIProject/llama2/llama.cpp/main'
 
     # Summarizer model
-    summarizer = Summarizer(model_path=exec_path)
+    summarizer = Summarizer(exec_path=llama_exec_path)
 
     # Read txt document
     with open('summarization_pipeline/data3.txt', 'r') as file:
         text = file.read()
+    
+    output = summarizer._send_prompt(prompt='./prompts/prompt1.txt')
 
+    print(output)
+
+'''
     # Divide article into sections and return a dictionary (section names as keys and texts as values)
     sections_dict = divide_article_into_sections(text)
 
@@ -71,3 +77,4 @@ if __name__ == "__main__":
 
     print()
     print(final_summary)
+'''
