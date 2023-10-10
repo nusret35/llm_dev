@@ -24,7 +24,8 @@ if __name__ == "__main__":
 
     #exec_path = './alpaca-exec-s'
     exec_path = './alpaca-exec-n'
-    llama_exec_path = '/Users/nusretkizilaslan/Desktop/AIProject/llama2/llama.cpp/main'
+    #llama_exec_path = '/Users/nusretkizilaslan/Desktop/AIProject/llama2/llama.cpp/main'
+    llama_exec_path = '/Users/selinceydeli/Desktop/llama/llama.cpp/main'
 
     # Summarizer model
     summarizer = Summarizer(exec_path=llama_exec_path)
