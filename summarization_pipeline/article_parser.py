@@ -1,8 +1,8 @@
 import re
 import subprocess
 
-#exec_path = './alpaca-exec-s'
-exec_path = './alpaca-exec-n'
+exec_path = './alpaca-exec-s'
+#exec_path = './alpaca-exec-n'
 
 def send_prompt(prompt):
     prompt = prompt.replace(' ', '_').replace('-', '_').replace('@', '_')
@@ -91,11 +91,11 @@ def recursive_grouping(summaries, summarizer, max_length=70):
 
     return recursive_grouping(new_summaries, summarizer, max_length + 10)  # Increase max_length for each new round
 
-
+"""
 def divide_article_into_sections(article,):
     sections = {}
     section_titles = re.findall(r'\d+\..+?\n', article)  # Find all lines that start with "number.title"
-    
+
     # Remove the falsely selected section titles
     section_titles = [title for title in section_titles if '%' not in title] # EX: '2.5% ...' is not a section title
 
@@ -120,6 +120,28 @@ def divide_article_into_sections(article,):
         # Get the start and end positions of each section
         start_pos = article.find(title)
         end_pos = article.find(next_title)
+        
+        # Extract the section text and remove the section title
+        section_text = article[start_pos + len(title):end_pos].strip()
+        
+        # Store the section in the dictionary with the title as the key
+        sections[title.strip()] = section_text
+
+    return sections
+"""
+
+def divide_article_into_sections(article):
+    sections = {}
+    section_titles = re.findall(r'\d+\..+?\n', article)  # Find all lines that start with "number.title"
+
+    # Use zip to pair section titles with their corresponding text
+    for title, next_title in zip(section_titles, section_titles[1:] + ['']):
+        # Get the start and end positions of each section
+        start_pos = article.find(title)
+        if next_title:  # if there is a next title, find its position
+            end_pos = article.find(next_title)
+        else:  # if this is the last title, use the end of the string
+            end_pos = len(article)
         
         # Extract the section text and remove the section title
         section_text = article[start_pos + len(title):end_pos].strip()
