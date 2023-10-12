@@ -31,31 +31,37 @@ if __name__ == "__main__":
     summarizer = Summarizer(exec_path=llama_exec_path)
 
     # Read txt document
-    with open('summarization_pipeline/data3.txt', 'r') as file:
+    with open('summarization_pipeline/data2.txt', 'r') as file:
         text = file.read()
-    
-    output = summarizer._send_prompt(prompt='./prompts/prompt1.txt')
 
-    print(output)
-
-'''
     # Divide article into sections and return a dictionary (section names as keys and texts as values)
     sections_dict = divide_article_into_sections(text)
 
     print("Section names before grouping the subsections:")
-    print(sections_dict.keys())
+    print(sections_dict)
 
     sections_dict = group_subsections(sections_dict)
 
     print("Section names after grouping the subsections:")
-    print(sections_dict.keys())
+    print(sections_dict)
 
     title = 'Climate Change: Trends, Consequences, and Mitigation Strategies'
     abstract = summarizer.section_text('Abstract',sections_dict)
+    print(abstract)
 
     #objective = summarizer.find_objective(title,sections_dict)
-    thesis = summarizer.find_thesis_statament(abstract)
-    print(thesis)
+    #thesis = summarizer.find_thesis_statament(abstract)
+    #print(thesis)
+
+    critical_sections = ["introduction", "conclusion", "discussion", "methodology"]
+    # take these critical sections
+    # or take the last two sections of the article
+    # also consider the descriptions under the figures -> take the important ones
+    # aim: enriching the abstract to have a 700-800 worded summary of the article
+
+    critical_section_information = {}
+    for section in critical_sections:
+        critical_section_information[section] = summarizer.section_text(section,sections_dict)
     
     section_names = list(sections_dict.keys())
     numbered_section_names = ["{}. {}".format(i+1, section) for i, section in enumerate(section_names)]
@@ -78,4 +84,3 @@ if __name__ == "__main__":
 
     print()
     print(final_summary)
-'''
