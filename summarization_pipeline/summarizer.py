@@ -46,18 +46,23 @@ class Summarizer :
         return output
     
     # Returns the text of a section together with the text of its subsections
-    def section_text(self,section_name,sections_dict):
-        if section_name in sections_dict:
-            # If the section exists and its value is a string, the function returns this string directly
-            if isinstance(sections_dict[section_name], str):
-                return sections_dict[section_name]
-            # If the section exists and its value is a dictionary, 
-            # the function concatenates all the string values from this dictionary
-            else:  
-                output = ''
-                for item in sections_dict[section_name].values():
-                    output += item + ' '  # Add a space for separation
-                return output.strip()  # Remove trailing space
+    def section_text(self, section_name, sections_dict):
+        # Convert section_name to lowercase for case-insensitive comparison
+        section_name_lower = section_name.lower()
+        
+        for key, value in sections_dict.items():
+            # Convert each key to lowercase for case-insensitive comparison
+            if section_name_lower == key.lower():
+                # If the section exists and its value is a string, the function returns this string directly
+                if isinstance(value, str):
+                    return value
+                # If the section exists and its value is a dictionary,
+                # the function concatenates all the string values from this dictionary
+                else:  
+                    output = ''
+                    for item in value.values():
+                        output += item + ' '  # Add a space for separation
+                    return output.strip()  # Remove trailing space
         return ''
     
     # What did the author set out to do? 
