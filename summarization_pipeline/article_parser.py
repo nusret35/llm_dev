@@ -1,8 +1,8 @@
 import re
 import subprocess
 
-#exec_path = './alpaca-exec-s'
-exec_path = './alpaca-exec-n'
+exec_path = './alpaca-exec-s'
+#exec_path = './alpaca-exec-n'
 
 def send_prompt(prompt):
     prompt = prompt.replace(' ', '_').replace('-', '_').replace('@', '_')
@@ -38,9 +38,11 @@ def is_section(section_key) :
             counter += 1
         elif counter == 1 and character.isnumeric() :
             return False
+        """
         elif counter == 1 and character.isalpha() :
             model_response = is_section_model_response(section_key)
-            return model_response     
+            return model_response
+        """     
     return True
 
 # Processes a dictionary of sections and groups subsections under their respective main sections.
