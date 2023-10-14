@@ -34,9 +34,7 @@ class Summarizer :
         return prompt
 
     def summarize(self,text):
-        length = len(text.split())
-        summary_limit = max(30, int(length*0.5))
-        prompt = "Summarize this text with maximum " + str(summary_limit) + " words: " + text
+        prompt = "Below is an instruction that describes a task. Write a response that appropriately completes the request\n### Instruction: Summarize this text:" + text + "\n### Response:"
         output = self._send_prompt(prompt)
         return output
 
