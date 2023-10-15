@@ -12,11 +12,18 @@ class Summarizer :
         output = pipe(prompt)
         print(output)
 
-    def _send_prompt(self,prompt):
+    def _make_prompt(self,instruction):
+        prompt = "Below is an instruction that describes a task. Write a response that appropriately completes the request\n### Instruction:" + instruction + "\n### Response:"
+        return prompt
+    
+    def _send_prompt(self,instruction):
         #./main -m ./models/7B/./ggml-model-q4_0.bin -n 1024 --repeat_penalty 1.0 --color -ins -f ./prompts/summarization2.txt
         #model_path = '/Users/nusretkizilaslan/Desktop/AIProject/llama2/llama.cpp/models/./7B/ggml-vocab-q4_0.bin'
         model_path = '/Users/selinceydeli/Desktop/llama/llama.cpp/models/7B/ggml-model-q4_0.bin'
-        args = [self.exec_path, '-m', model_path, '-n', '1024', '--repeat_penalty','1.0', '--color', '-ins', '-f', prompt]
+        alpaca_path = '/Users/nusretkizilaslan/Desktop/AIProject/llama2/llama.cpp/models/alpaca.13b.ggmlv3.q8_0.bin'
+        prompt = self._make_prompt(instruction)
+        args = [self.exec_path, '-m', alpaca_path, '--color','-p', prompt,'--ctx_size','2048','-n','-1','-b','256','--top_k','10000','--temp', '0.2','--repeat_penalty','1.1','-t','7']
+        
         try:
             # Run the C++ executable and capture the output
             result = subprocess.run(args, capture_output=True, text=True, check=True)

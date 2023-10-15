@@ -24,12 +24,14 @@ if __name__ == "__main__":
 
     exec_path = './alpaca-exec-s'
     #exec_path = './alpaca-exec-n'
-    llama_exec_path = '/Users/selinceydeli/Desktop/llama/llama.cpp/main'
-    #llama_exec_path = '/Users/nusretkizilaslan/Desktop/AIProject/llama2/llama.cpp/main'
+    #llama_exec_path = '/Users/selinceydeli/Desktop/llama/llama.cpp/main'
+    llama_exec_path = '/Users/nusretkizilaslan/Desktop/AIProject/llama2/llama.cpp/main'
 
     # Summarizer model
     summarizer = Summarizer(exec_path=llama_exec_path)
 
+    output = summarizer._send_prompt('What is the result of 1+1?')
+    print(output)
     # Read txt document
     with open('summarization_pipeline/data2.txt', 'r') as file:
         text = file.read()
@@ -50,7 +52,7 @@ if __name__ == "__main__":
     print(abstract)
 
     #objective = summarizer.find_objective(title,sections_dict)
-    #thesis = summarizer.find_thesis_statament(abstract)
+    thesis = summarizer.find_thesis_statament(abstract)
     #print(thesis)
 
     critical_sections = ["introduction", "conclusion", "discussion", "methodology"]
