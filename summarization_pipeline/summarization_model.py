@@ -24,8 +24,8 @@ if __name__ == "__main__":
 
     exec_path = './alpaca-exec-s'
     #exec_path = './alpaca-exec-n'
-    #llama_exec_path = '/Users/selinceydeli/Desktop/llama/llama.cpp/main'
-    llama_exec_path = '/Users/nusretkizilaslan/Desktop/AIProject/llama2/llama.cpp/main'
+    llama_exec_path = '/Users/selinceydeli/Desktop/llama/llama.cpp/main'
+    #llama_exec_path = '/Users/nusretkizilaslan/Desktop/AIProject/llama2/llama.cpp/main'
 
     # Summarizer model
     summarizer = Summarizer(exec_path=llama_exec_path)
@@ -52,7 +52,7 @@ if __name__ == "__main__":
     print("Abstract: " + abstract)
 
     #objective = summarizer.find_objective(title,sections_dict)
-    thesis = summarizer.find_thesis_statament(abstract)
+    #thesis = summarizer.find_thesis_statament(abstract)
     #print(thesis)
 
     critical_sections = ["introduction", "conclusion", "discussion", "methodology", "outcomes"]
@@ -72,8 +72,6 @@ if __name__ == "__main__":
         summarized_sections[key] = summary
         print(key + ": " + value + "\nSummary: " + summary)
 
-    
-    
     section_names = list(sections_dict.keys())
     numbered_section_names = ["{}. {}".format(i+1, section) for i, section in enumerate(section_names)]
     print(numbered_section_names)

@@ -19,8 +19,9 @@ class Summarizer :
     def _send_prompt(self,instruction):
         #./main -m ./models/7B/./ggml-model-q4_0.bin -n 1024 --repeat_penalty 1.0 --color -ins -f ./prompts/summarization2.txt
         #model_path = '/Users/nusretkizilaslan/Desktop/AIProject/llama2/llama.cpp/models/./7B/ggml-vocab-q4_0.bin'
-        model_path = '/Users/selinceydeli/Desktop/llama/llama.cpp/models/7B/ggml-model-q4_0.bin'
-        alpaca_path = '/Users/nusretkizilaslan/Desktop/AIProject/llama2/llama.cpp/models/alpaca.13b.ggmlv3.q8_0.bin'
+        #model_path = '/Users/selinceydeli/Desktop/llama/llama.cpp/models/7B/ggml-model-q4_0.bin'
+        alpaca_path = "/Users/selinceydeli/Desktop/llama/llama.cpp/models/alpaca.13b.ggmlv3.q8_0.bin"
+        #alpaca_path = '/Users/nusretkizilaslan/Desktop/AIProject/llama2/llama.cpp/models/alpaca.13b.ggmlv3.q8_0.bin'
         prompt = self._make_prompt(instruction)
         args = [self.exec_path, '-m', alpaca_path, '--color','-p', prompt,'--ctx_size','2048','-n','-1','-b','256','--top_k','10000','--temp', '0.2','--repeat_penalty','1.1','-t','7']
         
