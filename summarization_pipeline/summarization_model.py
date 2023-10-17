@@ -24,8 +24,8 @@ if __name__ == "__main__":
 
     exec_path = './alpaca-exec-s'
     #exec_path = './alpaca-exec-n'
-    #llama_exec_path = '/Users/selinceydeli/Desktop/llama/llama.cpp/main'
-    llama_exec_path = '/Users/nusretkizilaslan/Desktop/AIProject/llama2/llama.cpp/main'
+    llama_exec_path = '/Users/selinceydeli/Desktop/llama/llama.cpp/main'
+    #llama_exec_path = '/Users/nusretkizilaslan/Desktop/AIProject/llama2/llama.cpp/main'
 
 
     # Summarizer model
@@ -52,6 +52,7 @@ if __name__ == "__main__":
     print("Abstract: " + abstract)
 
     #objective = summarizer.find_objective(title,sections_dict)
+
     thesis = summarizer.find_thesis_statament(abstract)
     print(thesis)
 
@@ -72,8 +73,6 @@ if __name__ == "__main__":
         summary = summarizer.summarize(value)
         summarized_sections[key] = summary
         print(key + ": " + value + "\nSummary: " + summary)
-
-
 
     enrich_abstract_output = summarizer.enrich_abstract(abstract,summarized_sections['introduction'],summarized_sections['conclusion'],summarized_sections['discussion'])
     
