@@ -22,7 +22,7 @@ class Summarizer :
         model_path = '/Users/selinceydeli/Desktop/llama/llama.cpp/models/7B/ggml-model-q4_0.bin'
         alpaca_path = '/Users/nusretkizilaslan/Desktop/AIProject/llama2/llama.cpp/models/alpaca.13b.ggmlv3.q8_0.bin'
         prompt = self._make_prompt(instruction)
-        args = [self.exec_path, '-m', alpaca_path, '--color','-p', prompt,'--ctx_size','2048','-n','-1','-b','256','--top_k','10000','--temp', '0.2','--repeat_penalty','1.1','-t','7']
+        args = [self.exec_path, '-m', alpaca_path, '--color','-p', prompt,'--ctx_size','4096','-n','-1','-b','256','--top_k','10000','--temp', '0.2','--repeat_penalty','1.1','-t','7']
         
         try:
             # Run the C++ executable and capture the output
@@ -57,10 +57,21 @@ class Summarizer :
         return response
 
     def find_thesis_statament(self,text):
-        prompt = 'What is the thesis statement of this text: ' + text
+        instruction = 'What is the thesis statement of this text: ' + text
+        prompt = self._make_prompt(instruction)
         output = self._send_prompt(prompt)
-        return output
+        response = self.return_response(output)
+        return response
     
+    def enrich_abstract(self,abstract,introduction,conclusion,discussion):
+        base_instruction = 'Using the above text, enrich the abstract by integrating key information, findings, and implications from the introduction, discussion and conclusion sections. Ensure that the additional details enhance and complement the existing content of the abstract without altering its fundamental message or structure.'
+        instruction = 'Abstract: '+abstract+ '\\Introduction: '+introduction+ '\\Discussion: ' + discussion + '\\Conclusion: '+ conclusion + '\\' + base_instruction
+        prompt = self._make_prompt(instruction)
+        output = self._send_prompt(prompt)
+        response = self.return_response(output)
+        return response
+
+
     # Returns the text of a section together with the text of its subsections
     def section_text(self, section_name, sections_dict):
         # Convert section_name to lowercase for case-insensitive comparison
@@ -87,7 +98,7 @@ class Summarizer :
         abstract = self.section_text('Abstract',sections_dict)
         introduction = self.section_text('Introduction',sections_dict)
         conclusion = self.section_text('Conclusion',sections_dict)
-
+        
         prompt = 'I have an article at hand, whose title is: ' + title + 'Whose abstract is: ' + abstract + 'Whose introduction is: ' + introduction + 'Whose conclusion is: ' + conclusion + '/n What did the author set out to do and what was the outcome?'
         output = self._send_prompt(prompt)
         return output

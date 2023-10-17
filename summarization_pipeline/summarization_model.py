@@ -27,9 +27,9 @@ if __name__ == "__main__":
     #llama_exec_path = '/Users/selinceydeli/Desktop/llama/llama.cpp/main'
     llama_exec_path = '/Users/nusretkizilaslan/Desktop/AIProject/llama2/llama.cpp/main'
 
+
     # Summarizer model
     summarizer = Summarizer(exec_path=llama_exec_path)
-
     #output = summarizer._send_prompt('Summarize this text: Climate change mitigation requires a multidimensional approach including GHG emission reduction, carbon capture, and adaptation strategies. Transitioning to renewable energy sources, improving energy efficiency, and modifying consumption patterns are crucial. Technological innovations for carbon capture and sequestration (CCS) can further aid in offsetting emissions. Furthermore, climate-resilient development practices can enhance adaptive capacity, particularly for the most vulnerable communities.')
     #print(output)
     # Read txt document
@@ -53,7 +53,7 @@ if __name__ == "__main__":
 
     #objective = summarizer.find_objective(title,sections_dict)
     thesis = summarizer.find_thesis_statament(abstract)
-    #print(thesis)
+    print(thesis)
 
     critical_sections = ["introduction", "conclusion", "discussion", "methodology", "outcomes"]
 
@@ -61,10 +61,11 @@ if __name__ == "__main__":
     # or take the last two sections of the article
     # also consider the descriptions under the figures -> take the important ones
     # aim: enriching the abstract to have a 700-800 worded summary of the article
-
     critical_section_information = {}
+
     for section in critical_sections:
         critical_section_information[section] = summarizer.section_text(section,sections_dict)
+
 
     summarized_sections = {}
     for key, value in critical_section_information.items(): 
@@ -72,8 +73,13 @@ if __name__ == "__main__":
         summarized_sections[key] = summary
         print(key + ": " + value + "\nSummary: " + summary)
 
+
+
+    enrich_abstract_output = summarizer.enrich_abstract(abstract,summarized_sections['introduction'],summarized_sections['conclusion'],summarized_sections['discussion'])
     
-    
+    print()
+    print(enrich_abstract_output)
+
     section_names = list(sections_dict.keys())
     numbered_section_names = ["{}. {}".format(i+1, section) for i, section in enumerate(section_names)]
     print(numbered_section_names)
