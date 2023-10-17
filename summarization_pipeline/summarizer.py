@@ -39,11 +39,22 @@ class Summarizer :
     def prompt_generator(self,instruction,input):
         prompt = 'Instruction: ' + instruction + ".  Input: " + input 
         return prompt
+    
+    def return_response(self, output):
+        position = output.rfind("### Response:")
+        if position != -1:  # Check whether "### Response:" is found
+            position += len("### Response:")  # Move position after "### Response:"
+            response = output[position:]  # Slice the string from the new position to the end
+            return response.strip()  # Strip is used to remove any leading/trailing whitespace or newlines
+        else:
+            return "### Response: not found in the text"
 
     def summarize(self,text):
-        prompt = "Below is an instruction that describes a task. Write a response that appropriately completes the request\n### Instruction: Summarize this text:" + text + "\n### Response:"
+        instruction = "Summarize this text: " + text
+        prompt = self._make_prompt(instruction)
         output = self._send_prompt(prompt)
-        return output
+        response = self.return_response(output)
+        return response
 
     def find_thesis_statament(self,text):
         prompt = 'What is the thesis statement of this text: ' + text

@@ -30,8 +30,8 @@ if __name__ == "__main__":
     # Summarizer model
     summarizer = Summarizer(exec_path=llama_exec_path)
 
-    output = summarizer._send_prompt('What is the result of 1+1?')
-    print(output)
+    #output = summarizer._send_prompt('Summarize this text: Climate change mitigation requires a multidimensional approach including GHG emission reduction, carbon capture, and adaptation strategies. Transitioning to renewable energy sources, improving energy efficiency, and modifying consumption patterns are crucial. Technological innovations for carbon capture and sequestration (CCS) can further aid in offsetting emissions. Furthermore, climate-resilient development practices can enhance adaptive capacity, particularly for the most vulnerable communities.')
+    #print(output)
     # Read txt document
     with open('summarization_pipeline/data2.txt', 'r') as file:
         text = file.read()
@@ -47,15 +47,16 @@ if __name__ == "__main__":
     print("Section names after grouping the subsections:")
     print(sections_dict)
 
-    title = 'Climate Change: Trends, Consequences, and Mitigation Strategies'
+    #title = 'Climate Change: Trends, Consequences, and Mitigation Strategies'
     abstract = summarizer.section_text('Abstract',sections_dict)
-    print(abstract)
+    print("Abstract: " + abstract)
 
     #objective = summarizer.find_objective(title,sections_dict)
     thesis = summarizer.find_thesis_statament(abstract)
     #print(thesis)
 
-    critical_sections = ["introduction", "conclusion", "discussion", "methodology"]
+    critical_sections = ["introduction", "conclusion", "discussion", "methodology", "outcomes"]
+
     # take these critical sections
     # or take the last two sections of the article
     # also consider the descriptions under the figures -> take the important ones
@@ -64,6 +65,14 @@ if __name__ == "__main__":
     critical_section_information = {}
     for section in critical_sections:
         critical_section_information[section] = summarizer.section_text(section,sections_dict)
+
+    summarized_sections = {}
+    for key, value in critical_section_information.items(): 
+        summary = summarizer.summarize(value)
+        summarized_sections[key] = summary
+        print(key + ": " + value + "\nSummary: " + summary)
+
+    
     
     section_names = list(sections_dict.keys())
     numbered_section_names = ["{}. {}".format(i+1, section) for i, section in enumerate(section_names)]
