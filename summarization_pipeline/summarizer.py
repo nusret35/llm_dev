@@ -65,13 +65,13 @@ class Summarizer :
         return response
     
     def enrich_abstract(self,abstract,introduction,conclusion,discussion):
-        base_instruction = 'Using the above text, enrich the abstract by integrating key information, findings, and implications from the introduction, discussion and conclusion sections. Ensure that the additional details enhance and complement the existing content of the abstract without altering its fundamental message or structure.'
+        #base_instruction = 'Using the above text, enrich the abstract by integrating key information, findings, and implications from the introduction, discussion and conclusion sections. Ensure that the additional details enhance and complement the existing content of the abstract without altering its fundamental message or structure.'
+        base_instruction = "Using the above section texts, enlarge the abstract to get a longer and more comprehensive summary of the article. While enlarging the abstract, integrate key information, findings, and implications from the introduction, discussion, and conclusion sections."
         instruction = 'Abstract: '+abstract+ '\\Introduction: '+introduction+ '\\Discussion: ' + discussion + '\\Conclusion: '+ conclusion + '\\' + base_instruction
         prompt = self._make_prompt(instruction)
         output = self._send_prompt(prompt)
         response = self.return_response(output)
         return response
-
 
     # Returns the text of a section together with the text of its subsections
     def section_text(self, section_name, sections_dict):

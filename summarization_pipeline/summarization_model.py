@@ -27,7 +27,6 @@ if __name__ == "__main__":
     llama_exec_path = '/Users/selinceydeli/Desktop/llama/llama.cpp/main'
     #llama_exec_path = '/Users/nusretkizilaslan/Desktop/AIProject/llama2/llama.cpp/main'
 
-
     # Summarizer model
     summarizer = Summarizer(exec_path=llama_exec_path)
     #output = summarizer._send_prompt('Summarize this text: Climate change mitigation requires a multidimensional approach including GHG emission reduction, carbon capture, and adaptation strategies. Transitioning to renewable energy sources, improving energy efficiency, and modifying consumption patterns are crucial. Technological innovations for carbon capture and sequestration (CCS) can further aid in offsetting emissions. Furthermore, climate-resilient development practices can enhance adaptive capacity, particularly for the most vulnerable communities.')
@@ -40,12 +39,10 @@ if __name__ == "__main__":
     sections_dict = divide_article_into_sections(text)
 
     print("Section names before grouping the subsections:")
-    print(sections_dict)
 
     sections_dict = group_subsections(sections_dict)
 
     print("Section names after grouping the subsections:")
-    print(sections_dict)
 
     #title = 'Climate Change: Trends, Consequences, and Mitigation Strategies'
     abstract = summarizer.section_text('Abstract',sections_dict)
@@ -53,20 +50,18 @@ if __name__ == "__main__":
 
     #objective = summarizer.find_objective(title,sections_dict)
 
-    thesis = summarizer.find_thesis_statament(abstract)
-    print(thesis)
+    #thesis = summarizer.find_thesis_statament(abstract)
+    #print(thesis)
 
     critical_sections = ["introduction", "conclusion", "discussion", "methodology", "outcomes"]
-
     # take these critical sections
     # or take the last two sections of the article
     # also consider the descriptions under the figures -> take the important ones
     # aim: enriching the abstract to have a 700-800 worded summary of the article
+    
     critical_section_information = {}
-
     for section in critical_sections:
         critical_section_information[section] = summarizer.section_text(section,sections_dict)
-
 
     summarized_sections = {}
     for key, value in critical_section_information.items(): 
