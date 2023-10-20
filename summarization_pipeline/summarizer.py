@@ -2,6 +2,7 @@ import subprocess
 from transformers import pipeline
 import torch
 
+
 class Summarizer : 
 
     def __init__(self,exec_path=None):
@@ -20,8 +21,8 @@ class Summarizer :
         #./main -m ./models/7B/./ggml-model-q4_0.bin -n 1024 --repeat_penalty 1.0 --color -ins -f ./prompts/summarization2.txt
         #model_path = '/Users/nusretkizilaslan/Desktop/AIProject/llama2/llama.cpp/models/./7B/ggml-vocab-q4_0.bin'
         #model_path = '/Users/selinceydeli/Desktop/llama/llama.cpp/models/7B/ggml-model-q4_0.bin'
-        alpaca_path = "/Users/selinceydeli/Desktop/llama/llama.cpp/models/alpaca.13b.ggmlv3.q8_0.bin"
-        #alpaca_path = '/Users/nusretkizilaslan/Desktop/AIProject/llama2/llama.cpp/models/alpaca.13b.ggmlv3.q8_0.bin'
+        #alpaca_path = "/Users/selinceydeli/Desktop/llama/llama.cpp/models/alpaca.13b.ggmlv3.q8_0.bin"
+        alpaca_path = '/Users/nusretkizilaslan/Desktop/AIProject/llama2/llama.cpp/models/alpaca.13b.ggmlv3.q8_0.bin'
         prompt = self._make_prompt(instruction)
         args = [self.exec_path, '-m', alpaca_path, '--color','-p', prompt,'--ctx_size','4096','-n','-1','-b','256','--top_k','10000','--temp', '0.2','--repeat_penalty','1.1','-t','7']
         
@@ -52,8 +53,8 @@ class Summarizer :
 
     def summarize(self,text):
         instruction = "Summarize this text: " + text
-        prompt = self._make_prompt(instruction)
-        output = self._send_prompt(prompt)
+        #prompt = self._make_prompt(instruction)
+        output = self._send_prompt(instruction)
         response = self.return_response(output)
         return response
 
@@ -64,14 +65,21 @@ class Summarizer :
         response = self.return_response(output)
         return response
     
-    def enrich_abstract(self,abstract,introduction,conclusion,discussion):
-        #base_instruction = 'Using the above text, enrich the abstract by integrating key information, findings, and implications from the introduction, discussion and conclusion sections. Ensure that the additional details enhance and complement the existing content of the abstract without altering its fundamental message or structure.'
-        base_instruction = "Using the above section texts, enlarge the abstract to get a longer and more comprehensive summary of the article. While enlarging the abstract, integrate key information, findings, and implications from the introduction, discussion, and conclusion sections."
-        instruction = 'Abstract: '+abstract+ '\\Introduction: '+introduction+ '\\Discussion: ' + discussion + '\\Conclusion: '+ conclusion + '\\' + base_instruction
+    def enrich_abstract(self,abstract,sections):
+        base_instruction = "Expand the abstract based on the important information from the given section texts. Return the enlarged abstract."
+        #base_instruction = "Concatenate the absract with the important information from the given section texts. Return the concatenated abstract."
+        instruction = 'Abstract: '+ abstract
+        for section, text in sections.items():
+            if text != None:
+                instruction += '\\' + section + ':' + text 
+        instruction += base_instruction
         prompt = self._make_prompt(instruction)
+        print(prompt)
+        #prompt = instruction
         output = self._send_prompt(prompt)
         response = self.return_response(output)
         return response
+    
 
     # Returns the text of a section together with the text of its subsections
     def section_text(self, section_name, sections_dict):

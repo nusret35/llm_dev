@@ -24,8 +24,8 @@ if __name__ == "__main__":
 
     exec_path = './alpaca-exec-s'
     #exec_path = './alpaca-exec-n'
-    llama_exec_path = '/Users/selinceydeli/Desktop/llama/llama.cpp/main'
-    #llama_exec_path = '/Users/nusretkizilaslan/Desktop/AIProject/llama2/llama.cpp/main'
+    #llama_exec_path = '/Users/selinceydeli/Desktop/llama/llama.cpp/main'
+    llama_exec_path = '/Users/nusretkizilaslan/Desktop/AIProject/llama2/llama.cpp/main'
 
     # Summarizer model
     summarizer = Summarizer(exec_path=llama_exec_path)
@@ -50,7 +50,7 @@ if __name__ == "__main__":
 
     #objective = summarizer.find_objective(title,sections_dict)
 
-    #thesis = summarizer.find_thesis_statament(abstract)
+    thesis = summarizer.find_thesis_statament(abstract)
     #print(thesis)
 
     critical_sections = ["introduction", "conclusion", "discussion", "methodology", "outcomes"]
@@ -64,9 +64,11 @@ if __name__ == "__main__":
         critical_section_information[section] = summarizer.section_text(section,sections_dict)
 
     summarized_sections = {}
-    for key, value in critical_section_information.items(): 
-        summary = summarizer.summarize(value)
-        summarized_sections[key] = summary
+    for key, value in critical_section_information.items():
+        if value != "": 
+            summary = summarizer.summarize(value)
+            summarized_sections[key] = summary
+        else : summarized_sections[key] = None
         print(key + ": " + value + "\nSummary: " + summary)
 
     enrich_abstract_output = summarizer.enrich_abstract(abstract,summarized_sections['introduction'],summarized_sections['conclusion'],summarized_sections['discussion'])
