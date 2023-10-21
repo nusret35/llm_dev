@@ -17,14 +17,17 @@ class Summarizer :
         prompt = "Below is an instruction that describes a task. Write a response that appropriately completes the request\n### Instruction:" + instruction + "\n### Response:"
         return prompt
     
-    def _send_prompt(self,instruction):
+    def _make_prompt_2(self,instruction, input):
+        prompt = "### Instruction:" + instruction  + "\n### Input: "+ input + "\n### Response:"
+        return prompt
+    
+    def _send_prompt(self,prompt):
         #./main -m ./models/7B/./ggml-model-q4_0.bin -n 1024 --repeat_penalty 1.0 --color -ins -f ./prompts/summarization2.txt
         #model_path = '/Users/nusretkizilaslan/Desktop/AIProject/llama2/llama.cpp/models/./7B/ggml-vocab-q4_0.bin'
         #model_path = '/Users/selinceydeli/Desktop/llama/llama.cpp/models/7B/ggml-model-q4_0.bin'
         #alpaca_path = "/Users/selinceydeli/Desktop/llama/llama.cpp/models/alpaca.13b.ggmlv3.q8_0.bin"
         alpaca_path = '/Users/nusretkizilaslan/Desktop/AIProject/llama2/llama.cpp/models/alpaca.13b.ggmlv3.q8_0.bin'
-        prompt = self._make_prompt(instruction)
-        args = [self.exec_path, '-m', alpaca_path, '--color','-p', prompt,'--ctx_size','4096','-n','-1','-b','256','--top_k','10000','--temp', '0.2','--repeat_penalty','1.1','-t','7']
+        args = [self.exec_path, '-m', alpaca_path, '--color','-p',prompt,'--ctx_size','4096','-n','-1', '-ins','-b','256','--top_k','10000','--temp', '0.2','--repeat_penalty','1.1','-t','7']
         
         try:
             # Run the C++ executable and capture the output
@@ -74,6 +77,19 @@ class Summarizer :
                 instruction += '\\' + section + ':' + text 
         instruction += base_instruction
         prompt = self._make_prompt(instruction)
+        print(prompt)
+        #prompt = instruction
+        output = self._send_prompt(prompt)
+        response = self.return_response(output)
+        return response
+    
+    def enrich_abstract_2(self,abstract,sections):
+        base_instruction = "Expand the abstract based on the important information from the given section texts. Return the enlarged abstract."
+        input = 'Abstract: '+ abstract
+        for section, text in sections.items():
+            if text != None:
+                input += '\\' + section + ':' + text 
+        prompt = self._make_prompt_2(base_instruction,input)
         print(prompt)
         #prompt = instruction
         output = self._send_prompt(prompt)

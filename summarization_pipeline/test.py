@@ -17,18 +17,17 @@ if __name__ == "__main__":
     summarizer = Summarizer(exec_path=llama_exec_path)
     abstract = "This paper seeks to investigate and detail the scientific consensus surrounding climate change, focusing on its trends, impacts, and the effectiveness of various mitigation strategies. Data were gathered from multiple sources including satellite observations, ground-based measurements, and climate model simulations. Findings suggest that climate change consequences are already substantial and expected to worsen. However, targeted and aggressive mitigation strategies can significantly reduce future impacts."
     
-    result = summarizer.enrich_abstract(abstract,sections)
+        
+    print('ENLARGE ABSTRACT 1')
+    #result = summarizer.enrich_abstract(abstract,sections)
+    #print(result)
+    print('-----------------------------------------------------------------')
+
+
+    print('ENLARGE ABSTRACT 2')
+    result = summarizer.enrich_abstract_2(abstract,sections)
     print(result)
     print('-----------------------------------------------------------------')
-    
-    concatenated_text = ''
-    for text in sections.values() :
-        concatenated_text += text
-
-    cat_summary = summarizer.summarize(concatenated_text)
-    print(cat_summary)
-    print('-----------------------------------------------------------------')
-
     
 
     
