@@ -16,18 +16,19 @@ if __name__ == "__main__":
     llama_exec_path = '/Users/nusretkizilaslan/Desktop/AIProject/llama2/llama.cpp/main'
     summarizer = Summarizer(exec_path=llama_exec_path)
     abstract = "This paper seeks to investigate and detail the scientific consensus surrounding climate change, focusing on its trends, impacts, and the effectiveness of various mitigation strategies. Data were gathered from multiple sources including satellite observations, ground-based measurements, and climate model simulations. Findings suggest that climate change consequences are already substantial and expected to worsen. However, targeted and aggressive mitigation strategies can significantly reduce future impacts."
-    
-        
-    print('ENLARGE ABSTRACT 1')
-    result = summarizer.enrich_abstract(abstract,sections)
+    print()
+    print('ENRICH ABSTRACT 1')
+    result = summarizer.enrich_abstract_1(abstract,sections)
+    print()
     print(result)
     print('-----------------------------------------------------------------')
-
-
-    print('ENLARGE ABSTRACT 2')
+    print()
+    print('ENRICH ABSTRACT 2')
     result = summarizer.enrich_abstract_2(abstract,sections)
+    print()
     print(result)
     print('-----------------------------------------------------------------')
+    
     
 
     

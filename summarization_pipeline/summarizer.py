@@ -68,14 +68,16 @@ class Summarizer :
         response = self.return_response(output)
         return response
     
-    def enrich_abstract(self,abstract,sections):
-        base_instruction = "Expand the abstract based on the important information from the given section texts. Return the enlarged abstract."
-        instruction = 'Abstract: '+ abstract
+    def enrich_abstract_1(self,abstract,sections):
+        prompt = '### Instruction:Expand the abstract based on the important information from the given Introduction, Conclusion, Methodology, and Outcomes. Return the enlarged abstract.'
+        prompt = prompt + '\n' + '### Input:'
+        prompt = prompt + '\n' + '- Abstract: ' + abstract
         for section, text in sections.items():
             if text != None:
-                instruction += '\\' + section + ':' + text 
-        instruction += base_instruction
-        prompt = self._make_prompt(instruction)
+                prompt = prompt + '\n- ' + section + ': ' + text
+                print('\n')
+                print('\n')
+        prompt += '### Response: '
         print(prompt)
         output = self._send_prompt(prompt)
         response = self.return_response(output)
@@ -83,12 +85,14 @@ class Summarizer :
     
     def enrich_abstract_2(self,abstract,sections):
         base_instruction = "Expand the abstract based on the important information from the given section texts. Return the enlarged abstract."
-        input = 'Abstract: '+ abstract
+        #base_instruction = "Concatenate the absract with the important information from the given section texts. Return the concatenated abstract."
+        instruction = 'Abstract: '+ abstract
         for section, text in sections.items():
             if text != None:
-                input += '\\' + section + ':' + text 
-        prompt = self._make_prompt_2(base_instruction,input)
-        print(prompt)
+                instruction += '\\' + section + ':' + text 
+        instruction += base_instruction
+        prompt = self._make_prompt(instruction)
+        #prompt = instruction
         output = self._send_prompt(prompt)
         response = self.return_response(output)
         return response
