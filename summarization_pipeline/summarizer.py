@@ -27,7 +27,7 @@ class Summarizer :
         #model_path = '/Users/selinceydeli/Desktop/llama/llama.cpp/models/7B/ggml-model-q4_0.bin'
         #alpaca_path = "/Users/selinceydeli/Desktop/llama/llama.cpp/models/alpaca.13b.ggmlv3.q8_0.bin"
         alpaca_path = '/Users/nusretkizilaslan/Desktop/AIProject/llama2/llama.cpp/models/alpaca.13b.ggmlv3.q8_0.bin'
-        args = [self.exec_path, '-m', alpaca_path, '--color','-p',prompt,'--ctx_size','4096','-n','-1', '-ins','-b','256','--top_k','10000','--temp', '0.2','--repeat_penalty','1.1','-t','7']
+        args = [self.exec_path, '-m', alpaca_path, '--color','-p',prompt,'--ctx_size','4096','-n','-1', '-b','256','--top_k','10000','--temp', '0.2','--repeat_penalty','1.1','-t','7']
         
         try:
             # Run the C++ executable and capture the output
@@ -70,7 +70,6 @@ class Summarizer :
     
     def enrich_abstract(self,abstract,sections):
         base_instruction = "Expand the abstract based on the important information from the given section texts. Return the enlarged abstract."
-        #base_instruction = "Concatenate the absract with the important information from the given section texts. Return the concatenated abstract."
         instruction = 'Abstract: '+ abstract
         for section, text in sections.items():
             if text != None:
@@ -78,7 +77,6 @@ class Summarizer :
         instruction += base_instruction
         prompt = self._make_prompt(instruction)
         print(prompt)
-        #prompt = instruction
         output = self._send_prompt(prompt)
         response = self.return_response(output)
         return response
@@ -91,7 +89,6 @@ class Summarizer :
                 input += '\\' + section + ':' + text 
         prompt = self._make_prompt_2(base_instruction,input)
         print(prompt)
-        #prompt = instruction
         output = self._send_prompt(prompt)
         response = self.return_response(output)
         return response

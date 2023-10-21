@@ -19,8 +19,8 @@ if __name__ == "__main__":
     
         
     print('ENLARGE ABSTRACT 1')
-    #result = summarizer.enrich_abstract(abstract,sections)
-    #print(result)
+    result = summarizer.enrich_abstract(abstract,sections)
+    print(result)
     print('-----------------------------------------------------------------')
 
 
