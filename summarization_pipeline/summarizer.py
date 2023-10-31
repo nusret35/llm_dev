@@ -5,6 +5,7 @@ import torch
 
 class Summarizer : 
 
+<<<<<<< HEAD
     def __init__(self,exec_path=None):
         self.exec_path = exec_path
 
@@ -21,6 +22,8 @@ class Summarizer :
         prompt = "### Instruction:" + instruction  + "\n### Input: "+ input + "\n### Response:"
         return prompt
     
+=======
+>>>>>>> 63073e24071f726972a426f545456345c06e3786
     def _send_prompt(self,prompt):
         #./main -m ./models/7B/./ggml-model-q4_0.bin -n 1024 --repeat_penalty 1.0 --color -ins -f ./prompts/summarization2.txt
         #model_path = '/Users/nusretkizilaslan/Desktop/AIProject/llama2/llama.cpp/models/./7B/ggml-vocab-q4_0.bin'

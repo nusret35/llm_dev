@@ -18,19 +18,22 @@ def send_prompt(prompt):
         print(f"Error executing C++ code: {e}")
         print(f"Error message: {e.stderr}")
         return None
-    
+
+
+# Function that sends a prompt to the model to check if a chosen section is a valid section name
 def is_section_model_response(text) :
-        general_sections = ['Abstract','Introduction','Literature Review', 'Methodology', 'Keywords' 'Outcomes', 'Results', 'Acknowledgements','References']
-        for section in general_sections:
-            if section in text:
-                return True
-        prompt = 'Can "' + text + '" be a section for a scholarly article, yes or no?'
-        output = send_prompt(prompt)
-        if  output == 'Yes':
+    general_sections = ['Abstract','Introduction','Literature Review', 'Methodology', 'Keywords' 'Outcomes', 'Results', 'Acknowledgements','References']
+    for section in general_sections:
+        if section in text:
             return True
-        else:
-            return False
+    prompt = 'Can "' + text + '" be a section for a scholarly article, yes or no?'
+    output = send_prompt(prompt)
+    if  output == 'Yes':
+        return True
+    else:
+        return False
     
+
 def is_section(section_key) :
     counter = 0
     for character in section_key :
@@ -44,6 +47,7 @@ def is_section(section_key) :
             return model_response
         """     
     return True
+
 
 # Processes a dictionary of sections and groups subsections under their respective main sections.
 def group_subsections(sections_dict):
@@ -92,7 +96,7 @@ def recursive_grouping(summaries, summarizer, max_length=70):
 def divide_article_into_sections(article,):
     sections = {}
     section_titles = re.findall(r'\d+\..+?\n', article)  # Find all lines that start with "number.title"
-    
+
     # Remove the falsely selected section titles
     section_titles = [title for title in section_titles if '%' not in title] # EX: '2.5% ...' is not a section title
 
@@ -146,4 +150,8 @@ def divide_article_into_sections(article):
         # Store the section in the dictionary with the title as the key
         sections[title.strip()] = section_text
 
+<<<<<<< HEAD
     return sections
+=======
+    return sections
+>>>>>>> 63073e24071f726972a426f545456345c06e3786
