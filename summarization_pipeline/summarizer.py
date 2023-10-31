@@ -99,7 +99,6 @@ class Summarizer :
         output = self._send_prompt(prompt)
         response = self.return_response(output)
         return response
-    
 
     # Returns the text of a section together with the text of its subsections
     def section_text(self, section_name, sections_dict):
