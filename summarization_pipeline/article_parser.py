@@ -19,18 +19,6 @@ def send_prompt(prompt):
         print(f"Error message: {e.stderr}")
         return None
     
-def is_section_model_response(text) :
-        general_sections = ['Abstract','Introduction','Literature Review', 'Methodology', 'Keywords' 'Outcomes', 'Results', 'Acknowledgements','References']
-        for section in general_sections:
-            if section in text:
-                return True
-        prompt = 'Can "' + text + '" be a section for a scholarly article, yes or no?'
-        output = send_prompt(prompt)
-        if  output == 'Yes':
-            return True
-        else:
-            return False
-    
 def is_section(section_key) :
     counter = 0
     for character in section_key :
@@ -88,28 +76,39 @@ def recursive_grouping(summaries, summarizer, max_length=70):
 
     return recursive_grouping(new_summaries, summarizer, max_length + 10)  # Increase max_length for each new round
 
-"""
-def divide_article_into_sections(article,):
+
+def is_correct_title(title):
+    for c in title:
+        if ('a' <= c and c <= 'z') or ('A' <= c and c <= 'Z'):
+            return True
+    return False
+        
+
+def divide_article_into_sections(article):
     sections = {}
     section_titles = re.findall(r'\d+\..+?\n', article)  # Find all lines that start with "number.title"
     
     # Remove the falsely selected section titles
     section_titles = [title for title in section_titles if '%' not in title] # EX: '2.5% ...' is not a section title
-
+    
     # Check the correctness of the chosen section titles by checking the non-decreasing order of the section numbers
     correct_titles = []
     previous_number = 0  # Start with a sentinel value
     for title in section_titles:
+        pos = article.find(title)
+        prev_pos = pos-1
         # Extract the number at the start of the title
         match = re.match(r'(\d+)(\.\d+)?', title)
         if match:
             number = float(match.group(1))
             # Check if the main number (before the dot) is non-decreasing
             if number == previous_number or number == (previous_number + 1):
-                if is_section_model_response(title) == True :
-                    correct_titles.append(title)
-                    previous_number = number
-
+                # Check if there is a new line char before the title number
+                if article[prev_pos] == '\n':
+                    if is_correct_title(title):
+                        correct_titles.append(title)
+                        previous_number = number
+                    
     section_titles = correct_titles
     
     # Use zip to pair section titles with their corresponding text
@@ -123,11 +122,21 @@ def divide_article_into_sections(article,):
         
         # Store the section in the dictionary with the title as the key
         sections[title.strip()] = section_text
-
+    
+    abstract_types = ["abstract", "a b s t r a c t"]
+    for type in abstract_types:
+        if type in article:
+            start_pos = article.find(type)
+            end_pos = article.find(list(sections.keys())[0])
+            section_text = article[start_pos + len(type):end_pos]
+            new_sections_dic = {'abstract':section_text}
+            new_sections_dic.update(sections)
+            sections = new_sections_dic
+            break
     return sections
-"""
 
-def divide_article_into_sections(article):
+
+def initial_divide_article_into_sections(article):
     sections = {}
     section_titles = re.findall(r'\d+\..+?\n', article)  # Find all lines that start with "number.title"
 

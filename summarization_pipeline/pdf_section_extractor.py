@@ -40,10 +40,14 @@ def extract_text_from_pdf(pdf_path):
 
 
 # Using the function
-#pdf_path = "/Users/nusretkizilaslan/Downloads/selo-article.pdf"
-pdf_path = "/Users/selinceydeli/Desktop/sabancı/OPIM407/Individual Assignment-3/Predicting_Freshman_Student_Attrition_Article.pdf"
+pdf_path = "/Users/nusretkizilaslan/Downloads/selo-article.pdf"
+#pdf_path = "/Users/selinceydeli/Desktop/sabancı/OPIM407/Individual Assignment-3/Predicting_Freshman_Student_Attrition_Article.pdf"
 extracted_text = extract_text_from_pdf(pdf_path)
+
 #print(extracted_text[20000:30000])
 parsed_sections = article_parser.divide_article_into_sections(extracted_text)
+
+prompt = ''
 grouped_sections = article_parser.group_subsections(parsed_sections)
 print(grouped_sections)
+
