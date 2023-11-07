@@ -123,7 +123,7 @@ def divide_article_into_sections(article):
         # Store the section in the dictionary with the title as the key
         sections[title.strip()] = section_text
     
-    abstract_types = ["abstract", "a b s t r a c t"]
+    abstract_types = ["abstract", "a b s t r a c t", "A B S T R A C T"]
     for type in abstract_types:
         if type in article:
             start_pos = article.find(type)
@@ -133,7 +133,24 @@ def divide_article_into_sections(article):
             new_sections_dic.update(sections)
             sections = new_sections_dic
             break
-    return sections
+
+    # Cleaned sections dictionary
+    cleaned_sections_dict = {}
+
+    # Regular expression to match integers and punctuation
+    regex = re.compile('[0-9\.\,\!\?\:\;\-\—\(\)]')
+
+    for key, value in sections.items():
+        # Remove integers and punctuation from the key
+        cleaned_key = regex.sub('', key)
+        # Convert key to lowercase
+        cleaned_key = cleaned_key.lower()
+        # Remove any extra whitespace
+        cleaned_key = cleaned_key.strip()
+        # Add to the cleaned dictionary
+        cleaned_sections_dict[cleaned_key] = value
+
+    return cleaned_sections_dict
 
 
 def initial_divide_article_into_sections(article):

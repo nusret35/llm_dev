@@ -64,10 +64,6 @@ if __name__ == "__main__":
     critical_section_information = {}
     for section in critical_sections:
         critical_section_information[section] = summarizer.section_text(section,sections_dict)
-    
-    critical_section_information = {}
-    for section in critical_sections:
-        critical_section_information[section] = summarizer.section_text(section,sections_dict)
 
     summarized_sections = {}
     for key, value in critical_section_information.items():

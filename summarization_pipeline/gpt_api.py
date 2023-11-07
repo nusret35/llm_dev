@@ -24,15 +24,15 @@ def section_text(section_name, sections_dict):
     return ''
 
 def send_prompt(prompt):
-  completion = openai.ChatCompletion.create(
-  model="gpt-3.5-turbo",
-  messages=[
-    {"role": "system", "content": "You are a poetic assistant, skilled in explaining complex programming concepts with creative flair."},
-    {"role": "user", "content": prompt}
-  ]
-  message = completion.choices[0].message
-  return message
-)
+    completion = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "system", "content": "You are a poetic assistant, skilled in explaining complex programming concepts with creative flair."},
+            {"role": "user", "content": prompt}
+        ]
+    )
+    message = completion.choices[0].message
+    return message
   
 with open('summarization_pipeline/data2.txt', 'r') as file:
       text = file.read()
