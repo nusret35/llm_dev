@@ -15,7 +15,7 @@ prompt = '''
 
 enrich_sys_prompt = 'You are a tool that enriches the abstract by giving insights from the sections of introduction, conclusion, methodoly, and outcomes. As an output, you give an enriched abstract of the article.'
 
-insights_sys_prompt = 'You are a tool that extractes key insights from an article. You will be provided with article sections. As an output, you should provide concise insights about the given article in bulletpoints.'
+insights_sys_prompt = 'You are a tool that extracts key insights from an article. You will be provided with article sections. As an output, you should provide concise insights about the given article in bulletpoints.'
 
 
 rp_client = replicate.Client(api_token='r8_2tA69DBhLIRzC81EbCjYOfBKZ4vCPxB1e2Ymo')

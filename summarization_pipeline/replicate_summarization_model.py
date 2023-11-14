@@ -2,6 +2,7 @@
 import replicate
 import re
 from pdf_section_extractor import extract_pdf_and_divide_sections
+from article_parser import divide_article_into_sections
 
 def send_prompt(prompt, sys_prompt):
     rp_client = replicate.Client(api_token='r8_VbKuL8aKGq6NNTtMVRRRfHWP6VnCZAl3G2Kum')
@@ -21,7 +22,7 @@ def send_prompt(prompt, sys_prompt):
     for item in output:
         # https://replicate.com/meta/llama-2-70b-chat/versions/02e509c789964a7ea8736978a43525956ef40397be9033abf9fd2badfe68c9e3/api#output-schema
         # print(item, end="")
-        response += item + "\n"
+        response += item
     return response
 
 def summarize(section_name, section_text):
@@ -30,11 +31,23 @@ def summarize(section_name, section_text):
     output = send_prompt(prompt, summarize_sys_prompt)
     return output
 
+def extract_insights(text):
+    insights_sys_prompt = 'You are a tool that extracts key insights from an article. You will be provided with article sections. As an output, you should provide concise insights about the given article in bulletpoints.'
+    prompt = text
+    output = send_prompt(prompt, insights_sys_prompt)
+    return output
+
 #pdf_path = "/Users/nusretkizilaslan/Downloads/selo-article.pdf"
 #pdf_path = "/Users/selinceydeli/Desktop/sabancı/OPIM407/Individual Assignment-3/Predicting_Freshman_Student_Attrition_Article.pdf"
-business_pdf1_path = "/Users/selinceydeli/Desktop/business-article-inputs/1-s2.0-S0148296323004216-main.pdf"
-
+business_pdf1_path = "/Users/selinceydeli/Desktop/AIResearch/business-article-inputs/1-s2.0-S0148296323004216-main.pdf"
 sections_dict = extract_pdf_and_divide_sections(business_pdf1_path)
+
+"""
+business_txt_path = "/Users/selinceydeli/Desktop/AIResearch/llm_dev/summarization_pipeline/bus_article1.txt"
+with open(business_txt_path, 'r') as file:
+    article = file.read()
+sections_dict = divide_article_into_sections(article)
+"""
 
 abstract = sections_dict.get('abstract', "")
 
@@ -67,11 +80,23 @@ if len(check_for_absence) >= 2:
             if accepted >= 4:
                 break
 
+"""
 summarized_sections = {}
 for section_name, section_text in critical_section_information.items():
-    if section_text != "": 
+    if section_text != "" and section_name != "introduction" and section_name != "managerial implications": 
         summary = summarize(section_name, section_text)
         summarized_sections[section_name] = summary
-        print("Summary of" + section_name + ": \n" + summary)
+        print("Summary of " + section_name + ": \n" + summary)
     else : summarized_sections[section_name] = None
+"""
 
+text = '''
+Introduction: This article discusses the importance of relationship marketing (RM) in business-to-business (B2B) settings, particularly during economic downturns. The authors argue that while RM has been shown to be effective in fostering long-term relationships and improving firm performance, there is a need to explore how it can help firms navigate economic contractions and recoveries. They note that during times of economic uncertainty, firms may need to adapt their RM strategies to address changing customer needs and maintain relationships. The authors review existing literature on RM and economic fluctuations, highlighting the lack of research on the topic in emerging economies and B2B settings. They propose a framework that links RM process mechanisms to firm performance during economic contractions and expansions, and identify three key relationship tenets: communication openness, technical involvement, and customer value anticipation. These tenets have direct and indirect effects on supplier performance and can help firms manage BCs. The article also examines the difference in modeled relationship mechanisms between economic contraction and expansion, providing actionable strategies for managing BCs. Finally, the authors consider three outcome variables - selling price, cost-to-serve, and expectation of relationship continuity - at the customer level, making their findings more concrete and relevant to practitioners. Overall, the study aims to contribute to the RM literature and provide insights into managing BCs in emerging economies and B2B settings.
+
+Managerial implications: The section discusses the managerial implications of the proposed resilience mechanisms (RM) for companies during times of economic crisis and recovery. The authors suggest a 2x3 matrix with six quadrants, each representing a different combination of RM strategies to achieve firm goals: increasing price, reducing cost-to-serve, and enhancing expectation of continuity. The quadrants are named based on the empirical results and include "Value anticipation based on distant communication," "Cost-oriented joint collaboration," "Dyadic top management consensus," "Generative hard work," "Controlled technical deescalating," and "Integrated optimal balance." The authors recommend specific RM strategies for each quadrant, such as establishing high levels of communication without increasing technical collaboration, exploiting top management consensus, and leveraging technical involvement with customers. The study suggests that during times of economic recovery, suppliers should primarily focus on collaborating with customers, while carefully deescalating INV to avoid saving resources but maintaining a minimal level of satisfaction.
+
+Theoretical implications: This section discusses the theoretical implications of the study's findings on business-to-business (B2B) relationships during economic downturns. The authors argue that their findings have important implications for theory, as they provide insights into how B2B relationships can be managed during times of economic uncertainty. They extend existing research streams by showing how a BC brings profitability opportunities for B2B suppliers through nurturing mechanisms from long-term dyadic exchange. Additionally, they contribute to the dark side of B2B relationships’ theoretical underpinnings by demonstrating how the inherent tension created in a BC can be managed by relationship marketing (RM) mechanisms. Finally, they extend BC marketing literature outside of the often-used US environment by investigating buyer-seller relationships through a BC in an emerging economy, Chile.
+'''
+
+insights = extract_insights(text)
+print("Extracted insights:\n" + insights)
