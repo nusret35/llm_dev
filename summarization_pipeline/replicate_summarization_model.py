@@ -37,6 +37,18 @@ def extract_insights(text):
     output = send_prompt(prompt, insights_sys_prompt)
     return output
 
+# Function for preparing the input prompt for insights extraction process using the summarized sections
+def create_section_input(summarized_sections):
+    # Initialize an empty string to store the formatted output
+    section_input = ""
+
+    # Iterate over each key-value pair in the dictionary
+    for key, value in summarized_sections.items():
+        # Append the key and value to the string with the specified format
+        section_input += f"{key}: {value} \n"
+
+    return section_input
+
 #pdf_path = "/Users/nusretkizilaslan/Downloads/selo-article.pdf"
 #pdf_path = "/Users/selinceydeli/Desktop/sabancı/OPIM407/Individual Assignment-3/Predicting_Freshman_Student_Attrition_Article.pdf"
 business_pdf1_path = "/Users/selinceydeli/Desktop/AIResearch/business-article-inputs/1-s2.0-S0148296323004216-main.pdf"
@@ -80,7 +92,6 @@ if len(check_for_absence) >= 2:
             if accepted >= 4:
                 break
 
-"""
 summarized_sections = {}
 for section_name, section_text in critical_section_information.items():
     if section_text != "" and section_name != "introduction" and section_name != "managerial implications": 
@@ -88,7 +99,6 @@ for section_name, section_text in critical_section_information.items():
         summarized_sections[section_name] = summary
         print("Summary of " + section_name + ": \n" + summary)
     else : summarized_sections[section_name] = None
-"""
 
 text = '''
 Introduction: This article discusses the importance of relationship marketing (RM) in business-to-business (B2B) settings, particularly during economic downturns. The authors argue that while RM has been shown to be effective in fostering long-term relationships and improving firm performance, there is a need to explore how it can help firms navigate economic contractions and recoveries. They note that during times of economic uncertainty, firms may need to adapt their RM strategies to address changing customer needs and maintain relationships. The authors review existing literature on RM and economic fluctuations, highlighting the lack of research on the topic in emerging economies and B2B settings. They propose a framework that links RM process mechanisms to firm performance during economic contractions and expansions, and identify three key relationship tenets: communication openness, technical involvement, and customer value anticipation. These tenets have direct and indirect effects on supplier performance and can help firms manage BCs. The article also examines the difference in modeled relationship mechanisms between economic contraction and expansion, providing actionable strategies for managing BCs. Finally, the authors consider three outcome variables - selling price, cost-to-serve, and expectation of relationship continuity - at the customer level, making their findings more concrete and relevant to practitioners. Overall, the study aims to contribute to the RM literature and provide insights into managing BCs in emerging economies and B2B settings.
@@ -98,5 +108,6 @@ Managerial implications: The section discusses the managerial implications of th
 Theoretical implications: This section discusses the theoretical implications of the study's findings on business-to-business (B2B) relationships during economic downturns. The authors argue that their findings have important implications for theory, as they provide insights into how B2B relationships can be managed during times of economic uncertainty. They extend existing research streams by showing how a BC brings profitability opportunities for B2B suppliers through nurturing mechanisms from long-term dyadic exchange. Additionally, they contribute to the dark side of B2B relationships’ theoretical underpinnings by demonstrating how the inherent tension created in a BC can be managed by relationship marketing (RM) mechanisms. Finally, they extend BC marketing literature outside of the often-used US environment by investigating buyer-seller relationships through a BC in an emerging economy, Chile.
 '''
 
-insights = extract_insights(text)
+section_input = create_section_input(summarized_sections)
+insights = extract_insights(section_input)
 print("Extracted insights:\n" + insights)
