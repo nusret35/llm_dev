@@ -37,6 +37,12 @@ def extract_insights(text):
     output = send_prompt(prompt, insights_sys_prompt)
     return output
 
+def generate_title(insights):
+    find_title_sys_prompt = "From the given insights, provide a title."
+    prompt = "Extracted insights: " + insights + "Title: "
+    output = send_prompt(prompt, find_title_sys_prompt)
+    return output
+
 # Function for preparing the input prompt for insights extraction process using the summarized sections
 def create_section_input(summarized_sections):
     # Initialize an empty string to store the formatted output
@@ -111,3 +117,17 @@ Theoretical implications: This section discusses the theoretical implications of
 section_input = create_section_input(summarized_sections)
 insights = extract_insights(section_input)
 print("Extracted insights:\n" + insights)
+
+insights = '''
+* Relationship marketing (RM) is crucial for business-to-business (B2B) companies to navigate economic downturns and recoveries.
+* During economic uncertainty, firms need to adapt their RM strategies to address changing customer needs and maintain relationships.
+* A framework linking RM process mechanisms to firm performance during economic contractions and expansions has been proposed, which includes three key relationship tenets: communication openness, technical involvement, and customer value anticipation.
+* These tenets have direct and indirect effects on supplier performance and can help firms manage business-to-business relationships (BCs).
+* The study provides actionable strategies for managing BCs during economic contractions and expansions, including establishing high levels of communication without increasing technical collaboration, exploiting top management consensus, and leveraging technical involvement with customers.
+* The findings have important implications for theory, extending existing research streams and providing insights into how B2B relationships can be managed during times of economic uncertainty.
+* The study contributes to the dark side of B2B relationships’ theoretical underpinnings by demonstrating how the inherent tension created in a BC can be managed by RM mechanisms.
+* The study extends BC marketing literature outside of the often-used US environment by investigating buyer-seller relationships through a BC in an emerging economy, Chile.
+'''
+
+title = generate_title(insights)
+print(title)
