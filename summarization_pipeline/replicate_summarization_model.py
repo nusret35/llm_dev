@@ -1,7 +1,7 @@
 
 import replicate
 import re
-from pdf_section_extractor import extract_pdf_and_divide_sections
+from pdf_section_extractor import extract_pdf_and_divide_sections, extract_pdf, capture_image_titles
 from article_parser import divide_article_into_sections
 
 def send_prompt(prompt, sys_prompt):
@@ -43,6 +43,12 @@ def generate_title(insights):
     output = send_prompt(prompt, find_title_sys_prompt)
     return output
 
+def choose_images(insights, image_titles):
+    choose_images_sys_prompt = "Given the image title, choose the most important 3 images of the article based on the insights extracted from the article."
+    prompt = "Extracted insights: " + insights + "Image titles: " + image_titles + "Important sections: "
+    output = send_prompt(prompt, choose_images_sys_prompt)
+    return output
+
 # Function for preparing the input prompt for insights extraction process using the summarized sections
 def create_section_input(summarized_sections):
     # Initialize an empty string to store the formatted output
@@ -57,8 +63,9 @@ def create_section_input(summarized_sections):
 
 #pdf_path = "/Users/nusretkizilaslan/Downloads/selo-article.pdf"
 #pdf_path = "/Users/selinceydeli/Desktop/sabancı/OPIM407/Individual Assignment-3/Predicting_Freshman_Student_Attrition_Article.pdf"
-business_pdf1_path = "/Users/selinceydeli/Desktop/AIResearch/business-article-inputs/1-s2.0-S0148296323004216-main.pdf"
+business_pdf1_path = "/Users/selinceydeli/Desktop/AIResearch/business-article-inputs/buss_article_2.pdf"
 sections_dict = extract_pdf_and_divide_sections(business_pdf1_path)
+extracted_pdf = extract_pdf(business_pdf1_path)
 
 """
 business_txt_path = "/Users/selinceydeli/Desktop/AIResearch/llm_dev/summarization_pipeline/bus_article1.txt"
@@ -129,5 +136,14 @@ insights = '''
 * The study extends BC marketing literature outside of the often-used US environment by investigating buyer-seller relationships through a BC in an emerging economy, Chile.
 '''
 
+# Generating a meaningful title to be presented as the chat title in the interface
 title = generate_title(insights)
 print(title)
+
+# Choosing the most important figures/titles
+titles = capture_image_titles(extracted_pdf)
+image_titles = ""
+for title in titles:
+    image_titles += title + "\n"
+important_images = choose_images(insights, image_titles)
+print(important_images)

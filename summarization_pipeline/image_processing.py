@@ -2,7 +2,6 @@ import fitz
 from PIL import Image
 import os
 
-
 def extract_image_from_page(page, page_index):
     image_list = page.get_image_info()
     text_blocks = page.get_text("blocks")
@@ -56,19 +55,20 @@ def extract_image_from_page(page, page_index):
 
 #file = "/Users/selinceydeli/Desktop/AIResearch/business-article-inputs/1-s2.0-S0148296323004216-main.pdf"
 file = '/Users/nusretkizilaslan/Downloads/selo-article.pdf'
+file2 = '/Users/selinceydeli/Desktop/AIResearch/business-article-inputs/buss_article_2.pdf'
 
+"""
 # Output folder
 output_folder = "/Users/selinceydeli/Desktop/AIResearch/llm_dev/summarization_pipeline/extracted_images"
+"""
 
 # Open the file
-pdf_file = fitz.open(file)
+pdf_file = fitz.open(file2)
 
 # Iterate over PDF pages
 for page_index in range(len(pdf_file)):
     page = pdf_file[page_index]
     page_image_data = extract_image_from_page(page,page_index)
     print(page_image_data)
-    
-    
 
 pdf_file.close()

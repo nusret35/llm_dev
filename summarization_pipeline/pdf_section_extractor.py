@@ -2,6 +2,7 @@ from pdfminer.high_level import extract_pages
 from pdfminer.layout import LTTextContainer, LTChar, LTAnno
 import fitz 
 import article_parser
+import re
 
 def clean_text(text):
     """
@@ -38,8 +39,45 @@ def extract_text_from_pdf(pdf_path):
     doc.close()
     return full_text
 
+def capture_image_titles(extracted_text):
+    # Define the possible representations of figure and table names
+    figure_patterns = ["Fig\.", "Figure"]
+    table_patterns = ["Table"]
+
+    # Combine the patterns into regex patterns
+    figure_pattern = "|".join(figure_patterns)
+    table_pattern = "|".join(table_patterns)
+
+    # Create a regex pattern to capture the figure and table titles
+    figure_title_pattern = f"({figure_pattern})\s*(\d+)\.\s*(.*?)\."
+    table_title_pattern = f"({table_pattern})\s*(\d+)\s*\\n?\s*(.*?)\."
+
+    # Find all matches in the extracted_text for figures and tables
+    figure_matches = re.findall(figure_title_pattern, extracted_text)
+    table_matches = re.findall(table_title_pattern, extracted_text)
+
+    # Initialize lists to store figure and table titles
+    titles = []
+
+    # Process and store the matched titles and numberings from the figures
+    for match in figure_matches:
+        title_type, title_number, title_text = match
+        if 'A' <= title_text[0] <= "Z":
+            titles.append(f"{title_type} {title_number}. {title_text}")
+
+    # Process and store the matched titles and numberings from the tables
+    for match in table_matches:
+        title_type, title_number, title_text = match
+        if title_text and 'A' <= title_text[0] <= "Z":
+            titles.append(f"{title_type} {title_number}. {title_text}")
+
+    return titles
+
+def extract_pdf(path):
+    extracted_text = extract_text_from_pdf(path)
+    return extracted_text
+
 def extract_pdf_and_divide_sections(path):
     extracted_text = extract_text_from_pdf(path)
-    #print(extracted_text[20000:30000])
     parsed_sections = article_parser.divide_article_into_sections(extracted_text)
     return parsed_sections
