@@ -1,6 +1,4 @@
 import fitz
-from PIL import Image
-import os
 import re
 
 def extract_titles_from_page(page):
@@ -54,7 +52,7 @@ file1 = '/Users/selinceydeli/Desktop/AIResearch/business-article-inputs/buss_art
 file2 = '/Users/selinceydeli/Desktop/AIResearch/business-article-inputs/buss_article_2.pdf'
 
 # Open the file
-pdf_file = fitz.open(file1)
+pdf_file = fitz.open(file)
 
 titles = []
 

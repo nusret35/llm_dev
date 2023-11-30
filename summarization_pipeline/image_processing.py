@@ -1,8 +1,11 @@
 import fitz
 from PIL import Image
 import os
+import re
 
-def extract_image_from_page(page, page_index):
+# Extracts images and their titles from PDF page
+
+def extract_image_title_pairs(page, page_index):
     image_list = page.get_image_info()
     text_blocks = page.get_text("blocks")
 
@@ -49,27 +52,96 @@ def extract_image_from_page(page, page_index):
     
     image_data = dict(zip(image_titles, image_paths))
     return image_data
+
+
+# Extracts all the titles (Figure, Table, etc.) from PDF page
+
+def extract_titles_from_page(page):
     
+    # Define the possible representations of figure and table names
+    figure_patterns = ["Fig\.", "Figure"]
+    table_patterns = ["Table"]
 
-# File path
+    # Combine the patterns into regex patterns
+    figure_pattern = "|".join(figure_patterns)
+    table_pattern = "|".join(table_patterns)
 
-#file = "/Users/selinceydeli/Desktop/AIResearch/business-article-inputs/1-s2.0-S0148296323004216-main.pdf"
-file = '/Users/nusretkizilaslan/Downloads/selo-article.pdf'
-file1 = '/Users/selinceydeli/Desktop/AIResearch/business-article-inputs/buss_article.pdf'
-file2 = '/Users/selinceydeli/Desktop/AIResearch/business-article-inputs/buss_article_2.pdf'
+    # Create a regex pattern to capture the figure and table titles
+    figure_title_pattern = f"({figure_pattern})\s*(\d+)\.\s*(.*?)\."
+    table_title_pattern = f"({table_pattern})\s*(\d+)\s*\\n?\s*(.*?)\."
 
-"""
-# Output folder
-output_folder = "/Users/selinceydeli/Desktop/AIResearch/llm_dev/summarization_pipeline/extracted_images"
-"""
+    text_blocks = page.get_text("blocks")
 
-# Open the file
-pdf_file = fitz.open(file1)
+    # Initialize lists to store figure and table titles
+    titles = []
+    
+    for block in text_blocks:
+        block_text = block[4]
+        
+        # Find all matches in the extracted_text for figures and tables
+        figure_matches = re.findall(figure_title_pattern, block_text)
+        table_matches = re.findall(table_title_pattern, block_text)
 
-# Iterate over PDF pages
-for page_index in range(len(pdf_file)):
-    page = pdf_file[page_index]
-    page_image_data = extract_image_from_page(page,page_index)
-    print(page_image_data)
+        # Process and store the matched titles and numberings from the figures
+        for match in figure_matches:
+            title_type, title_number, title_text = match
+            if title_text != "":
+                if ('A' <= title_text[0] and title_text[0] <= "Z") or ('0' <= title_text[0] and title_text[0] <= '9'):
+                    titles.append(f"{title_type} {title_number}. {title_text}") 
 
-pdf_file.close()
+        # Process and store the matched titles and numberings from the tables
+        for match in table_matches:
+            title_type, title_number, title_text = match
+            if title_text != "":
+                if ('A' <= title_text[0] and title_text[0] <= "Z") or ('0' <= title_text[0] and title_text[0] <= '9'):
+                    titles.append(f"{title_type} {title_number}. {title_text}")
+
+    return titles
+
+def get_important_image_paths(image_title_pairs, important_images):
+    # Check whether the important image is extracted
+    found_important_images_paths = {}
+    for title, explanation, page_number in important_images:
+        if title in image_title_pairs.keys():
+            found_important_images_paths.update({title:image_title_pairs[title]})
+                
+    return found_important_images_paths
+
+
+
+
+
+##TEST##
+
+if __name__ == "__main__":
+    # File path
+    #file = "/Users/selinceydeli/Desktop/AIResearch/business-article-inputs/1-s2.0-S0148296323004216-main.pdf"
+    file = '/Users/nusretkizilaslan/Downloads/selo-article.pdf'
+    file1 = '/Users/selinceydeli/Desktop/AIResearch/business-article-inputs/buss_article.pdf'
+    file2 = '/Users/selinceydeli/Desktop/AIResearch/business-article-inputs/buss_article_2.pdf'
+
+    """
+    # Output folder
+    output_folder = "/Users/selinceydeli/Desktop/AIResearch/llm_dev/summarization_pipeline/extracted_images"
+    """
+
+    # Open the file
+    pdf_file = fitz.open(file)
+
+    image_title_pairs = {}
+    titles = []
+    # Iterate over PDF pages
+    for page_index in range(len(pdf_file)):
+        page = pdf_file[page_index]
+        page_image_title_pairs = extract_image_title_pairs(page,page_index)
+        page_image_titles = extract_titles_from_page(page)
+        image_title_pairs.update(page_image_title_pairs)
+        for title in page_image_titles:
+            title += " (Page:" + str(page_index+1) + ")"
+            titles.append(title)
+    
+    print(image_title_pairs)
+    print()
+    print(titles)
+
+    pdf_file.close()

@@ -2,11 +2,11 @@ import replicate
 import re
 from pdf_section_extractor import extract_pdf_and_divide_sections, extract_pdf, capture_image_titles
 from article_parser import divide_article_into_sections
-from image_titles import extract_titles_from_page
+from image_processing import extract_titles_from_page, extract_image_title_pairs, get_important_image_paths
 import fitz
 
 def send_prompt(prompt, sys_prompt):
-    rp_client = replicate.Client(api_token='r8_XPMMEL0KhlcfRy3nRopduYp3d64X39v0S6SDI')
+    rp_client = replicate.Client(api_token='r8_QGFyCH7vMasCAK7pCW0XvSeXNjd8s5j0oL1CG')
     output = rp_client.run(
         "meta/llama-2-70b-chat:02e509c789964a7ea8736978a43525956ef40397be9033abf9fd2badfe68c9e3",
         input={
@@ -45,8 +45,8 @@ def generate_title(insights):
     return output
 
 def choose_images(insights, image_titles):
-    choose_images_sys_prompt = "Given the image title, choose the most important 3 images of the article based on the insights extracted from the article."
-    prompt = "Extracted insights: " + insights + "Image titles: " + image_titles + "Important sections: "
+    choose_images_sys_prompt = "From the given article insights, choose the most important 3 image titles and give an explanation for each of your choice. Output should be in the following format: Image title (Page: Page number) - Explanation"
+    prompt = "Extracted insights: " + insights + "Image titles: " + image_titles
     output = send_prompt(prompt, choose_images_sys_prompt)
     return output
 
@@ -62,9 +62,53 @@ def create_section_input(summarized_sections):
 
     return section_input
 
-#pdf_path = "/Users/nusretkizilaslan/Downloads/selo-article.pdf"
+
+def convert_response_to_list(response_text):
+    # Define the possible representations of figure and table names
+    figure_patterns = ["Fig\."]
+    table_patterns = ["Table"]
+
+    # Combine the patterns into regex patterns
+    figure_pattern = "|".join(figure_patterns)
+    table_pattern = "|".join(table_patterns)
+
+    # Create a regex pattern to capture the figure and table titles
+    figure_title_pattern = f"({figure_pattern}\s*\d+):\s*(.*?) \(Page:(\d+)\) - (.*)"
+    table_title_pattern = f"({table_pattern}\s*\d+):\s*(.*?) \(Page:(\d+)\) - (.*)"
+
+
+    titles = []
+
+    # Find all matches in the extracted_text for figures and tables
+    figure_matches = re.findall(figure_title_pattern, response_text)
+    table_matches = re.findall(table_title_pattern, response_text)
+
+    # Process and store the matched titles and numberings from the figures
+    for match in figure_matches:
+        image_name, image_title, image_page_number, explanation = match
+        if image_name != "":
+            if ('A' <= image_name[0] and image_name[0] <= "Z") or ('0' <= image_name[0] and image_name[0] <= '9'):
+                titles.append((f"{image_name}. {image_title}.", explanation, image_page_number))
+
+    # Process and store the matched titles and numberings from the tables
+    for match in table_matches:
+        image_name, image_title, image_page_number, explanation = match
+        if image_name != "":
+            if ('A' <= image_name[0] and image_name[0] <= "Z") or ('0' <= image_name[0] and image_name[0] <= '9'):
+                titles.append((f"{image_name}. {image_title}.", explanation, image_page_number))
+
+    # Return an list of 3 variable tuples (title, explanation, page_number)
+
+    return titles
+
+
+    
+
+
+business_pdf1_path = "/Users/nusretkizilaslan/Downloads/selo-article.pdf"
 #pdf_path = "/Users/selinceydeli/Desktop/sabancı/OPIM407/Individual Assignment-3/Predicting_Freshman_Student_Attrition_Article.pdf"
-business_pdf1_path = "/Users/selinceydeli/Desktop/AIResearch/business-article-inputs/buss_article.pdf"
+#business_pdf1_path = "/Users/selinceydeli/Desktop/AIResearch/business-article-inputs/buss_article.pdf"
+#business_pdf1_path = "/Users/nusretkizilaslan/Downloads/buss_article.pdf"
 sections_dict = extract_pdf_and_divide_sections(business_pdf1_path)
 extracted_pdf = extract_pdf(business_pdf1_path)
 
@@ -81,26 +125,38 @@ insights = '''
 
 # Open the file
 pdf_file = fitz.open(business_pdf1_path)
-
 titles = []
-
+image_title_pairs = {}
 # Iterate over PDF pages
 for page_index in range(len(pdf_file)):
     page = pdf_file[page_index]
+    page_image_title_pairs = extract_image_title_pairs(page,page_index)
     page_image_titles = extract_titles_from_page(page)
+    image_title_pairs.update(page_image_title_pairs)
     for title in page_image_titles:
         title += " (Page:" + str(page_index+1) + ")"
         titles.append(title)
 
 pdf_file.close()
 
+
 image_titles = ""
 for title in titles:
     image_titles += title + "\n"
-important_images = choose_images(insights, image_titles)
-print(important_images)
 
-#Preprocessing
-#Delete the first 3 characters (1. )
-#Take the figure titles including up until the (Page:1)
-#Also return the corresponding images
+
+#response = choose_images(insights, image_titles)
+
+# API token ran out. Here is the hard coded response of the LLM
+response = " Here are the three most important image titles and their explanations:\n\n1. Fig. 1: Relationships among perceived usability, perceived aesthetics, and user preference based on previous studies’ findings - This figure illustrates the relationships between perceived usability, perceived aesthetics, and user preference, which is the foundation of the study's research question. It shows how these factors influence each other and how they impact user preference.\n2. Table 7: User preference after actual use by conditions (Page:2) - This table shows the results of the study's experiment, specifically the user preferences after actual use of the systems. It highlights the differences in user preference between the high aesthetics and low aesthetics conditions, which is the primary focus of the study.\n3. Fig. 5: Interaction plot of usability level and actual use for perceived usability (Page:11) - This figure displays the interaction effect between usability level and actual use on perceived usability. It shows how the relationship between usability and actual use varies across different levels of usability, providing insights into how to optimize system design for improved user experience."
+
+important_images_list = convert_response_to_list(response)
+
+
+# Check whether the important image is extracted
+found_images = get_important_image_paths(image_title_pairs,important_images_list)
+
+print(found_images)
+
+
+

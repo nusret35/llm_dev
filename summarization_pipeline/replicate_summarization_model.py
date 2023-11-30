@@ -7,7 +7,7 @@ from image_titles import extract_titles_from_page
 import fitz
 
 def send_prompt(prompt, sys_prompt):
-    rp_client = replicate.Client(api_token='r8_VbKuL8aKGq6NNTtMVRRRfHWP6VnCZAl3G2Kum')
+    rp_client = replicate.Client(api_token='r8_ImsCBCofDTyyQckrgkWHOcs0mumgRQu45vIyb')
     output = rp_client.run(
         "meta/llama-2-70b-chat:02e509c789964a7ea8736978a43525956ef40397be9033abf9fd2badfe68c9e3",
         input={
@@ -49,6 +49,7 @@ def choose_images(insights, image_titles):
     choose_images_sys_prompt = "Given the image title, choose the most important 3 images of the article based on the insights extracted from the article. Give the output in this format: image title - explanation"
     prompt = "Extracted insights: " + insights + "Image titles: " + image_titles + "Important sections: "
     output = send_prompt(prompt, choose_images_sys_prompt)
+    
     return output
 
 # Function for preparing the input prompt for insights extraction process using the summarized sections
@@ -63,11 +64,11 @@ def create_section_input(summarized_sections):
 
     return section_input
 
-#pdf_path = "/Users/nusretkizilaslan/Downloads/selo-article.pdf"
+pdf_path = "/Users/nusretkizilaslan/Downloads/selo-article.pdf"
 #pdf_path = "/Users/selinceydeli/Desktop/sabancı/OPIM407/Individual Assignment-3/Predicting_Freshman_Student_Attrition_Article.pdf"
-business_pdf1_path = "/Users/selinceydeli/Desktop/AIResearch/business-article-inputs/buss_article_2.pdf"
-sections_dict = extract_pdf_and_divide_sections(business_pdf1_path)
-extracted_pdf = extract_pdf(business_pdf1_path)
+#business_pdf1_path = "/Users/selinceydeli/Desktop/AIResearch/business-article-inputs/buss_article_2.pdf"
+sections_dict = extract_pdf_and_divide_sections(pdf_path)
+extracted_pdf = extract_pdf(pdf_path)
 
 """
 business_txt_path = "/Users/selinceydeli/Desktop/AIResearch/llm_dev/summarization_pipeline/bus_article1.txt"
@@ -153,7 +154,7 @@ print(important_images)
 """
 
 # Open the file
-pdf_file = fitz.open(business_pdf1_path)
+pdf_file = fitz.open(pdf_path)
 
 titles = []
 
