@@ -7,7 +7,7 @@ def extract_image_from_page(page, page_index):
     text_blocks = page.get_text("blocks")
 
     keywords = ['table', 'figure', 'fig.', 'chart']
-    proximity_threshold = 50  # Adjust this value based on your requirements
+    proximity_threshold = 150  # Adjust this value based on your requirements
 
     image_titles = []
     image_paths = []
@@ -55,6 +55,7 @@ def extract_image_from_page(page, page_index):
 
 #file = "/Users/selinceydeli/Desktop/AIResearch/business-article-inputs/1-s2.0-S0148296323004216-main.pdf"
 file = '/Users/nusretkizilaslan/Downloads/selo-article.pdf'
+file1 = '/Users/selinceydeli/Desktop/AIResearch/business-article-inputs/buss_article.pdf'
 file2 = '/Users/selinceydeli/Desktop/AIResearch/business-article-inputs/buss_article_2.pdf'
 
 """
@@ -63,7 +64,7 @@ output_folder = "/Users/selinceydeli/Desktop/AIResearch/llm_dev/summarization_pi
 """
 
 # Open the file
-pdf_file = fitz.open(file2)
+pdf_file = fitz.open(file1)
 
 # Iterate over PDF pages
 for page_index in range(len(pdf_file)):

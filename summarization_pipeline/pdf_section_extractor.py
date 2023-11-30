@@ -62,14 +62,16 @@ def capture_image_titles(extracted_text):
     # Process and store the matched titles and numberings from the figures
     for match in figure_matches:
         title_type, title_number, title_text = match
-        if 'A' <= title_text[0] <= "Z":
-            titles.append(f"{title_type} {title_number}. {title_text}")
+        if title_text != "":
+            if ('A' <= title_text[0] and title_text[0] <= "Z") or ('0' <= title_text[0] and title_text[0] <= '9'):
+                titles.append(f"{title_type} {title_number}. {title_text}")
 
     # Process and store the matched titles and numberings from the tables
     for match in table_matches:
         title_type, title_number, title_text = match
-        if title_text and 'A' <= title_text[0] <= "Z":
-            titles.append(f"{title_type} {title_number}. {title_text}")
+        if title_text != "":
+            if ('A' <= title_text[0] and title_text[0] <= "Z") or ('0' <= title_text[0] and title_text[0] <= '9'):
+                titles.append(f"{title_type} {title_number}. {title_text}")
 
     return titles
 
