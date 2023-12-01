@@ -9,10 +9,21 @@ def extract_image_title_pairs(page, page_index):
     image_list = page.get_image_info()
     text_blocks = page.get_text("blocks")
 
-    keywords = ['table', 'figure', 'fig.', 'chart']
+    # Define the possible representations of figure and table names
+    figure_patterns = ["Fig\.", "Figure"]
+    table_patterns = ["Table"]
+
+    # Combine the patterns into regex patterns
+    figure_pattern = "|".join(figure_patterns)
+    table_pattern = "|".join(table_patterns)
+
+    # Create a regex pattern to capture the figure and table titles
+    figure_title_pattern = f"({figure_pattern})\s*(\d+)\.\s*(.*?)\."
+    table_title_pattern = f"({table_pattern})\s*(\d+)\s*\\n?\s*(.*?)\."
+
     proximity_threshold = 150  # Adjust this value based on your requirements
 
-    image_titles = []
+    titles = []
     image_paths = []
 
     img_index = 0
@@ -26,7 +37,7 @@ def extract_image_title_pairs(page, page_index):
         # Convert the image data to a Pillow image
         pil_image = Image.frombytes("RGB", [image.width, image.height], image.samples)
 
-        directory_path = "./images/" + 'page' + str(page_index)
+        directory_path = "./images/" + 'page' + str(page_index+1)
         os.makedirs(directory_path, exist_ok=True)
 
         img_path = directory_path + '/output_image' + str(img_index) + '.png'
@@ -46,11 +57,27 @@ def extract_image_title_pairs(page, page_index):
 
                 # Check if the first word of the text block is in the list of keywords
                 block_text = block[4]
-                first_word = block_text.strip().split()[0].lower()
-                if first_word in keywords:
-                    image_titles.append(block_text.strip())
+        
+                 # Find all matches in the extracted_text for figures and tables
+                figure_matches = re.findall(figure_title_pattern, block_text)
+                table_matches = re.findall(table_title_pattern, block_text)
+
+                # Process and store the matched titles and numberings from the figures
+                for match in figure_matches:
+                    title_type, title_number, title_text = match
+                    if title_text != "":
+                        if ('A' <= title_text[0] and title_text[0] <= "Z") or ('0' <= title_text[0] and title_text[0] <= '9'):
+                            titles.append(f"{title_type} {title_number}. {title_text}") 
+
+                    # Process and store the matched titles and numberings from the tables
+                    for match in table_matches:
+                        title_type, title_number, title_text = match
+                        if title_text != "":
+                            if ('A' <= title_text[0] and title_text[0] <= "Z") or ('0' <= title_text[0] and title_text[0] <= '9'):
+                                titles.append(f"{title_type} {title_number}. {title_text}")
+
     
-    image_data = dict(zip(image_titles, image_paths))
+    image_data = dict(zip(titles, image_paths))
     return image_data
 
 
@@ -98,10 +125,14 @@ def extract_titles_from_page(page):
 
     return titles
 
+# image_title_pairs: dictionary of the images that are extracted
+# important_images: list of important image titles. List of tuples.
+
 def get_important_image_paths(image_title_pairs, important_images):
     # Check whether the important image is extracted
     found_important_images_paths = {}
     for title, explanation, page_number in important_images:
+        print(page_number)
         if title in image_title_pairs.keys():
             found_important_images_paths.update({title:image_title_pairs[title]})
                 

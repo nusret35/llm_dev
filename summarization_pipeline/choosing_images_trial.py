@@ -73,8 +73,8 @@ def convert_response_to_list(response_text):
     table_pattern = "|".join(table_patterns)
 
     # Create a regex pattern to capture the figure and table titles
-    figure_title_pattern = f"({figure_pattern}\s*\d+):\s*(.*?) \(Page:(\d+)\) - (.*)"
-    table_title_pattern = f"({table_pattern}\s*\d+):\s*(.*?) \(Page:(\d+)\) - (.*)"
+    figure_title_pattern = f"({figure_pattern}\s*\d+)\.\s*(.*?) \(Page:(\d+)\) - (.*)"
+    table_title_pattern = f"({table_pattern}\s*\d+)\.\s*(.*?) \(Page:(\d+)\) - (.*)"
 
 
     titles = []
@@ -88,14 +88,14 @@ def convert_response_to_list(response_text):
         image_name, image_title, image_page_number, explanation = match
         if image_name != "":
             if ('A' <= image_name[0] and image_name[0] <= "Z") or ('0' <= image_name[0] and image_name[0] <= '9'):
-                titles.append((f"{image_name}. {image_title}.", explanation, image_page_number))
+                titles.append((f"{image_name}. {image_title}", explanation, image_page_number))
 
     # Process and store the matched titles and numberings from the tables
     for match in table_matches:
         image_name, image_title, image_page_number, explanation = match
         if image_name != "":
             if ('A' <= image_name[0] and image_name[0] <= "Z") or ('0' <= image_name[0] and image_name[0] <= '9'):
-                titles.append((f"{image_name}. {image_title}.", explanation, image_page_number))
+                titles.append((f"{image_name}. {image_title}", explanation, image_page_number))
 
     # Return an list of 3 variable tuples (title, explanation, page_number)
 
@@ -105,10 +105,10 @@ def convert_response_to_list(response_text):
     
 
 
-business_pdf1_path = "/Users/nusretkizilaslan/Downloads/selo-article.pdf"
+#business_pdf1_path = "/Users/nusretkizilaslan/Downloads/selo-article.pdf"
 #pdf_path = "/Users/selinceydeli/Desktop/sabancı/OPIM407/Individual Assignment-3/Predicting_Freshman_Student_Attrition_Article.pdf"
 #business_pdf1_path = "/Users/selinceydeli/Desktop/AIResearch/business-article-inputs/buss_article.pdf"
-#business_pdf1_path = "/Users/nusretkizilaslan/Downloads/buss_article.pdf"
+business_pdf1_path = "/Users/nusretkizilaslan/Downloads/buss_article.pdf"
 sections_dict = extract_pdf_and_divide_sections(business_pdf1_path)
 extracted_pdf = extract_pdf(business_pdf1_path)
 
@@ -135,6 +135,7 @@ for page_index in range(len(pdf_file)):
     image_title_pairs.update(page_image_title_pairs)
     for title in page_image_titles:
         title += " (Page:" + str(page_index+1) + ")"
+        print(title)
         titles.append(title)
 
 pdf_file.close()
@@ -148,7 +149,7 @@ for title in titles:
 #response = choose_images(insights, image_titles)
 
 # API token ran out. Here is the hard coded response of the LLM
-response = " Here are the three most important image titles and their explanations:\n\n1. Fig. 1: Relationships among perceived usability, perceived aesthetics, and user preference based on previous studies’ findings - This figure illustrates the relationships between perceived usability, perceived aesthetics, and user preference, which is the foundation of the study's research question. It shows how these factors influence each other and how they impact user preference.\n2. Table 7: User preference after actual use by conditions (Page:2) - This table shows the results of the study's experiment, specifically the user preferences after actual use of the systems. It highlights the differences in user preference between the high aesthetics and low aesthetics conditions, which is the primary focus of the study.\n3. Fig. 5: Interaction plot of usability level and actual use for perceived usability (Page:11) - This figure displays the interaction effect between usability level and actual use on perceived usability. It shows how the relationship between usability and actual use varies across different levels of usability, providing insights into how to optimize system design for improved user experience."
+response = "1. Fig. 2. Conceptual Model (Page:5) - This image presents the conceptual model of the study, which highlights the relationship between the RM process mechanisms and firm performance during economic contractions and expansions. It also illustrates the three key relationship tenets proposed by the authors, which are communication openness, technical involvement, and customer value anticipation. Understanding this model is crucial to grasping the main findings and implications of the study.\n2. Table 3. Construct Correlations and AVEs (Page:7) -  This table presents the results of the confirmatory factor analysis (CFA) and shows the correlations between the constructs and the average variance extracted (AVE). The table provides evidence for the validity and reliability of the measures used in the study, which is essential for establishing the credibility of the research findings.\n3. Fig. 3. Relationship Marketing (RM) Strategies Matrix (Page:11) - This image presents a matrix that summarizes the RM strategies suggested by the authors for managing business-to-business relationships during economic contractions and expansions. The matrix includes strategies such as establishing high levels of communication without increasing technical collaboration, exploiting top management consensus, and leveraging technical involvement with customers."
 
 important_images_list = convert_response_to_list(response)
 
