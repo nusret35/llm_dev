@@ -3,7 +3,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Union
 
-# Run this server on terminal by this command: uvicorn backend:app --host 0.0.0.0 --port 80
+# First install fastapi on terminal ''pip install fastapi''
+
+# Run this server on terminal by ''uvicorn backend:app --host 0.0.0.0 --port 80''
 
 app = FastAPI()
 
