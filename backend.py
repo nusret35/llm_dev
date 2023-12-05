@@ -43,3 +43,13 @@ def update_item(item_id: int, item: Item):
 def send_prompt(prompt:Prompt):
     response = "This is an LLM response"
     return response
+
+#send document
+    # - take user prompt to guide LLM
+    # - by using user prompt handle insight extraction task 
+    # - search for recommendations
+
+# 
+
+
+

@@ -3,7 +3,7 @@ import replicate
 import re
 from pdf_section_extractor import extract_pdf_and_divide_sections, extract_pdf, capture_image_titles
 from article_parser import divide_article_into_sections
-from image_titles import extract_titles_from_page
+from image_processing import extract_titles_from_page
 import fitz
 
 def send_prompt(prompt, sys_prompt):
