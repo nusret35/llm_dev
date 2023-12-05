@@ -110,7 +110,7 @@ if len(check_for_absence) >= 2:
 
 summarized_sections = {}
 for section_name, section_text in critical_section_information.items():
-    if section_text != "" and section_name != "introduction" and section_name != "managerial implications": 
+    if section_text != "": 
         summary = summarize(section_name, section_text)
         summarized_sections[section_name] = summary
         print("Summary of " + section_name + ": \n" + summary)
