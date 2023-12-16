@@ -75,10 +75,16 @@ def capture_image_titles(extracted_text):
 
     return titles
 
+"""
+The PDF article is extracted as a whole, without being divided into sections
+"""
 def extract_pdf(path):
     extracted_text = extract_text_from_pdf(path)
     return extracted_text
 
+"""
+The PDF article is extracted and divided into sections
+"""
 def extract_pdf_and_divide_sections(path):
     extracted_text = extract_text_from_pdf(path)
     parsed_sections = article_parser.divide_article_into_sections(extracted_text)
