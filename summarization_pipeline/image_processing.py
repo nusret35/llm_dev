@@ -28,8 +28,8 @@ def response_regex_for_figure_and_table():
     table_pattern = "|".join(table_patterns)
 
     # Create a regex pattern to capture the figure and table titles
-    figure_title_pattern = f"({figure_pattern}\s*\d+)\.\s*(.*?) \(Page:(\d+)\) - (.*)"
-    table_title_pattern = f"({table_pattern}\s*\d+)\.\s*(.*?) \(Page:(\d+)\) - (.*)"
+    figure_title_pattern = f"({figure_pattern}\\s*\\d+)\\.\\s*(.*?) \\(Page:\\s*(\\d+)\\) - (.*)"
+    table_title_pattern = f"({table_pattern}\\s*\\d+)\\.\\s*(.*?) \\(Page:\\s*(\\d+)\\) - (.*)"
 
     return figure_title_pattern, table_title_pattern
 

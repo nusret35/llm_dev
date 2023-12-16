@@ -1,7 +1,9 @@
 import replicate
 import os
 
-class Extractor:
+# Greenness approach trial by changing the parameters of the model
+
+class Orchestration:
     def __init__(self,model):
         model_dict = {
             '70B': "meta/llama-2-70b-chat:02e509c789964a7ea8736978a43525956ef40397be9033abf9fd2badfe68c9e3",
@@ -18,12 +20,12 @@ class Extractor:
             self.model,
             input={
             "debug": False,
-            "top_k": 50,
-            "top_p": 1,
+            "top_k": 40, # reduced from 50
+            "top_p": 0.5, # reduced from 1
             "prompt": prompt,
             "temperature": 0.75,
             "system_prompt": sys_prompt,
-            "max_new_tokens": 1000,
+            "max_new_tokens": 500, # reduced from 1000
             "min_new_tokens": -1
         })
         response = ""
