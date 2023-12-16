@@ -3,23 +3,47 @@ from PIL import Image
 import os
 import re
 
-# Extracts images and their titles from PDF page
 
+def regex_for_figure_and_table():
+    figure_patterns = ["Fig\.", "Figure"]
+    table_patterns = ["Table"]
+    # Combine the patterns into regex patterns
+    figure_pattern = "|".join(figure_patterns)
+    table_pattern = "|".join(table_patterns)
+    figure_title_pattern = f"({figure_pattern})\s*(\d+)\.\s*(.*?)\."
+    table_title_pattern = f"({table_pattern})\s*(\d+)\s*\\n?\s*(.*?)\."
+    return figure_title_pattern, table_title_pattern
+
+
+def match_figure_and_table(block_text):
+    # Find all matches in the extracted_text for figures and tables
+    titles = []
+    figure_title_pattern, table_title_pattern = regex_for_figure_and_table()
+    figure_matches = re.findall(figure_title_pattern, block_text)
+    table_matches = re.findall(table_title_pattern, block_text)
+
+    # Process and store the matched titles and numberings from the figures
+    for match in figure_matches:
+        title_type, title_number, title_text = match
+        if title_text != "":
+            if ('A' <= title_text[0] and title_text[0] <= "Z") or ('0' <= title_text[0] and title_text[0] <= '9'):
+                titles.append(f"{title_type} {title_number}. {title_text}") 
+
+    # Process and store the matched titles and numberings from the tables
+    for match in table_matches:
+        title_type, title_number, title_text = match
+        if title_text != "":
+            if ('A' <= title_text[0] and title_text[0] <= "Z") or ('0' <= title_text[0] and title_text[0] <= '9'):
+                titles.append(f"{title_type} {title_number}. {title_text}")
+
+    return titles
+
+# Extracts images and their titles from PDF page
 def extract_image_title_pairs(page, page_index):
     image_list = page.get_image_info()
     text_blocks = page.get_text("blocks")
 
-    # Define the possible representations of figure and table names
-    figure_patterns = ["Fig\.", "Figure"]
-    table_patterns = ["Table"]
-
-    # Combine the patterns into regex patterns
-    figure_pattern = "|".join(figure_patterns)
-    table_pattern = "|".join(table_patterns)
-
-    # Create a regex pattern to capture the figure and table titles
-    figure_title_pattern = f"({figure_pattern})\s*(\d+)\.\s*(.*?)\."
-    table_title_pattern = f"({table_pattern})\s*(\d+)\s*\\n?\s*(.*?)\."
+    figure_title_pattern, table_title_pattern = regex_for_figure_and_table()
 
     proximity_threshold = 150  # Adjust this value based on your requirements
 
@@ -58,23 +82,7 @@ def extract_image_title_pairs(page, page_index):
                 # Check if the first word of the text block is in the list of keywords
                 block_text = block[4]
         
-                 # Find all matches in the extracted_text for figures and tables
-                figure_matches = re.findall(figure_title_pattern, block_text)
-                table_matches = re.findall(table_title_pattern, block_text)
-
-                # Process and store the matched titles and numberings from the figures
-                for match in figure_matches:
-                    title_type, title_number, title_text = match
-                    if title_text != "":
-                        if ('A' <= title_text[0] and title_text[0] <= "Z") or ('0' <= title_text[0] and title_text[0] <= '9'):
-                            titles.append(f"{title_type} {title_number}. {title_text}") 
-
-                    # Process and store the matched titles and numberings from the tables
-                    for match in table_matches:
-                        title_type, title_number, title_text = match
-                        if title_text != "":
-                            if ('A' <= title_text[0] and title_text[0] <= "Z") or ('0' <= title_text[0] and title_text[0] <= '9'):
-                                titles.append(f"{title_type} {title_number}. {title_text}")
+                titles = titles + match_figure_and_table(block_text)
 
     
     image_data = dict(zip(titles, image_paths))
@@ -84,18 +92,8 @@ def extract_image_title_pairs(page, page_index):
 # Extracts all the titles (Figure, Table, etc.) from PDF page
 
 def extract_titles_from_page(page):
-    
-    # Define the possible representations of figure and table names
-    figure_patterns = ["Fig\.", "Figure"]
-    table_patterns = ["Table"]
 
-    # Combine the patterns into regex patterns
-    figure_pattern = "|".join(figure_patterns)
-    table_pattern = "|".join(table_patterns)
-
-    # Create a regex pattern to capture the figure and table titles
-    figure_title_pattern = f"({figure_pattern})\s*(\d+)\.\s*(.*?)\."
-    table_title_pattern = f"({table_pattern})\s*(\d+)\s*\\n?\s*(.*?)\."
+    figure_title_pattern, table_title_pattern = regex_for_figure_and_table()
 
     text_blocks = page.get_text("blocks")
 
@@ -104,24 +102,7 @@ def extract_titles_from_page(page):
     
     for block in text_blocks:
         block_text = block[4]
-        
-        # Find all matches in the extracted_text for figures and tables
-        figure_matches = re.findall(figure_title_pattern, block_text)
-        table_matches = re.findall(table_title_pattern, block_text)
-
-        # Process and store the matched titles and numberings from the figures
-        for match in figure_matches:
-            title_type, title_number, title_text = match
-            if title_text != "":
-                if ('A' <= title_text[0] and title_text[0] <= "Z") or ('0' <= title_text[0] and title_text[0] <= '9'):
-                    titles.append(f"{title_type} {title_number}. {title_text}") 
-
-        # Process and store the matched titles and numberings from the tables
-        for match in table_matches:
-            title_type, title_number, title_text = match
-            if title_text != "":
-                if ('A' <= title_text[0] and title_text[0] <= "Z") or ('0' <= title_text[0] and title_text[0] <= '9'):
-                    titles.append(f"{title_type} {title_number}. {title_text}")
+        titles = titles + match_figure_and_table(block_text)
 
     return titles
 
