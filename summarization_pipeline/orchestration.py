@@ -21,7 +21,6 @@ class Extractor:
             'temperature':self.temperature,
             'max_new_tokens':self.max_new_tokens
         }
-
         if model in model_dict:
             self.model = model_dict[model]
         else:
@@ -59,7 +58,6 @@ class Extractor:
         output = self.send_prompt(prompt, summarize_sys_prompt)
         self.log[f"summarize {section_name}"] = output
         return output
-    
     
     """
     Method for sending prompt to the LLaMA 2 70B model to
@@ -105,8 +103,9 @@ class Extractor:
         self.log['choose images'] = output
         return output
     
-    # Logs the results to the json file
-
+    """
+    Method for logging the model results to the logs.json file
+    """
     def close(self):
         json_file_name = "logs.json"
 
