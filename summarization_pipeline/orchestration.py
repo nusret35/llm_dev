@@ -1,14 +1,27 @@
 import replicate
 import os
+import json
 
 # Greenness approach trial by changing the parameters of the model
 
-class Orchestration:
-    def __init__(self,model):
+class Extractor:
+    def __init__(self,model,top_k,top_p,temperature,max_new_tokens):
         model_dict = {
             '70B': "meta/llama-2-70b-chat:02e509c789964a7ea8736978a43525956ef40397be9033abf9fd2badfe68c9e3",
             '13B': "meta/llama-2-13b-chat:f4e2de70d66816a838a89eeeb621910adffb0dd0baba3976c96980970978018d"
         }
+        self.top_k = top_k
+        self.top_p = top_p
+        self.temperature = temperature
+        self.max_new_tokens = max_new_tokens
+        self.log = {
+            'model':model,
+            'top_k':self.top_k,
+            'top_p':self.top_p,
+            'temperature':self.temperature,
+            'max_new_tokens':self.max_new_tokens
+        }
+
         if model in model_dict:
             self.model = model_dict[model]
         else:
@@ -20,12 +33,12 @@ class Orchestration:
             self.model,
             input={
             "debug": False,
-            "top_k": 40, # reduced from 50
-            "top_p": 0.5, # reduced from 1
+            "top_k": self.top_k, # reduced from 50
+            "top_p": self.top_p, # reduced from 1
             "prompt": prompt,
-            "temperature": 0.75,
+            "temperature": self.temperature,
             "system_prompt": sys_prompt,
-            "max_new_tokens": 500, # reduced from 1000
+            "max_new_tokens": self.max_new_tokens, # reduced from 1000
             "min_new_tokens": -1
         })
         response = ""
@@ -44,6 +57,7 @@ class Orchestration:
         summarize_sys_prompt = 'You are a tool that summarizes the given text. The given text is a section of an article. Give a concise summary of the section text to include only the most important information.'
         prompt = section_name + ": " + section_text
         output = self.send_prompt(prompt, summarize_sys_prompt)
+        self.log[f"summarize {section_name}"] = output
         return output
     
     
@@ -55,6 +69,7 @@ class Orchestration:
         enrich_sys_prompt = 'Using the section texts you are given, enlarge the abstract to get a longer and more comprehensive summary of the article. While enlarging the abstract, integrate key information, findings, and implications from the given sections. Avoid any repetition of information.'
         prompt = "Section texts: " + sections + "Abstract: " + abstract + "Enriched abstract: "
         output = self.send_prompt(prompt, enrich_sys_prompt)
+        self.log["enrich abstract"] = output
         return output
 
     """
@@ -65,6 +80,7 @@ class Orchestration:
         insights_sys_prompt = 'You are a tool that extracts key insights from an article. You will be provided with article sections. As an output, you should provide concise insights about the given article in bulletpoints.'
         prompt = input
         output = self.send_prompt(prompt, insights_sys_prompt)
+        self.log['insights'] = output
         return output
 
     """
@@ -75,6 +91,7 @@ class Orchestration:
         find_title_sys_prompt = "From the given insights, provide a title. Output should be in the following format: Title. Just give one title."
         prompt = "Extracted insights: " + insights + "Title: "
         output = self.send_prompt(prompt, find_title_sys_prompt)
+        self.log['generate title'] = output
         return output
 
     """
@@ -85,4 +102,21 @@ class Orchestration:
         choose_images_sys_prompt = "Given the image titles, choose the most important 3 images of the article based on the insights extracted from the article. Output should be in the following format: Image title (Page: Page number) - Explanation"
         prompt = "Extracted insights: " + insights + "Image titles: " + image_titles + "Important sections: "
         output = self.send_prompt(prompt, choose_images_sys_prompt)
+        self.log['choose images'] = output
         return output
+    
+    # Logs the results to the json file
+
+    def close(self):
+        json_file_name = "logs.json"
+
+        # Read the existing JSON data from the file
+        with open(json_file_name, 'r') as json_file:
+            existing_data = json.load(json_file)
+
+        # Append the new dictionary to the existing list
+        existing_data.append(self.log)
+
+        # Write the updated list back to the JSON file
+        with open(json_file_name, 'w') as json_file:
+            json.dump(existing_data, json_file, indent=2)
