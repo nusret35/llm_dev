@@ -59,7 +59,6 @@ def match_figure_and_table(block_text,figure_title_pattern, table_title_pattern)
 
 
 # Extracts images and their titles from PDF page
-
 def extract_image_title_pairs(page, page_index):
     image_list = page.get_image_info()
     text_blocks = page.get_text("blocks")
@@ -111,7 +110,6 @@ def extract_image_title_pairs(page, page_index):
 
 
 # Extracts all the titles (Figure, Table, etc.) from PDF page
-
 def extract_titles_from_page(page):
 
     figure_title_pattern, table_title_pattern = regex_for_figure_and_table()
@@ -127,8 +125,6 @@ def extract_titles_from_page(page):
         titles = titles + match_figure_and_table(block_text,figure_title_pattern,table_title_pattern)
 
     return titles
-
-
 
 
 def convert_response_to_list(response_text):
@@ -159,24 +155,17 @@ def convert_response_to_list(response_text):
     return titles
 
 
-
-
 # image_title_pairs: dictionary of the images that are extracted
 # important_images: list of important image titles. List of tuples.
-
 # Returns the extracted important images
 def get_important_image_paths(image_title_pairs, important_images):
     # Check whether the important image is extracted
     found_important_images_paths = {}
     for title, explanation, page_number in important_images:
-        print(page_number)
         if title in image_title_pairs.keys():
             found_important_images_paths.update({title:image_title_pairs[title]})
                 
     return found_important_images_paths
-
-
-
 
 
 ##TEST##
@@ -187,11 +176,6 @@ if __name__ == "__main__":
     file = '/Users/nusretkizilaslan/Downloads/selo-article.pdf'
     file1 = '/Users/selinceydeli/Desktop/AIResearch/business-article-inputs/buss_article.pdf'
     file2 = '/Users/selinceydeli/Desktop/AIResearch/business-article-inputs/buss_article_2.pdf'
-
-    """
-    # Output folder
-    output_folder = "/Users/selinceydeli/Desktop/AIResearch/llm_dev/summarization_pipeline/extracted_images"
-    """
 
     # Open the file
     pdf_file = fitz.open(file)

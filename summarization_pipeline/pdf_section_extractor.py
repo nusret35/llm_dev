@@ -1,7 +1,7 @@
 from pdfminer.high_level import extract_pages 
 from pdfminer.layout import LTTextContainer, LTChar, LTAnno
 import fitz 
-from article_parser import divide_article_into_sections
+from summarization_pipeline.article_parser import divide_article_into_sections
 import re
 
 def clean_text(text):

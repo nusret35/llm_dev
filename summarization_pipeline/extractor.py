@@ -1,24 +1,22 @@
 import replicate
+import os
 
 class Extractor:
-    def __init__(self):
-        api_token = "r8_6sb3qvFAQAmMLpoRSoIXUvUKkQ3Wjbq3UsxLe"
-        self.rp_client = replicate.Client(api_token)
-    
+
     def send_prompt(self, prompt, sys_prompt):
-        output = self.rp_client.run(
-            "nusret35/insight-extractor",
+        rp_client = replicate.Client(api_token='r8_6sb3qvFAQAmMLpoRSoIXUvUKkQ3Wjbq3UsxLe')
+        output = rp_client.run(
+            "meta/llama-2-70b-chat:02e509c789964a7ea8736978a43525956ef40397be9033abf9fd2badfe68c9e3",
             input={
-                "debug": False,
-                "top_k": 50,
-                "top_p": 1,
-                "prompt": prompt,
-                "temperature": 0.75,
-                "system_prompt": sys_prompt,
-                "max_new_tokens": 1000,
-                "min_new_tokens": -1
-            }
-        )
+            "debug": False,
+            "top_k": 50,
+            "top_p": 1,
+            "prompt": prompt,
+            "temperature": 0.75,
+            "system_prompt": sys_prompt,
+            "max_new_tokens": 1000,
+            "min_new_tokens": -1
+        })
         response = ""
         for item in output:
             response += item
@@ -73,7 +71,7 @@ class Extractor:
     choose the most important images in an article given the image titles
     """
     def choose_images(self, insights, image_titles):
-        choose_images_sys_prompt = "Given the image titles, choose the most important 3 images of the article based on the insights extracted from the article."
+        choose_images_sys_prompt = "Given the image titles, choose the most important 3 images of the article based on the insights extracted from the article. Output should be in the following format: Image title (Page: Page number) - Explanation"
         prompt = "Extracted insights: " + insights + "Image titles: " + image_titles + "Important sections: "
         output = self.send_prompt(prompt, choose_images_sys_prompt)
         return output
