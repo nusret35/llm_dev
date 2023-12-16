@@ -1,7 +1,7 @@
 from pdfminer.high_level import extract_pages 
 from pdfminer.layout import LTTextContainer, LTChar, LTAnno
 import fitz 
-import article_parser
+from article_parser import divide_article_into_sections
 import re
 
 def clean_text(text):
@@ -87,5 +87,5 @@ The PDF article is extracted and divided into sections
 """
 def extract_pdf_and_divide_sections(path):
     extracted_text = extract_text_from_pdf(path)
-    parsed_sections = article_parser.divide_article_into_sections(extracted_text)
+    parsed_sections = divide_article_into_sections(extracted_text)
     return parsed_sections

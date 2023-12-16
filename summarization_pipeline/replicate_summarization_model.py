@@ -154,16 +154,18 @@ print(important_images)
 """
 
 # Open the file
-pdf_file = fitz.open(pdf_path)
-
+pdf_file = fitz.open(business_pdf1_path)
 titles = []
-
+image_title_pairs = {}
 # Iterate over PDF pages
 for page_index in range(len(pdf_file)):
     page = pdf_file[page_index]
+    page_image_title_pairs = extract_image_title_pairs(page,page_index)
     page_image_titles = extract_titles_from_page(page)
+    image_title_pairs.update(page_image_title_pairs)
     for title in page_image_titles:
         title += " (Page:" + str(page_index+1) + ")"
+        print(title)
         titles.append(title)
 
 pdf_file.close()
@@ -171,5 +173,6 @@ pdf_file.close()
 image_titles = ""
 for title in titles:
     image_titles += title + "\n"
+    
 important_images = choose_images(insights, image_titles)
 print(important_images)

@@ -1,12 +1,13 @@
 import replicate
 
 class Extractor:
-    def __init__(self, api_token):
-        self.rp_client = replicate.Client(api_token=api_token)
+    def __init__(self):
+        api_token = "r8_6sb3qvFAQAmMLpoRSoIXUvUKkQ3Wjbq3UsxLe"
+        self.rp_client = replicate.Client(api_token)
     
     def send_prompt(self, prompt, sys_prompt):
         output = self.rp_client.run(
-            "meta/llama-2-70b-chat:02e509c789964a7ea8736978a43525956ef40397be9033abf9fd2badfe68c9e3",
+            "nusret35/insight-extractor",
             input={
                 "debug": False,
                 "top_k": 50,

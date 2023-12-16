@@ -3,7 +3,6 @@ from PIL import Image
 import os
 import re
 
-
 # Creates the regex pattern for figures and tables for pages
 def regex_for_figure_and_table():
     figure_patterns = ["Fig\.", "Figure"]
@@ -17,6 +16,7 @@ def regex_for_figure_and_table():
     table_title_pattern = f"({table_pattern})\s*(\d+)\s*\\n?\s*(.*?)\."
 
     return figure_title_pattern, table_title_pattern
+
 
 def response_regex_for_figure_and_table():
     # Define the possible representations of figure and table names
@@ -34,10 +34,7 @@ def response_regex_for_figure_and_table():
     return figure_title_pattern, table_title_pattern
 
 
-
-
 # Creates the regex pattern for response figure and table titles
-
 def match_figure_and_table(block_text,figure_title_pattern, table_title_pattern):
     # Find all matches in the extracted_text for figures and tables
     titles = []
