@@ -1,17 +1,20 @@
 import replicate
-import os
 import json
+import time
+
+
 
 # Greenness approach trial by changing the parameters of the model
 
 class Extractor:
-    def __init__(self,model,top_k,top_p,temperature,max_new_tokens):
+    def __init__(self,model,top_k=50,top_p=1.0,temperature=0.5,max_new_tokens=500):
         model_dict = {
-            '70B': "meta/llama-2-70b-chat:02e509c789964a7ea8736978a43525956ef40397be9033abf9fd2badfe68c9e3",
-            '13B': "meta/llama-2-13b-chat:f4e2de70d66816a838a89eeeb621910adffb0dd0baba3976c96980970978018d"
+            '70B':{'model':'meta/llama-2-70b-chat', 'version':'02e509c789964a7ea8736978a43525956ef40397be9033abf9fd2badfe68c9e3'},
+            '13B': {'model':'meta/llama-2-13b-chat','version':'f4e2de70d66816a838a89eeeb621910adffb0dd0baba3976c96980970978018d'}
         }
         self.top_k = top_k
         self.top_p = top_p
+        self.time = 0.0
         self.temperature = temperature
         self.max_new_tokens = max_new_tokens
         self.log = {
@@ -28,9 +31,13 @@ class Extractor:
 
     def send_prompt(self, prompt, sys_prompt):
         rp_client = replicate.Client(api_token='r8_6sb3qvFAQAmMLpoRSoIXUvUKkQ3Wjbq3UsxLe')
-        output = rp_client.run(
-            self.model,
-            input={
+        print('\nSending prompt...')
+
+        model = replicate.models.get(self.model['model'])
+        version = model.versions.get(self.model['version'])
+        prediction = replicate.predictions.create( 
+            
+            version=version,input={
             "debug": False,
             "top_k": self.top_k, # reduced from 50
             "top_p": self.top_p, # reduced from 1
@@ -40,6 +47,12 @@ class Extractor:
             "max_new_tokens": self.max_new_tokens, # reduced from 1000
             "min_new_tokens": -1
         })
+        prediction.wait()
+        output = prediction.output
+        metrics = prediction.metrics
+        print('Response received.')
+        print(metrics)
+        self.time += metrics['predict_time']
         response = ""
         for item in output:
             response += item
@@ -81,7 +94,7 @@ class Extractor:
         self.log['insights'] = output
         return output
 
-    """
+    """s
     Method for sending prompt to the LLaMA 2 70B model to
     generate a title for the chat interface given the extracted insights
     """
@@ -107,15 +120,18 @@ class Extractor:
     Method for logging the model results to the logs.json file
     """
     def close(self):
-        json_file_name = "logs.json"
-
+        self.log['runtime (s)'] = self.time
+        json_file_name = "logs_w_time.json"
         # Read the existing JSON data from the file
         with open(json_file_name, 'r') as json_file:
             existing_data = json.load(json_file)
 
         # Append the new dictionary to the existing list
         existing_data.append(self.log)
+        print(self.log)
 
         # Write the updated list back to the JSON file
         with open(json_file_name, 'w') as json_file:
             json.dump(existing_data, json_file, indent=2)
+        
+        
