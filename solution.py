@@ -5,8 +5,8 @@ import fitz
 
 # Initializing the Extractor class for sending prompts to the LLaMA 2 70B model
 
-extractor_70B_model = Extractor(model='70B',top_p=0.4)
-extractor_13B_model = Extractor(model='13B',top_p=0.4)
+extractor_70B_model = Extractor(model='70B')
+extractor_13B_model = Extractor(model='13B')
 
 
 # Getting and preprocessing PDF input
