@@ -46,15 +46,18 @@ class Extractor:
             "min_new_tokens": -1
         })
         prediction.wait()
-        output = prediction.output
-        metrics = prediction.metrics
-        print('Response received.')
-        print(metrics)
-        self.time += metrics['predict_time']
-        response = ""
-        for item in output:
-            response += item
-        return response
+        if prediction.error != None:
+            print(f"Error occured: {prediction.error}")
+        else:
+            output = prediction.output
+            metrics = prediction.metrics
+            print('Response received.')
+            print(metrics)
+            self.time += metrics['predict_time']
+            response = ""
+            for item in output:
+                response += item
+            return response
 
     # Below are the methods that are defined for processes within our pipeline 
     # that send prompt to LLaMA 2 70B model

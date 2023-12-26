@@ -162,7 +162,7 @@ class Solution:
 
 if __name__ == "__main__":
     # Specify the path to the example PDF file
-    example_pdf_path = "/Users/selinceydeli/Desktop/AIResearch/business-article-inputs/buss_article.pdf"  # Replace with the actual path
+    example_pdf_path = "/Users/nusretkizilaslan/Downloads/buss_article-2.pdf"  # Replace with the actual path
 
     # Create an instance of the Solution class with the example PDF path
     solution_instance = Solution(example_pdf_path)
