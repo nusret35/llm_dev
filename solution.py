@@ -11,12 +11,15 @@ class Solution:
         # Find the position of the last dot in the string
         last_dot_position = insights.rfind('.')
 
-        # If a dot is found, return the part of the string until this dot
-        if last_dot_position != -1:
-            return insights[:last_dot_position + 1]
-        
-        # If no dot is found, return the original string
-        return insights
+        # Check if the last two characters of the string are in the format "number."
+        if (
+            last_dot_position != -1
+            and insights[last_dot_position - 2].isdigit()
+            and insights[last_dot_position -1] == '.'
+        ):
+            return insights[:last_dot_position - 1]  # Include the dot before the number
+        else:
+            return insights
 
     def preprocess_title(self, title):
         # Find the position of the colon in the string
@@ -25,14 +28,20 @@ class Solution:
         # Extract and return the portion of the title after the colon
         # Ensure that the colon is found and it is not the last character in the string
         if colon_pos != -1 and colon_pos != len(title) - 1:
-            return title[colon_pos + 1:].strip()
+            title = title[colon_pos + 1:].strip()
+            if "Title" in title:
+                pos = title.find('Title')
+                title = title[pos + 2:].strip()
+                return title
+            else:
+                return title[colon_pos + 1:].strip()
         
         # If a suitable colon is not found, return the original string
         return title
 
     def solution_pipeline(self):  
         # Initializing the LLaMA 2 70B and 13B models after getting greenness_input from the user
-        greenness_input = 0.5 #default greenness configuration
+        greenness_input = 0 #default greenness configuration
         extractor_70B_model, extractor_13B_model, max_tokens = configure_models(greenness_input)
 
 
@@ -85,7 +94,6 @@ class Solution:
             if section_text != "":
                 summary = extractor_70B_model.summarize(section_name, section_text, max_tokens)
                 summarized_sections[section_name] = summary
-                print("Summary of " + section_name + ": \n" + summary)
             else : summarized_sections[section_name] = None
 
 
@@ -153,7 +161,9 @@ class Solution:
 
         # Check whether the important image is extracted
         found_images = get_important_image_paths(image_title_pairs, important_images_list)
-        print("\nPaths of the extracted images that are among the important images:\n" + found_images)
+        
+        print("\nPaths of the extracted images that are among the important images:\n")
+        print(found_images)
 
 
         extractor_13B_model.close()
@@ -162,7 +172,7 @@ class Solution:
 
 if __name__ == "__main__":
     # Specify the path to the example PDF file
-    example_pdf_path = "/Users/nusretkizilaslan/Downloads/buss_article-2.pdf"  # Replace with the actual path
+    example_pdf_path = "/Users/selinceydeli/Desktop/AIResearch/business-article-inputs/buss_article.pdf"  # Replace with the actual path
 
     # Create an instance of the Solution class with the example PDF path
     solution_instance = Solution(example_pdf_path)
