@@ -1,7 +1,11 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Union
+import os
+import shutil
+import base64
+#import 
 
 # First install fastapi on terminal ''pip install fastapi''
 
@@ -13,6 +17,8 @@ app = FastAPI()
 origins = [
     "http://localhost:3000",  # Add the origin of your ReactJS frontend
 ]
+
+UPLOAD_FOLDER = 'pdf_uploads'
 
 app.add_middleware(
     CORSMiddleware,
@@ -43,6 +49,26 @@ def update_item(item_id: int, item: Item):
 def send_prompt(prompt:Prompt):
     response = "This is an LLM response"
     return response
+
+
+class PDFData(BaseModel):
+    pdfData: list[int]
+
+@app.post("/sendpdf")
+async def receive_pdf_data(pdf_data: PDFData):
+    try:
+        # Extract the PDF data from the request
+        pdf_bytes = bytes(pdf_data.pdfData)
+        
+        # You can save the PDF data to a file or perform any other processing here
+        # For example, save it to a file named "received.pdf"
+        with open("received.pdf", "wb") as file:
+            file.write(pdf_bytes)
+        
+        return {"message": "PDF data received and saved successfully"}
+    except Exception as e:
+        return {"error": f"Error receiving and saving PDF data: {str(e)}"}
+
 
 #send document
     # - take user prompt to guide LLM

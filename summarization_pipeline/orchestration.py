@@ -30,12 +30,11 @@ class Extractor:
             self.model = model_dict['70B']
 
     def send_prompt(self, prompt, sys_prompt):
-        rp_client = replicate.Client(api_token='r8_6sb3qvFAQAmMLpoRSoIXUvUKkQ3Wjbq3UsxLe')
+        rep = replicate.Client(api_token='r8_6sb3qvFAQAmMLpoRSoIXUvUKkQ3Wjbq3UsxLe')
         print('\nSending prompt...')
-
-        model = replicate.models.get(self.model['model'])
+        model = rep.models.get(self.model['model'])
         version = model.versions.get(self.model['version'])
-        prediction = replicate.predictions.create( 
+        prediction = rep.predictions.create( 
             
             version=version,input={
             "debug": False,
