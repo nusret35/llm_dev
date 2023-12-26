@@ -74,7 +74,6 @@ async def receive_pdf_data(pdf_data: PDFData):
     # - take user prompt to guide LLM
     # - by using user prompt handle insight extraction task 
     # - search for recommendations
-
 # 
 
 
