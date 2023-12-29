@@ -6,6 +6,9 @@ import fitz
 class Solution:
     def __init__(self, pdf_path):
         self.pdf_path = pdf_path
+        self.greenness_input = 0.5
+        self.extractor_70B_model, self.extractor_13B_model, self.max_tokens = configure_models(self.greenness_input)
+
 
     def preprocess_insights(self, insights):
         # Find the position of the last dot in the string
@@ -19,38 +22,35 @@ class Solution:
         ):
             return insights[:last_dot_position - 1]  # Include the dot before the number
         else:
-            return insights
+            return insights[:last_dot_position + 1]
+
+
+    def preprocess_image_exp(self, explanations):
+        # Find the position of the last dot in the string
+        last_dot_position = explanations.rfind('.')
+
+        # Check if the last two characters of the string are in the format "number."
+        if (
+            last_dot_position != -1
+            and explanations[last_dot_position - 2].isdigit()
+            and explanations[last_dot_position -1] == '.'
+        ):
+            return explanations[:last_dot_position - 1]  # Include the dot before the number
+        else:
+            return explanations[:last_dot_position + 1]
+
 
     def preprocess_title(self, title):
-        # Find the position of the colon in the string
-        colon_pos = title.find(':')
-
-        # Extract and return the portion of the title after the colon
-        # Ensure that the colon is found and it is not the last character in the string
-        if colon_pos != -1 and colon_pos != len(title) - 1:
-            title = title[colon_pos + 1:].strip()
-            if "Title" in title:
-                pos = title.find('Title')
-                title = title[pos + 2:].strip()
-                return title
-            else:
-                return title[colon_pos + 1:].strip()
-        
-        # If a suitable colon is not found, return the original string
-        return title
-
-    def solution_pipeline(self):  
-        # Initializing the LLaMA 2 70B and 13B models after getting greenness_input from the user
-        greenness_input = 0 #default greenness configuration
-        extractor_70B_model, extractor_13B_model, max_tokens = configure_models(greenness_input)
+        start_pos = title.find('"')
+        end_pos = title.rfind('"')
+        return title[start_pos:end_pos]
 
 
+    def generate_insights(self):
         # Getting and preprocessing PDF input
         sections_dict = extract_pdf_and_divide_sections(self.pdf_path)
 
-
        # Extracting section texts of important sections 
-
         abstract = sections_dict.get('abstract', "")
         print("Abstract: " + abstract + "\n")
 
@@ -87,15 +87,13 @@ class Solution:
         for key, value in critical_section_information.items():
             print(key)
 
-
         # Summarizing important sections (using LLaMA 2 70B model)
         summarized_sections = {}
         for section_name, section_text in critical_section_information.items():
             if section_text != "":
-                summary = extractor_70B_model.summarize(section_name, section_text, max_tokens)
+                summary = self.extractor_70B_model.summarize(section_name, section_text, self.max_tokens)
                 summarized_sections[section_name] = summary
             else : summarized_sections[section_name] = None
-
 
         # Converting the section text information from dictionary to string
         # to feed it to the model as input
@@ -113,24 +111,32 @@ class Solution:
 
         section_input = create_section_input(summarized_sections)
 
-
         # Extracting insights from the article using the summarized sections (using LLaMA 2 70B model)
         section_input_abstract = "abstract: " + abstract + section_input
 
-        insights = extractor_70B_model.extract_insights(section_input_abstract, max_tokens)
+        insights = self.extractor_70B_model.extract_insights(section_input_abstract, self.max_tokens)
         print("\nExtracted insights before processing:\n" + insights)
 
         insights = self.preprocess_insights(insights)
         print("\nExtracted insights after processing:\n" + insights)
 
+        self.insights = insights
+
+        return insights
+    
+
+    def generate_title(self, insights):
         # Generating a meaningful title to be presented as the chat title in the interface (using LLaMA 2 13B model)
-        title = extractor_13B_model.generate_title(insights)
+        title = self.extractor_13B_model.generate_title(insights)
         print("\nTitle before preprocessing:\n" + title)
 
-        title = self.preprocess_title(title)
-        print("\nTitle after preprocessing:\n" + title)
+        #title = self.preprocess_title(title)
+        #print("\nTitle after preprocessing:\n" + title)
+
+        return title
 
 
+    def generate_image_explanations(self, insights):  
         # Choosing the most important figures/tables of the article (using LLaMA 2 13B model)
         # Open the file
         pdf_file = fitz.open(self.pdf_path)
@@ -152,10 +158,15 @@ class Solution:
         for title in titles:
             image_titles += title + "\n"
             
-        important_images = extractor_13B_model.choose_images(insights, image_titles, max_tokens)
-        print("\nImportant images:\n" + important_images)
+        important_images = self.extractor_13B_model.choose_images(insights, image_titles, self.max_tokens)
+        print("\nImportant images before processing:\n" + important_images)
+        important_images = self.preprocess_image_exp(important_images)
+        print("\nImportant images after processing:\n" + important_images)
+        
+        return important_images, image_title_pairs
 
 
+    def display_images(self, important_images, image_title_pairs):
         # Displaying the fetched figures/tables that match the selected images
         important_images_list = convert_response_to_list(important_images)
 
@@ -165,14 +176,22 @@ class Solution:
         print("\nPaths of the extracted images that are among the important images:\n")
         print(found_images)
 
+        return found_images
 
-        extractor_13B_model.close()
-        extractor_70B_model.close()
+
+    def solution_pipeline(self):
+        insights = self.generate_insights()
+        title = self.generate_title(insights)
+        important_images, image_title_pairs = self.generate_image_explanations(insights)
+        found_images = self.display_images(important_images, image_title_pairs)
+
+        self.extractor_13B_model.close()
+        self.extractor_70B_model.close()
 
 
 if __name__ == "__main__":
     # Specify the path to the example PDF file
-    example_pdf_path = "/Users/selinceydeli/Desktop/AIResearch/business-article-inputs/buss_article.pdf"  # Replace with the actual path
+    example_pdf_path = "/Users/selinceydeli/Desktop/AIResearch/business-article-inputs/buss_article.pdf"
 
     # Create an instance of the Solution class with the example PDF path
     solution_instance = Solution(example_pdf_path)

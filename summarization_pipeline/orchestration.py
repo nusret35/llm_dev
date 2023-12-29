@@ -67,7 +67,7 @@ class Extractor:
     summarize an article given the section names and section texts
     """
     def summarize(self, section_name, section_text, max_tokens):
-        summarize_sys_prompt = 'You are a tool that summarizes the given text. The given text is a section of an article. Give a concise summary of the section text to include only the most important information. Give the output using maximum of ' + str(max_tokens) + ' words. The sentences should not be left unfinished.'
+        summarize_sys_prompt = 'You are a tool that summarizes the given text. The given text is a section of an article. Give a concise summary of the section text to include only the most important information. Give the output using maximum of ' + str(int(4/3*max_tokens)) + ' words. The sentences should not be left unfinished.'
         prompt = section_name + ": " + section_text
         output = self.send_prompt(prompt, summarize_sys_prompt)
         self.log[f"summarize {section_name}"] = output
@@ -78,7 +78,7 @@ class Extractor:
     enrich the abstract given the section texts and abstract
     """
     def enrich_abstract(self, sections, abstract, max_tokens):
-        enrich_sys_prompt = 'Using the section texts you are given, enlarge the abstract to get a longer and more comprehensive summary of the article. While enlarging the abstract, integrate key information, findings, and implications from the given sections. Avoid any repetition of information. Give the output using maximum of ' + str(max_tokens) + ' words. The sentences should not be left unfinished.'
+        enrich_sys_prompt = 'Using the section texts you are given, enlarge the abstract to get a longer and more comprehensive summary of the article. While enlarging the abstract, integrate key information, findings, and implications from the given sections. Avoid any repetition of information. Give the output using maximum of ' + str(int(4/3*max_tokens)) + ' words. The sentences should not be left unfinished.'
         prompt = "Section texts: " + sections + "Abstract: " + abstract + "Enriched abstract: "
         output = self.send_prompt(prompt, enrich_sys_prompt)
         self.log["enrich abstract"] = output
@@ -89,7 +89,7 @@ class Extractor:
     extract insights from an article given the important article sections
     """
     def extract_insights(self, input, max_tokens):
-        insights_sys_prompt = 'You are a tool that extracts key insights from an article. You will be provided with article sections. As an output, you should provide concise insights about the given article in bulletpoints. Give the insights using maximum of ' + str(max_tokens) + ' words. The sentences should not be left unfinished.'
+        insights_sys_prompt = 'You are a tool that extracts key insights from an article. You will be provided with article sections. As an output, you should provide concise insights about the given article in bulletpoints (ex. * Bulletpoint 1). Give the insights using maximum of ' + str(int(4/3*max_tokens)) + ' words. The sentences should not be left unfinished.'
         prompt = input
         output = self.send_prompt(prompt, insights_sys_prompt)
         self.log['insights'] = output
@@ -111,7 +111,7 @@ class Extractor:
     choose the most important images in an article given the image titles
     """
     def choose_images(self, insights, image_titles, max_tokens):
-        choose_images_sys_prompt = 'Given the image titles, choose the most important 3 images of the article based on the insights extracted from the article. Output should be in the following format: Image title (Page: Page number) - Explanation. Give the output using maximum of ' + str(max_tokens) + ' words. The sentences should not be left unfinished.'
+        choose_images_sys_prompt = 'Given the image titles, choose the most important 3 images of the article based on the insights extracted from the article. Output should be in the following format: Image title (Page: Page number) - Explanation. Give the output using maximum of ' + str(int(4/3*max_tokens)) + ' words. The sentences should not be left unfinished. The output should contain only the most important images and their explanations.'
         prompt = "Extracted insights: " + insights + "Image titles: " + image_titles + "Important sections: "
         output = self.send_prompt(prompt, choose_images_sys_prompt)
         self.log['choose images'] = output
