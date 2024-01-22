@@ -1,6 +1,7 @@
 import replicate
 import json
 import time
+from datetime import datetime
 
 # Greenness approach trial by changing the parameters of the model
 
@@ -22,14 +23,20 @@ class Extractor:
             'temperature':self.temperature,
             'max_new_tokens':self.max_new_tokens
         }
+        # Add a timestamp to the log
+        self.log['timestamp'] = self.get_timestamp()
         if model in model_dict:
             self.model = model_dict[model]
         else:
             self.model = model_dict['70B']
+    
+    def get_timestamp(self):
+        # Generate a timestamp in the format "DD/MM/YYYY HH:MM"
+        return datetime.now().strftime("%d/%m/%Y %H:%M")
 
     def send_prompt(self, prompt, sys_prompt):
 
-        rp_client = replicate.Client(api_token='r8_4FQRaD2T9Z7URsAre5vwc5hXi6M0bjL0d0y8Z')
+        rp_client = replicate.Client(api_token='r8_bxdTnuurlTDHvMQsrXabfTpA4tlbbkl42MX8p')
         print('\nSending prompt...')
 
         model = rp_client.models.get(self.model['model'])
@@ -95,7 +102,7 @@ class Extractor:
         self.log['insights'] = output
         return output
 
-    """s
+    """
     Method for sending prompt to the LLaMA 2 70B model to
     generate a title for the chat interface given the extracted insights
     """
@@ -111,7 +118,7 @@ class Extractor:
     choose the most important images in an article given the image titles
     """
     def choose_images(self, insights, image_titles, max_tokens):
-        choose_images_sys_prompt = 'Given the image titles, choose the most important 3 images of the article based on the insights extracted from the article. Output should be in the following format: Image title (Page: Page number) - Explanation. Give the output using maximum of ' + str(int(4/3*max_tokens)) + ' words. The sentences should not be left unfinished. The output should contain only the most important images and their explanations.'
+        choose_images_sys_prompt = 'Based on the given information, choose the most important 3 images of the article.'
         prompt = "Extracted insights: " + insights + "Image titles: " + image_titles + "Important sections: "
         output = self.send_prompt(prompt, choose_images_sys_prompt)
         self.log['choose images'] = output
@@ -122,6 +129,7 @@ class Extractor:
     """
     def close(self):
         self.log['runtime (s)'] = self.time
+        self.log['closing_timestamp'] = self.get_timestamp()
         json_file_name = "logs_w_time.json"
         # Read the existing JSON data from the file
         with open(json_file_name, 'r') as json_file:
