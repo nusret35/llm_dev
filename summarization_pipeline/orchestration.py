@@ -36,7 +36,7 @@ class Extractor:
 
     def send_prompt(self, prompt, sys_prompt):
 
-        rp_client = replicate.Client(api_token='r8_bxdTnuurlTDHvMQsrXabfTpA4tlbbkl42MX8p')
+        rp_client = replicate.Client(api_token='r8_96G04GwgDPZDSpzHD9iP38oLQiy7cjJ0dz6RN')
         print('\nSending prompt...')
 
         model = rp_client.models.get(self.model['model'])
@@ -94,9 +94,12 @@ class Extractor:
     """
     Method for sending prompt to the LLaMA 2 70B model to
     extract insights from an article given the important article sections
+    In this method, prompt is made unique based on user persona and user's purpose for using the insights 
     """
-    def extract_insights(self, input, max_tokens):
+    def extract_insights(self, input, max_tokens, user_persona, user_purpose):
         insights_sys_prompt = 'You are a tool that extracts key insights from an article. You will be provided with article sections. As an output, you should provide concise insights about the given article in bulletpoints (ex. * Bulletpoint 1). Give the insights using maximum of ' + str(int(4/3*max_tokens)) + ' words. The sentences should not be left unfinished.'
+        prompt_unique_to_user = 'Generate these insights to be used for ' + user_purpose + ' by a/an ' + user_persona + '.'
+        insights_sys_prompt += prompt_unique_to_user
         prompt = input
         output = self.send_prompt(prompt, insights_sys_prompt)
         self.log['insights'] = output
@@ -105,9 +108,11 @@ class Extractor:
     """
     Method for sending prompt to the LLaMA 2 70B model to
     generate a title for the chat interface given the extracted insights
+    In this method, prompt is made unique based on user persona and user's purpose for using the insights
     """
-    def generate_title(self, insights):
+    def generate_title(self, insights, user_persona, user_purpose):
         find_title_sys_prompt = 'From the given insights, provide a title. Output should be in the following format: Title. Just give one title.'
+        prompt_unique_to_user = 'Generate this title to be used for ' + user_purpose + ' by a/an ' + user_persona + '.'
         prompt = "Extracted insights: " + insights + "Title: "
         output = self.send_prompt(prompt, find_title_sys_prompt)
         self.log['generate title'] = output
