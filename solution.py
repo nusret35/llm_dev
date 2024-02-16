@@ -205,10 +205,11 @@ class Solution:
         # Get user's purpose for getting these insights
         user_purpose = "Business Strategy Development"
 
-        # Insights extraction and title generation steps are equipped with prompt engineering
+        # Insights extraction and title generation steps are equipped with advanced prompt engineering
         # Prompts are made unique based on user persona and user's purpose for using the insights
         insights = self.generate_insights(user_persona, user_purpose)
         title = self.generate_title(insights, user_persona, user_purpose)
+        
         important_images, image_title_pairs = self.generate_image_explanations(insights)
         found_images = self.display_images(important_images, image_title_pairs)
 

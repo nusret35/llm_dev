@@ -130,6 +130,16 @@ class Extractor:
         return output
     
     """
+    Method for generating a new prompt for the insights regeneration option
+    Process_name signifies the name of the process for which the prompt is used (insights extraction or image selection)
+    """
+    def prompt_regeneration(self, process_name, original_prompt, user_problem):
+        prompt_regeneration_sys_prompt = "Your role is a prompt generation tool. The process in question is named " + process_name + ", for which an original prompt has already been defined and shared with you. However, the user has identified a need for this prompt to be more " + user_problem + ". Your task is to reformulate a new prompt that addresses the user's concern, specifically tailored for the " + process_name + " process."
+        prompt = "Original prompt: " + original_prompt
+        output = self.send_prompt(prompt, prompt_regeneration_sys_prompt)
+        return output
+
+    """
     Method for logging the model results to the logs.json file
     """
     def close(self):
