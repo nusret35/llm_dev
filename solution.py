@@ -224,10 +224,10 @@ class Solution:
 
     def solution_pipeline(self):
         # Regeneration of Extracted Insights Option
-        regeneration = 0 # if regeneration is requested by the user
+        regeneration = 1 # if regeneration is requested by the user
         reason_for_regeneration = ""
         if regeneration:
-            reason_for_regeneration = "Too short – The insights didn't provide enough detail."
+            reason_for_regeneration = "Not actionable – The insights didn't provide clear next steps or actionable information."
 
         # Get user persona
         user_persona =  "Business Professional"
@@ -257,3 +257,14 @@ if __name__ == "__main__":
 
     # Run the solution_pipeline method
     solution_instance.solution_pipeline()
+
+    # Below is for testing important images match functionality
+    important_images = '''
+    Based on the given information, the most important images for business strategy development by a business professional are:
+
+    1. Fig. 1. Overview of the Research Method (Page:4): This image provides an overview of the research methodology used in the study, which can help business professionals understand the foundation of the findings and their applicability to real-world scenarios.
+    2. Fig. 3. Relationship Marketing (RM) Strategies Matrix (Page:11): This image presents a clear and concise matrix that highlights the three key RM mechanisms and their configuration during economic crises and recoveries. This matrix can serve as a valuable tool for business professionals to develop effective relationship marketing strategies.
+    3. Table 7. Mechanisms for Successful Relationship Management of a Business Cycle (BC) (Page:9): This table summarizes the mechanisms for successful relationship management during different stages of a business cycle. By understanding these mechanisms, business professionals can better navigate economic fluctuations and make informed decisions about their marketing strategies.
+
+    These images provide actionable insights and practical tools for business professionals to improve their performance and mitigate the financial impact of economic downturns.
+    '''

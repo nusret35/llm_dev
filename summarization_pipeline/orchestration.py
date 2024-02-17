@@ -134,7 +134,7 @@ class Extractor:
     def choose_images(self, insights, image_titles, user_persona, user_purpose):
         choose_images_sys_prompt = 'Based on the given information, choose the most important 3 images of the article.'
         prompt_unique_to_user = ' Select these important images to be used for ' + user_purpose + ' by a/an ' + user_persona + '.'
-
+        choose_images_sys_prompt += prompt_unique_to_user
         prompt = "Extracted insights: " + insights + "Image titles: " + image_titles + "Important sections: "
         print("Image selection prompt\n" + choose_images_sys_prompt + "\n")
         output = self.send_prompt(prompt, choose_images_sys_prompt)
@@ -146,7 +146,7 @@ class Extractor:
     Process_name signifies the name of the process for which the prompt is used (insights extraction or image selection)
     """
     def prompt_regeneration(self, process_name, original_prompt, user_problem):
-        prompt_regeneration_sys_prompt = "Your role is a prompt generation tool. The process in question is named " + process_name + ", for which an original prompt has already been defined and shared with you. However, the user has identified a problem with the response we previously provided:" + user_problem + ". Your task is to reformulate a new prompt that addresses the user's concern, specifically tailored for the " + process_name + " process."
+        prompt_regeneration_sys_prompt = "Your role is a prompt generation tool. The process in question is named " + process_name + ", for which an original prompt has already been defined and shared with you. However, the user has identified a problem with the response we previously provided:" + user_problem + " Your task is to reformulate a new prompt that addresses the user's concern, specifically tailored for the " + process_name + " process. Do not provide examples, just provide clear instructions by revising the original prompt you are provided."
         prompt = "Original prompt: " + original_prompt
         print("Prompt regeneration prompt\n" + prompt_regeneration_sys_prompt + "\n")
         output = self.send_prompt(prompt, prompt_regeneration_sys_prompt)
