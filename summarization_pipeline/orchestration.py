@@ -76,6 +76,7 @@ class Extractor:
     def summarize(self, section_name, section_text, max_tokens):
         summarize_sys_prompt = 'You are a tool that summarizes the given text. The given text is a section of an article. Give a concise summary of the section text to include only the most important information. Give the output using maximum of ' + str(int(4/3*max_tokens)) + ' words. The sentences should not be left unfinished.'
         prompt = section_name + ": " + section_text
+        print("Summarization prompt\n" + summarize_sys_prompt + "\n" + prompt + "\n")
         output = self.send_prompt(prompt, summarize_sys_prompt)
         self.log[f"summarize {section_name}"] = output
         return output
@@ -87,6 +88,7 @@ class Extractor:
     def enrich_abstract(self, sections, abstract, max_tokens):
         enrich_sys_prompt = 'Using the section texts you are given, enlarge the abstract to get a longer and more comprehensive summary of the article. While enlarging the abstract, integrate key information, findings, and implications from the given sections. Avoid any repetition of information. Give the output using maximum of ' + str(int(4/3*max_tokens)) + ' words. The sentences should not be left unfinished.'
         prompt = "Section texts: " + sections + "Abstract: " + abstract + "Enriched abstract: "
+        print("Abstract enrichment prompt\n" + enrich_sys_prompt + "\n" + prompt + "\n")
         output = self.send_prompt(prompt, enrich_sys_prompt)
         self.log["enrich abstract"] = output
         return output
@@ -96,11 +98,16 @@ class Extractor:
     extract insights from an article given the important article sections
     In this method, prompt is made unique based on user persona and user's purpose for using the insights 
     """
-    def extract_insights(self, input, max_tokens, user_persona, user_purpose):
+    def extract_insights(self, input, max_tokens, user_persona, user_purpose, regeneration, reason_for_regeneration):
         insights_sys_prompt = 'You are a tool that extracts key insights from an article. You will be provided with article sections. As an output, you should provide concise insights about the given article in bulletpoints (ex. * Bulletpoint 1). Give the insights using maximum of ' + str(int(4/3*max_tokens)) + ' words. The sentences should not be left unfinished.'
+        if regeneration:
+            process_name = "insights extraction"
+            new_insights_sys_prompt = self.prompt_regeneration(process_name, insights_sys_prompt, reason_for_regeneration)
+            insights_sys_prompt = new_insights_sys_prompt
         prompt_unique_to_user = 'Generate these insights to be used for ' + user_purpose + ' by a/an ' + user_persona + '.'
         insights_sys_prompt += prompt_unique_to_user
         prompt = input
+        print( "Insights extraction prompt\n" + insights_sys_prompt + "\n" + prompt + "\n")
         output = self.send_prompt(prompt, insights_sys_prompt)
         self.log['insights'] = output
         return output
@@ -113,7 +120,9 @@ class Extractor:
     def generate_title(self, insights, user_persona, user_purpose):
         find_title_sys_prompt = 'From the given insights, provide a title. Output should be in the following format: Title. Just give one title.'
         prompt_unique_to_user = 'Generate this title to be used for ' + user_purpose + ' by a/an ' + user_persona + '.'
+        find_title_sys_prompt += prompt_unique_to_user
         prompt = "Extracted insights: " + insights + "Title: "
+        print("Title generation prompt\n" + find_title_sys_prompt + "\n" + prompt + "\n")
         output = self.send_prompt(prompt, find_title_sys_prompt)
         self.log['generate title'] = output
         return output
@@ -125,6 +134,7 @@ class Extractor:
     def choose_images(self, insights, image_titles, max_tokens):
         choose_images_sys_prompt = 'Based on the given information, choose the most important 3 images of the article.'
         prompt = "Extracted insights: " + insights + "Image titles: " + image_titles + "Important sections: "
+        print("Image selection prompt\n" + choose_images_sys_prompt + "\n" + prompt + "\n")
         output = self.send_prompt(prompt, choose_images_sys_prompt)
         self.log['choose images'] = output
         return output
@@ -134,8 +144,9 @@ class Extractor:
     Process_name signifies the name of the process for which the prompt is used (insights extraction or image selection)
     """
     def prompt_regeneration(self, process_name, original_prompt, user_problem):
-        prompt_regeneration_sys_prompt = "Your role is a prompt generation tool. The process in question is named " + process_name + ", for which an original prompt has already been defined and shared with you. However, the user has identified a need for this prompt to be more " + user_problem + ". Your task is to reformulate a new prompt that addresses the user's concern, specifically tailored for the " + process_name + " process."
+        prompt_regeneration_sys_prompt = "Your role is a prompt generation tool. The process in question is named " + process_name + ", for which an original prompt has already been defined and shared with you. However, the user has identified a problem with the response we previously provided:" + user_problem + ". Your task is to reformulate a new prompt that addresses the user's concern, specifically tailored for the " + process_name + " process."
         prompt = "Original prompt: " + original_prompt
+        print("Prompt regeneration prompt\n" + prompt_regeneration_sys_prompt + "\n" + prompt + "\n")
         output = self.send_prompt(prompt, prompt_regeneration_sys_prompt)
         return output
 
