@@ -161,7 +161,7 @@ class Solution:
         print("\nExtracted insights before processing:\n" + insights)
 
         insights = self.preprocess_insights(insights)
-        print("\nExtracted insights after processing:\n" + insights)
+        print("\nExtracted insights after processing:\n\n\n" + insights)
 
         self.insights = insights
 
@@ -179,7 +179,7 @@ class Solution:
         return title
 
 
-    def generate_image_explanations(self, insights):  
+    def generate_image_explanations(self, insights, user_persona, user_purpose):  
         # Choosing the most important figures/tables of the article (using LLaMA 2 13B model)
         # Open the file
         pdf_file = fitz.open(self.pdf_path)
@@ -201,7 +201,7 @@ class Solution:
         for title in titles:
             image_titles += title + "\n"
             
-        important_images = self.extractor_13B_model.choose_images(insights, image_titles, self.max_tokens)
+        important_images = self.extractor_13B_model.choose_images(insights, image_titles, user_persona, user_purpose)
         print("\nImportant images before processing:\n" + important_images)
         important_images = self.preprocess_image_exp(important_images)
         print("\nImportant images after processing:\n" + important_images)
@@ -224,7 +224,7 @@ class Solution:
 
     def solution_pipeline(self):
         # Regeneration of Extracted Insights Option
-        regeneration = 1 # if regeneration is requested by the user
+        regeneration = 0 # if regeneration is requested by the user
         reason_for_regeneration = ""
         if regeneration:
             reason_for_regeneration = "Too short – The insights didn't provide enough detail."
@@ -241,7 +241,7 @@ class Solution:
         insights = self.generate_insights(section_summaries, user_persona, user_purpose, regeneration, reason_for_regeneration)
         title = self.generate_title(insights, user_persona, user_purpose)
         
-        important_images, image_title_pairs = self.generate_image_explanations(insights)
+        important_images, image_title_pairs = self.generate_image_explanations(insights, user_persona, user_purpose)
         found_images = self.display_images(important_images, image_title_pairs)
 
         self.extractor_13B_model.close()
@@ -250,7 +250,7 @@ class Solution:
 
 if __name__ == "__main__":
     # Specify the path to the example PDF file
-    example_pdf_path = "/Users/selinceydeli/Desktop/AIResearch/business-article-inputs/buss_article_2.pdf"
+    example_pdf_path = "/Users/selinceydeli/Desktop/AIResearch/business-article-inputs/buss_article.pdf"
 
     # Create an instance of the Solution class with the example PDF path
     solution_instance = Solution(example_pdf_path)
