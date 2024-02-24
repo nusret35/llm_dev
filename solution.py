@@ -2,6 +2,7 @@ from summarization_pipeline.pdf_section_extractor import extract_pdf_and_divide_
 from summarization_pipeline.image_processing import extract_image_title_pairs, extract_titles_from_page, convert_response_to_list, get_important_image_paths
 from summarization_pipeline.greenness_slider import configure_models
 import fitz
+import re
 
 # ..
 # Personalizing prompts by integrating user persona and purpose
@@ -44,7 +45,9 @@ class Solution:
         self.greenness_input = 0.5
         self.extractor_70B_model, self.extractor_13B_model, self.max_tokens = configure_models(self.greenness_input)
 
-    
+
+    import re
+
     def preprocess_insights(self, insights):
         # Find the position of the last dot in the string
         last_dot_position = insights.rfind('.')
@@ -55,10 +58,21 @@ class Solution:
             and insights[last_dot_position - 2].isdigit()
             and insights[last_dot_position -1] == '.'
         ):
-            return insights[:last_dot_position - 1]  # Include the dot before the number
+            insights = insights[:last_dot_position - 1]  # Include the dot before the number
         else:
-            return insights[:last_dot_position + 1]
+            insights = insights[:last_dot_position + 1]
 
+        # New preprocessing step to remove remaining "number." at the last line
+        insights = re.sub(r'\s\d+\.\s*$', '', insights)
+
+        # Check for a single '*' character at the last line and delete it if found
+        if insights.rstrip().endswith('*'):
+            insights = re.sub(r'\*\s*$', '', insights)
+
+        insights = insights + "\n"
+
+        return insights
+    
 
     def preprocess_image_exp(self, explanations):
         # Find the position of the last dot in the string
