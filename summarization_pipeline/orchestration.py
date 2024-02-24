@@ -35,7 +35,6 @@ class Extractor:
         return datetime.now().strftime("%d/%m/%Y %H:%M")
 
     def send_prompt(self, prompt, sys_prompt):
-
         rp_client = replicate.Client(api_token='r8_96G04GwgDPZDSpzHD9iP38oLQiy7cjJ0dz6RN')
         print('\nSending prompt...')
 
