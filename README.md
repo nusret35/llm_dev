@@ -1,5 +1,7 @@
 # Business Insights Extraction from Scholarly Articles using Large Language Models (LLMs)
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 ## Project Overview
 
 This project represents a groundbreaking approach to extracting actionable business insights from scholarly articles through the use of Meta's LLaMA 2 70B model, powered by NVIDIA's A100 80 GB Tensor Core GPU. By integrating advanced natural language processing (NLP) techniques and sophisticated prompt engineering, our methodology not only processes extensive scholarly texts but also optimizes the extraction of valuable insights by ensuring that the analysis is both rapid and precise. The aim is to utilize the unparalleled capabilities of LLMs to distill and leverage dense academic content for business intelligence.
