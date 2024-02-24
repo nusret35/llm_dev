@@ -4,49 +4,55 @@
 
 ## Project Overview
 
-This project represents a groundbreaking approach to extracting actionable business insights from scholarly articles through the use of Meta's LLaMA 2 70B model, powered by NVIDIA's A100 80 GB Tensor Core GPU. By integrating advanced natural language processing (NLP) techniques and sophisticated prompt engineering, our methodology not only processes extensive scholarly texts but also optimizes the extraction of valuable insights by ensuring that the analysis is both rapid and precise. The aim is to utilize the unparalleled capabilities of LLMs to distill and leverage dense academic content for business intelligence.
+This project employs a hybrid approach, combining Meta's LLaMA 2 13B and LLaMA 2 70B models, to extract actionable business insights from scholarly articles. The dual-model pipeline leverages the strengths of each model according to the complexity of the task, utilizing NVIDIA's A100 80 GB Tensor Core GPU to process extensive scholarly texts for high-value business intelligence.
 
-## Solution Pipeline Explanation
+By integrating advanced natural language processing (NLP) techniques and sophisticated prompt engineering, our methodology not only processes extensive scholarly texts but also optimizes the extraction of valuable insights by ensuring that the analysis is both rapid and precise. The aim is to utilize the unparalleled capabilities of LLMs to distill and leverage dense academic content for business intelligence.
 
-Our solution pipeline consists of several stages designed to systematically process scholarly articles and extract insights effectively:
+## Hybrid Solution Pipeline Explanation
 
-1. **Begin:** The pipeline commences with the input of scholarly articles in a PDF format.
-2. **PDF Filtering:** We apply filters to the PDF to clean up the document from non-essential elements, creating a more accessible format for processing.
-3. **Image Extraction from PDF:** Images are extracted for separate analysis to complement the textual data and provide a more comprehensive understanding.
-4. **Conversion to Plain Text:** The filtered PDFs are converted into plain text, facilitating easier manipulation and processing.
-5. **Division into Sections:** The text is divided into structured sections based on headings, enabling targeted analysis.
-6. **Selection of Critical Sections:** We identify and select key sections that are likely to contain significant insights.
-7. **Section Summarization:** These sections are then summarized, distilling the content to its essence.
-8. **Identification of Important Images:** Concurrently, the importance of extracted images is assessed to enrich the analysis.
-9. **Enhancement of Summaries:** The summaries are enhanced with insights from the important images, creating a richer narrative.
-10. **Extraction of Insights:** Business insights are extracted from these enriched narratives.
-11. **End:** The pipeline concludes with a set of actionable insights derived from the scholarly article.
+Our hybrid solution pipeline employs a strategic approach to task distribution between two models, optimizing each model's strengths for various tasks:
 
-This solution pipeline is powered by Meta's LLaMA 2 70B model, run using NVIDIA's A100 80 GB Tensor Core GPU, ensuring that the analysis is both rapid and precise.
+1. **Start:** The process initiates with the user inputting an article in PDF format.
+2. **PDF Extraction:** The article is preprocessed to extract text and images.
+3. **Choosing Critical Sections:** The user guides the system to identify critical sections for detailed analysis.
+4. **Section Summarization:** Summarizes the chosen sections to distill the core content.
+5. **Enriching the Abstract:** The abstract is enriched by integrating insights from the summaries of the critical sections, forming a comprehensive overview.
+6. **Insights Extraction:** Extracts insights from the enriched abstract, utilizing the more capable model for complex inference.
+7. **Finding a Title:** Generates a suitable title for the insights extracted to be displayed in a chat interface.
+8. **Image Extraction:** Images are extracted, and their relevance is evaluated.
+9. **End:** The pipeline culminates in actionable business insights presented to the user.
+
+This hybrid pipeline allows for efficient use of LLMs, applying the appropriate model to tasks based on complexity, ensuring a fast and accurate analysis.
+
+The diagram illustrating our hybrid solution pipeline is presented below, delineating the specific processes and the corresponding tasks assigned to the LLaMA 2 13B and LLaMA 2 70B models.
+
+![Flowchart](https://github.com/nusret35/llm_dev/assets/120125253/33fb65af-84a0-447f-9325-7fadf035452e)
 
 ## Project Structure
 
 ### A. Summarization Pipeline
 
-The `summarization_pipeline` folder contains the following Python scripts:
+The `summarization_pipeline` folder contains essential Python scripts:
 
-1. **article_parser.py:** Parses articles into sections based on headings.
-2. **image_processing.py:** Extracts images from articles and matches them to model-identified important images.
-3. **orchestration.py:** Initializes the LLM (LLaMA 2 70B model) and defines the solution pipeline's execution methods.
+1. **article_parser.py:** Parses articles into sections.
+2. **image_processing.py:** Extracts images and matches them with significant ones identified by the model.
+3. **orchestration.py:** Initializes the LLMs and orchestrates the pipeline based on task complexity.
 4. **pdf_section_extractor.py:** Converts PDF files into clean, machine-readable text.
 
 ### B. Solution Script
 
-- **solution.py:** The primary script that activates the solution pipeline, integrating all defined algorithms and model calls to tackle the insights extraction challenge.
+- **solution.py:** Activates the solution pipeline, integrating all defined algorithms and model calls.
 
 ## Getting Started
 
-To utilize this project:
+- Ensure Python 3.6+ is installed.
+- Install the required dependencies with `pip install -r requirements.txt`.
+- Execute `python solution.py` in the project directory.
 
-1. Ensure Python 3.6+ is installed.
-2. Install the required dependencies with `pip install -r requirements.txt`.
-3. Run `python solution.py` within the project directory to initiate the extraction process.
+## License
+
+The project is licensed under the MIT License.
 
 ---
 
-This README file now includes a complete explanation of the solution pipeline along with the technical details of the model and hardware used.
+This README now accurately reflects your hybrid solution pipeline and details which tasks are allocated to the LLaMA 2 13B and LLaMA 2 70B models, in line with the latest pipeline diagram you've provided.
