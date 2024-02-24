@@ -251,7 +251,7 @@ class Solution:
 
 if __name__ == "__main__":
     # Specify the path to the example PDF file
-    example_pdf_path = "/Users/selinceydeli/Desktop/AIResearch/business-article-inputs/buss_article.pdf"
+    example_pdf_path = "/Users/nusretkizilaslan/Desktop/AIProject/llm_dev/buss_article.pdf"
 
     # Create an instance of the Solution class with the example PDF path
     solution_instance = Solution(example_pdf_path)
@@ -269,3 +269,7 @@ if __name__ == "__main__":
 
     These images provide actionable insights and practical tools for business professionals to improve their performance and mitigate the financial impact of economic downturns.
     '''
+
+    image_title_pairs = {'Fig. 1. Overview of the Research Method': './images/page4/output_image0.png', 'Fig. 3. Relationship Marketing (RM) Strategies Matrix': './images/page11/output_image0.png'}
+
+    solution_instance.display_images(important_images,image_title_pairs)

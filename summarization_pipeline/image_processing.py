@@ -28,8 +28,8 @@ def response_regex_for_figure_and_table():
     table_pattern = "|".join(table_patterns)
 
     # Create a regex pattern to capture the figure and table titles
-    figure_title_pattern = f"({figure_pattern}\\s*\\d+)\\.\\s*(.*?) \\(Page:\\s*(\\d+)\\) - (.*)"
-    table_title_pattern = f"({table_pattern}\\s*\\d+)\\.\\s*(.*?) \\(Page:\\s*(\\d+)\\) - (.*)"
+    figure_title_pattern = f"({figure_pattern}\\s*\\d+)\\.\\s*(.*?) \\(Page:\\s*(\\d+)\\)"
+    table_title_pattern = f"({table_pattern}\\s*\\d+)\\.\\s*(.*?) \\(Page:\\s*(\\d+)\\)"
 
     return figure_title_pattern, table_title_pattern
 
@@ -138,19 +138,19 @@ def convert_response_to_list(response_text):
 
     # Process and store the matched titles and numberings from the figures
     for match in figure_matches:
-        image_name, image_title, image_page_number, explanation = match
+        image_name, image_title, image_page_number = match
         if image_name != "":
             if ('A' <= image_name[0] and image_name[0] <= "Z") or ('0' <= image_name[0] and image_name[0] <= '9'):
-                titles.append((f"{image_name}. {image_title}", explanation, image_page_number))
+                titles.append((f"{image_name}. {image_title}", image_page_number))
 
     # Process and store the matched titles and numberings from the tables
     for match in table_matches:
-        image_name, image_title, image_page_number, explanation = match
+        image_name, image_title, image_page_number = match
         if image_name != "":
             if ('A' <= image_name[0] and image_name[0] <= "Z") or ('0' <= image_name[0] and image_name[0] <= '9'):
-                titles.append((f"{image_name}. {image_title}", explanation, image_page_number))
+                titles.append((f"{image_name}. {image_title}", image_page_number))
 
-    # Return an list of 3 variable tuples (title, explanation, page_number)
+    # Return an list of 2 variable tuples (title, page_number)
 
     return titles
 
@@ -161,7 +161,7 @@ def convert_response_to_list(response_text):
 def get_important_image_paths(image_title_pairs, important_images):
     # Check whether the important image is extracted
     found_important_images_paths = {}
-    for title, explanation, page_number in important_images:
+    for title, page_number in important_images:
         if title in image_title_pairs.keys():
             found_important_images_paths.update({title:image_title_pairs[title]})
                 
