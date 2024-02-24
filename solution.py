@@ -248,6 +248,8 @@ class Solution:
         self.extractor_13B_model.close()
         self.extractor_70B_model.close()
 
+        return title, insights, found_images
+
 
 if __name__ == "__main__":
     # Specify the path to the example PDF file

@@ -132,7 +132,7 @@ class Extractor:
     choose the most important images in an article given the image titles
     """
     def choose_images(self, insights, image_titles, user_persona, user_purpose):
-        choose_images_sys_prompt = 'Based on the given information, choose the most important 3 images of the article.'
+        choose_images_sys_prompt = 'Based on the given information, choose the most important 3 images of the article. Specify the page that the image is located in the article like this: (Page: #number)'
         prompt_unique_to_user = ' Select these important images to be used for ' + user_purpose + ' by a/an ' + user_persona + '.'
         choose_images_sys_prompt += prompt_unique_to_user
         prompt = "Extracted insights: " + insights + "Image titles: " + image_titles + "Important sections: "

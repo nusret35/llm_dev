@@ -2,6 +2,7 @@ from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Union
+from solution import Solution
 import os
 import shutil
 import base64
@@ -64,10 +65,17 @@ async def receive_pdf_data(pdf_data: PDFData):
         # For example, save it to a file named "received.pdf"
         with open("received.pdf", "wb") as file:
             file.write(pdf_bytes)
-        
-        return {"message": "PDF data received and saved successfully"}
+
+        solution_instance = Solution('./received.pdf')
+
+        title, insights, found_images = solution_instance.solution_pipeline()
+
+        response = title + '\n' + insights + '\n' + str(found_images)
+
+        return {"message":response}
+
     except Exception as e:
-        return {"error": f"Error receiving and saving PDF data: {str(e)}"}
+        return {"message": f"Error receiving and saving PDF data: {str(e)}"}
 
 
 #send document
