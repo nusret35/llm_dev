@@ -3,6 +3,7 @@ from summarization_pipeline.image_processing import extract_image_title_pairs, e
 from summarization_pipeline.greenness_slider import configure_models
 import fitz
 
+# ..
 # Personalizing prompts by integrating user persona and purpose
 '''
 Describe Your Occupation:
