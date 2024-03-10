@@ -1,8 +1,12 @@
 from summarization_pipeline.pdf_section_extractor import extract_pdf_and_divide_sections
 from summarization_pipeline.image_processing import extract_image_title_pairs, extract_titles_from_page, convert_response_to_list, get_important_image_paths
 from summarization_pipeline.greenness_slider import configure_models
+from message_types import AllProcessess,Message, Process, ProcessCompleted,ReportCompleted
 import fitz
 import re
+import time
+import asyncio
+import json
 
 # ..
 # Personalizing prompts by integrating user persona and purpose
@@ -44,9 +48,6 @@ class Solution:
         self.pdf_path = pdf_path
         self.greenness_input = 0.5
         self.extractor_70B_model, self.extractor_13B_model, self.max_tokens = configure_models(self.greenness_input)
-
-
-    import re
 
     def preprocess_insights(self, insights):
         # Find the position of the last dot in the string
@@ -185,7 +186,7 @@ class Solution:
 
     def generate_title(self, insights, user_persona, user_purpose):
         # Generating a meaningful title to be presented as the chat title in the interface (using LLaMA 2 13B model)
-        title = self.extractor_13B_model.generate_title(insights, user_persona, user_purpose)
+        title = self.extractor_70B_model.generate_title(insights, user_persona, user_purpose)
         print("\nTitle before preprocessing:\n" + title)
 
         #title = self.preprocess_title(title)
@@ -235,9 +236,32 @@ class Solution:
         print(found_images)
 
         return found_images
+    
+
+    async def solution_pipeline2(self, websocket=None):
+
+        async def send_message(message:Message):
+            msg_str = str(message)
+            await websocket.send_text(msg_str)
+            await asyncio.sleep(0)
+            
+        if websocket:
+            await send_message(AllProcessess('Generating section summaries,Generating insights,Generating title,Extracting images'))
+            await send_message(Process("Generating section summaries"))
+
+            return "a", "a", "a"
 
 
-    def solution_pipeline(self):
+    async def solution_pipeline(self, websocket=None):
+
+        async def send_message(message:Message):
+            msg_str = str(message)
+            await websocket.send_text(msg_str)
+            await asyncio.sleep(0)
+
+
+        if websocket:
+            await send_message(AllProcessess('Generating section summaries,Generating insights,Generating title,Extracting images'))
         # Regeneration of Extracted Insights Option
         regeneration = 1 # if regeneration is requested by the user
         reason_for_regeneration = ""
@@ -246,23 +270,46 @@ class Solution:
 
         # Get user persona
         user_persona =  "Business Professional"
+
         # Get user's purpose for getting these insights
         user_purpose = "Business Strategy Development"
 
+        if websocket:
+            await send_message(Process("Generating section summaries"))
+
+
         section_summaries = self.generate_summary()
+
+        if websocket:
+            await send_message(ProcessCompleted("Generating section summaries"))
+            await send_message(Process("Generating insights"))
 
         # Insights extraction and title generation steps are equipped with advanced prompt engineering
         # Prompts are made unique based on user persona and user's purpose for using the insights
         insights = self.generate_insights(section_summaries, user_persona, user_purpose, regeneration, reason_for_regeneration)
+
+        if websocket:
+            await send_message(ProcessCompleted("Generating insights"))
+            await send_message(Process("Generating title"))
+            
         title = self.generate_title(insights, user_persona, user_purpose)
+        
+        if websocket:
+            await send_message(ProcessCompleted("Generating title"))
+            await send_message(Process("Extracting images"))
         
         important_images, image_title_pairs = self.generate_image_explanations(insights, user_persona, user_purpose)
         found_images = self.display_images(important_images, image_title_pairs)
+
+        if websocket:
+            await send_message(ProcessCompleted("Extracting images"))
+            await send_message(ReportCompleted("report is ready"))
 
         self.extractor_13B_model.close()
         self.extractor_70B_model.close()
 
         return title, insights, found_images
+
 
 
 if __name__ == "__main__":
