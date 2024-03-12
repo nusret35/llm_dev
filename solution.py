@@ -1,7 +1,7 @@
 from summarization_pipeline.pdf_section_extractor import extract_pdf_and_divide_sections
 from summarization_pipeline.image_processing import extract_image_title_pairs, extract_titles_from_page, convert_response_to_list, get_important_image_paths
 from summarization_pipeline.greenness_slider import configure_models
-from message_types import AllProcessess,Message, Process, ProcessCompleted,ReportCompleted
+from message_types import AllProcessess,Message, Process, ProcessCompleted, ErrorMessage
 import fitz
 import re
 import time
@@ -238,30 +238,20 @@ class Solution:
         return found_images
     
 
-    async def solution_pipeline2(self, websocket=None):
-
-        async def send_message(message:Message):
-            msg_str = str(message)
-            await websocket.send_text(msg_str)
-            await asyncio.sleep(0)
-            
-        if websocket:
-            await send_message(AllProcessess('Generating section summaries,Generating insights,Generating title,Extracting images'))
-            await send_message(Process("Generating section summaries"))
+    async def solution_pipeline2(self, send_message=None):
+        if send_message:
+            await send_message(ErrorMessage('test test'))
+            #await send_message(AllProcessess('Generating section summaries,Generating insights,Generating title,Extracting images'))
+            #await send_message(Process("Generating section summaries"))
 
             return "a", "a", "a"
 
 
-    async def solution_pipeline(self, websocket=None):
+    async def solution_pipeline(self, send_message=None):
 
-        async def send_message(message:Message):
-            msg_str = str(message)
-            await websocket.send_text(msg_str)
-            await asyncio.sleep(0)
-
-
-        if websocket:
+        if send_message:
             await send_message(AllProcessess('Generating section summaries,Generating insights,Generating title,Extracting images'))
+    
         # Regeneration of Extracted Insights Option
         regeneration = 1 # if regeneration is requested by the user
         reason_for_regeneration = ""
@@ -274,13 +264,13 @@ class Solution:
         # Get user's purpose for getting these insights
         user_purpose = "Business Strategy Development"
 
-        if websocket:
+        if send_message:
             await send_message(Process("Generating section summaries"))
 
 
         section_summaries = self.generate_summary()
 
-        if websocket:
+        if send_message:
             await send_message(ProcessCompleted("Generating section summaries"))
             await send_message(Process("Generating insights"))
 
@@ -288,22 +278,21 @@ class Solution:
         # Prompts are made unique based on user persona and user's purpose for using the insights
         insights = self.generate_insights(section_summaries, user_persona, user_purpose, regeneration, reason_for_regeneration)
 
-        if websocket:
+        if send_message:
             await send_message(ProcessCompleted("Generating insights"))
             await send_message(Process("Generating title"))
             
         title = self.generate_title(insights, user_persona, user_purpose)
         
-        if websocket:
+        if send_message:
             await send_message(ProcessCompleted("Generating title"))
             await send_message(Process("Extracting images"))
         
         important_images, image_title_pairs = self.generate_image_explanations(insights, user_persona, user_purpose)
         found_images = self.display_images(important_images, image_title_pairs)
 
-        if websocket:
+        if send_message:
             await send_message(ProcessCompleted("Extracting images"))
-            await send_message(ReportCompleted("report is ready"))
 
         self.extractor_13B_model.close()
         self.extractor_70B_model.close()
