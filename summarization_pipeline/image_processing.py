@@ -161,7 +161,7 @@ def convert_response_to_list(response_text):
 def get_important_image_paths(image_title_pairs, important_images):
     # Check whether the important image is extracted
     found_important_images_paths = {}
-    for title, page_number in important_images:
+    for title in important_images:
         if title in image_title_pairs.keys():
             found_important_images_paths.update({title:image_title_pairs[title]})
                 

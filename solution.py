@@ -4,9 +4,10 @@ from summarization_pipeline.greenness_slider import configure_models
 from message_types import AllProcessess,Message, Process, ProcessCompleted, ErrorMessage
 import fitz
 import re
-import time
+from upload_image import *
 import asyncio
-import json
+
+
 
 # ..
 # Personalizing prompts by integrating user persona and purpose
@@ -225,26 +226,66 @@ class Solution:
         return important_images, image_title_pairs
 
 
-    def display_images(self, important_images, image_title_pairs):
+    def display_images(self, important_images_explanation, image_title_pairs):
         # Displaying the fetched figures/tables that match the selected images
-        important_images_list = convert_response_to_list(important_images)
+        important_images_explanation_list = convert_response_to_list(important_images_explanation)
+        
 
         # Check whether the important image is extracted
-        found_images = get_important_image_paths(image_title_pairs, important_images_list)
-        
-        print("\nPaths of the extracted images that are among the important images:\n")
-        print(found_images)
+        found_images = get_important_image_paths(image_title_pairs, important_images_explanation_list)
+    
 
         return found_images
     
 
-    async def solution_pipeline2(self, send_message=None):
-        if send_message:
-            await send_message(ErrorMessage('test test'))
-            #await send_message(AllProcessess('Generating section summaries,Generating insights,Generating title,Extracting images'))
-            #await send_message(Process("Generating section summaries"))
+    async def solution_pipeline_debug(self, send_message=None):
 
-            return "a", "a", "a"
+        if send_message:
+            await send_message(AllProcessess('Generating section summaries,Generating insights,Generating title,Extracting images'))
+
+        if send_message:
+            await send_message(Process("Generating section summaries"))
+
+        if send_message:
+            await send_message(ProcessCompleted("Generating section summaries"))
+            await send_message(Process("Generating insights"))
+
+        if send_message:
+            await send_message(ProcessCompleted("Generating insights"))
+            await send_message(Process("Generating title"))
+    
+        
+        if send_message:
+            await send_message(ProcessCompleted("Generating title"))
+            await send_message(Process("Extracting images"))
+        
+
+        if send_message:
+            await send_message(ProcessCompleted("Extracting images"))
+
+        title = "Navigating Digital Servitization: Choosing the Right Revenue Model for Your Business"
+
+        insights = '''
+                Key Insights:
+
+                1. Manufacturing companies face challenges in choosing appropriate revenue models for their digital services, which can hinder their digital servitization transition.
+                2. Customer digital readiness, digital service sophistication, and digital ecosystem partnerships are key factors that influence the choice of revenue models.
+                3. Companies need to understand the nature and characteristics of different revenue models, such as subscription, usage-based, and performance-based models, and choose the ones that align with their business models.
+                4. The choice of revenue model must consider the customer's digital awareness, value co-creation, and contractual arrangements for digital services.
+                5. Digital service orientation and the type of data integration required also play a crucial role in selecting a suitable revenue model.
+                6. Performance-based revenue models are commonly used for advanced digital services that incorporate expertise into data integration and analytics.
+                7. Collaboration between ecosystem actors is essential to deliver seamless digital services, and data sharing and security are critical factors that enable focal companies to position components of digital services across various actors.
+                8. Co-development of digital services with ecosystem partners is essential to leverage resources and skills and provide connected digital services.
+        '''
+
+        found_images = {'Fig. 2. Framework for the choice of revenue models for digital services': './images/page9/output_image0.png'}
+
+        image_url_pairs = {}
+        for key, value in found_images.items():
+            url = upload_image(value)
+            image_url_pairs[key] = url
+
+        return title, insights, found_images
 
 
     async def solution_pipeline(self, send_message=None):
@@ -285,11 +326,11 @@ class Solution:
         title = self.generate_title(insights, user_persona, user_purpose)
         
         if send_message:
-            await send_message(ProcessCompleted("Generating title"))
             await send_message(Process("Extracting images"))
+            await send_message(ProcessCompleted("Generating title"))
         
-        important_images, image_title_pairs = self.generate_image_explanations(insights, user_persona, user_purpose)
-        found_images = self.display_images(important_images, image_title_pairs)
+        important_images_explanation, image_title_pairs = self.generate_image_explanations(insights, user_persona, user_purpose)
+        found_images = self.display_images(important_images_explanation, image_title_pairs)
 
         if send_message:
             await send_message(ProcessCompleted("Extracting images"))
@@ -304,13 +345,13 @@ class Solution:
 if __name__ == "__main__":
     # Specify the path to the example PDF file
     example_pdf_path = "/Users/nusretkizilaslan/Desktop/AIProject/llm_dev/buss_article.pdf"
-    example_pdf_path = "/Users/selinceydeli/Desktop/AIResearch/llm_dev/buss_article.pdf"
+    #example_pdf_path = "/Users/selinceydeli/Desktop/AIResearch/llm_dev/buss_article.pdf"
 
     # Create an instance of the Solution class with the example PDF path
     solution_instance = Solution(example_pdf_path)
 
     # Run the solution_pipeline method
-    solution_instance.solution_pipeline()
+    title, insights, found_images = asyncio.get_event_loop().run_until_complete( solution_instance.solution_pipeline() )
 
     # Below is for testing important images match functionality
     important_images = '''

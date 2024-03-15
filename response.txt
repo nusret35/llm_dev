@@ -1,0 +1,13 @@
+ "Navigating Digital Servitization: Choosing the Right Revenue Model for Your Business"
+ Key Insights:
+
+1. Manufacturing companies face challenges in choosing appropriate revenue models for their digital services, which can hinder their digital servitization transition.
+2. Customer digital readiness, digital service sophistication, and digital ecosystem partnerships are key factors that influence the choice of revenue models.
+3. Companies need to understand the nature and characteristics of different revenue models, such as subscription, usage-based, and performance-based models, and choose the ones that align with their business models.
+4. The choice of revenue model must consider the customer's digital awareness, value co-creation, and contractual arrangements for digital services.
+5. Digital service orientation and the type of data integration required also play a crucial role in selecting a suitable revenue model.
+6. Performance-based revenue models are commonly used for advanced digital services that incorporate expertise into data integration and analytics.
+7. Collaboration between ecosystem actors is essential to deliver seamless digital services, and data sharing and security are critical factors that enable focal companies to position components of digital services across various actors.
+8. Co-development of digital services with ecosystem partners is essential to leverage resources and skills and provide connected digital services.
+
+{'Fig. 2. Framework for the choice of revenue models for digital services': './images/page9/output_image0.png'}

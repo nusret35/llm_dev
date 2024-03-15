@@ -9,23 +9,22 @@ import shutil
 import base64
 import json
 import uvicorn
-from message_types import Message, SetMessage, ReportCompleted, ErrorMessage
+from message_types import Message, SetMessage, ReportCompleted, ErrorMessage, DataMessage
+from clean_response import remove_double_quotes, convert_to_string_array, convert_images_to_base64
+from upload_image import *
 
 # First install fastapi on terminal ''pip install fastapi''
-
-# Run this server on terminal by ''uvicorn backend:app --host 0.0.0.0 --port 80''
-# uvicorn main:app --reload --ws-ping-interval=0
 
 
 app = FastAPI()
 
-
 # Configure CORS
 origins = [
-    "http://localhost:3000",  # Add the origin of your ReactJS frontend
+    "http://localhost:3000",  # Add the origin of clients
 ]
 
 UPLOAD_FOLDER = 'pdf_uploads'
+
 
 app.add_middleware(
     CORSMiddleware,
@@ -35,6 +34,7 @@ app.add_middleware(
     allow_headers=["*"],  # You might want to restrict this to specific headers
 )
 
+DEBUG_MODE = True
 
 @app.websocket("/")
 async def websocket_interaction(websocket: WebSocket):
@@ -65,15 +65,28 @@ async def websocket_interaction(websocket: WebSocket):
 
             is_ready = await websocket.receive_bytes()
 
-            if is_ready == b"Ready to receive":
+            
+            if is_ready != b"Ready to receive":
+                raise(ValueError('Client sent the wrong message: ' + is_ready))
+
+            else:
                 # Now you can use the file_data for further processing
                 solution_instance = Solution('./received.pdf')
-                title, insights, found_images = await solution_instance.solution_pipeline(send_message)
+                
+                if DEBUG_MODE:
+                    title, insights, found_images = await solution_instance.solution_pipeline_debug(send_message)    
+                else:
+                    title, insights, found_images = await solution_instance.solution_pipeline(send_message)
+                
+                report_data = {"title":remove_double_quotes(title), 
+                "insightsArray":convert_to_string_array(insights),
+                "imagesAndExplanations": convert_images_to_base64(found_images)}
 
-                response = title + '\n' + insights + '\n' + str(found_images)
+                await send_message(ReportCompleted(report_data))
 
-                # Send final response to the client
-                await send_message(ReportCompleted(response))
+                with open("response2.txt", "w") as file:
+                    # Write the string to the file
+                    file.write(str(report_data))
 
         websocket.close()
 
@@ -82,7 +95,11 @@ async def websocket_interaction(websocket: WebSocket):
         print(error_message)
         await send_message(ErrorMessage(error_message))
 
-uvicorn.run(app, host="0.0.0.0", port=80,ws_ping_interval=300,ws_ping_timeout=300)
+def main():
+    uvicorn.run(app, host="0.0.0.0", port=80,ws_ping_interval=300,ws_ping_timeout=300)
+
+if __name__ == "__main__":
+    main()
 
 #send document
     # - take user prompt to guide LLM

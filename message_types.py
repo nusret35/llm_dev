@@ -8,6 +8,10 @@ class SetMessage(Message):
     def __str__(self):
         return(json.dumps({"type":"setMesssage", "message":self.data}))
 
+class DataMessage(Message):
+    def __str__(self):
+        return(json.dumps({"type":"stringData", "message":self.data}))
+
 class AllProcessess(Message):
     def __str__(self):
         return(json.dumps({"type":"allProcesses","message":self.data}))
@@ -15,7 +19,6 @@ class AllProcessess(Message):
 class Process(Message):
     def __str__(self):
         return(json.dumps({"type":"process","message":self.data}))
-
 
 class ProcessCompleted(Message):
     def __str__(self):
