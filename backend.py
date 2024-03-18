@@ -34,7 +34,7 @@ app.add_middleware(
     allow_headers=["*"],  # You might want to restrict this to specific headers
 )
 
-DEBUG_MODE = True
+DEBUG_MODE = False
 
 @app.websocket("/")
 async def websocket_interaction(websocket: WebSocket):
