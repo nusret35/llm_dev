@@ -18,22 +18,6 @@ def regex_for_figure_and_table():
     return figure_title_pattern, table_title_pattern
 
 
-def response_regex_for_figure_and_table():
-    # Define the possible representations of figure and table names
-    figure_patterns = ["Fig\."]
-    table_patterns = ["Table"]
-
-    # Combine the patterns into regex patterns
-    figure_pattern = "|".join(figure_patterns)
-    table_pattern = "|".join(table_patterns)
-
-    # Create a regex pattern to capture the figure and table titles
-    figure_title_pattern = f"({figure_pattern}\\s*\\d+)\\.\\s*(.*?) \\(Page:\\s*(\\d+)\\)"
-    table_title_pattern = f"({table_pattern}\\s*\\d+)\\.\\s*(.*?) \\(Page:\\s*(\\d+)\\)"
-
-    return figure_title_pattern, table_title_pattern
-
-
 # Creates the regex pattern for response figure and table titles
 def match_figure_and_table(block_text,figure_title_pattern, table_title_pattern):
     # Find all matches in the extracted_text for figures and tables
@@ -124,30 +108,38 @@ def extract_titles_from_page(page):
     return titles
 
 
-def convert_response_to_list(response_text):
-    figure_title_pattern, table_title_pattern = response_regex_for_figure_and_table()
-    titles = []
+def response_regex_for_figure_and_table():
+    # Define the possible representations of figure and table names
+    figure_patterns = ["Fig\\."]
+    table_patterns = ["Table"]
 
-    # Find all matches in the extracted_text for figures and tables
-    figure_matches = re.findall(figure_title_pattern, response_text)
-    table_matches = re.findall(table_title_pattern, response_text)
+    # Combine the patterns into regex patterns
+    figure_pattern = "|".join(figure_patterns)
+    table_pattern = "|".join(table_patterns)
 
-    # Process and store the matched titles and numberings from the figures
-    for match in figure_matches:
-        image_name, image_title, image_page_number = match
-        if image_name != "":
-            if ('A' <= image_name[0] and image_name[0] <= "Z") or ('0' <= image_name[0] and image_name[0] <= '9'):
-                titles.append((f"{image_name}. {image_title}", image_page_number))
+    # Create a regex pattern to capture the figure and table titles along with their explanations
+    # The pattern is designed to capture the numbering and make the newline at the end optional
+    entry_pattern = f"(({figure_pattern}|{table_pattern})\\s*(\\d+))\\.\\s*(.*?) \\(Page:\\s*(\\d+)\\) - (.*?)(\\n|$)"
 
-    # Process and store the matched titles and numberings from the tables
-    for match in table_matches:
-        image_name, image_title, image_page_number = match
-        if image_name != "":
-            if ('A' <= image_name[0] and image_name[0] <= "Z") or ('0' <= image_name[0] and image_name[0] <= '9'):
-                titles.append((f"{image_name}. {image_title}", image_page_number))
+    return entry_pattern
 
-    # Return an list of 2 variable tuples (title, page_number)
-    return titles
+
+def convert_response_to_dict(response_text):
+    entry_pattern = response_regex_for_figure_and_table()
+    entries = {}
+
+    # Find all matches in the response_text for figures and tables with explanations
+    matches = re.findall(entry_pattern, response_text, re.DOTALL)
+
+    # Process and store the matched titles, page numbers, and explanations
+    for match in matches:
+        # Deconstruct the match to get the needed parts
+        # This includes the figure/table identifier with numbering
+        full_identifier, _, number, image_title, image_page_number, explanation, _ = match
+        key = f"{full_identifier}. {image_title} (Page:{image_page_number})"
+        entries[key] = explanation.strip()
+
+    return entries
 
 
 # image_title_pairs: dictionary of the images that are extracted
@@ -166,6 +158,10 @@ def get_important_image_paths(image_title_pairs, important_images):
 ##TEST##
 
 if __name__ == "__main__":
+    response_text = " Sure! Based on the insights extracted from the article, here are the three most important images with explanations:\n\n1. Fig. 1. Data structure and coding process (Page:6) - This figure provides a detailed overview of the data structure and coding process used in the study. It shows how the authors coded and analyzed the data, which is essential for understanding the findings of the study.\n2. Fig. 2. Framework for the choice of revenue models for digital services (Page:9) - This figure presents a comprehensive framework for choosing suitable revenue models for digital services. The framework takes into account four key factors: customer digital readiness, digital service sophistication, digital ecosystem partnerships, and revenue model alignment with business models. Understanding this framework can help manufacturing companies make informed decisions about their digital revenue strategies.\n3. Table 2. Overview of studied cases and respondents (Page:5) - This table provides an overview of the cases and respondents studied in the research. It includes information on the industry, company size, and geographic location of the cases, as well as the number of respondents and their roles within the companies. This table helps to establish the validity and generalizability of the study's findings."
+    entries = convert_response_to_dict(response_text)
+    print(entries)
+    
     # File path
     #file = "/Users/selinceydeli/Desktop/AIResearch/business-article-inputs/1-s2.0-S0148296323004216-main.pdf"
     file = '/Users/nusretkizilaslan/Downloads/selo-article.pdf'
