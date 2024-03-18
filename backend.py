@@ -15,7 +15,6 @@ from upload_image import *
 
 # First install fastapi on terminal ''pip install fastapi''
 
-
 app = FastAPI()
 
 # Configure CORS
@@ -24,7 +23,6 @@ origins = [
 ]
 
 UPLOAD_FOLDER = 'pdf_uploads'
-
 
 app.add_middleware(
     CORSMiddleware,

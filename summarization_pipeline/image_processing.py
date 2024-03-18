@@ -104,16 +104,13 @@ def extract_image_title_pairs(page, page_index):
                 figure_title_pattern, table_title_pattern = regex_for_figure_and_table()
                 titles = titles + match_figure_and_table(block_text,figure_title_pattern,table_title_pattern)
 
-    
     image_data = dict(zip(titles, image_paths))
     return image_data
 
 
 # Extracts all the titles (Figure, Table, etc.) from PDF page
 def extract_titles_from_page(page):
-
     figure_title_pattern, table_title_pattern = regex_for_figure_and_table()
-
     text_blocks = page.get_text("blocks")
 
     # Initialize lists to store figure and table titles
@@ -129,7 +126,6 @@ def extract_titles_from_page(page):
 
 def convert_response_to_list(response_text):
     figure_title_pattern, table_title_pattern = response_regex_for_figure_and_table()
-
     titles = []
 
     # Find all matches in the extracted_text for figures and tables
@@ -151,7 +147,6 @@ def convert_response_to_list(response_text):
                 titles.append((f"{image_name}. {image_title}", image_page_number))
 
     # Return an list of 2 variable tuples (title, page_number)
-
     return titles
 
 
