@@ -4,7 +4,6 @@ from summarization_pipeline.greenness_slider import configure_models
 from message_types import AllProcessess,Message, Process, ProcessCompleted, ErrorMessage
 import fitz
 import re
-from upload_image import *
 import asyncio
 
 
