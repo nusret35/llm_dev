@@ -4,11 +4,11 @@ from googleapiclient.discovery import build
 from googleapiclient.http import MediaFileUpload
 
 # Path to the credentials JSON file
-credentials_path = '/Users/nusretkizilaslan/Desktop/AIProject/llm_dev/starry-iris-391817-5556af7501b1.json'
+# credentials_path = '/Users/nusretkizilaslan/Desktop/AIProject/llm_dev/starry-iris-391817-5556af7501b1.json'
 
 # Initialize the Drive service
-credentials = service_account.Credentials.from_service_account_file(credentials_path, scopes=['https://www.googleapis.com/auth/drive'])
-drive_service = build('drive', 'v3', credentials=credentials)
+# credentials = service_account.Credentials.from_service_account_file(credentials_path, scopes=['https://www.googleapis.com/auth/drive'])
+# drive_service = build('drive', 'v3', credentials=credentials)
 
 # Function to upload image
 def upload_image(image_path, folder_id=None):

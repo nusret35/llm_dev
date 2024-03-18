@@ -1,5 +1,5 @@
 from summarization_pipeline.pdf_section_extractor import extract_pdf_and_divide_sections
-from summarization_pipeline.image_processing import extract_image_title_pairs, extract_titles_from_page, convert_response_to_list, get_important_image_paths
+from summarization_pipeline.image_processing import extract_image_title_pairs, extract_titles_from_page, convert_response_to_dict, get_important_image_paths
 from summarization_pipeline.greenness_slider import configure_models
 from message_types import AllProcessess,Message, Process, ProcessCompleted, ErrorMessage
 import fitz
@@ -8,8 +8,6 @@ from upload_image import *
 import asyncio
 
 
-
-# ..
 # Personalizing prompts by integrating user persona and purpose
 '''
 Describe Your Occupation:
@@ -228,18 +226,15 @@ class Solution:
 
     def display_images(self, important_images_explanation, image_title_pairs):
         # Displaying the fetched figures/tables that match the selected images
-        important_images_explanation_list = convert_response_to_list(important_images_explanation)
+        important_images_explanation_list = convert_response_to_dict(important_images_explanation)
         
-
         # Check whether the important image is extracted
         found_images = get_important_image_paths(image_title_pairs, important_images_explanation_list)
     
-
         return found_images
     
 
     async def solution_pipeline_debug(self, send_message=None):
-
         if send_message:
             await send_message(AllProcessess('Generating section summaries,Generating insights,Generating title,Extracting images'))
 
@@ -254,11 +249,9 @@ class Solution:
             await send_message(ProcessCompleted("Generating insights"))
             await send_message(Process("Generating title"))
     
-        
         if send_message:
             await send_message(ProcessCompleted("Generating title"))
             await send_message(Process("Extracting images"))
-        
 
         if send_message:
             await send_message(ProcessCompleted("Extracting images"))
@@ -289,7 +282,6 @@ class Solution:
 
 
     async def solution_pipeline(self, send_message=None):
-
         if send_message:
             await send_message(AllProcessess('Generating section summaries,Generating insights,Generating title,Extracting images'))
     
@@ -307,7 +299,6 @@ class Solution:
 
         if send_message:
             await send_message(Process("Generating section summaries"))
-
 
         section_summaries = self.generate_summary()
 
@@ -344,8 +335,8 @@ class Solution:
 
 if __name__ == "__main__":
     # Specify the path to the example PDF file
-    example_pdf_path = "/Users/nusretkizilaslan/Desktop/AIProject/llm_dev/buss_article.pdf"
-    #example_pdf_path = "/Users/selinceydeli/Desktop/AIResearch/llm_dev/buss_article.pdf"
+    #example_pdf_path = "/Users/nusretkizilaslan/Desktop/AIProject/llm_dev/buss_article.pdf"
+    example_pdf_path = "/Users/selinceydeli/Desktop/AIResearch/llm_dev/buss_article.pdf"
 
     # Create an instance of the Solution class with the example PDF path
     solution_instance = Solution(example_pdf_path)
