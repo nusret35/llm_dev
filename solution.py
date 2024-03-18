@@ -271,12 +271,7 @@ class Solution:
         '''
 
         found_images = {'Fig. 2. Framework for the choice of revenue models for digital services': './images/page9/output_image0.png'}
-
-        image_url_pairs = {}
-        for key, value in found_images.items():
-            url = upload_image(value)
-            image_url_pairs[key] = url
-
+        
         return title, insights, found_images
 
 
