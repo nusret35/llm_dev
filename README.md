@@ -2,19 +2,6 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-# Prerequisites
-
-If you want, you can create and activate the virtual environment
-```bash
-    python -m venv .venv
-    source ./.venv/bin/activate
-```
-
-Install the requirments
-```bash
-    pip install -r requirements.txt
-```
-
 ## Project Overview
 
 This project employs a hybrid approach, combining Meta's LLaMA 2 13B and LLaMA 2 70B models, to extract actionable business insights from scholarly articles. The dual-model pipeline leverages the strengths of each model according to the complexity of the task, utilizing NVIDIA's A100 80 GB Tensor Core GPU to process extensive scholarly texts for high-value business intelligence.
@@ -59,8 +46,17 @@ The `summarization_pipeline` folder contains essential Python scripts:
 ## Getting Started
 
 - Ensure Python 3.6+ is installed.
-- Install the required dependencies with `pip install -r requirements.txt`.
-- Execute `python solution.py` in the project directory.
+
+- Optionally, you can create and activate the virtual environment.
+```bash
+    python -m venv .venv
+    source ./.venv/bin/activate
+```
+
+- Install the requirements.
+```bash
+    pip install -r requirements.txt
+```
 
 ## License
 

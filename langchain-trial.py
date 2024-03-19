@@ -4,6 +4,8 @@ from dotenv import load_dotenv
 from langchain.chains import LLMChain
 from langchain.prompts import PromptTemplate
 from langchain.prompts.chat import ChatPromptTemplate
+from langchain_core.runnables import RunnableGenerator
+from langchain_core.messages import AIMessage, AIMessageChunk
 from langchain.llms import Replicate
 
 load_dotenv()
