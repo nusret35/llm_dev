@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 from langchain.chains import LLMChain
 from langchain.prompts import PromptTemplate
 from langchain.prompts.chat import ChatPromptTemplate
-from langchain_community.llms import Replicate
+from langchain.llms import Replicate
 
 load_dotenv()
 
@@ -51,7 +51,7 @@ insight_schema=json.dumps({
       "description": "The seventh insight extracted from the text."
     }
   },
-  "required": ["Insight1", "Insight2", "Insight3", "Insight4", "Insight5"],
+
   "additionalProperties": False
 })
 

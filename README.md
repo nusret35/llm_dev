@@ -2,6 +2,19 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+# Prerequisites
+
+If you want, you can create and activate the virtual environment
+```bash
+    python -m venv .venv
+    source ./.venv/bin/activate
+```
+
+Install the requirments
+```bash
+    pip install -r requirements.txt
+```
+
 ## Project Overview
 
 This project employs a hybrid approach, combining Meta's LLaMA 2 13B and LLaMA 2 70B models, to extract actionable business insights from scholarly articles. The dual-model pipeline leverages the strengths of each model according to the complexity of the task, utilizing NVIDIA's A100 80 GB Tensor Core GPU to process extensive scholarly texts for high-value business intelligence.

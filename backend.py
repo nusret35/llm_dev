@@ -11,7 +11,6 @@ import json
 import uvicorn
 from message_types import Message, SetMessage, ReportCompleted, ErrorMessage, DataMessage
 from clean_response import remove_double_quotes, convert_to_string_array, convert_images_to_base64
-from upload_image import *
 
 # First install fastapi on terminal ''pip install fastapi''
 

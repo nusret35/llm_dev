@@ -9,6 +9,7 @@ from langchain.output_parsers import PydanticOutputParser
 from langchain.prompts import PromptTemplate
 from langchain_core.pydantic_v1 import BaseModel, Field, validator
 from langchain_openai import ChatOpenAI
+from langchain.llms import Replicate
 from langchain_community.llms import Replicate
 
 load_dotenv()
