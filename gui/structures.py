@@ -44,5 +44,7 @@ class UploadedArticle(metaclass=Singleton):
             }
         }
 
-        return Report(title=title,insights=insights,images_and_explanations=images_and_explanations)
+        return Report(title=title,
+                      insights=insights,
+                      images_and_explanations=images_and_explanations)
 

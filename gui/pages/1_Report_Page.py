@@ -56,6 +56,8 @@ with stylable_container(
         ## Tables and Figures
     """,unsafe_allow_html=True)
 
+
+
 st.button("Save as PDF")
 
 col1, _ = st.columns([1,2])

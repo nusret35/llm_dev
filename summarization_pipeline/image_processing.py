@@ -41,7 +41,6 @@ def match_figure_and_table(block_text,figure_title_pattern, table_title_pattern)
 
     return titles
 
-
 # Extracts images and their titles from PDF page
 def extract_image_title_pairs(page, page_index):
     image_list = page.get_image_info()
