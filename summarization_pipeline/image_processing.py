@@ -52,7 +52,7 @@ def extract_image_title_pairs(page, page_index):
     proximity_threshold = 150  # Adjust this value based on your requirements
 
     titles = []
-    image_paths = []
+    images = []
 
     img_index = 0
     for img in image_list:
@@ -68,11 +68,8 @@ def extract_image_title_pairs(page, page_index):
         directory_path = "./images/" + 'page' + str(page_index+1)
         os.makedirs(directory_path, exist_ok=True)
 
-        img_path = directory_path + '/output_image' + str(img_index) + '.png'
-        image_paths.append(img_path)
 
-        # Save or process the image as needed
-        pil_image.save(img_path)
+        images.append(pil_image)
 
         # Search for text near the image
         for block in text_blocks:
@@ -88,9 +85,8 @@ def extract_image_title_pairs(page, page_index):
                 figure_title_pattern, table_title_pattern = regex_for_figure_and_table()
                 titles = titles + match_figure_and_table(block_text,figure_title_pattern,table_title_pattern)
 
-    image_data = dict(zip(titles, image_paths))
+    image_data = dict(zip(titles, images))
     return image_data
-
 
 # Extracts all the titles (Figure, Table, etc.) from PDF page
 def extract_titles_from_page(page):
