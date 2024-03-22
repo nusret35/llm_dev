@@ -163,8 +163,8 @@ if __name__ == "__main__":
     print(entries)
     
     # File path
-    #file = "/Users/selinceydeli/Desktop/AIResearch/business-article-inputs/1-s2.0-S0148296323004216-main.pdf"
-    file = '/Users/nusretkizilaslan/Downloads/selo-article.pdf'
+    file = "/Users/selinceydeli/Desktop/AIResearch/business-article-inputs/1-s2.0-S0148296323004216-main.pdf"
+    #file = '/Users/nusretkizilaslan/Downloads/selo-article.pdf'
     file1 = '/Users/selinceydeli/Desktop/AIResearch/business-article-inputs/buss_article.pdf'
     file2 = '/Users/selinceydeli/Desktop/AIResearch/business-article-inputs/buss_article_2.pdf'
 
