@@ -57,6 +57,8 @@ with stylable_container(
     """,unsafe_allow_html=True)
 
 
+print(report.images_and_explanations['Fig. 1 Some Picture'])
+st.image(report.images_and_explanations['Fig. 1 Some Picture']['image'])
 
 st.button("Save as PDF")
 
