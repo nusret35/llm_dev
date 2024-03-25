@@ -56,6 +56,7 @@ class Stream_Output_Generator:
         self.repetition_penalty = repetition_penalty
 
     def send_prompt(self, prompt, sys_prompt):
+        response = ""
         load_dotenv()
         for event in replicate.stream(
             self.model,
@@ -72,6 +73,9 @@ class Stream_Output_Generator:
 
         ):
             print(str(event), end="")
+            response += str(event)
+        return response
+
     
     def extract_insights(self, section_summaries, user_persona, user_purpose, regeneration, reason_for_regeneration):
         prompt = f"""
@@ -88,10 +92,11 @@ class Stream_Output_Generator:
             6) description of insight 6
             7) description of insight 7
 
-            Do not include any introductory sentence in your response.
+            Do not include any introductory sentence.
         """
-        system_prompt = ""
-        self.send_prompt(prompt, system_prompt)
+        system_prompt = "You are a tool that generates insights."
+        response = self.send_prompt(prompt, system_prompt)
+        return response
 
     def choose_images(self, insights, image_titles, user_persona, user_purpose):
         prompt = f"""
@@ -107,10 +112,11 @@ class Stream_Output_Generator:
             2. selected image 2 name (Page: #number): explanation of selected image 2
             3. selected image 3 name (Page: #number): explanation of selected image 3
 
-            Do not include any introductory sentence in your response.
+            Do not include any introductory sentence.
         """
-        system_prompt = ""
-        self.send_prompt(prompt, system_prompt)
+        system_prompt = "You are a tool that selects the most important images."
+        response = self.send_prompt(prompt, system_prompt)
+        return response
 
 
 # TEST!!!
@@ -129,6 +135,9 @@ if __name__ == "__main__":
     """
     image_titles = "'Fig. 1. Overview of the Research Method (Page:4)\nFig. 2. Conceptual Model (Page:5)\nTable 1. Sample Characteristics (Page:6)\nTable 2. CFA Results (Page:7)\nTable 3. Construct Correlations and AVEs (Page:7)\nTable 4. MIIV-2SLS Results (Page:7)\nTable 5. Measurement Invariance (Page:9)\nTable 6. Results – Multi-group Analysis (from MLR estimation) (Page:9)\nTable 7. Mechanisms for Successful Relationship Management of a Business Cycle (BC) (Page:9)\nFig. 3. Relationship Marketing (RM) Strategies Matrix (Page:11)\n'"
     stream_output_generator = Stream_Output_Generator("13B")
-    stream_output_generator.extract_insights(section_summaries,"","","","")
+    insights = stream_output_generator.extract_insights(section_summaries,"","","","")
     print()
-    stream_output_generator.choose_images(insights,image_titles,"","")
+    important_images = stream_output_generator.choose_images(insights,image_titles,"","")
+    print()
+    print(insights+"\n")
+    print(important_images+"\n")
