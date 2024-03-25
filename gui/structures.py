@@ -1,9 +1,9 @@
 from pydantic import BaseModel
 from PIL import Image
+from io import BytesIO
 
 class Singleton(type):
     _instances = {}
-
     def __call__(cls, *args, **kwargs):
         if cls not in cls._instances:
             cls._instances[cls] = super(Singleton, cls).__call__(*args, **kwargs)
@@ -19,6 +19,7 @@ class Report(metaclass=Singleton):
         self.title = title
         self.insights = insights
         self.images_and_explanations = images_and_explanations
+
 
 class UploadedArticle(metaclass=Singleton):
     def __init__(self,pdf_file,found_images=None):
@@ -37,9 +38,15 @@ class UploadedArticle(metaclass=Singleton):
             "The authors suggest a 2x3 matrix with six quadrants, each representing a different combination of the three RM mechanisms, and provide strategies for effectively managing each quadrant.",
             "The study investigates how business-to-business (B2B) suppliers can navigate economic downturns and maintain their performance during recessions."
         ]
+
+        pil_image = Image.open('/Users/nusretkizilaslan/Desktop/AIProject/llm_dev/images/page1/output_image0.png')
+        image_bytes_io = BytesIO()
+        pil_image.save(image_bytes_io, format='JPEG')
+        image_bytes_io.seek(0)
+
         images_and_explanations = {
             'Fig. 1 Some Picture': {
-                'image:':Image.open('/Users/nusretkizilaslan/Desktop/AIProject/llm_dev/images/page1/output_image0.png'),
+                'image:':image_bytes_io,
                 'explanation': 'image explanation'
             }
         }
