@@ -85,10 +85,9 @@ class Stream_Output_Generator:
             3) description of insight 3
             4) description of insight 4
             5) description of insight 5
-            6) description of insight 6
-            7) description of insight 7
+            ...
 
-            Do not include any introductory sentence in your response.
+            Do not include any introductory sentence.
         """
         system_prompt = ""
         self.send_prompt(prompt, system_prompt)
@@ -128,7 +127,7 @@ if __name__ == "__main__":
         7. Large size, market leader suppliers can successfully navigate a BC by utilizing various RM mechanisms.
     """
     image_titles = "'Fig. 1. Overview of the Research Method (Page:4)\nFig. 2. Conceptual Model (Page:5)\nTable 1. Sample Characteristics (Page:6)\nTable 2. CFA Results (Page:7)\nTable 3. Construct Correlations and AVEs (Page:7)\nTable 4. MIIV-2SLS Results (Page:7)\nTable 5. Measurement Invariance (Page:9)\nTable 6. Results – Multi-group Analysis (from MLR estimation) (Page:9)\nTable 7. Mechanisms for Successful Relationship Management of a Business Cycle (BC) (Page:9)\nFig. 3. Relationship Marketing (RM) Strategies Matrix (Page:11)\n'"
-    stream_output_generator = Stream_Output_Generator("13B")
+    stream_output_generator = Stream_Output_Generator("70B")
     stream_output_generator.extract_insights(section_summaries,"","","","")
     print()
     stream_output_generator.choose_images(insights,image_titles,"","")

@@ -39,14 +39,14 @@ class UploadedArticle(metaclass=Singleton):
             "The study investigates how business-to-business (B2B) suppliers can navigate economic downturns and maintain their performance during recessions."
         ]
 
-        pil_image = Image.open('/Users/nusretkizilaslan/Desktop/AIProject/llm_dev/images/page1/output_image0.png')
+        pil_image = Image.open('/Users/nusretkizilaslan/Downloads/gs.png')
         image_bytes_io = BytesIO()
-        pil_image.save(image_bytes_io, format='JPEG')
+        pil_image.save(image_bytes_io, format='PNG')
         image_bytes_io.seek(0)
 
         images_and_explanations = {
             'Fig. 1 Some Picture': {
-                'image:':image_bytes_io,
+                'image':image_bytes_io,
                 'explanation': 'image explanation'
             }
         }
