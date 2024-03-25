@@ -6,7 +6,7 @@ class Langchain_Extractor:
     def __init__(self, model, top_p=0.95, temperature=0.5, max_new_tokens=500, min_new_tokens=-1, repetition_penalty=1.15):
         model_dict = {
             '70B':'meta/llama-2-70b-chat:2d19859030ff705a87c746f7e96eea03aefb71f166725aee39692f1476566d48',
-            '13B':'meta/llama-2-13b-chat:f4e2de70d66816a838a89eeeb621910adffb0dd0baba3976c96980970978018d'
+            '13B':'meta/llama-2-13b-chat:56acad22679f6b95d6e45c78309a2b50a670d5ed29a37dd73d182e89772c02f1'
         }
         if model in model_dict:
             self.model = model_dict[model]
