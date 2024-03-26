@@ -38,7 +38,6 @@ for event in replicate.stream(
     print(str(event), end="")
 '''
 
-
 class Stream_Output_Generator:
     def __init__(self, model, top_p=1, temperature=0.5, max_new_tokens=500, min_new_tokens=-1, repetition_penalty=1.15):
         model_dict = {
