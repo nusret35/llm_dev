@@ -1,6 +1,6 @@
-from pydantic import BaseModel
 from PIL import Image
 from io import BytesIO
+import time
 
 class Singleton(type):
     _instances = {}
@@ -51,6 +51,8 @@ class UploadedArticle(metaclass=Singleton):
             }
         }
 
+        time.sleep(3)
+        
         return Report(title=title,
                       insights=insights,
                       images_and_explanations=images_and_explanations)

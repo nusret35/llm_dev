@@ -48,8 +48,6 @@ col2.selectbox(
 )
 
 if st.button("Let's get started"):
-    report = UploadedArticle.generate_report()
-    if report:
-        st.switch_page('pages/1_Report_Page.py')
+    st.switch_page('pages/3_Loading_Page.py')
 
 
