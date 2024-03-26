@@ -1,6 +1,19 @@
 import re
 import subprocess
 
+def shorten_text(long_string):
+    # Split the long string into sentences based on periods
+    sentences = long_string.split('.')
+
+    # Exclude the last sentence if there are more than one sentence
+    if len(sentences) > 1:
+        shortened = '. '.join(sentences[:-1])
+    else:
+        shortened = long_string
+
+    return shortened
+
+
 def is_section(section_key) :
     counter = 0
     for character in section_key :
