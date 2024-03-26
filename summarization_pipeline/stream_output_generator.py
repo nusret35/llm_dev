@@ -89,8 +89,7 @@ class Stream_Output_Generator:
             3) description of insight 3
             4) description of insight 4
             5) description of insight 5
-            6) description of insight 6
-            7) description of insight 7
+            ...
 
             Do not include any introductory sentence.
 
