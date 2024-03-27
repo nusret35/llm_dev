@@ -48,15 +48,18 @@ if pdf_file:
 
 col1, col2 = st.columns(2)
 
-col1.selectbox(
+occupation = col1.selectbox(
     "Choose the occupation",
     ["Academic Researcher","Business Professional","Student","Entrepreneur"]
 )
 
-col2.selectbox(
+usage = col2.selectbox(
      "Choose usage",
     ["Academic Research","Business Strategy Development","Personal Knowledge Enhancement","Educational Purposes"]
 )
+
+uploaded_article.set_occupation(occupation=occupation)
+uploaded_article.set_usage(usage=usage)
 
 if st.button("Let's get started",disabled= pdf_file == None):
     st.switch_page('pages/3_Loading_Page.py')

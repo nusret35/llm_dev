@@ -1,15 +1,22 @@
 import streamlit as st
 from streamlit_extras.stylable_container import stylable_container
+from streamlit.runtime.scriptrunner.script_run_context import get_script_run_ctx
+import threading
 import time
 import numpy as np
 from utilities import *
-from structures import Report
+from structures import Report,UploadedArticle
+
+if 'generating' not in st.session_state:
+    st.session_state.generating = False
 
 st.set_page_config(page_title="Report",layout="wide")
 
 hide_sidebar()
 
+
 report = Report()
+uploaded_article = UploadedArticle()
 
 
 st.markdown(
@@ -23,40 +30,15 @@ st.markdown(
     """, unsafe_allow_html=True
 )
 
+with st.empty():
+    st.write_stream(report.get_insights)
+    
 
 
-with stylable_container(
-    key="report-body",
-    css_styles="""
-        .report-body{
-            background-color: ;
-            border-radius: 10px;
-        }
-
-        .report-body .insights-list{
-            padding: 10px;
-        }
-
-        .report-body .insight{
-            font-size: 25px
-        }
-    """
-):
-    st.markdown( f"""
-        # {report.title}
-                
-        ## Key Insights
-                
-        <div class="report-body">
-            <ul class="insights-list">
-            {list_insights(report.insights)}
-            </ul>
-        </div>
-        
-        ## Tables and Figures
-    """,unsafe_allow_html=True)
-
+"""
 st.image(report.images_and_explanations['Fig. 1 Some Picture']['image'])
+"""
+
 
 st.button("Save as PDF")
 
@@ -85,3 +67,6 @@ if st.button("Regenerate"):
 
 if st.button("Generate New Article"):
     st.switch_page('Hello.py')
+
+if not st.session_state.generating:
+    st.session_state.generating = True
