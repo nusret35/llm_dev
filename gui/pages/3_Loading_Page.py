@@ -4,10 +4,10 @@ from utilities import *
 
 hide_sidebar()
 
-with st.spinner('Generating summaries...'):
-    report = UploadedArticle.generate_report()
+st.title("Preparing...")
 
-
-if report:
-    st.switch_page('pages/1_Report_Page.py')
+with st.spinner('Generating section summaries...'):
+    uploaded_article = UploadedArticle()
+    report = uploaded_article.generate_report()
+    print(report.get_section_summaries)
 

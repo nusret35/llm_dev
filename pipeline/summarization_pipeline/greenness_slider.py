@@ -2,8 +2,8 @@
 # 5 options
 # greenness = {0, 0.25, 0.5, 0.75, 1.0}
 
-from summarization_pipeline.stream_output_generator import Stream_Output_Generator
-from summarization_pipeline.langchain_extractor import Langchain_Extractor
+from .stream_output_generator import Stream_Output_Generator
+from .langchain_extractor import Langchain_Extractor
 
 def configure_models(greenness_input):
 

@@ -1,7 +1,7 @@
 #from pdfminer.high_level import extract_pages 
 from pdfminer.layout import LTTextContainer, LTChar, LTAnno
 import fitz 
-from summarization_pipeline.article_parser import divide_article_into_sections
+from .article_parser import divide_article_into_sections
 import re
 
 def clean_text(text):
@@ -16,12 +16,10 @@ def clean_text(text):
     text = '\n'.join(text)
     return text
 
-def extract_text_from_pdf(pdf_path):
+def extract_text_from_pdf(doc):
     """
     Extract text from a PDF file and clean it.
     """
-    # Open the provided PDF file
-    doc = fitz.open(pdf_path)
     full_text = ""
     # Iterate over each page
     for page_num in range(len(doc)):   
@@ -78,14 +76,14 @@ def capture_image_titles(extracted_text):
 """
 The PDF article is extracted as a whole, without being divided into sections
 """
-def extract_pdf(path):
-    extracted_text = extract_text_from_pdf(path)
+def extract_pdf(doc):
+    extracted_text = extract_text_from_pdf(doc)
     return extracted_text
 
 """
 The PDF article is extracted and divided into sections
 """
-def extract_pdf_and_divide_sections(path):
-    extracted_text = extract_text_from_pdf(path)
+def extract_pdf_and_divide_sections(doc):
+    extracted_text = extract_text_from_pdf(doc)
     parsed_sections = divide_article_into_sections(extracted_text)
     return parsed_sections

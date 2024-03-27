@@ -1,6 +1,7 @@
 from PIL import Image
 from io import BytesIO
 import time
+from pipeline.new_solution import NewSolution
 
 class Singleton(type):
     _instances = {}
@@ -15,21 +16,58 @@ class Singleton(type):
 
 
 class Report(metaclass=Singleton):
-    def __init__(self,title,insights=None, images_and_explanations = None):
-        self.title = title
-        self.insights = insights
-        self.images_and_explanations = images_and_explanations
+    _section_summaries = ""
+    _title = ""
+    _insights = []
+    _images_and_explanations = {}
+
+
+    def __call__(cls,section_summaries="",title="",insights=[], images_and_explanations = {}):
+        cls._section_summaries = section_summaries
+        cls._title = title
+        cls._insights = insights
+        cls._images_and_explanations = images_and_explanations
+
+    @classmethod
+    def get_section_summaries(cls):
+        return cls._section_summaries
+
+    @classmethod
+    def set_section_summaries(cls,event):
+        cls._section_summaries = event
+
+    
+    @classmethod
+    def update_title(cls,event):
+        cls._title += event
+    
+    @classmethod
+    def update_insights(cls,event):
+        if event == "*":
+            cls._insights.append("")
+        else:
+            if len(cls._insights) > 0:
+                cls._insights[-1] += event
+
+    
 
 
 class UploadedArticle(metaclass=Singleton):
-    def __init__(self,pdf_file,found_images=None):
-        self.pdf_file = pdf_file
-        self.found_images = found_images or {}
+    _pdf_file_bytes = None
+    _found_images = {}
+
+    @classmethod
+    def pdf_file(cls):
+        return cls._pdf_file_bytes
     
-    
+    @classmethod 
+    def set_pdf_file(cls,pdf_bytes):
+        cls._pdf_file_bytes = pdf_bytes
+
+
     @classmethod
     def generate_report(cls):
-        
+        '''
         title = "Goodtimes Badtimes"
         insights = [
             "The article highlights the significance of relationship marketing (RM) in business-to-business (B2B) settings, particularly during economic downturns.",
@@ -38,22 +76,14 @@ class UploadedArticle(metaclass=Singleton):
             "The authors suggest a 2x3 matrix with six quadrants, each representing a different combination of the three RM mechanisms, and provide strategies for effectively managing each quadrant.",
             "The study investigates how business-to-business (B2B) suppliers can navigate economic downturns and maintain their performance during recessions."
         ]
+        '''
 
-        pil_image = Image.open('/Users/nusretkizilaslan/Downloads/gs.png')
-        image_bytes_io = BytesIO()
-        pil_image.save(image_bytes_io, format='PNG')
-        image_bytes_io.seek(0)
+        solution = NewSolution(pdf_file_bytes=cls._pdf_file_bytes)
+        report = Report()
+        section_summaries = solution.generate_summary()
+        report.set_section_summaries(section_summaries)
 
-        images_and_explanations = {
-            'Fig. 1 Some Picture': {
-                'image':image_bytes_io,
-                'explanation': 'image explanation'
-            }
-        }
+        return report
 
-        time.sleep(3)
-        
-        return Report(title=title,
-                      insights=insights,
-                      images_and_explanations=images_and_explanations)
+
 

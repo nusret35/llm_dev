@@ -5,6 +5,12 @@ from utilities import *
 from structures import UploadedArticle
 
 
+
+########  INITIALIZATON  ########
+
+
+########  FUNCTIONS  ########
+
 st.set_page_config(
     page_title="Insight Extractor",
     layout="wide",
@@ -32,7 +38,12 @@ st.markdown(
 
 pdf_file = st.file_uploader("Choose a PDF file", accept_multiple_files=False, type='pdf')
 
-uploaded_article = UploadedArticle(pdf_file)
+
+uploaded_article = UploadedArticle() 
+
+if pdf_file:
+    print(pdf_file)
+    uploaded_article.set_pdf_file(pdf_bytes=pdf_file.getvalue())
 
 
 col1, col2 = st.columns(2)
@@ -47,7 +58,7 @@ col2.selectbox(
     ["Academic Research","Business Strategy Development","Personal Knowledge Enhancement","Educational Purposes"]
 )
 
-if st.button("Let's get started"):
+if st.button("Let's get started",disabled= pdf_file == None):
     st.switch_page('pages/3_Loading_Page.py')
 
 

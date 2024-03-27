@@ -54,7 +54,7 @@ class Stream_Output_Generator:
         self.min_new_tokens = min_new_tokens
         self.repetition_penalty = repetition_penalty
 
-    def send_prompt(self, prompt, sys_prompt):
+    def send_prompt(self, prompt, sys_prompt,callback=None):
         response = ""
         load_dotenv()
         for event in replicate.stream(
@@ -71,23 +71,26 @@ class Stream_Output_Generator:
             }
 
         ):
-            print(str(event), end="")
+            #print(str(event), end="")
             response += str(event)
+            if callback:
+                callback(str(event))
+
         return response
 
 
-    def extract_insights(self, section_summaries, user_persona, user_purpose, regeneration, reason_for_regeneration):
+    def extract_insights(self, section_summaries, user_persona, user_purpose, regeneration, reason_for_regeneration,callback=None):
         prompt = f"""
             Provide insights about the article from the given summaries for each section of the article. This is the section summaries:
             {section_summaries}
 
             Give the descriptions of the insights in the following format:
 
-            1) description of insight 1
-            2) description of insight 2
-            3) description of insight 3
-            4) description of insight 4
-            5) description of insight 5
+            * description of insight 1
+            * description of insight 2
+            * description of insight 3
+            * description of insight 4
+            * description of insight 5
             ...
 
             Do not include any introductory sentence.
@@ -95,7 +98,18 @@ class Stream_Output_Generator:
             Generate these insights to be used for {user_purpose} by a/an {user_persona}.
         """
         system_prompt = "You are a tool that generates insights."
-        response = self.send_prompt(prompt, system_prompt)
+        response = self.send_prompt(prompt, system_prompt,callback=callback)
+        return response
+    
+    def generate_title(self, insights, user_persona, user_purpose, callback=None):
+        prompt = f"""
+            From the given insights,
+            {insights}
+            provide a title. Output should be in the following format: Title. Just give one title.
+
+            Generate this title to be used for {user_purpose} by a/an {user_persona}.
+        """
+        response = self.send_prompt(prompt,callback=callback)
         return response
 
     

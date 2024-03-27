@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 from langchain.llms import Replicate
-from article_parser import shorten_text
+from .article_parser import shorten_text
 
 class Langchain_Extractor:
     def __init__(self, model, top_p=0.95, temperature=0.5, max_new_tokens=500, min_new_tokens=-1, repetition_penalty=1.15):
@@ -35,10 +35,10 @@ class Langchain_Extractor:
         """
         try :
             response = self.send_prompt(prompt)
-        except RuntimeError:
+        except:
             # Summary is too long. Exclude the last sentence
-            shortened = shorten_text(response)
-
+            shortened = shorten_text(section_text)
+            print('short')
             # Recursively call the function until it fits the token size
             response = self.summarize(shortened)
 
