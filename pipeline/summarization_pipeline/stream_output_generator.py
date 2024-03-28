@@ -85,15 +85,17 @@ class Stream_Output_Generator:
             Provide insights about the article from the given summaries for each section of the article. This is the section summaries:
             {section_summaries}
 
-            Give the descriptions of the insights in the following format:
+            Give the insights in the following format:
 
-            * insight 1 description
-            * insight 2 description
-            * insight 3 description
-            * insight 4 description
+            * insight 1
+            * insight 2
+            * insight 3
+            * insight 4
             ...
 
             Do not include any introductory sentence.
+
+            Do not include incomplete sentences.
 
             Generate these insights to be used for {user_purpose} by a/an {user_persona}.
         """
