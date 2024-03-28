@@ -7,8 +7,6 @@ import numpy as np
 from utilities import *
 from structures import Report,UploadedArticle
 
-if 'generating' not in st.session_state:
-    st.session_state.generating = False
 
 st.set_page_config(page_title="Report",layout="wide")
 
@@ -75,6 +73,3 @@ if st.button("Regenerate"):
 
 if st.button("Generate New Article"):
     st.switch_page('Hello.py')
-
-if not st.session_state.generating:
-    st.session_state.generating = True

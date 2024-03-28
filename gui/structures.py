@@ -37,29 +37,36 @@ class Report(metaclass=Singleton):
     @classmethod
     def get_title(cls):
         cls._insights_ready_event.wait() 
-        yield cls._title
-        
+        yielded_text = "## "
+        for char in cls._title:
+            if char != "\n" and char != '"':
+                yielded_text += char
+                yield yielded_text
+                time.sleep(0.01)
+                yielded_text = ""
     
     @classmethod
     def get_insights(cls):
+
         print(cls._is_insight_generation_called)
-        insight_thread = threading.Thread(target=cls.generate_report)
-        if not cls._is_insight_generation_called:
-            cls._is_insight_generation_called = True
-            insight_thread.start()
+
+        for insight in  cls._insights:
+            yielded_text = "• "
+            for char in insight:
+                yielded_text += char
+                yield yielded_text
+                time.sleep(0.01)
+                yielded_text = ""
+            yield "\n"
 
 
-        for i in range(15):
-            yield cls._insights
-            time.sleep(1)
-
-        insight_thread.join()
         cls._insights_ready_event.set() 
 
 
     @classmethod
     def _update_title(cls,event):
-        cls._title += event
+        if event != '"':
+            cls._title += event
     
     @classmethod
     def _update_insights(cls,event):
