@@ -21,7 +21,8 @@ class Report(metaclass=Singleton):
     _title = ""
     _insights = []
     _images_and_explanations = {}
-    _is_executed = False
+    _is_insight_generation_called = False 
+    _insights_ready_event = threading.Event()
 
 
     def __call__(cls,section_summaries="",title="",insights=[], images_and_explanations = {}):
@@ -29,20 +30,32 @@ class Report(metaclass=Singleton):
         cls._title = title
         cls._insights = insights
         cls._images_and_explanations = images_and_explanations
+    
+    def __delattr__(cls, __name: str) -> None:
+        cls._is_insight_generation_called = False
 
     @classmethod
     def get_title(cls):
-        return cls._title
+        cls._insights_ready_event.wait() 
+        yield cls._title
+        
     
     @classmethod
     def get_insights(cls):
-        if not cls._is_executed:
-            cls._is_executed = True
-            threading.Thread(target=cls.generate_report).start()
-        
-        for i in range(300):
+        print(cls._is_insight_generation_called)
+        insight_thread = threading.Thread(target=cls.generate_report)
+        if not cls._is_insight_generation_called:
+            cls._is_insight_generation_called = True
+            insight_thread.start()
+
+
+        for i in range(15):
             yield cls._insights
-            time.sleep(0.2) 
+            time.sleep(1)
+
+        insight_thread.join()
+        cls._insights_ready_event.set() 
+
 
     @classmethod
     def _update_title(cls,event):
@@ -93,7 +106,6 @@ class Report(metaclass=Singleton):
     
 
         
-    
 
     
 class UploadedArticle(metaclass=Singleton):
@@ -157,9 +169,10 @@ if __name__ == '__main__':
 
     uploaded_article.set_usage('academic purposes')
 
-    uploaded_article.generate_report()
 
     report = Report()
+
+    report.generate_report()
 
     print(report.get_insights())
 

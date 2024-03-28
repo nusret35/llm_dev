@@ -30,8 +30,16 @@ st.markdown(
     """, unsafe_allow_html=True
 )
 
-with st.empty():
+title_place = st.empty()
+
+insights_place = st.empty()
+
+with insights_place:
     st.write_stream(report.get_insights)
+
+
+with title_place:
+    st.write_stream(report.get_title)
     
 
 
