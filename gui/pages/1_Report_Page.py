@@ -29,6 +29,18 @@ st.markdown(
     """, unsafe_allow_html=True
 )
 
+def create_images_section():
+    items = st.session_state.images_and_explanations
+    for key,value in items:
+        if value['image'] != None:
+            st.image(image=value['image'])
+
+        st.write(f"### {key}")
+        st.write(value['explanation'])
+        st.markdown('#')
+        st.markdown('#')
+        st.markdown('#')
+
 def create_insights_and_title():
     title_place = st.empty()
 
@@ -40,21 +52,29 @@ def create_insights_and_title():
 
     with title_place:
         st.session_state.title = st.write_stream(report.get_title)
+    
+    st.session_state.images_and_explanations = report.get_images().items()
+
+    st.write('##')
+
+    create_images_section()
+
 
 def load_insights_and_title():
     st.write(st.session_state.title)
     
     st.write(st.session_state.insights)
+
+    st.write('##')
+    
+    create_images_section()
+
     
 
 if "insights" not in st.session_state:
     create_insights_and_title()
 else:
     load_insights_and_title()
-
-"""
-st.image(report.images_and_explanations['Fig. 1 Some Picture']['image'])
-"""
 
 
 st.button("Save as PDF")

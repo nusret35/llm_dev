@@ -61,6 +61,10 @@ class Report(metaclass=Singleton):
 
 
         cls._insights_ready_event.set() 
+    
+    @classmethod
+    def get_images(cls):
+        return cls._images_and_explanations
 
 
     @classmethod
@@ -102,6 +106,12 @@ class Report(metaclass=Singleton):
                                         callback=cls._update_insights)
         
         print(insights)
+
+        cls._images_and_explanations = solution.generate_image_explanations(insights,
+                                                                user_persona=uploaded_article.get_occupation(),
+                                                                user_purpose=uploaded_article.get_usage(),
+                                                            )
+        print(cls._images_and_explanations)
         
         title = solution.generate_title(insights=insights,
                                         user_persona=uploaded_article.get_occupation(),
@@ -110,7 +120,8 @@ class Report(metaclass=Singleton):
         
         print(title)
 
-    
+
+        
 
         
 
