@@ -13,6 +13,7 @@ st.set_page_config(page_title="Report",layout="wide")
 hide_sidebar()
 
 
+# Initialization
 report = Report()
 uploaded_article = UploadedArticle()
 
@@ -28,18 +29,28 @@ st.markdown(
     """, unsafe_allow_html=True
 )
 
-title_place = st.empty()
+def create_insights_and_title():
+    title_place = st.empty()
 
-insights_place = st.empty()
+    insights_place = st.empty()
 
-with insights_place:
-    st.write_stream(report.get_insights)
+    with insights_place:
+        st.session_state.insights = st.write_stream(report.get_insights)
 
 
-with title_place:
-    st.write_stream(report.get_title)
+    with title_place:
+        st.session_state.title = st.write_stream(report.get_title)
+
+def load_insights_and_title():
+    st.write(st.session_state.title)
+    
+    st.write(st.session_state.insights)
     
 
+if "insights" not in st.session_state:
+    create_insights_and_title()
+else:
+    load_insights_and_title()
 
 """
 st.image(report.images_and_explanations['Fig. 1 Some Picture']['image'])
@@ -49,6 +60,7 @@ st.image(report.images_and_explanations['Fig. 1 Some Picture']['image'])
 st.button("Save as PDF")
 
 col1, _ = st.columns([1,2])
+
 
 insights_rating = col1.slider(
         "Are you happy with the insights?",
