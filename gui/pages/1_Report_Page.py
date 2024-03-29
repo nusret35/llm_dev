@@ -76,8 +76,8 @@ if "insights" not in st.session_state:
 else:
     load_insights_and_title()
 
-
-st.button("Save as PDF")
+pdf_file = report.generate_pdf()
+st.download_button('Save PDF',pdf_file,file_name=f"report.pdf")
 
 col1, _ = st.columns([1,2])
 
@@ -104,4 +104,5 @@ if st.button("Regenerate"):
     st.switch_page('pages/2_Regenerate_Page.py')
 
 if st.button("Generate New Article"):
+    
     st.switch_page('Hello.py')

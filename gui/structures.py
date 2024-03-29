@@ -2,8 +2,10 @@ from PIL import Image
 from io import BytesIO
 import time
 from pipeline.new_solution import NewSolution
-from fitz import Document, fitz
+from fitz import fitz
 import threading
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
 
 class Singleton(type):
     _instances = {}
@@ -33,6 +35,7 @@ class Report(metaclass=Singleton):
     
     def __delattr__(cls, __name: str) -> None:
         cls._is_insight_generation_called = False
+
 
     @classmethod
     def get_title(cls):
@@ -120,6 +123,26 @@ class Report(metaclass=Singleton):
         
         print(title)
 
+    @classmethod
+    def generate_pdf(cls):
+        buffer = BytesIO()
+        c = canvas.Canvas(buffer, pagesize=letter)
+        c.drawString(100, 750, cls._title)
+        c.drawString(100, 600, "Insights")
+        insights_text = ""
+        for insight in cls._insights:
+            insight_string = "• " + insight + "\n"
+            insights_text += insight_string
+        c.drawString(100,500,insights_text)
+            
+        c.save()
+        pdf_data = buffer.getvalue()
+        buffer.close()
+        return pdf_data
+
+    @classmethod
+    def delete_instance(cls) -> None:
+        Singleton.delete_instance(cls)
 
         
 
@@ -170,6 +193,10 @@ class UploadedArticle(metaclass=Singleton):
         solution = NewSolution(pdf_file_bytes=cls._pdf_file_bytes)
         cls._section_summaries = solution.generate_summary()
         return cls._section_summaries
+    
+    @classmethod
+    def delete_instance(cls) -> None:
+        Singleton.delete_instance(cls)
     
 
 
