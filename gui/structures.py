@@ -16,7 +16,8 @@ class Singleton(type):
     
     @classmethod
     def delete_instance(cls):
-        del cls._instances[cls]
+        if cls in cls._instances.keys():
+            del cls._instances[cls]
 
 
 class Report(metaclass=Singleton):
@@ -86,16 +87,6 @@ class Report(metaclass=Singleton):
 
     @classmethod
     def generate_report(cls):
-        '''
-        title = "Goodtimes Badtimes"
-        insights = [
-            "The article highlights the significance of relationship marketing (RM) in business-to-business (B2B) settings, particularly during economic downturns.",
-            "The study identifies three key mechanisms that explain how RM affects supplier performance during economic contraction and recovery: communication openness, technical involvement, and customer value anticipation.",
-            "The findings suggest that firms should focus on building trust, sharing knowledge, and fostering collaboration to adapt to changing market conditions and maintain strong relationships with their customers.",
-            "The authors suggest a 2x3 matrix with six quadrants, each representing a different combination of the three RM mechanisms, and provide strategies for effectively managing each quadrant.",
-            "The study investigates how business-to-business (B2B) suppliers can navigate economic downturns and maintain their performance during recessions."
-        ]
-        '''
         uploaded_article = UploadedArticle()
 
         solution = NewSolution(pdf_file_bytes=uploaded_article.get_pdf_file())
@@ -116,12 +107,12 @@ class Report(metaclass=Singleton):
                                                             )
         print(cls._images_and_explanations)
         
-        title = solution.generate_title(insights=insights,
+        cls._title = solution.generate_title(insights=insights,
                                         user_persona=uploaded_article.get_occupation(),
                                         user_purpose=uploaded_article.get_usage(),
-                                        callback=cls._update_title)
+                                        )
         
-        print(title)
+        print(cls._title)
 
     @classmethod
     def generate_pdf(cls):
@@ -139,10 +130,6 @@ class Report(metaclass=Singleton):
         pdf_data = buffer.getvalue()
         buffer.close()
         return pdf_data
-
-    @classmethod
-    def delete_instance(cls) -> None:
-        Singleton.delete_instance(cls)
 
         
 
@@ -193,11 +180,7 @@ class UploadedArticle(metaclass=Singleton):
         solution = NewSolution(pdf_file_bytes=cls._pdf_file_bytes)
         cls._section_summaries = solution.generate_summary()
         return cls._section_summaries
-    
-    @classmethod
-    def delete_instance(cls) -> None:
-        Singleton.delete_instance(cls)
-    
+        
 
 
 

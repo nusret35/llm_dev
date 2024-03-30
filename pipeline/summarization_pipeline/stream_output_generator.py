@@ -108,7 +108,10 @@ class Stream_Output_Generator:
         prompt = f"""
             From the given insights,
             {insights}
-            provide a title. Output should be in the following format: Title. Just give one title.
+            provide a title. Output should be in the following format: 
+            {{
+                "title": "title string"
+            }}
 
             Generate this title to be used for {user_purpose} by a/an {user_persona}.
         """
@@ -125,11 +128,11 @@ class Stream_Output_Generator:
             {insights}
 
             Give the descriptions of the selected images in the following format:
-
-            1. Fig./Table 1. Title (Page: number#): explanation
-            2. Fig./Table 2. Title (Page: number#): explanation
-            3. Fig./Table 3. Title (Page: number#): explanation
-
+            {{
+                "Fig./Table 1. Title": "string explanation",
+                "Fig./Table 2. Title": "string explanation",
+                "Fig./Table 3. Title": "string explanation"
+            }}
             Do not include any introductory sentence.
 
             Select these important images to be used for {user_purpose} by a/an {user_persona}.

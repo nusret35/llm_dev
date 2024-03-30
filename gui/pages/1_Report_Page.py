@@ -104,5 +104,12 @@ if st.button("Regenerate"):
     st.switch_page('pages/2_Regenerate_Page.py')
 
 if st.button("Generate New Article"):
-    
+
+
+    # Report.delete_instance()
+    # UploadedArticle.delete_instance()
+
+    for key in st.session_state.keys():
+        del st.session_state[key]
+
     st.switch_page('Hello.py')

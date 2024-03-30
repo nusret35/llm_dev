@@ -1,3 +1,4 @@
 langchain
 langchain_core
 replicate
+reportlab
