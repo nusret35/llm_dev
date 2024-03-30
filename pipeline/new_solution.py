@@ -1,6 +1,6 @@
-from .summarization_pipeline.pdf_section_extractor import extract_pdf_and_divide_sections
-from .summarization_pipeline.image_processing import extract_image_title_pairs, extract_titles_from_page, convert_response_to_dict, get_important_image_paths
-from .summarization_pipeline.greenness_slider import configure_models
+from summarization_pipeline.pdf_section_extractor import extract_pdf_and_divide_sections
+from summarization_pipeline.image_processing import extract_image_title_pairs, extract_titles_from_page, convert_response_to_dict, get_important_image_paths
+from summarization_pipeline.greenness_slider import configure_models
 from fitz import Document, fitz
 import logging
 import ast
@@ -18,6 +18,7 @@ class NewSolution:
             self.pdf_file = fitz.open(pdf_path)
         else:
             self.pdf_file = Document(stream=self.pdf_file_bytes,filetype="pdf")
+
 
     def generate_summary(self):
         # Getting and preprocessing PDF input
@@ -113,26 +114,24 @@ class NewSolution:
 
 
     def generate_image_explanations(self, insights, user_persona, user_purpose):
-
         def join_dictionaries(images_and_explanations, title_image_pairs):
             joined_dict = {}
-            
             for title, explanation in images_and_explanations.items():
                 if title in title_image_pairs:
                     image = title_image_pairs[title]
                     joined_dict[title] = {'explanation': explanation, 'image': image}
                 else:
                     joined_dict[title] = {'explanation': explanation, 'image': None}
-        
             return joined_dict
         
         # Choosing the most important figures/tables of the article (using LLaMA 2 13B model)
         # Open the file
+        pdf_file = fitz.open(self.pdf_path)
         titles = []
         image_title_pairs = {}
         # Iterate over PDF pages
-        for page_index in range(len(self.pdf_file)):
-            page = self.pdf_file[page_index]
+        for page_index in range(len(pdf_file)):
+            page = pdf_file[page_index]
             page_image_title_pairs = extract_image_title_pairs(page, page_index)
             page_image_titles = extract_titles_from_page(page)
             image_title_pairs.update(page_image_title_pairs)
@@ -140,7 +139,6 @@ class NewSolution:
                 title += " (Page:" + str(page_index+1) + ")"
                 titles.append(title)
     
-
         image_titles = ""
         for title in titles:
             image_titles += title + "\n"
@@ -156,7 +154,7 @@ class NewSolution:
     def display_images(self, important_images_explanation, image_title_pairs):
         # Displaying the fetched figures/tables that match the selected images
         important_images_explanation_list = convert_response_to_dict(important_images_explanation)
-        
+
         # Check whether the important image is extracted
         found_images = get_important_image_paths(image_title_pairs, important_images_explanation_list)
     
@@ -175,11 +173,12 @@ class NewSolution:
         # Get user's purpose for getting these insights
         user_purpose = "Business Strategy Development"
 
-        # section_summaries = self.generate_summary()
+        section_summaries = self.generate_summary()
 
         # Insights extraction and title generation steps are equipped with advanced prompt engineering
         # Prompts are made unique based on user persona and user's purpose for using the insights
-        # insights = self.generate_insights(section_summaries, user_persona, user_purpose, regeneration, reason_for_regeneration)
+        insights = self.generate_insights(section_summaries, user_persona, user_purpose, regeneration, reason_for_regeneration)
+        print(insights,"\n")
 
         insights = """
             1) The article provides insights into how businesses can navigate economic downturns and recoveries by fostering communication, involvement, and value anticipation between buyers and sellers.
@@ -197,38 +196,13 @@ class NewSolution:
             7) The article addresses a gap in current research and provides valuable insights for firms operating in emerging economies, contributing to both RM and BC literature.
         """
 
-        # title = self.generate_title(insights, user_persona, user_purpose)
-        
+        title = self.generate_title(insights, user_persona, user_purpose)
+        print(title)
         important_images = self.generate_image_explanations(insights, user_persona, user_purpose)
-
         print(important_images)
 
 
-
 if __name__ == "__main__":
-
-    solution = NewSolution(pdf_path="/Users/nusretkizilaslan/Downloads/buss_article_2.pdf")
-
+    #solution = NewSolution(pdf_path="/Users/nusretkizilaslan/Downloads/buss_article_2.pdf")
+    solution = NewSolution(pdf_path="/Users/selinceydeli/Desktop/AIResearch/business-article-inputs/buss_article.pdf")
     solution.solution_pipeline()
-    
-""" 
-if __name__ == "__main__":
-    # Specify the path to the example PDF file
-    example_pdf_path = "/Users/selinceydeli/Desktop/AIResearch/business-article-inputs/buss_article.pdf"
-
-    # Create an instance of the Solution class with the example PDF path
-    solution_instance = NewSolution(example_pdf_path)
-
-    # Run the solution_pipeline method
-    solution_instance.solution_pipeline()
-
-    # Below is for testing important images match functionality
-    important_images = '''
-    Based on the given information, the most important images for business strategy development by a business professional are:
-
-    1. Fig. 1. Overview of the Research Method (Page:4): This image provides an overview of the research methodology used in the study, which can help business professionals understand the foundation of the findings and their applicability to real-world scenarios.
-    2. Fig. 3. Relationship Marketing (RM) Strategies Matrix (Page:11): This image presents a clear and concise matrix that highlights the three key RM mechanisms and their configuration during economic crises and recoveries. This matrix can serve as a valuable tool for business professionals to develop effective relationship marketing strategies.
-    3. Table 7. Mechanisms for Successful Relationship Management of a Business Cycle (BC) (Page:9): This table summarizes the mechanisms for successful relationship management during different stages of a business cycle. By understanding these mechanisms, business professionals can better navigate economic fluctuations and make informed decisions about their marketing strategies.
-
-    These images provide actionable insights and practical tools for business professionals to improve their performance and mitigate the financial impact of economic downturns.
-    ''' """

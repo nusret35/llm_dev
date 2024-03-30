@@ -41,6 +41,7 @@ def match_figure_and_table(block_text,figure_title_pattern, table_title_pattern)
 
     return titles
 
+
 # Extracts images and their titles from PDF page
 def extract_image_title_pairs(page, page_index):
     image_list = page.get_image_info()
@@ -86,6 +87,7 @@ def extract_image_title_pairs(page, page_index):
 
     image_data = dict(zip(titles, images))
     return image_data
+
 
 # Extracts all the titles (Figure, Table, etc.) from PDF page
 def extract_titles_from_page(page):
@@ -148,38 +150,3 @@ def get_important_image_paths(image_title_pairs, important_images):
             found_important_images_paths.update({title:image_title_pairs[title]})
                 
     return found_important_images_paths
-
-
-##TEST##
-
-if __name__ == "__main__":
-    response_text = " Sure! Based on the insights extracted from the article, here are the three most important images with explanations:\n\n1. Fig. 1. Data structure and coding process (Page:6) - This figure provides a detailed overview of the data structure and coding process used in the study. It shows how the authors coded and analyzed the data, which is essential for understanding the findings of the study.\n2. Fig. 2. Framework for the choice of revenue models for digital services (Page:9) - This figure presents a comprehensive framework for choosing suitable revenue models for digital services. The framework takes into account four key factors: customer digital readiness, digital service sophistication, digital ecosystem partnerships, and revenue model alignment with business models. Understanding this framework can help manufacturing companies make informed decisions about their digital revenue strategies.\n3. Table 2. Overview of studied cases and respondents (Page:5) - This table provides an overview of the cases and respondents studied in the research. It includes information on the industry, company size, and geographic location of the cases, as well as the number of respondents and their roles within the companies. This table helps to establish the validity and generalizability of the study's findings."
-    entries = convert_response_to_dict(response_text)
-    print(entries)
-    
-    # File path
-    file = "/Users/selinceydeli/Desktop/AIResearch/business-article-inputs/1-s2.0-S0148296323004216-main.pdf"
-    #file = '/Users/nusretkizilaslan/Downloads/selo-article.pdf'
-    file1 = '/Users/selinceydeli/Desktop/AIResearch/business-article-inputs/buss_article.pdf'
-    file2 = '/Users/selinceydeli/Desktop/AIResearch/business-article-inputs/buss_article_2.pdf'
-
-    # Open the file
-    pdf_file = fitz.open(file)
-
-    image_title_pairs = {}
-    titles = []
-    # Iterate over PDF pages
-    for page_index in range(len(pdf_file)):
-        page = pdf_file[page_index]
-        page_image_title_pairs = extract_image_title_pairs(page,page_index)
-        page_image_titles = extract_titles_from_page(page)
-        image_title_pairs.update(page_image_title_pairs)
-        for title in page_image_titles:
-            title += " (Page:" + str(page_index+1) + ")"
-            titles.append(title)
-    
-    print(image_title_pairs)
-    print()
-    print(titles)
-
-    pdf_file.close()

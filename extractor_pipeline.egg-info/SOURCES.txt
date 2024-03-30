@@ -6,7 +6,6 @@ extractor_pipeline.egg-info/dependency_links.txt
 extractor_pipeline.egg-info/top_level.txt
 pipeline/__init__.py
 pipeline/new_solution.py
-pipeline/summarization_pipeline/__init__.py
 pipeline/summarization_pipeline/article_parser.py
 pipeline/summarization_pipeline/greenness_slider.py
 pipeline/summarization_pipeline/image_processing.py
@@ -14,4 +13,3 @@ pipeline/summarization_pipeline/langchain_extractor.py
 pipeline/summarization_pipeline/orchestration.py
 pipeline/summarization_pipeline/pdf_section_extractor.py
 pipeline/summarization_pipeline/stream_output_generator.py
-pipeline/summarization_pipeline/test.py
