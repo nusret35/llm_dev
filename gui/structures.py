@@ -6,6 +6,7 @@ from fitz import fitz
 import threading
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
+from utilities import create_report
 
 class Singleton(type):
     _instances = {}
@@ -51,9 +52,6 @@ class Report(metaclass=Singleton):
     
     @classmethod
     def get_insights(cls):
-
-        print(cls._is_insight_generation_called)
-
         for insight in  cls._insights:
             yielded_text = "• "
             for char in insight:
@@ -116,24 +114,13 @@ class Report(metaclass=Singleton):
 
     @classmethod
     def generate_pdf(cls):
-        buffer = BytesIO()
-        c = canvas.Canvas(buffer, pagesize=letter)
-        c.drawString(100, 750, cls._title)
-        c.drawString(100, 600, "Insights")
-        insights_text = ""
-        for insight in cls._insights:
-            insight_string = "• " + insight + "\n"
-            insights_text += insight_string
-        c.drawString(100,500,insights_text)
-            
-        c.save()
-        pdf_data = buffer.getvalue()
-        buffer.close()
+        pdf_data = create_report(title=cls._title,
+                                    images_and_explanations=cls._images_and_explanations,
+                                    insights=cls._insights,
+                                    output_filename="report.pdf")
+
         return pdf_data
 
-        
-
-        
 
     
 class UploadedArticle(metaclass=Singleton):

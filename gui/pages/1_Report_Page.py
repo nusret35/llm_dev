@@ -106,8 +106,8 @@ if st.button("Regenerate"):
 if st.button("Generate New Article"):
 
 
-    # Report.delete_instance()
-    # UploadedArticle.delete_instance()
+    Report.delete_instance()
+    UploadedArticle.delete_instance()
 
     for key in st.session_state.keys():
         del st.session_state[key]
