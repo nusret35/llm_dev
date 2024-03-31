@@ -5,7 +5,7 @@ from utilities import *
 hide_sidebar()
 
 print("WARNING: Rerunning......")
-st.title("Preparing...")
+st.title("Almost There: Just 2 Minutes!")
 
 with st.spinner('Generating section summaries...'):
     uploaded_article = UploadedArticle()
