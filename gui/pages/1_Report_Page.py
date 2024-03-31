@@ -34,7 +34,6 @@ def create_images_section():
     for key,value in items:
         if value['image'] != None:
             st.image(image=value['image'])
-
         st.write(f"### {key}")
         st.write(value['explanation'])
         st.markdown('#')
@@ -99,9 +98,8 @@ div[class*="stSlider"] > label > div[data-testid="stMarkdownContainer"] > p {
     """, unsafe_allow_html=True)
 
 
-
-if st.button("Regenerate"):
-    st.switch_page('pages/2_Regenerate_Page.py')
+#if st.button("Regenerate"):
+#    st.switch_page('pages/2_Regenerate_Page.py')
 
 if st.button("Generate New Article"):
 

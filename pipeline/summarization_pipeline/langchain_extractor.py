@@ -18,6 +18,7 @@ class Langchain_Extractor:
         self.max_new_tokens = max_new_tokens
         self.min_new_tokens = min_new_tokens
         self.repetition_penalty = repetition_penalty
+
         
     def send_prompt(self, prompt, callback=None):
         load_dotenv()
@@ -31,6 +32,7 @@ class Langchain_Extractor:
             callback(response)
 
         return response
+    
     
     def summarize(self, section_text):
         prompt = f"""
@@ -48,6 +50,7 @@ class Langchain_Extractor:
 
         return response
     
+    
     def generate_title(self, insights, user_persona, user_purpose, callback=None):
         prompt = f"""
             From the given insights,
@@ -61,6 +64,7 @@ class Langchain_Extractor:
         """
         response = self.send_prompt(prompt,callback=callback)
         return response
+    
     
     def choose_images(self, insights, image_titles, user_persona, user_purpose):
         assert image_titles != ""
@@ -83,9 +87,9 @@ class Langchain_Extractor:
         """
         response = self.send_prompt(prompt)
         return response
+    
 
     def extract_insights(self, section_summaries, user_persona, user_purpose, regeneration, reason_for_regeneration,callback=None):
-
         prompt = f"""
             Provide insights about the article from the given summaries for each section of the article. This is the section summaries:
             {section_summaries}
