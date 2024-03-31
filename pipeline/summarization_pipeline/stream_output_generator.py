@@ -81,6 +81,7 @@ class Stream_Output_Generator:
         return response
 
     def choose_images(self, insights, image_titles, user_persona, user_purpose):
+        assert image_titles != ""
         prompt = f"""
             Choose the most important 3 images of the article using the image titles in the article and generated insights about the article. This is the image titles:
             {image_titles}
@@ -88,7 +89,7 @@ class Stream_Output_Generator:
             This is the insights:
             {insights}
 
-            Give the descriptions of the selected images in the following format:
+            Give the descriptions of the selected images in the given JSON format. Always include the commas:
             {{
                 "Fig./Table 1. Title": "string explanation",
                 "Fig./Table 2. Title": "string explanation",
@@ -98,8 +99,7 @@ class Stream_Output_Generator:
 
             Select these important images to be used for {user_purpose} by a/an {user_persona}.
         """
-        system_prompt = "You are a tool that selects the most important images."
-        response = self.send_prompt(prompt, system_prompt)
+        response = self.send_prompt(prompt)
         return response
 
 
@@ -121,9 +121,10 @@ if __name__ == "__main__":
     user_persona =  "Business Professional"
     # Get user's purpose for getting these insights
     user_purpose = "Business Strategy Development"
-    image_titles = "'Fig. 1. Overview of the Research Method (Page:4)\nFig. 2. Conceptual Model (Page:5)\nTable 1. Sample Characteristics (Page:6)\nTable 2. CFA Results (Page:7)\nTable 3. Construct Correlations and AVEs (Page:7)\nTable 4. MIIV-2SLS Results (Page:7)\nTable 5. Measurement Invariance (Page:9)\nTable 6. Results – Multi-group Analysis (from MLR estimation) (Page:9)\nTable 7. Mechanisms for Successful Relationship Management of a Business Cycle (BC) (Page:9)\nFig. 3. Relationship Marketing (RM) Strategies Matrix (Page:11)\n'"
+    #image_titles = "'Fig. 1. Overview of the Research Method (Page:4)\nFig. 2. Conceptual Model (Page:5)\nTable 1. Sample Characteristics (Page:6)\nTable 2. CFA Results (Page:7)\nTable 3. Construct Correlations and AVEs (Page:7)\nTable 4. MIIV-2SLS Results (Page:7)\nTable 5. Measurement Invariance (Page:9)\nTable 6. Results – Multi-group Analysis (from MLR estimation) (Page:9)\nTable 7. Mechanisms for Successful Relationship Management of a Business Cycle (BC) (Page:9)\nFig. 3. Relationship Marketing (RM) Strategies Matrix (Page:11)\n'"
     stream_output_generator = Stream_Output_Generator("13B")
     insights = stream_output_generator.extract_insights(section_summaries, user_persona, user_purpose, "", "")
+    image_titles = stream_output_generator.choose_images(insights)
     print()
     important_images = stream_output_generator.choose_images(insights,image_titles, user_persona, user_purpose)
     print()
