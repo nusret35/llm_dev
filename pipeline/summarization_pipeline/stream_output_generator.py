@@ -17,6 +17,7 @@ class Stream_Output_Generator:
         self.min_new_tokens = min_new_tokens
         self.repetition_penalty = repetition_penalty
 
+
     def send_prompt(self, prompt, sys_prompt=None,callback=None):
         response = ""
         load_dotenv()
@@ -41,8 +42,8 @@ class Stream_Output_Generator:
 
         return response
 
-    def extract_insights(self, section_summaries, user_persona, user_purpose, regeneration, reason_for_regeneration,callback=None):
 
+    def extract_insights(self, section_summaries, user_persona, user_purpose, regeneration, reason_for_regeneration,callback=None):
         prompt = f"""
             Provide insights about the article from the given summaries for each section of the article. This is the section summaries:
             {section_summaries}
@@ -66,6 +67,7 @@ class Stream_Output_Generator:
         response = self.send_prompt(prompt,callback=callback)
         return response
     
+
     def generate_title(self, insights, user_persona, user_purpose, callback=None):
         prompt = f"""
             From the given insights,
@@ -79,6 +81,7 @@ class Stream_Output_Generator:
         """
         response = self.send_prompt(prompt,callback=callback)
         return response
+
 
     def choose_images(self, insights, image_titles, user_persona, user_purpose):
         assert image_titles != ""

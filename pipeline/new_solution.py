@@ -209,6 +209,6 @@ class NewSolution:
 
 
 if __name__ == "__main__":
-    solution = NewSolution(pdf_path="/Users/nusretkizilaslan/Downloads/buss_article_2.pdf")
-    #solution = NewSolution(pdf_path="/Users/selinceydeli/Desktop/AIResearch/business-article-inputs/buss_article.pdf")
+    #solution = NewSolution(pdf_path="/Users/nusretkizilaslan/Downloads/buss_article_2.pdf")
+    solution = NewSolution(pdf_path="/Users/selinceydeli/Desktop/AIResearch/business-article-inputs/buss_article.pdf")
     solution.solution_pipeline()

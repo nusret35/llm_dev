@@ -4,8 +4,6 @@ from io import StringIO
 from utilities import *
 from structures import UploadedArticle
 
-
-
 ########  INITIALIZATON  ########
 
 
@@ -19,7 +17,6 @@ st.set_page_config(
 _ = """
     To start the app, run ``` streamlit run Hello.py ```
 """
-
 
 hide_sidebar()
 
@@ -38,13 +35,11 @@ st.markdown(
 
 pdf_file = st.file_uploader("Choose a PDF file", accept_multiple_files=False, type='pdf')
 
-
 uploaded_article = UploadedArticle() 
 
 if pdf_file:
     print(pdf_file)
     uploaded_article.set_pdf_file(pdf_bytes=pdf_file.getvalue())
-
 
 col1, col2 = st.columns(2)
 
@@ -63,5 +58,3 @@ uploaded_article.set_usage(usage=usage)
 
 if st.button("Let's get started",disabled= pdf_file == None):
     st.switch_page('pages/3_Loading_Page.py')
-
-

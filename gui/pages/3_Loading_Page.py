@@ -17,5 +17,3 @@ with st.spinner('Generating section summaries...'):
     report.generate_report()
 
     st.switch_page('pages/1_Report_Page.py')
-
-

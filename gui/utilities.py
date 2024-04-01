@@ -84,7 +84,6 @@ def create_report(title, insights, images_and_explanations, output_filename):
 
 
 if __name__ == "__main__":
-
     # Example usage:
     title = "Monthly Report Monthly Report Monthly Report Monthly Report Monthly Report Monthly Report"
     insights = [

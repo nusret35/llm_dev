@@ -62,7 +62,7 @@ class Langchain_Extractor:
 
             Generate this title to be used for {user_purpose} by a/an {user_persona}.
         """
-        response = self.send_prompt(prompt,callback=callback)
+        response = self.send_prompt(prompt, callback=callback)
         return response
     
     
@@ -89,7 +89,7 @@ class Langchain_Extractor:
         return response
     
 
-    def extract_insights(self, section_summaries, user_persona, user_purpose, regeneration, reason_for_regeneration,callback=None):
+    def extract_insights(self, section_summaries, user_persona, user_purpose, regeneration, reason_for_regeneration, callback=None):
         prompt = f"""
             Provide insights about the article from the given summaries for each section of the article. This is the section summaries:
             {section_summaries}
@@ -108,9 +108,9 @@ class Langchain_Extractor:
 
             Generate these insights to be used for {user_purpose} by a/an {user_persona}.
         """
-        # system_prompt = "You are a tool that generates insights."
+        #system_prompt = "You are a tool that generates insights."
         assert section_summaries != ""
-        response = self.send_prompt(prompt,callback=callback)
+        response = self.send_prompt(prompt, callback=callback)
         return response
     
     

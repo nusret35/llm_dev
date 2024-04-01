@@ -5,7 +5,6 @@ from utilities import *
 st.set_page_config(page_title="Regenerate Report",layout="wide")
 hide_sidebar()
 
-
 st.title("Regenerate Report")
 
 st.markdown("#### Please let us know why you're requesting a regeneration of the insights extracted from the scholarly article. Your feedback is valuable in helping us improve.")
@@ -36,7 +35,6 @@ else:
     else:
         if other_reason != "":
             is_disabled = False
-
 
 st.button(
     "Regenerate",
