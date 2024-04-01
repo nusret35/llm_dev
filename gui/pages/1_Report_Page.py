@@ -73,7 +73,7 @@ def create_insights_and_title():
     st.write('##')
     st.markdown(
         """
-        <span style="font-size: larger; font-weight: bold;">
+        <span style="font-size: larger; font-style: italic; text-decoration: underline;">
             The images selected from the article and their explanations serve to deepen the comprehension of the insights provided. 
             Please consider reviewing these visual aids to gain a fuller understanding of the content.
         </span>
