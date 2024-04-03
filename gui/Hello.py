@@ -2,13 +2,17 @@ import streamlit as st
 import pandas as pd
 from io import StringIO
 from utilities import *
-from structures import UploadedArticle
+from structures import UploadedArticle, Report
+
 
 ########  INITIALIZATON  ########
+uploaded_article = UploadedArticle()
+report = Report()
 
+uploaded_article.delete_article()
+report.delete_report()
 
 ########  FUNCTIONS  ########
-
 st.set_page_config(
     page_title="Insight Extractor",
     layout="wide",
@@ -35,7 +39,6 @@ st.markdown(
 
 pdf_file = st.file_uploader("Choose a PDF file", accept_multiple_files=False, type='pdf')
 
-uploaded_article = UploadedArticle() 
 
 if pdf_file:
     print(pdf_file)

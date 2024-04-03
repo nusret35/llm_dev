@@ -92,6 +92,7 @@ class Report(metaclass=Singleton):
                                         reason_for_regeneration="",
                                         callback=cls._update_insights)
         
+        
         print(insights)
 
         cls._images_and_explanations = solution.generate_image_explanations(insights,
@@ -115,6 +116,14 @@ class Report(metaclass=Singleton):
                                     output_filename="report.pdf")
 
         return pdf_data
+    
+    @classmethod
+    def delete_report(cls):
+        cls._title = ""
+        cls._insights = []
+        cls._images_and_explanations = {}
+        cls._is_insight_generation_called = False 
+        cls._insights_ready_event = threading.Event()
 
 class UploadedArticle(metaclass=Singleton):
     _section_summaries = ""
@@ -160,6 +169,14 @@ class UploadedArticle(metaclass=Singleton):
         solution = NewSolution(pdf_file_bytes=cls._pdf_file_bytes)
         cls._section_summaries = solution.generate_summary()
         return cls._section_summaries
+
+    @classmethod
+    def delete_article(cls):
+        cls._section_summaries = ""
+        cls._pdf_file_bytes = None
+        cls._found_images = {}
+        cls._occupation = ""
+        cls._usage = ""
         
 
 if __name__ == '__main__':
