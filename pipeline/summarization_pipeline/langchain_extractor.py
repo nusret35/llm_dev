@@ -21,11 +21,11 @@ class Langchain_Extractor:
         self.repetition_penalty = repetition_penalty
 
         
-    def send_prompt(self, prompt, callback=None):
+    def send_prompt(self, prompt, max_new_token=500,callback=None):
         load_dotenv()
         llm = Replicate(
             model=self.model,
-            model_kwargs={"top_p": self.top_p, "max_tokens": self.max_new_tokens, "temperature": self.temperature, "min_new_tokens": self.min_new_tokens, "repetition_penalty": self.repetition_penalty}
+            model_kwargs={"top_p": self.top_p, "max_tokens": max_new_token, "temperature": self.temperature, "min_new_tokens": self.min_new_tokens, "repetition_penalty": self.repetition_penalty}
         )
         response = llm(prompt)
 
@@ -63,7 +63,7 @@ class Langchain_Extractor:
                 "title": "title string"
             }}
         """
-        response = self.send_prompt(prompt, callback=callback)
+        response = self.send_prompt(prompt, max_new_token=100,callback=callback)
         return response
     
     
@@ -110,7 +110,7 @@ class Langchain_Extractor:
         """
         #system_prompt = "You are a tool that generates insights."
         assert section_summaries != ""
-        response = self.send_prompt(prompt, callback=callback)
+        response = self.send_prompt(prompt, max_new_token=800,callback=callback)
         return response
     
     
