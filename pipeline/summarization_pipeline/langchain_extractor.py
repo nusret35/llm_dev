@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 from langchain.llms import Replicate
 from .article_parser import shorten_text
 
+
 class Langchain_Extractor:
     def __init__(self, model, top_p=0.95, temperature=0.5, max_new_tokens=500, min_new_tokens=-1, repetition_penalty=1.15):
         model_dict = {
