@@ -55,12 +55,12 @@ class Langchain_Extractor:
         prompt = f"""
             From the given insights,
             {insights}
-            provide a title. Output should be in the following format: 
+            provide a title. Generate this title to be used for {user_purpose} by a/an {user_persona}.
+
+            Output should be in the following format: 
             {{
                 "title": "title string"
             }}
-
-            Generate this title to be used for {user_purpose} by a/an {user_persona}.
         """
         response = self.send_prompt(prompt, callback=callback)
         return response
@@ -75,15 +75,16 @@ class Langchain_Extractor:
             This is the insights:
             {insights}
 
+            Do not include any introductory sentence.
+
+            Select these important images to be used for {user_purpose} by a/an {user_persona}.
+
             Give the descriptions of the selected images in the given JSON format. Always include the commas:
             {{
                 "Fig./Table 1. Title": "string explanation",
                 "Fig./Table 2. Title": "string explanation",
                 "Fig./Table 3. Title": "string explanation"
             }}
-            Do not include any introductory sentence.
-
-            Select these important images to be used for {user_purpose} by a/an {user_persona}.
         """
         response = self.send_prompt(prompt)
         return response
@@ -94,19 +95,17 @@ class Langchain_Extractor:
             Provide insights about the article from the given summaries for each section of the article. This is the section summaries:
             {section_summaries}
 
-            Give the insights in the following format:
-
-            * insight 1
-            * insight 2
-            * insight 3
-            * insight 4
-            ...
-
-            Do not include any introductory sentence.
-
-            Do not include incomplete sentences.
+            Do not include any introductory sentence. Do not include incomplete sentences.
 
             Generate these insights to be used for {user_purpose} by a/an {user_persona}.
+
+            Give the insights in the following format:
+
+            * insight 1 
+            * insight 2 
+            * insight 3 
+            * insight 4
+            ...
         """
         #system_prompt = "You are a tool that generates insights."
         assert section_summaries != ""
