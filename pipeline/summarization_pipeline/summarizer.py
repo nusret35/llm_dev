@@ -1,7 +1,7 @@
 from .replicate_embeddings import ReplicateEmbeddings
 from nltk.cluster import KMeansClusterer
 import nltk
-from typing import Any, Dict, List, Optional
+from typing import Any
 from scipy.spatial import distance_matrix
 import pandas as pd
 import numpy as np

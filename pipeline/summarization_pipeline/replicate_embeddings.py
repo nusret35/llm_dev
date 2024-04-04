@@ -1,9 +1,6 @@
-import nltk
 from dotenv import load_dotenv
-from typing import Any, Dict, List, Optional
+from typing import Dict, List
 import replicate
-import pandas as pd
-import numpy as np
 
 
 class ReplicateEmbeddings:
