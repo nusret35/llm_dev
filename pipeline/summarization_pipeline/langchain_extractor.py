@@ -2,21 +2,60 @@ import os
 import json
 from dotenv import load_dotenv
 from langchain.llms import Replicate
+from langchain.chains import LLMChain
+from langchain_core.prompts import PromptTemplate
+from langchain_openai import OpenAI
 from .article_parser import shorten_text
 from datetime import datetime
 import time
 
+class LLMModel():
+    def __init__(self):
+        pass
+
+    def to_serializable(self):
+        return self.__str__()
+    
+class LLAMA2(LLMModel):
+    def __init__(self):
+        pass
+
+class LLAMA2_70B(LLAMA2):
+    def __init__(self):
+        pass
+
+    def __str__(self):
+        return "meta/llama-2-70b-chat:2d19859030ff705a87c746f7e96eea03aefb71f166725aee39692f1476566d48"
+
+class LLAMA2_13B(LLAMA2):
+    def __init__(self):
+        pass
+    
+    def __str__(self):
+        return "meta/llama-2-13b-chat:f4e2de70d66816a838a89eeeb621910adffb0dd0baba3976c96980970978018d"
+
+class GPT(LLMModel):
+    def __init__(self):
+        pass
+    
+class GPT3_5(GPT):
+    def __init__(self):
+        pass
+
+    def __str__(self):
+        return "gpt-3.5-turbo"
+    
+class GPT4(GPT):
+    def __init__(self):
+        pass
+    
+    def __str__(self):
+        return "gpt-4-turbo"
+        
 
 class Langchain_Extractor:
-    def __init__(self, model, top_p=0.95, temperature=0.5, max_new_tokens=500, min_new_tokens=-1, repetition_penalty=1.15):
-        model_dict = {
-            '70B':'meta/llama-2-70b-chat:2d19859030ff705a87c746f7e96eea03aefb71f166725aee39692f1476566d48',
-            '13B':'meta/llama-2-13b-chat:f4e2de70d66816a838a89eeeb621910adffb0dd0baba3976c96980970978018d'
-        }
-        if model in model_dict:
-            self.model = model_dict[model]
-        else:
-            self.model = model_dict['70B']
+    def __init__(self, model:LLMModel, top_p=0.95, temperature=0.5, max_new_tokens=500, min_new_tokens=-1, repetition_penalty=1.15):
+        self.model = model
         self.top_p = top_p
         self.temperature = temperature
         self.max_new_tokens = max_new_tokens
@@ -25,7 +64,7 @@ class Langchain_Extractor:
         self.time = 0.0
 
         self.log = {
-            'model':model,
+            'model':model.to_serializable(), # Store model as a serializable string
             'top_p':self.top_p,
             'temperature':self.temperature,
             'max_new_tokens':self.max_new_tokens,
@@ -34,12 +73,8 @@ class Langchain_Extractor:
         }
         # Add a timestamp to the log
         self.log['timestamp'] = self.get_timestamp()
-        if model in model_dict:
-            self.model = model_dict[model]
-        else:
-            self.model = model_dict['70B']
     
-    
+
     def get_timestamp(self):
         # Generate a timestamp in the format "DD/MM/YYYY HH:MM"
         return datetime.now().strftime("%d/%m/%Y %H:%M")
@@ -47,10 +82,17 @@ class Langchain_Extractor:
         
     def send_prompt(self, prompt, max_new_token=500,callback=None):
         load_dotenv()
-        llm = Replicate(
-            model=self.model,
-            model_kwargs={"top_p": self.top_p, "max_tokens": max_new_token, "temperature": self.temperature, "min_new_tokens": self.min_new_tokens, "repetition_penalty": self.repetition_penalty}
-        )
+        llm = None
+        if isinstance(self.model,LLAMA2):
+            llm = Replicate(
+                model=str(self.model),
+                model_kwargs={"top_p": self.top_p, "max_tokens": max_new_token, "temperature": self.temperature, "min_new_tokens": self.min_new_tokens, "repetition_penalty": self.repetition_penalty}
+            )
+        elif isinstance(self.model,GPT):
+            llm = LLMChain(llm=OpenAI(model=str(self.model)))
+
+        assert llm != None
+        
         start_time = time.perf_counter()
         response = llm(prompt)
         end_time = time.perf_counter()
