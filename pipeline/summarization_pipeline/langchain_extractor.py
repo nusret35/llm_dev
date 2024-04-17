@@ -1,19 +1,27 @@
 import os
 from dotenv import load_dotenv
 from langchain.llms import Replicate
+from langchain.chains import LLMChain
+from langchain_core.prompts import PromptTemplate
+from langchain_openai import OpenAI
 from .article_parser import shorten_text
+from enum import Enum
+
+class LLMModel(Enum):
+    pass    
+    
+class LLAMA2(LLMModel):
+    LLAMA2_70B = "meta/llama-2-70b-chat:2d19859030ff705a87c746f7e96eea03aefb71f166725aee39692f1476566d48",
+    LLAMA2_13B = "meta/llama-2-13b-chat:f4e2de70d66816a838a89eeeb621910adffb0dd0baba3976c96980970978018d"
+
+class GPT(LLMModel):
+    GPT3_5 = "gpt-3.5-turbo",
+    GPT4 = "gpt-4-turbo"
 
 
 class Langchain_Extractor:
-    def __init__(self, model, top_p=0.95, temperature=0.5, max_new_tokens=500, min_new_tokens=-1, repetition_penalty=1.15):
-        model_dict = {
-            '70B':'meta/llama-2-70b-chat:2d19859030ff705a87c746f7e96eea03aefb71f166725aee39692f1476566d48',
-            '13B':'meta/llama-2-13b-chat:f4e2de70d66816a838a89eeeb621910adffb0dd0baba3976c96980970978018d'
-        }
-        if model in model_dict:
-            self.model = model_dict[model]
-        else:
-            self.model = model_dict['70B']
+    def __init__(self, model:LLMModel, top_p=0.95, temperature=0.5, max_new_tokens=500, min_new_tokens=-1, repetition_penalty=1.15):
+        self.model = model
         self.top_p = top_p
         self.temperature = temperature
         self.max_new_tokens = max_new_tokens
@@ -23,16 +31,21 @@ class Langchain_Extractor:
         
     def send_prompt(self, prompt, max_new_token=500,callback=None):
         load_dotenv()
-        llm = Replicate(
-            model=self.model,
-            model_kwargs={"top_p": self.top_p, "max_tokens": max_new_token, "temperature": self.temperature, "min_new_tokens": self.min_new_tokens, "repetition_penalty": self.repetition_penalty}
-        )
+        if type(self.model) == LLAMA2:
+            llm = Replicate(
+                model=self.model.value,
+                model_kwargs={"top_p": self.top_p, "max_tokens": max_new_token, "temperature": self.temperature, "min_new_tokens": self.min_new_tokens, "repetition_penalty": self.repetition_penalty}
+            )
+        elif type(self.model) == GPT:
+            llm = LLMChain(llm=OpenAI(model=self.model.value))
+
         response = llm(prompt)
 
         if callback:
             callback(response)
 
         return response
+    
     
     
     def summarize(self, section_text):
@@ -110,7 +123,7 @@ class Langchain_Extractor:
         """
         #system_prompt = "You are a tool that generates insights."
         assert section_summaries != ""
-        response = self.send_prompt(prompt, max_new_token=800,callback=callback)
+        response = self.send_prompt(prompt, max_new_token=1200,callback=callback)
         return response
     
     

@@ -91,6 +91,7 @@ class Report(metaclass=Singleton):
                                         regeneration=False,
                                         reason_for_regeneration="",
                                         callback=cls._update_insights)
+    
         
         
         print(insights)
