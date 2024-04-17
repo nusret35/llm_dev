@@ -8,7 +8,6 @@ import numpy as np
 from .sections import introduction, discussion
 
 class Summarizer:
-
     def _distance_from_centroid(self,row) -> Any:
         #type of emb and centroid is different, hence using tolist below 
         return distance_matrix([row['embeddings']], [row['centroid'].tolist()])[0][0]
