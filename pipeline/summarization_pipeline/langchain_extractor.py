@@ -1,4 +1,4 @@
-import os
+import os.path
 import json
 from dotenv import load_dotenv
 from langchain.llms import Replicate
@@ -195,14 +195,16 @@ class Langchain_Extractor:
     def close(self):
         self.log['runtime (s)'] = self.time
         self.log['closing_timestamp'] = self.get_timestamp()
-        json_file_name = "greenness_test.json"
+        my_path = os.path.abspath(os.path.dirname(__file__))
+        path = os.path.join(my_path, "../../greenness_test.json")
+
         # Read the existing JSON data from the file
-        with open(json_file_name, 'r') as json_file:
+        with open(path, 'r') as json_file:
             existing_data = json.load(json_file)
 
         # Append the new dictionary to the existing list
         existing_data.append(self.log)
 
         # Write the updated list back to the JSON file
-        with open(json_file_name, 'w') as json_file:
+        with open(path, 'w') as json_file:
             json.dump(existing_data, json_file, indent=2)

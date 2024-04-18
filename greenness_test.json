@@ -150,4 +150,28 @@
     "closing_timestamp": "17/04/2024 23:18"
   },
   {
-    "model": 
+    "model": "meta/llama-2-13b-chat:f4e2de70d66816a838a89eeeb621910adffb0dd0baba3976c96980970978018d",
+    "top_p": 0.95,
+    "temperature": 0.5,
+    "max_new_tokens": 500,
+    "min_new_tokens": -1,
+    "repetition_penalty": 1.15,
+    "timestamp": "18/04/2024 16:07",
+    "runtime (s)": 0.0,
+    "closing_timestamp": "18/04/2024 16:09"
+  },
+  {
+    "model": "meta/llama-2-70b-chat:2d19859030ff705a87c746f7e96eea03aefb71f166725aee39692f1476566d48",
+    "top_p": 0.95,
+    "temperature": 0.5,
+    "max_new_tokens": 500,
+    "min_new_tokens": -1,
+    "repetition_penalty": 1.15,
+    "timestamp": "18/04/2024 16:07",
+    "extract_insights": " * Insight 1: The article highlights the importance of business-to-business (B2B) relationships during economic uncertainty, specifically during times of economic crisis and recovery. It emphasizes the need for suppliers to adopt relationship marketing (RM) strategies to manage long-term B2B relationships effectively.\n* Insight 2: The study identifies three key relational mechanisms - communication openness, technical involvement, and customer value anticipation - that influence the performance outcomes of B2B relationships during economic fluctuations. These mechanisms can help suppliers leverage their B2B relationships and achieve better performance outcomes.\n* Insight 3: The findings of the study suggest that large size, market leader suppliers can effectively survive and thrive through a BC via distinct RM mechanisms. This indicates that larger, more established suppliers may have an advantage in maintaining successful B2B relationships during economic uncertainty.\n* Insight 4: The study demonstrates that managing B2B relationships during a BC requires a different approach than managing relationships during times of economic expansion. Suppliers must adapt their RM strategies to address the unique challenges and opportunities presented by each phase of the business cycle.\n* Insight 5: The research extends BC marketing literature outside of the often-used U.S. environment, providing insights into how B2B relationships can be managed successfully in emerging markets. This is particularly relevant given the increasing importance of emerging markets in the global economy.\n* Insight 6: The study highlights the importance of top management compatibility and customer value anticipation in B2B relationships during times of economic crisis. Suppliers should prioritize building strong relationships with their customers' top management and focus on delivering exceptional value to maintain long-term partnerships.\n* Insight 7: During times of economic contraction, technical involvement has a negative influence on both price and expectation of continuity and a positive influence on reducing the cost-to-serve customers. Suppliers should focus on developing efficient and effective technical solutions to minimize costs and improve customer satisfaction.\n* Insight 8: In contrast, during times of recovery/expansion, the emphasis shifts from cost reduction to growing profitability. Suppliers should focus on developing innovative solutions that meet customers'",
+    "image_selection": " {\n\"Fig. 1. Overview of the Research Method\": \"Provides an outline of the research methodology used in the study, including the sample characteristics and data collection methods.\",\n\"Table 3. Construct Correlations and AVEs\": \"Presents the correlations and average variance extracted (AVE) values for the constructs in the study, which demonstrates the strength of the relationships between the variables and the extent to which they are related to each other.\",\n\"Fig. 3. Relationship Marketing (RM) Strategies Matrix\": \"Illustrates the RM strategies matrix developed through factor analysis, which identifies three key relational mechanisms - communication openness, technical involvement, and customer value anticipation - that influence the performance outcomes of B2B relationships during economic fluctuations.\"\n}",
+    "title": " {\n\"title\": \"Navigating Business-to-Business Relationships Through Economic Uncertainty: Insights from the Perspective of Suppliers\"\n}",
+    "runtime (s)": 109.1859164990019,
+    "closing_timestamp": "18/04/2024 16:09"
+  }
+]
