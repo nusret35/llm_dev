@@ -11,7 +11,7 @@ class NewSolution:
         self.pdf_path = pdf_path
         self.pdf_file_bytes = pdf_file_bytes
         self.greenness_input = 0 # Corresponds to 500 max_new_tokens
-        self.stream_generator_70B_model, self.stream_generator_13B_model, self.langchain_extractor_70B_model, self.langchain_extractor_13B_model, self.max_tokens = configure_models(self.greenness_input)
+        self.langchain_extractor_70B_model, self.langchain_extractor_13B_model, self.max_tokens = configure_models(self.greenness_input)
 
         if pdf_path == None and pdf_file_bytes == None:
             raise RuntimeError('No pdf_path or pdf_file is given as parameter.')
@@ -20,7 +20,7 @@ class NewSolution:
         else:
             self.pdf_file = Document(stream=self.pdf_file_bytes,filetype="pdf")
 
-
+    
     def preprocess_response(self, text):
         # Find the positions of the first '{' and the last '}'
         start_pos = text.find('{')
@@ -76,7 +76,7 @@ class NewSolution:
         for key, value in critical_section_information.items():
             print(key)
 
-        # Summarizing important sections (using LLaMA 2 70B model)
+        # Summarizing important sections by using embeddings 
         summarized_sections = {}
         logging.debug(f"{critical_section_information.items()}")
         for section_name, section_text in critical_section_information.items():
@@ -167,51 +167,8 @@ class NewSolution:
         joined_dict = join_dictionaries(important_images,image_title_pairs)
 
         return joined_dict
+    
 
-
-    def solution_pipeline(self):
-        # Regeneration of Extracted Insights Option
-        regeneration = 0 # if regeneration is requested by the user
-        reason_for_regeneration = ""
-        if regeneration:
-            reason_for_regeneration = "Not actionable – The insights didn't provide clear next steps or actionable information."
-
-        # Get user persona
-        user_persona =  "Business Professional"
-        # Get user's purpose for getting these insights
-        user_purpose = "Business Strategy Development"
-
-        #section_summaries = self.generate_summary()
-
-        # Insights extraction and title generation steps are equipped with advanced prompt engineering
-        # Prompts are made unique based on user persona and user's purpose for using the insights
-        #insights = self.generate_insights(section_summaries, user_persona, user_purpose, regeneration, reason_for_regeneration)
-        #print(insights,"\n")
-
-        insights = """
-            1) The article provides insights into how businesses can navigate economic downturns and recoveries by fostering communication, involvement, and value anticipation between buyers and sellers.
-
-            2) The study identifies key relationship process mechanisms, including communication openness, technical involvement, and customer value anticipation, which have direct and indirect effects on supplier performance.
-
-            3) The authors propose a 2x3 matrix with six quadrants, each representing a different combination of RM mechanisms that companies can use to achieve their goals during times of economic crisis and recovery.
-
-            4) The article highlights the importance of considering forward-looking measures such as customer lifetime value when investing in relationships.
-
-            5) The study extends the dark side of B2B relationships' theoretical underpinnings by showing how the inherent tension created in a BC can be managed by RM mechanisms.
-
-            6) The findings offer directions for suppliers on how to leverage B2B relationships through a BC, and indicate that supplier’s performance is influenced differently by RM mechanisms during times of economic crisis versus times of recovery/expansion.
-
-            7) The article addresses a gap in current research and provides valuable insights for firms operating in emerging economies, contributing to both RM and BC literature.
-        """
-
-        #title = self.generate_title(insights, user_persona, user_purpose)
-        title = "test"
-        print(title)
-        important_images = self.generate_image_explanations(insights, user_persona, user_purpose)
-        print(important_images)
-
-
-if __name__ == "__main__":
-    #solution = NewSolution(pdf_path="/Users/nusretkizilaslan/Downloads/buss_article_2.pdf")
-    solution = NewSolution(pdf_path="/Users/selinceydeli/Desktop/AIResearch/business-article-inputs/buss_article.pdf")
-    solution.solution_pipeline()
+    def close_models(self):
+        self.langchain_extractor_13B_model.close()
+        self.langchain_extractor_70B_model.close()

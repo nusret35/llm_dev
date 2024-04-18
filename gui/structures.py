@@ -28,7 +28,7 @@ class Report(metaclass=Singleton):
     _is_insight_generation_called = False 
     _insights_ready_event = threading.Event()
 
-    def __call__(cls,section_summaries="",title="",insights=[], images_and_explanations = {}):
+    def __call__(cls, section_summaries="",title="",insights=[], images_and_explanations = {}):
         cls._section_summaries = section_summaries
         cls._title = title
         cls._insights = insights
@@ -36,7 +36,7 @@ class Report(metaclass=Singleton):
     
     def __delattr__(cls, __name: str) -> None:
         cls._is_insight_generation_called = False
-
+    
     @classmethod
     def get_title(cls):
         cls._insights_ready_event.wait() 
@@ -63,6 +63,12 @@ class Report(metaclass=Singleton):
     @classmethod
     def get_images(cls):
         return cls._images_and_explanations
+    
+    @classmethod
+    def _remove_unfinished_sentence(cls, text):
+        last_dot = text.rfind('.')
+        clean_text = text[:last_dot+1]
+        return clean_text
 
     @classmethod
     def _update_title(cls,event):
@@ -77,6 +83,8 @@ class Report(metaclass=Singleton):
             else:
                 if len(cls._insights) > 0:
                     cls._insights[-1] += char
+        if len(cls._insights) != 0:
+            cls._insights[-1] = cls._remove_unfinished_sentence(cls._insights[-1])
 
     @classmethod
     def generate_report(cls):
@@ -108,6 +116,9 @@ class Report(metaclass=Singleton):
                                         )
         
         print(cls._title)
+
+        solution.close_models()
+        
 
     @classmethod
     def generate_pdf(cls):
