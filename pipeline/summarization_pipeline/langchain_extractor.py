@@ -51,7 +51,14 @@ class GPT4(GPT):
     
     def __str__(self):
         return "gpt-4-turbo"
-        
+    
+class Mistral(LLMModel):
+    def __init__(self):
+        pass
+    
+    def __str__(self):
+            return "mistralai/mixtral-8x7b-instruct-v0.1:5d78bcd7a992c4b793465bcdcf551dc2ab9668d12bb7aa714557a21c1e77041c"
+
 
 class Langchain_Extractor:
     def __init__(self, model:LLMModel, top_p=0.95, temperature=0.5, max_new_tokens=500, min_new_tokens=-1, repetition_penalty=1.15):
@@ -74,15 +81,14 @@ class Langchain_Extractor:
         # Add a timestamp to the log
         self.log['timestamp'] = self.get_timestamp()
     
-
     def get_timestamp(self):
         # Generate a timestamp in the format "DD/MM/YYYY HH:MM"
         return datetime.now().strftime("%d/%m/%Y %H:%M")
 
-    def send_prompt(self, prompt, max_new_token=500,callback=None):
+    def send_prompt(self, prompt, max_new_token=500, callback=None):
         load_dotenv()
         llm = None
-        if isinstance(self.model,LLAMA2):
+        if isinstance(self.model,LLAMA2) or isinstance(self.model,Mistral):
             llm = Replicate(
                 model=str(self.model),
                 model_kwargs={"top_p": self.top_p, "max_tokens": max_new_token, "temperature": self.temperature, "min_new_tokens": self.min_new_tokens, "repetition_penalty": self.repetition_penalty}

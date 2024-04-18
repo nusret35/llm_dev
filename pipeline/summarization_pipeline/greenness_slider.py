@@ -2,9 +2,11 @@
 # 5 options
 # greenness = {0, 0.25, 0.5, 0.75, 1.0}
 
-from .langchain_extractor import Langchain_Extractor, LLAMA2_70B, LLAMA2_13B
+from .langchain_extractor import Langchain_Extractor, LLAMA2_70B, LLAMA2_13B, Mistral
 
 def configure_models(greenness_input):
+
+    extractor_dict = {}
 
     if greenness_input == 0:
         max_tokens = 500
@@ -21,5 +23,10 @@ def configure_models(greenness_input):
 
     langchain_extractor_70B_model = Langchain_Extractor(model=LLAMA2_70B(), max_new_tokens=max_tokens)
     langchain_extractor_13B_model = Langchain_Extractor(model=LLAMA2_13B(), max_new_tokens=max_tokens)
+    langchain_extractor_mistral = Langchain_Extractor(model=Mistral(), max_new_tokens=max_tokens)
 
-    return langchain_extractor_70B_model, langchain_extractor_13B_model, max_tokens
+    extractor_dict["llama_70B"] = langchain_extractor_70B_model
+    extractor_dict["llama_13B"] = langchain_extractor_13B_model
+    extractor_dict["mistral"] = langchain_extractor_mistral
+
+    return extractor_dict, max_tokens
