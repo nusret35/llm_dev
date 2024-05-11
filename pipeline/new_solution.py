@@ -163,7 +163,13 @@ class NewSolution:
         print("\n\nImages are chosen by LLaMA model...")
         response_text = self.langchain_extractor_70B_model.choose_images(insights, image_titles, user_persona, user_purpose)
         clean_response = self.preprocess_response(response_text)
-        important_images = ast.literal_eval(clean_response)
+        important_images = None
+        try:
+            important_images = ast.literal_eval(clean_response)
+        except:
+            fixed_response = self.langchain_extractor_70B_model.fix_json_response(clean_response)
+            important_images = ast.literal_eval(fixed_response)
+            
         joined_dict = join_dictionaries(important_images,image_title_pairs)
 
         return joined_dict
