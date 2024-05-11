@@ -20,6 +20,10 @@ class LLAMA2(LLMModel):
     def __init__(self):
         pass
 
+class LLAMA3(LLMModel):
+    def __init__(self):
+        pass
+
 class LLAMA2_70B(LLAMA2):
     def __init__(self):
         pass
@@ -33,6 +37,14 @@ class LLAMA2_13B(LLAMA2):
     
     def __str__(self):
         return "meta/llama-2-13b-chat:f4e2de70d66816a838a89eeeb621910adffb0dd0baba3976c96980970978018d"
+    
+class LLAMA3_70B(LLAMA3):
+    def __init__(self):
+        pass
+
+    def __str__(self):
+        return "meta/meta-llama-3-70b-instruct:fbfb20b472b2f3bdd101412a9f70a0ed4fc0ced78a77ff00970ee7a2383c575d"
+
 
 class GPT(LLMModel):
     def __init__(self):
@@ -61,7 +73,7 @@ class Mistral(LLMModel):
 
 
 class Langchain_Extractor:
-    def __init__(self, model:LLMModel, top_p=0.95, temperature=0.5, max_new_tokens=500, min_new_tokens=-1, repetition_penalty=1.15):
+    def __init__(self, model:LLMModel, top_p=0.95, temperature=0.5, max_new_tokens=4000, min_new_tokens=-1, repetition_penalty=1.15):
         self.model = model
         self.top_p = top_p
         self.temperature = temperature
@@ -88,7 +100,7 @@ class Langchain_Extractor:
     def send_prompt(self, prompt, max_new_token=500, callback=None):
         load_dotenv()
         llm = None
-        if isinstance(self.model,LLAMA2) or isinstance(self.model,Mistral):
+        if isinstance(self.model,LLAMA2) or isinstance(self.model,LLAMA3):
             llm = Replicate(
                 model=str(self.model),
                 model_kwargs={"top_p": self.top_p, "max_tokens": max_new_token, "temperature": self.temperature, "min_new_tokens": self.min_new_tokens, "repetition_penalty": self.repetition_penalty}
@@ -125,7 +137,7 @@ class Langchain_Extractor:
         return response
     
     def generate_title(self, insights, user_persona, user_purpose, callback=None):
-        max_new_token_for_title = 100
+        max_new_token_for_title = 200
         prompt = f"""
             From the given insights,
             {insights}
@@ -139,7 +151,6 @@ class Langchain_Extractor:
         response = self.send_prompt(prompt, max_new_token=max_new_token_for_title, callback=callback)
         self.log['title'] = response
         return response
-    
     
     def choose_images(self, insights, image_titles, user_persona, user_purpose):
         max_new_token_for_images = 500
@@ -168,7 +179,7 @@ class Langchain_Extractor:
     
 
     def extract_insights(self, section_summaries, user_persona, user_purpose, regeneration, reason_for_regeneration, callback=None):
-        max_new_token_for_insights = 500
+        max_new_token_for_insights = 2000
         prompt = f"""
             Provide insights about the article from the given summaries for each section of the article. This is the section summaries:
             {section_summaries}
@@ -183,6 +194,8 @@ class Langchain_Extractor:
             * insight 2 
             * insight 3 
             * insight 4
+
+            Give minimum 6 insights
             ...
         """
         #system_prompt = "You are a tool that generates insights."
@@ -190,6 +203,27 @@ class Langchain_Extractor:
         response = self.send_prompt(prompt, max_new_token=max_new_token_for_insights, callback=callback)
         self.log['extract_insights'] = response
         return response
+
+    """
+    Method to fix the response and make it appropriate for parsing
+    """
+    def fix_json_response(self, response):
+        llm = Replicate(
+                model="meta/meta-llama-3-8b-instruct:5a6809ca6288247d06daf6365557e5e429063f32a21146b2a807c682652136b8",
+                model_kwargs={"top_p": self.top_p, "max_tokens": 1000, "temperature": self.temperature, "min_new_tokens": self.min_new_tokens, "repetition_penalty": self.repetition_penalty}
+            )
+        
+        prompt = f"""You are a tool that converts inproper json texts into proper json formats.\n You DO NOT ADD ANY INTRODUCTORY SENTENCES JUST RETURN THE PROPER JSON TEXT.\n
+        Here is the JSON text:\n {response} """
+
+        fixed_response = llm(prompt)
+        return fixed_response
+        """
+        fixed_response = response
+        if response[-2:] != "\"}":
+            fixed_response += "\"}"
+        return fixed_response
+        """
 
     """
     Method for logging the model results to the logs.json file

@@ -181,9 +181,9 @@
     "max_new_tokens": 500,
     "min_new_tokens": -1,
     "repetition_penalty": 1.15,
-    "timestamp": "18/04/2024 22:42",
+    "timestamp": "18/04/2024 16:19",
     "runtime (s)": 0.0,
-    "closing_timestamp": "18/04/2024 22:44"
+    "closing_timestamp": "18/04/2024 16:22"
   },
   {
     "model": "meta/llama-2-70b-chat:2d19859030ff705a87c746f7e96eea03aefb71f166725aee39692f1476566d48",
@@ -192,12 +192,12 @@
     "max_new_tokens": 500,
     "min_new_tokens": -1,
     "repetition_penalty": 1.15,
-    "timestamp": "18/04/2024 22:42",
-    "extract_insights": " * Insight 1: The choice of revenue model for digital services is critical for manufacturing companies transitioning towards digital servitization. Companies must assess their customers' digital readiness, evaluate digital service sophistication, and assess digital ecosystem partnerships before selecting a suitable revenue model.\n* Insight 2: Manufacturing companies face challenges in selecting appropriate revenue models that align with their digital servitization goals. Clarifying the distinctive features of subscription, usage-based, and performance-based revenue models can help companies choose revenue models that are in line with the value-capture dimensions of their business models.\n* Insight 3: Digital ecosystem partnerships play a crucial role in the provision, integration, and delivery of digital services. Ecosystem actors must collaborate to share data, build adequate infrastructure systems, and protect sensitive data from vulnerabilities. This collaboration facilitates digital servitization for processes such as co-creation, digital service creation, and risk sharing.\n* Insight 4: Assessing customers' digital readiness is essential for determining the type of digital service that meets their expectations and demands. Customers who are more advanced in their understanding of digital servitization and are open to long-term, flexible contractual agreements may be suitable for usage-based or performance-based revenue models.\n* Insight 5: Subscription models are suitable for delivering basic digital services, while usage-based and performance-based models are more appropriate for advanced digital services that require significant ecosystem collaboration. The choice of revenue model depends on factors such as customer digital readiness, digital service sophistication, and digital ecosystem partnerships.\n* Insight 6: The selection of revenue models for digital services should be flexible enough to allow negotiation with multiple actors and adapt to changes over time. Companies need to engage multi-actor participation in digital servitization processes to ensure successful implementation and maximize profit generation.",
-    "image_selection": " Sure! Based on the insights generated from the article, I have selected three images that I believe are most important for an academic researcher. Here are the descriptions of the selected images in the requested JSON format:\n\n{\n\"Fig. 1. Data structure and coding process\": \"Diagram illustrating the data structure and coding process used in the study, including the data sources, data preparation, and coding procedures.\",\n\"Fig. 2. Framework for the choice of revenue models for digital services\": \"Visual representation of the framework developed in the study for selecting revenue models for digital services, highlighting the key factors considered and their interrelationships.\",\n\"Table 2. Overview of studied cases and respondents\": \"Summary table providing an overview of the cases and respondents included in the study, including information about the companies, industries, and digital servitization initiatives.\"\n}",
-    "title": " {\n\"title\": \"Navigating Digital Servitization: A Framework for Selecting Revenue Models in Manufacturing\"\n}\n\nThis title reflects the main insights provided, which focus on the challenges manufacturing companies face when selecting revenue models for their digital services. The title emphasizes the importance of understanding customers' digital readiness, assessing digital service sophistication, and collaborating with ecosystem partners to choose a suitable revenue model that aligns with the company's digital servitization goals. The use of the word \"framework\" suggests a structured approach to navigating these complex decisions, making it an appropriate title for academic research.",
-    "runtime (s)": 90.05287600000156,
-    "closing_timestamp": "18/04/2024 22:44"
+    "timestamp": "18/04/2024 16:19",
+    "extract_insights": " * Insight 1: The article highlights the significance of managing business-to-business (B2B) relationships during economic fluctuations, as companies strive to survive and thrive through economic uncertainty.\n* Insight 2: The study emphasizes the importance of adopting a framework that can help suppliers leverage B2B relationships during economic swings. This framework should consider the dynamic nature of buyer\u2013seller relationships and extend beyond the traditional normative guidelines for managing industrial businesses.\n* Insight 3: The findings suggest that suppliers should focus on nurturing a system of mechanisms from long-term dyadic exchange, building over communication \u2192 interaction \u2192 value RM process. Investments in relationships need to consider forward-looking measures such as customer lifetime value.\n* Insight 4: The research demonstrates that large size, market leader suppliers can effectively survive and thrive through a BC via distinct RM mechanisms. Study 1 identifies key mechanisms of RM process (communication openness, technical involvement, and customer value anticipation) and performance outcomes (price, cost-to-serve, and expectation of relationship continuity) from the supplier\u2019s view.\n* Insight 5: Study 2 conducts a multi-group analysis, testing the model in times of recovery/expansion. The findings offer directions for suppliers on how to leverage B2B relationships through a BC. Particularly, the authors indicate that supplier\u2019s performance is influenced differently by RM mechanisms during times of economic crisis versus times of recovery/expansion.\n* Insight 6: The article extends the BC marketing literature outside the often-used U.S. environment, providing insights into B2B relationships in emerging economies. It also contributes to the dark side of B2B relationships\u2019 theoretical underpinnings by showing that the inherent tension created in a BC can be managed by RM mechanisms.",
+    "image_selection": " {\n               \"Fig. 1. Overview of the Research Method\": \"An overview of the research methodology used in the study, including the population, sample, data collection methods, and data analysis techniques.\",\n               \"Table 3. Construct Correlations and AVEs\": \"A table displaying the correlations between the constructs and the average variance extracted (AVE) values, which assess the degree to which each construct is related to the others and the amount of variance explained by each factor.\",\n               \"Fig. 3. Relationship Marketing Strategies Matrix\": \"A matrix illustrating the various relationship marketing strategies employed by suppliers to manage business-to-business relationships during economic fluctuations, including communication openness, technical involvement, customer value anticipation, and performance outcomes.\"\n           }\n\nThese three images were chosen because they provide a comprehensive understanding of the research methodology, the key findings, and the practical applications of the study. Fig. 1 sets the stage for the investigation by detailing the research design and procedures, while Table 3 highlights the relationships between the variables and the extent to which each construct accounts for the variation in the data. Lastly, Fig. 3 presents a visual representation of the relationship marketing strategies explored in the study, complete with a description of each approach and its associated outcomes. Together, these images offer an insightful glimpse into the world of B2B relationships during times of economic uncertainty.",
+    "title": " {\n               \"title\": \"Navigating Business-to-Business Relationships Through Economic Uncertainty: Leveraging Mechanisms for Success\"\n           }",
+    "runtime (s)": 189.17125995799142,
+    "closing_timestamp": "18/04/2024 16:22"
   },
   {
     "model": "meta/llama-2-13b-chat:f4e2de70d66816a838a89eeeb621910adffb0dd0baba3976c96980970978018d",
@@ -206,9 +206,9 @@
     "max_new_tokens": 500,
     "min_new_tokens": -1,
     "repetition_penalty": 1.15,
-    "timestamp": "18/04/2024 23:00",
+    "timestamp": "18/04/2024 16:19",
     "runtime (s)": 0.0,
-    "closing_timestamp": "18/04/2024 23:03"
+    "closing_timestamp": "18/04/2024 16:22"
   },
   {
     "model": "meta/llama-2-70b-chat:2d19859030ff705a87c746f7e96eea03aefb71f166725aee39692f1476566d48",
@@ -217,12 +217,12 @@
     "max_new_tokens": 500,
     "min_new_tokens": -1,
     "repetition_penalty": 1.15,
-    "timestamp": "18/04/2024 23:00",
-    "extract_insights": " * Insight 1: The COVID-19 pandemic has highlighted the importance of individual giving during times of crisis, with over 1 million fundraising campaigns started on GoFundMe alone, raising over $625 million from over 9 million donations.\n* Insight 2: Government policies have a significant impact on donation patterns during a pandemic. The study found that different government policy restrictions influenced campaign outcomes in terms of amount raised and number of campaigns promoted in six European countries.\n* Insight 3: Donors are more likely to give to campaigns that seem reliable and have a clear purpose, such as supporting hospitals or buying health materials. Organizers play a crucial role in assuring donors that their funds will be used effectively.\n* Insight 4: Public institutions can benefit from maintaining a reliability relationship with donors, as this allows them to obtain financial resources in the event of natural disasters or other crises. Transparency regulations can help ensure that donors receive financial reports on how their funds were used by the beneficiary.\n* Insight 5: The study's findings offer valuable insights to governments looking to encourage donations via fiscal incentives and policy restrictions. By understanding what motivates donors and how government policies can influence donation patterns, governments can create effective strategies for mobilizing resources during times of need.",
-    "image_selection": " {\n               \"Fig. 1. Comparison of covid-related GoFundMe campaign donations against official funding\": \"A graphical representation comparing the number of donations and amount raised through GoFundMe campaigns versus official funding for COVID-19 relief efforts.\",\n               \"Table 3. Total weekly amount raised by donation campaigns\": \"A table displaying the total weekly amount raised by donation campaigns from January 30, 2020, to November 24, 2021.\",\n               \"Fig. 5. Binary government policy restriction effect on donation, with idiosyncratic response\": \"A graph illustrating the impact of government policy restrictions on donations, highlighting the difference in response between countries with and without such restrictions.\"\n           }\n\nThese three images were chosen as they provide a visual representation of the article's key insights. Fig. 1 showcases the comparison between donations and official funding, highlighting the significance of individual giving during crises. Table 3 displays the total weekly amount raised by donation campaigns, emphasizing the scale of funds collected via crowdfunding platforms. Lastly, Fig. 5 illustrates how government policies can influence donation patterns, specifically demonstrating the contrast in responses between countries with and without policy restrictions. These images effectively convey the study's findings and offer valuable information for academic researchers interested in exploring the topic further.",
-    "title": " {\n               \"title\": \"Unlocking the Power of Individual Giving During Crises: Lessons Learned from the COVID-19 Pandemic and Government Policies\"\n           }",
-    "runtime (s)": 175.6316071249894,
-    "closing_timestamp": "18/04/2024 23:03"
+    "timestamp": "18/04/2024 16:19",
+    "extract_insights": " * Insight 1: The article highlights the significance of understanding business-to-business (B2B) relationships during economic crises and recoveries. It emphasizes that suppliers must adjust their strategies according to the economic situation to maintain long-term relationships with customers.\n* Insight 2: The study underscores the importance of interorganizational learning in B2B relationships. It suggests that organizations can enhance their understanding of the market's evolving nature through collaboration and knowledge sharing during times of economic uncertainty.\n* Insight 3: The paper proposes a model that explains relationship configurations revealing opportunities under economic uncertainty. It identifies key mechanisms of the RM process, such as communication openness, technical involvement, and customer value anticipation, which influence supplier performance differently during times of economic crisis versus recovery.\n* Insight 4: The findings suggest that large size, market leader suppliers can effectively survive and thrive through a BC via distinct RM mechanisms. This indicates that establishing strong communication channels and fostering customer value are crucial for B2B suppliers to navigate economic downturns successfully.\n* Insight 5: The study demonstrates that managing B2B relationships during a BC differs from managing them during times of economic expansion. Suppliers need to focus on building trust and fostering long-term partnerships during economic contractions, while prioritizing cost-oriented joint collaboration and gradually reducing involvement during recoveries.\n* Insight 6: The research supports metric invariance, allowing a meaningful comparison of slope differences across groups. This means that buyer\u2013seller relationships remain relevant during economic crises, and suppliers should maintain a positive impact on profitability while minimizing negative effects on cost-to-serve.\n* Insight 7: The article highlights the relevance of risk management in B2B relationships during economic crises. Suppliers must be aware of the risks associated with relationship dissolution and take steps to mitigate them by nurturing communication, involvement, and value anticipation mechanisms.\n* Insight 8: The study emphasizes the importance of adapting strategies according to the economic situation. During economic crises, suppliers should prioritize building trust and fostering long-term partnerships, while during recover",
+    "image_selection": " {\n               \"Fig. 1. Overview of the Research Method\": \"An overview of the research methodology used in the study, including the conceptual model and sample characteristics.\",\n               \"Table 3. Construct Correlations and AVEs\": \"A table displaying the construct correlations and average variance extracted (AVE) values for each construct in the study.\",\n               \"Fig. 3. Relationship Marketing Strategies Matrix\": \"A matrix illustrating the various relationship marketing strategies employed by suppliers in business-to-business relationships during economic crises and recoveries.\"\n           }\n\nThese three images were chosen because they provide a comprehensive understanding of the research methodology, the key findings, and the practical implications of the study. Fig. 1 gives an overview of the research methodology, Table 3 provides insight into the relationships between the constructs, and Fig. 3 offers a visual representation of the relationship marketing strategies employed by suppliers during economic crises and recoveries. Together, these images offer a holistic view of the study's findings and their practical applications.",
+    "title": " {\n\"title\": \"Navigating Business-to-Business Relationships Through Economic Uncertainty: Insights from a Comparative Study\"\n}",
+    "runtime (s)": 190.44401666600606,
+    "closing_timestamp": "18/04/2024 16:22"
   },
   {
     "model": "meta/llama-2-13b-chat:f4e2de70d66816a838a89eeeb621910adffb0dd0baba3976c96980970978018d",
@@ -231,11 +231,9 @@
     "max_new_tokens": 500,
     "min_new_tokens": -1,
     "repetition_penalty": 1.15,
-    "timestamp": "18/04/2024 23:09",
-    "image_selection": " Sure! Based on the article you provided, here are the three most important images and their explanations:\n\n{\n\"Fig. 1. Data structure and coding process\": \"The figure illustrates the data structure and coding process used in the study, providing a clear overview of the research methodology.\"\n,\" Fig. 2. Framework for the choice of revenue models for digital services\": \"The framework provides a comprehensive guide for companies to select appropriate revenue models based on customer digital readiness, digital service sophistication, and digital ecosystem partnerships.\"\n}\n\nThese",
-    "title": " Sure! Based on the insights provided, here is a suitable title for a business strategy development document:\n\n{\n\"title\": \"Digital Service Sophistication and Customer Digital Readiness: A Guide to Revenue Model Selection and Ecosystem Partnerships\"\n}",
-    "runtime (s)": 59.36002458297298,
-    "closing_timestamp": "18/04/2024 23:11"
+    "timestamp": "18/04/2024 16:26",
+    "runtime (s)": 0.0,
+    "closing_timestamp": "18/04/2024 16:28"
   },
   {
     "model": "meta/llama-2-70b-chat:2d19859030ff705a87c746f7e96eea03aefb71f166725aee39692f1476566d48",
@@ -244,21 +242,12 @@
     "max_new_tokens": 500,
     "min_new_tokens": -1,
     "repetition_penalty": 1.15,
-    "timestamp": "18/04/2024 23:09",
-    "extract_insights": " * Insight 1: The importance of choosing the right revenue model for digital services. Companies need to select an appropriate revenue model that aligns with their digital servitization goals. There are three types of revenue models: subscription-based, usage-based, and performance-based. Companies must assess their customers' digital readiness, evaluate the sophistication of their digital services, and consider digital ecosystem partnerships before selecting a suitable revenue model.\n* Insight 2: The significance of understanding customer digital readiness. Companies should identify their customers' level of digitization to determine the type of digital service that meets their expectations and demands. Customers can be either digitally immature or knowledgeable, and companies must tailor their revenue models accordingly. Digitally mature customers are open to long-term, flexible contractual agreements, while digitally immature customers require basic, simple solutions.\n* Insight 3: The role of digital service sophistication in revenue model selection. Digital service sophistication is associated with data integration, which enhances customers' business intelligence. Companies must evaluate the level of sophistication required for their digital services, as this will impact their choice of revenue model. More advanced digital services require more complex revenue models, such as performance-based models.\n* Insight 4: The importance of digital ecosystem partnerships. Companies need to collaborate with ecosystem actors to provide and develop digital services. Liberal data sharing permits collaboration among ecosystem actors, allowing them to gather precise data from diverse sources. This enables the provision of accurate digital services, such as life cycle management software, which requires permission for data access but needs limited collaboration between interfaces.\n* Insight 5: The need for a viable diagnosis of customers' digital readiness, digital service sophistication, and digital ecosystem partnerships. Companies face challenges in capturing the elements that are essential in assessing these three steps, as they are frequently interlinked. A common challenge is the reluctance of ecosystem actors to share data, which can compromise data security. To overcome this challenge, companies must work closely with ecosystem partners to co-develop digital services.",
-    "runtime (s)": 55.79294700000901,
-    "closing_timestamp": "18/04/2024 23:11"
-  },
-  {
-    "model": "mistralai/mixtral-8x7b-instruct-v0.1",
-    "top_p": 0.95,
-    "temperature": 0.5,
-    "max_new_tokens": 500,
-    "min_new_tokens": -1,
-    "repetition_penalty": 1.15,
-    "timestamp": "18/04/2024 23:09",
-    "runtime (s)": 0.0,
-    "closing_timestamp": "18/04/2024 23:11"
+    "timestamp": "18/04/2024 16:26",
+    "extract_insights": " * Insight 1: The article highlights the significance of relationship marketing (RM) and interorganizational learning theories in understanding buyer-seller relationships during economic uncertainty. RM mechanisms such as communication openness, technical involvement, and customer value anticipation can help suppliers navigate business-to-business (B2B) relationships during economic downturns.\n* Insight 2: The study emphasizes the importance of managing B2B relationships differently during times of economic contraction versus times of recovery/expansion. Unique patterns of RM mechanisms can transform tension created in a business cycle into effective learning for adapting the relationship during economic fluctuations.\n* Insight 3: Large size, market leader suppliers can effectively survive and thrive through a business cycle via distinct RM mechanisms. The process approach follows a temporal structure, increasing managerial relevance.\n* Insight 4: During times of economic crisis/contraction, the association between top management compatibility and EC does not significantly differ between groups. Also, the influence of both CVA and TMC effects on the DVs is more stable through a BC but not entirely rigid.\n* Insight 5: The findings demonstrate that risk of relationship dissolution is increased when CVA and TMC are combined. Profitability can be positive, with a positive impact on PR higher than negative impact on CTS. However, during times of recovery/expansion, INV has a positive effect on price and expectation of continuity, reducing the risk of relationship dissolution.\n* Insight 6: The article provides normative guidelines for managing an industrial business through a business cycle. Identifying and testing a model to account for price, cost-to-serve, and expectation of continuity variations during a BC in an emerging economy can help suppliers leverage B2B relationships through a BC.",
+    "image_selection": " {\n               \"Fig. 1. Overview of the Research Method\": \"An overview of the research methodology used in the study, including the sample characteristics and the various statistical tests employed.\",\n               \"Table 3. Construct Correlations and AVEs\": \"A table displaying the construct correlations and average variance extracted (AVE) values for each latent variable in the study.\",\n               \"Fig. 3. Relationship Marketing Strategies Matrix\": \"A matrix illustrating the various relationship marketing strategies employed by suppliers in the study, including communication openness, technical involvement, and customer value anticipation.\"\n           }\n\nThe reason for selecting these three images is that they provide a comprehensive understanding of the research methodology, the variables studied, and the key findings of the study. Fig. 1 gives an overview of the research design and methods used, while Table 3 shows the relationships between the different variables and their relative importance. Finally, Fig. 3 provides a visual representation of the relationship marketing strategies employed by suppliers and how they relate to the business cycle. Together, these three images offer a clear and concise summary of the article's main points, making them ideal for use in academic research.",
+    "title": " {\n               \"title\": \"Navigating Buyer-Seller Relationships Through Economic Uncertainty: Insights from Relationship Marketing and Interorganizational Learning Theories\"\n           }",
+    "runtime (s)": 152.37898045699694,
+    "closing_timestamp": "18/04/2024 16:28"
   },
   {
     "model": "meta/llama-2-13b-chat:f4e2de70d66816a838a89eeeb621910adffb0dd0baba3976c96980970978018d",
@@ -267,10 +256,9 @@
     "max_new_tokens": 500,
     "min_new_tokens": -1,
     "repetition_penalty": 1.15,
-    "timestamp": "18/04/2024 23:22",
-    "image_selection": " Sure! Based on the article you provided, I have selected the following three images as the most important ones for academic research:\n\n{\n\"Fig. 2. Title\": \"Conceptual Model (Page:5)\",\n\"Table 1. Title\": \"Sample Characteristics (Page:6)\",\n\"Table 3. Title\": \"Construct Correlations and AVEs (Page:7)\"\n}\n\nHere is a brief explanation of each image:\n\n1. Fig. 2: Conceptual Model - This figure presents the conceptual model proposed in the article, which",
-    "runtime (s)": 84.21785066701705,
-    "closing_timestamp": "18/04/2024 23:24"
+    "timestamp": "25/04/2024 21:43",
+    "runtime (s)": 0.0,
+    "closing_timestamp": "25/04/2024 21:44"
   },
   {
     "model": "meta/llama-2-70b-chat:2d19859030ff705a87c746f7e96eea03aefb71f166725aee39692f1476566d48",
@@ -279,22 +267,12 @@
     "max_new_tokens": 500,
     "min_new_tokens": -1,
     "repetition_penalty": 1.15,
-    "timestamp": "18/04/2024 23:22",
-    "runtime (s)": 0.0,
-    "closing_timestamp": "18/04/2024 23:24"
-  },
-  {
-    "model": "mistralai/mixtral-8x7b-instruct-v0.1:5d78bcd7a992c4b793465bcdcf551dc2ab9668d12bb7aa714557a21c1e77041c",
-    "top_p": 0.95,
-    "temperature": 0.5,
-    "max_new_tokens": 500,
-    "min_new_tokens": -1,
-    "repetition_penalty": 1.15,
-    "timestamp": "18/04/2024 23:22",
-    "extract_insights": "1. The article proposes a model that explains relationship configurations between businesses in the context of business cycles (BCs), using relationship marketing (RM) and interorganizational learning theories.\n2. The Pilot Study identifies key mechanisms of the RM process and performance outcomes from the supplier's perspective, including communication openness, technical involvement, customer value anticipation, price, cost-to-serve, and expectation of relationship continuity.\n3. The findings suggest that a supplier's performance is influenced differently by RM mechanisms during times of economic crisis versus times of recovery/expansion.\n4. The article highlights the importance of firms adjusting their behavior during a BC, with specific RM strategies recommended for times of crisis and economic expansion.\n5. The theoretical implications of the study include the extension of research on economic swings in B2B contexts and the role of communication, technical involvement, and customer value anticipation in transforming tension into effective learning during a BC.\n6. The study's general discussion emphasizes the need for normative guidelines for managing an industrial business through a BC, with large size, market leader suppliers able to effectively survive and thrive through a BC via distinct RM mechanisms.\n7. The multigroup analysis after the crisis found that the buyer-seller technical involvement and customer value anticipation association was not significant at the \u03b1 = 0.05 level, and the path coefficient for the TMC \u2192 CTS association did not differ between the groups.\n8. The study's findings demonstrate the importance of managing B2B relationships differently during times of economic contraction and expansion, and the role of learning in adapting the relationship during a BC.",
-    "title": "\n            {\n                \"title\": \"Managing Business-to-Business Relationships during Business Cycles: An Examination of Relationship Marketing Mechanisms and Interorganizational Learning\"\n            }",
-    "runtime (s)": 14.954034209018573,
-    "closing_timestamp": "18/04/2024 23:24"
+    "timestamp": "25/04/2024 21:43",
+    "extract_insights": " * Insight 1: The article highlights the importance of business-to-business (B2B) relationships during economic uncertainty, specifically during times of crisis and recovery/expansion. It emphasizes the need for suppliers to adopt different relationship configurations to navigate these periods successfully.\n* Insight 2: The study identifies three key mechanisms of the relationship marketing (RM) process - communication openness, technical involvement, and customer value anticipation - and their impact on performance outcomes such as price, cost-to-serve, and expectation of relationship continuity.\n* Insight 3: The findings suggest that during times of economic crisis, suppliers should focus on reducing the inverted investment (INV) with customers while improving communication openness and customer value anticipation to enhance performance. In contrast, during times of economic expansion, suppliers should prioritize generating knowledge to adapt the relationship via communication and technical involvement.\n* Insight 4: The study underscores the significance of interorganizational learning theories in understanding how suppliers can leverage B2B relationships through a business cycle. It emphasizes the need for unique patterns of communication openness, technical involvement, and customer value anticipation to transform the tension into effective learning for adapting the relationship during a BC.\n* Insight 5: The investigation of buyer\u2013seller relationships through a BC in an emerging economy (Chile) provides insights into the managerial relevance of the research findings and contributes to the RM literature and BC literature. It also answers calls for more marketing research in non-advanced settings.\n* Insight 6: The study highlights the differences in the significance and direction of coefficients when comparing the model results between Study 1 (during times of economic crisis) and Study 2 (during times of recovery/expansion). This suggests that firms should generate knowledge to adapt the relationship only via communication during times of economic recovery.",
+    "image_selection": " {\n               \"Fig. 1. Overview of the Research Method\": \"An overview of the research methodology used in the study, including the data collection methods, sample characteristics, and analytical techniques employed.\",\n               \"Table 3. Construct Correlations and AVEs\": \"A table displaying the correlations and average variance extracted (AVE) values for the constructs used in the study, demonstrating the relationships between the variables and the extent to which they capture the underlying concepts.\",\n               \"Fig. 3. Relationship Marketing Strategies Matrix\": \"A visual representation of the relationship marketing strategies matrix developed through the study, highlighting the various strategies and their corresponding mechanisms for successful relationship management during different phases of the business cycle.\"\n           }",
+    "title": " {\n               \"title\": \"Navigating Business-to-Business Relationships Through Economic Uncertainty: Insights from a Comparative Study in Chile\"\n           }",
+    "runtime (s)": 72.42714891699143,
+    "closing_timestamp": "25/04/2024 21:44"
   },
   {
     "model": "meta/llama-2-13b-chat:f4e2de70d66816a838a89eeeb621910adffb0dd0baba3976c96980970978018d",
@@ -303,9 +281,9 @@
     "max_new_tokens": 500,
     "min_new_tokens": -1,
     "repetition_penalty": 1.15,
-    "timestamp": "18/04/2024 23:27",
+    "timestamp": "11/05/2024 15:36",
     "runtime (s)": 0.0,
-    "closing_timestamp": "18/04/2024 23:27"
+    "closing_timestamp": "11/05/2024 15:37"
   },
   {
     "model": "meta/llama-2-70b-chat:2d19859030ff705a87c746f7e96eea03aefb71f166725aee39692f1476566d48",
@@ -314,23 +292,12 @@
     "max_new_tokens": 500,
     "min_new_tokens": -1,
     "repetition_penalty": 1.15,
-    "timestamp": "18/04/2024 23:27",
-    "image_selection": " {\n\"Fig. 1. Overview of the Research Method\": \"This figure provides a comprehensive overview of the research methodology used in the study, including the data collection methods, sample characteristics, and statistical analyses employed.\",\n\"Table 2. CFA Results\": \"This table presents the results of the confirmatory factor analysis (CFA) conducted to assess the construct validity and reliability of the measurement model. It includes the factor loadings, t-values, and p-values for each item.\",\n\"Table 4. MIIV-2SLS Results\": \"This table displays the results of the multi-group inference vector-based second-order least squares (MIIV-2SLS) analysis, which was performed to compare the factor scores across different groups (crisis vs. recovery/expansion). It includes the factor scores, standard errors, and p-values for each group.\"\n}",
-    "runtime (s)": 21.09988512500422,
-    "closing_timestamp": "18/04/2024 23:27"
-  },
-  {
-    "model": "mistralai/mixtral-8x7b-instruct-v0.1:5d78bcd7a992c4b793465bcdcf551dc2ab9668d12bb7aa714557a21c1e77041c",
-    "top_p": 0.95,
-    "temperature": 0.5,
-    "max_new_tokens": 500,
-    "min_new_tokens": -1,
-    "repetition_penalty": 1.15,
-    "timestamp": "18/04/2024 23:27",
-    "extract_insights": "1. Business cycles (BCs) can significantly impact long-term business-to-business (B2B) relationships, and relationship marketing (RM) mechanisms can help suppliers leverage these relationships during economic uncertainty.\n2. The study identifies key RM mechanisms (communication openness, technical involvement, and customer value anticipation) and performance outcomes (price, cost-to-serve, and expectation of relationship continuity) from the supplier's perspective.\n3. The findings suggest that the impact of RM mechanisms on performance outcomes differs between times of economic crisis and recovery/expansion.\n4. The research focuses on emerging economies, where interorganizational relationships play a critical role in business organizations, particularly in industries with cyclical behavior like commodities.\n5. The study contributes to the RM literature and BC literature by exploring the role of RM process in determining the specific contribution of long-life customers during periods of contraction and expansion.\n6. Interorganizational learning theories and RM theory provide insights into relationship tenets that help suppliers sustain or increase performance from their B2B long-life customers during economic swings.\n7. Companies need to manage communication openness, technical involvement, and customer value anticipation simultaneously to optimize customer level outcomes (selling price, cost-to-serve, and expectation of continuity).\n8. The research highlights the importance of dyadic top management consensus and technical involvement in increasing selling price during times of economic recovery.\n9. To reduce cost-to-serve during recovery, suppliers should carefully deescalate technical collaboration with customers, while customer value anticipation and top management compatibility have no influence on this goal.\n10. Marketing literature lacks normative guidelines for managing an industrial business through a BC. This study addresses this gap by identifying and testing a model for price, cost-to-serve, and expectation of continuity variations during a BC in an emerging economy.\n11. The study's multigroup analysis demonstrates convergent and discriminant validity for all factors and supports metric invariance, allowing for meaningful comparisons of slope differences across groups (crisis vs. recovery/expansion).\n12. The findings suggest that communication remains relevant in buyer-seller relationships during economic downturns, as the coefficients for communication openness remain positive and significant.\n13. The study reveals that the impact of RM mechanisms on performance outcomes varies",
-    "title": "\t{\n\t\t\"title\": \"Exploring Relationship Marketing Mechanisms and Performance Outcomes in Business-to-Business Relationships during Business Cycles: An Empirical Study in Emerging Economies\"\n\t}",
-    "runtime (s)": 19.82204758399166,
-    "closing_timestamp": "18/04/2024 23:27"
+    "timestamp": "11/05/2024 15:36",
+    "extract_insights": " * The article discusses how business cycles (BCs) can impact the conditions for long-term business-to-business (B2B) relationships.\n* The authors propose a model that explains relationship configurations that reveal opportunities under economic uncertainty, drawing on relationship marketing (RM) and interorganizational learning theories.\n* The model includes key mechanisms of the RM process, such as communication openness, technical involvement, and customer value anticipation, and performance outcomes like price, cost-to-serve, and expectation of relationship continuity.\n* The study tested the model",
+    "image_selection": " {\n\"Fig. 1. Overview of the Research Method\": \"An overview of the research method used in the study, including the sample characteristics and the research design.\",\n\"Table 2. CFA Results\": \"The results of the confirmatory factor analysis (CFA) conducted to test the proposed model, including the factor loadings and the reliability of the measures.\",\n\"Fig. 3. Relationship Marketing (RM) Strategies Matrix\": \"A visual representation of the relationship marketing (RM) strategies matrix, which includes the key mechanisms of the",
+    "title": " {\n            \"title\": \"Exploring the Impact of Business Cycles on Long-term B2B Relationships: A Configurational Approach\"\n        }\n\nThis title accurately reflects the main focus of the article, which is to investigate the effects of business cycles on long-term business-to-business relationships and to propose a model that explains relationship configurations that reveal opportunities under economic uncertainty. The use of \"configurational\" highlights the fact that the authors are taking a holistic approach to understanding the relationships between businesses, rather than focusing on individual factors",
+    "runtime (s)": 10.891029374906793,
+    "closing_timestamp": "11/05/2024 15:37"
   },
   {
     "model": "meta/llama-2-13b-chat:f4e2de70d66816a838a89eeeb621910adffb0dd0baba3976c96980970978018d",
@@ -339,9 +306,9 @@
     "max_new_tokens": 500,
     "min_new_tokens": -1,
     "repetition_penalty": 1.15,
-    "timestamp": "18/04/2024 23:27",
+    "timestamp": "11/05/2024 15:38",
     "runtime (s)": 0.0,
-    "closing_timestamp": "18/04/2024 23:28"
+    "closing_timestamp": "11/05/2024 15:39"
   },
   {
     "model": "meta/llama-2-70b-chat:2d19859030ff705a87c746f7e96eea03aefb71f166725aee39692f1476566d48",
@@ -350,22 +317,211 @@
     "max_new_tokens": 500,
     "min_new_tokens": -1,
     "repetition_penalty": 1.15,
-    "timestamp": "18/04/2024 23:27",
-    "image_selection": " {\n\"Fig. 1. Overview of the Research Method\": \"This figure provides an overview of the research methodology used in the study, including the pilot study and the two main studies (Study 1 and Study 2). It also highlights the different data collection methods used, such as surveys and interviews.\",\n\"Table 3. Construct Correlations and AVEs\": \"This table presents the correlations between the constructs and the average variance extracted (AVE) for each construct. The AVE measures the proportion of variance in a construct that is explained by its underlying factors. This information is useful in assessing the validity and reliability of the measurement model.\",\n\"Fig. 3. Relationship Marketing (RM) Strategies Matrix\": \"This figure presents a matrix that illustrates the relationship marketing strategies employed by the companies in the study. The matrix shows the various RM mechanisms, such as communication openness, technical involvement, and customer value anticipation, and how they are combined to influence customer-level outcomes, such as price, cost-to-serve, and expectation of relationship continuity.\"\n}",
-    "runtime (s)": 48.93561012498685,
-    "closing_timestamp": "18/04/2024 23:28"
+    "timestamp": "11/05/2024 15:38",
+    "extract_insights": " * Insight 1: The study highlights the importance of relationship marketing (RM) mechanisms in business-to-business (B2B) relationships during times of economic uncertainty. The authors propose a model that explains how RM mechanisms can help suppliers leverage B2B relationships through a business cycle (BC).\n\n* Insight 2: The study found that communication openness, technical involvement, and customer value anticipation are key RM mechanisms that influence supplier performance during a BC. Suppliers should focus on developing these mechanisms to effectively navigate a BC and enhance",
+    "image_selection": " {\n                \"Fig. 1. Overview of the Research Method\": \"Provides an overview of the research method used in the study, including the data collection process and the statistical analysis methods employed.\",\n                \"Table 2. CFA Results\": \"Presents the results of the confirmatory factor analysis (CFA) conducted to evaluate the validity and reliability of the research model.\",\n                \"Fig. 3. Relationship Marketing (RM) Strategies Matrix\": \"Illustrates the relationship marketing strategies matrix developed by the authors, which highlights the",
+    "title": " {\n            \"title\": \"Leveraging Business-to-Business Relationships through Relationship Marketing Mechanisms: A Business Cycle Perspective\"\n        }\n\nThis title accurately reflects the main findings of the study, which highlights the importance of relationship marketing mechanisms in business-to-business relationships during times of economic uncertainty. The title also emphasizes the focus on a business cycle perspective, which is a unique contribution of the study. The use of \"leveraging\" conveys the idea of using relationship marketing mechanisms to gain a competitive advantage",
+    "runtime (s)": 11.446578999049962,
+    "closing_timestamp": "11/05/2024 15:39"
   },
   {
-    "model": "mistralai/mixtral-8x7b-instruct-v0.1:5d78bcd7a992c4b793465bcdcf551dc2ab9668d12bb7aa714557a21c1e77041c",
+    "model": "meta/llama-2-13b-chat:f4e2de70d66816a838a89eeeb621910adffb0dd0baba3976c96980970978018d",
     "top_p": 0.95,
     "temperature": 0.5,
     "max_new_tokens": 500,
     "min_new_tokens": -1,
     "repetition_penalty": 1.15,
-    "timestamp": "18/04/2024 23:27",
-    "extract_insights": " * The article proposes a model that explains relationship configurations under economic uncertainty, highlighting the importance of interorganizational learning and relationship marketing (RM) mechanisms in managing business-to-business (B2B) relationships during business cycles (BCs).\n    * The Pilot Study identifies key RM process mechanisms (communication openness, technical involvement, and customer value anticipation) and performance outcomes (price, cost-to-serve, and expectation of relationship continuity) from the supplier's perspective.\n    * Study 1 focuses on a sample of large market leader firms during economic crisis (T1), testing the proposed model, and indicating that supplier's performance is influenced differently by RM mechanisms during times of economic crisis versus times of recovery/expansion.\n    * Study 2 uses the same sample to test the model during recovery/expansion (T2) through multi-group analysis, providing insights into managing B2B relationships during different BC phases.\n    * The findings suggest that companies should manage communication openness, technical involvement, and customer value anticipation simultaneously to influence customer level outcomes (selling price, cost-to-serve, and expectation of continuity).\n    * The study contributes to RM and BC literature by examining the impact of RM process on determining the specific contribution of long-life customers in emerging economies during periods of contraction and expansion.\n    * Interorganizational theories' claims about the contribution of buyer-sellerships for navigating and learning under economic uncertainty are empirically explored, and the performance outcomes are measured at the customer level.\n    * The study contributes to the dark side of B2B relationships' theoretical underpinnings by showing that the inherent tension created in a BC can be managed by RM mechanisms.\n    * The research is consistent with the vision for marketing research to focus on emerging markets.\n    * The study tests the proposed model with the same sample of B2B firms in the Chilean market during economic expansion (T2), demonstrating that large size, market leader suppliers can effectively survive and thrive through a BC via distinct RM mechanisms.\n    * The findings support metric invariance, allowing a meaningful comparison of slope differences across groups (T2 vs. T1), and formally testing the slope coefficient differences between the groups in R software.\n    * The results indicate that during recovery/expansion, both supplier and customer can perceive growing",
-    "title": " {\n\"title\": \"Managing Business-to-Business Relationships during Business Cycles: The Role of Relationship Marketing Mechanisms and Interorganizational Learning in Large Market Leader Firms of Emerging Economies\"\n}",
-    "runtime (s)": 19.522886624996318,
-    "closing_timestamp": "18/04/2024 23:28"
+    "timestamp": "11/05/2024 15:39",
+    "runtime (s)": 0.0,
+    "closing_timestamp": "11/05/2024 15:39"
+  },
+  {
+    "model": "meta/llama-2-70b-chat:2d19859030ff705a87c746f7e96eea03aefb71f166725aee39692f1476566d48",
+    "top_p": 0.95,
+    "temperature": 0.5,
+    "max_new_tokens": 500,
+    "min_new_tokens": -1,
+    "repetition_penalty": 1.15,
+    "timestamp": "11/05/2024 15:39",
+    "extract_insights": " * Insight 1: The COVID-19 pandemic has led to a significant increase in donation crowdfunding campaigns, with a large portion of them being dedicated to supporting healthcare facilities and purchasing medical supplies.\n\n* Insight 2: The success of donation crowdfunding campaigns is largely dependent on the perceived reliability of the campaign organizer and the purpose of the campaign. Campaigns that are perceived as more reliable and have a clear purpose tend to raise more funds.\n\n* Insight 3: Different government policy restrictions have a significant impact on",
+    "image_selection": " {\n            \"Fig. 1. Comparison of covid-related GoFundMe campaign donations against official funding\": \"A graphical representation comparing the number of donations and funds raised through GoFundMe campaigns and official funding for COVID-19 relief efforts. The image highlights the significant disparity between the two, with GoFundMe campaigns raising a substantial amount of funds compared to official funding.\",\n            \"Table 1. Number of donation campaigns by country\": \"A table listing the number of donation campaigns initiated by different countries, showc",
+    "title": " {\n            \"title\": \"Exploring the Impact of the COVID-19 Pandemic and Government Policy Restrictions on Donation Crowdfunding Campaigns: A Reliability and Purpose-Driven Analysis\"\n        }\n\nThis title accurately reflects the main themes and insights from the given information. It highlights the focus on donation crowdfunding campaigns during the COVID-19 pandemic, the importance of perceived reliability and purpose, and the impact of government policy restrictions. The use of a question mark in the title suggests that the",
+    "runtime (s)": 10.512626456911676,
+    "closing_timestamp": "11/05/2024 15:39"
+  },
+  {
+    "model": "meta/llama-2-13b-chat:f4e2de70d66816a838a89eeeb621910adffb0dd0baba3976c96980970978018d",
+    "top_p": 0.95,
+    "temperature": 0.5,
+    "max_new_tokens": 500,
+    "min_new_tokens": -1,
+    "repetition_penalty": 1.15,
+    "timestamp": "11/05/2024 15:41",
+    "runtime (s)": 0.0,
+    "closing_timestamp": "11/05/2024 15:41"
+  },
+  {
+    "model": "meta/llama-2-70b-chat:2d19859030ff705a87c746f7e96eea03aefb71f166725aee39692f1476566d48",
+    "top_p": 0.95,
+    "temperature": 0.5,
+    "max_new_tokens": 500,
+    "min_new_tokens": -1,
+    "repetition_penalty": 1.15,
+    "timestamp": "11/05/2024 15:41",
+    "extract_insights": " * Insight 1: The choice of revenue model for digital services is critical for manufacturing companies to optimize their digital servitization transition. Companies need to select a revenue model that aligns with the value-capture dimensions of their business model to ensure successful digital servitization.\n\n* Insight 2: The three types of revenue models for digital services - subscription, usage-based, and performance-based - have distinct characteristics that need to be considered when choosing a revenue model. Companies need to assess their customers' digital readiness, digital service sophistication,",
+    "image_selection": " {\n                \"Fig. 1. Data structure and coding process\": \"Diagram illustrating the data structure and coding process used in the research study\",\n                \"Fig. 2. Framework for the choice of revenue models for digital services\": \"Visual representation of the framework developed in the study for selecting the most appropriate revenue model for digital services\",\n                \"Table 2. Overview of studied cases and respondents\": \"Table providing an overview of the cases and respondents included in the study, including demographic information and details about their digital servitization initiatives\"\n            }",
+    "title": " {\n            \"title\": \"Optimizing Digital Servitization Transition: A Critical Analysis of Revenue Models for Manufacturing Companies\"\n        }",
+    "runtime (s)": 9.978768876055256,
+    "closing_timestamp": "11/05/2024 15:41"
+  },
+  {
+    "model": "meta/llama-2-13b-chat:f4e2de70d66816a838a89eeeb621910adffb0dd0baba3976c96980970978018d",
+    "top_p": 0.95,
+    "temperature": 0.5,
+    "max_new_tokens": 500,
+    "min_new_tokens": -1,
+    "repetition_penalty": 1.15,
+    "timestamp": "11/05/2024 15:42",
+    "runtime (s)": 0.0,
+    "closing_timestamp": "11/05/2024 15:42"
+  },
+  {
+    "model": "meta/llama-2-70b-chat:2d19859030ff705a87c746f7e96eea03aefb71f166725aee39692f1476566d48",
+    "top_p": 0.95,
+    "temperature": 0.5,
+    "max_new_tokens": 500,
+    "min_new_tokens": -1,
+    "repetition_penalty": 1.15,
+    "timestamp": "11/05/2024 15:42",
+    "extract_insights": " * Insight 1: The choice of revenue models for digital services in manufacturing companies is influenced by three key factors: customer digital readiness, digital service sophistication, and digital ecosystem partnerships.\n\n* Insight 2: Companies must evaluate customers' digital readiness to determine the type of digital service that meets their expectations and demands.\n\n* Insight 3: Digital service sophistication is evaluated based on the digital service orientation and the type of data integration and data analytic capabilities required for its provisioning.\n\n* Insight 4:",
+    "image_selection": " {\n            \"Fig. 1. Data structure and coding process\": \"Illustrates the process of organizing and analyzing data to uncover patterns and relationships that can inform the choice of revenue models for digital services\",\n            \"Fig. 2. Framework for the choice of revenue models for digital services\": \"Provides a visual representation of the factors that influence the selection of revenue models for digital services, including customer digital readiness, digital service sophistication, and digital ecosystem partnerships\",\n            \"Table 2. Overview of studied cases and respondents\": \"",
+    "title": " {\n            \"title\": \"Exploring the Influence of Customer Digital Readiness, Digital Service Sophistication, and Digital Ecosystem Partnerships on Revenue Model Selection in Manufacturing Companies: An Empirical Study\"\n        }",
+    "runtime (s)": 9.70444762497209,
+    "closing_timestamp": "11/05/2024 15:42"
+  },
+  {
+    "model": "meta/llama-2-13b-chat:f4e2de70d66816a838a89eeeb621910adffb0dd0baba3976c96980970978018d",
+    "top_p": 0.95,
+    "temperature": 0.5,
+    "max_new_tokens": 500,
+    "min_new_tokens": -1,
+    "repetition_penalty": 1.15,
+    "timestamp": "11/05/2024 15:43",
+    "runtime (s)": 0.0,
+    "closing_timestamp": "11/05/2024 15:43"
+  },
+  {
+    "model": "meta/llama-2-70b-chat:2d19859030ff705a87c746f7e96eea03aefb71f166725aee39692f1476566d48",
+    "top_p": 0.95,
+    "temperature": 0.5,
+    "max_new_tokens": 500,
+    "min_new_tokens": -1,
+    "repetition_penalty": 1.15,
+    "timestamp": "11/05/2024 15:43",
+    "extract_insights": " * Insight 1: The digitalization paradox, where companies struggle to capture profits from investing in R&D or implementing new technologies, can be overcome by understanding the factors that influence the choice of revenue models for digital services.\n\n* Insight 2: Manufacturing companies need to broaden their understanding of revenue models for digital services, as the transition from selling stand-alone products to advanced product\u2013service\u2013software offerings requires a different approach to revenue model selection.\n\n* Insight 3: The choice of revenue model for digital services is critical,",
+    "image_selection": " {\n                \"Fig. 1. Data structure and coding process\": \"This figure provides a visual representation of the data structure and coding process used in the research study, highlighting the various steps involved in collecting and analyzing data on revenue models for digital services. This image is important for business professionals as it provides a clear understanding of the research methodology and can help them appreciate the rigor and accuracy of the study's findings.\",\n                \"Fig. 2. Framework for the choice of revenue models for digital services\": \"This figure presents a framework for understanding the factors that influence the choice",
+    "title": " {\n            \"title\": \"Navigating the Digitalization Paradox: A Guide to Revenue Model Selection for Manufacturing Companies\"\n        }",
+    "runtime (s)": 10.305711666005664,
+    "closing_timestamp": "11/05/2024 15:43"
+  },
+  {
+    "model": "meta/llama-2-13b-chat:f4e2de70d66816a838a89eeeb621910adffb0dd0baba3976c96980970978018d",
+    "top_p": 0.95,
+    "temperature": 0.5,
+    "max_new_tokens": 500,
+    "min_new_tokens": -1,
+    "repetition_penalty": 1.15,
+    "timestamp": "11/05/2024 15:57",
+    "runtime (s)": 0.0,
+    "closing_timestamp": "11/05/2024 15:57"
+  },
+  {
+    "model": "meta/llama-2-70b-chat:2d19859030ff705a87c746f7e96eea03aefb71f166725aee39692f1476566d48",
+    "top_p": 0.95,
+    "temperature": 0.5,
+    "max_new_tokens": 500,
+    "min_new_tokens": -1,
+    "repetition_penalty": 1.15,
+    "timestamp": "11/05/2024 15:57",
+    "extract_insights": " * Insight 1: The study highlights the significance of managing buyer-seller relationships during times of economic uncertainty, particularly in emerging markets. The findings suggest that suppliers should focus on establishing high levels of communication openness and technical involvement with customers to effectively navigate business cycles.\n\n* Insight 2: The research provides a framework for understanding the relationship configurations that reveal opportunities under economic uncertainty. The authors propose a model that explains the mechanisms of relationship marketing and interorganizational learning, which can help suppliers leverage B2B relationships through a business cycle",
+    "image_selection": " {\n            \"Fig. 1. Overview of the Research Method\": \"Provides an overview of the research method used in the study, including the data collection process and the analysis methods employed.\",\n            \"Table 2. CFA Results\": \"Presents the results of the confirmatory factor analysis conducted to assess the validity and reliability of the measurement model.\",\n            \"Table 3. Construct Correlations and AVEs\": \"Shows the correlations between the constructs and the average variance extracted (AVE) for each construct, providing insights into the relationships between",
+    "title": " {\n            \"title\": \"Navigating Economic Uncertainty: Leveraging B2B Relationships through Communication, Technical Involvement, and Interorganizational Learning\"\n        }\n\nThis title effectively captures the main insights from the given research, specifically highlighting the importance of communication openness, technical involvement, and interorganizational learning in managing buyer-seller relationships during times of economic uncertainty. The use of \"Navigating Economic Uncertainty\" conveys the main theme of the research, which is to provide guidance for suppliers",
+    "runtime (s)": 11.525426459033042,
+    "closing_timestamp": "11/05/2024 15:57"
+  },
+  {
+    "model": "meta/llama-2-13b-chat:f4e2de70d66816a838a89eeeb621910adffb0dd0baba3976c96980970978018d",
+    "top_p": 0.95,
+    "temperature": 0.5,
+    "max_new_tokens": 500,
+    "min_new_tokens": -1,
+    "repetition_penalty": 1.15,
+    "timestamp": "11/05/2024 16:01",
+    "runtime (s)": 0.0,
+    "closing_timestamp": "11/05/2024 16:01"
+  },
+  {
+    "model": "meta/llama-2-70b-chat:2d19859030ff705a87c746f7e96eea03aefb71f166725aee39692f1476566d48",
+    "top_p": 0.95,
+    "temperature": 0.5,
+    "max_new_tokens": 500,
+    "min_new_tokens": -1,
+    "repetition_penalty": 1.15,
+    "timestamp": "11/05/2024 16:01",
+    "extract_insights": " * Insight 1: Companies need to assess their customer's digital readiness, digital service sophistication, and digital ecosystem partnerships to choose the suitable revenue model for digital services.\n\n* Insight 2: Performance-based revenue models are the most complex and have the greatest value-adding potential in the digital servitization pathway, requiring acute interactions with customers and ecosystem partners.\n\n* Insight 3: Companies should consider the sophistication of the digital services to be delivered and evaluate the digital involvement of their ecos",
+    "image_selection": " {\n            \"Fig. 1. Data structure and coding process\": \"Illustrates the process of organizing and analyzing data to provide insights for choosing the appropriate revenue model for digital services\",\n            \"Fig. 2. Framework for the choice of revenue models for digital services\": \"Provides a visual representation of the factors that companies should consider when selecting a revenue model for digital services, including customer digital readiness, digital service sophistication, and ecosystem partnerships\",\n            \"Table 2. Overview of studied cases and respondents\": \"Provides",
+    "title": " {\n            \"title\": \"Navigating Digital Servitization: Selecting the Right Revenue Model for Your Business\"\n        }\n\nThis title reflects the main theme of the insights provided, which is the importance of choosing the appropriate revenue model for digital services based on factors such as customer digital readiness, service sophistication, and ecosystem partnerships. The title also highlights the complexity and potential value of performance-based revenue models, which require careful consideration and execution. Overall, the title should be informative and helpful for business professionals looking to develop their business strategy",
+    "runtime (s)": 11.428888082853518,
+    "closing_timestamp": "11/05/2024 16:01"
+  },
+  {
+    "model": "meta/llama-2-13b-chat:f4e2de70d66816a838a89eeeb621910adffb0dd0baba3976c96980970978018d",
+    "top_p": 0.95,
+    "temperature": 0.5,
+    "max_new_tokens": 500,
+    "min_new_tokens": -1,
+    "repetition_penalty": 1.15,
+    "timestamp": "11/05/2024 16:08",
+    "runtime (s)": 0.0,
+    "closing_timestamp": "11/05/2024 16:09"
+  },
+  {
+    "model": "meta/meta-llama-3-70b-instruct:fbfb20b472b2f3bdd101412a9f70a0ed4fc0ced78a77ff00970ee7a2383c575d",
+    "top_p": 0.95,
+    "temperature": 0.5,
+    "max_new_tokens": 500,
+    "min_new_tokens": -1,
+    "repetition_penalty": 1.15,
+    "timestamp": "11/05/2024 16:08",
+    "extract_insights": "Here are the insights generated from the article summaries:\n\n* Business cycles can alter the conditions for long-term business-to-business (B2B) relationships, and understanding how to leverage these relationships during economic uncertainty is crucial for suppliers.\n\n* The influence of increasing competition, customer complexity, and market turbulence can create a latent hazard for the sustainability of established buyer-seller relationships, and macro-economic uncertainty introduces relevant contingencies to the exchange, creating an adaptation problem.\n\n* Relationship marketing (RM) and interorganizational learning theories can be used to identify relationship tenets that help suppliers sustain or increase performance from their B2B long-life customers during economic swings.\n\n* The RM mechanisms of communication openness, technical involvement, and customer value anticipation can be configured to successfully navigate a business cycle, and these mechanisms influence differently the customer level outcomes of selling price, cost-to-serve, and expectation of continuity.\n\n* Suppliers need to find ways to manage simultaneously communication openness, technical involvement, and customer value anticipation to increase performance during a business cycle, and the main challenge for a supplier is to establish high levels of communication without simultaneously increasing technical collaboration with customers.\n\n* The economic swing is an opportunity to see change as an ongoing possibility to reach better dyadic results, and interorganizational learning achieved serves as a win-win solution for both entities by positively synthesizing the thesis (supplier desires) and antithesis (buyer desires).\n\n* Large size, market leader suppliers can effectively survive and thrive through a business cycle via distinct RM mechanisms, and investments in relationships need to consider forward-looking measures such as customer lifetime value.\n\n* The association between customer value anticipation and selling price remains statistically similar in both times of crisis and times of recovery/expansion, and the association between top management compatibility and expectation of continuity does not significantly differ between the groups.\n\n* The findings of this study offer directions for suppliers on how to leverage B2B relationships through a business cycle, particularly in times of economic crisis versus times of recovery/expansion.",
+    "image_selection": "Here are the selected images:\n\n{\n    \"Fig. 1. Overview of the Research Method\": \"This figure provides a comprehensive overview of the research methodology used in the study, which is essential for understanding the research design and approach.\",\n    \"Fig. 2. Conceptual Model\": \"This figure illustrates the conceptual model of the study, which outlines the relationships between the variables and constructs, providing a visual representation of the research framework.\",\n    \"Fig. 3. Relationship Marketing (RM) Strategies Matrix\": \"This figure presents a matrix of relationship marketing strategies that suppliers can use to navigate a business cycle, highlighting the key mechanisms for successful relationship management.\"\n}",
+    "title": "{\n\"title\": \"Navigating Business Cycles: Leveraging Relationship Marketing Mechanisms to Sustain Performance in B2B Relationships\"\n}",
+    "runtime (s)": 27.544468582840636,
+    "closing_timestamp": "11/05/2024 16:09"
+  },
+  {
+    "model": "meta/llama-2-13b-chat:f4e2de70d66816a838a89eeeb621910adffb0dd0baba3976c96980970978018d",
+    "top_p": 0.95,
+    "temperature": 0.5,
+    "max_new_tokens": 500,
+    "min_new_tokens": -1,
+    "repetition_penalty": 1.15,
+    "timestamp": "11/05/2024 16:19",
+    "runtime (s)": 0.0,
+    "closing_timestamp": "11/05/2024 16:20"
+  },
+  {
+    "model": "meta/meta-llama-3-70b-instruct:fbfb20b472b2f3bdd101412a9f70a0ed4fc0ced78a77ff00970ee7a2383c575d",
+    "top_p": 0.95,
+    "temperature": 0.5,
+    "max_new_tokens": 500,
+    "min_new_tokens": -1,
+    "repetition_penalty": 1.15,
+    "timestamp": "11/05/2024 16:19",
+    "extract_insights": "Here are the insights generated from the article summaries:\n\n* Business cycles can alter the conditions for long-term business-to-business (B2B) relationships, and understanding relationship configurations can reveal opportunities under economic uncertainty.\n* Suppliers can leverage B2B relationships through a business cycle by focusing on different relationship marketing (RM) mechanisms during times of economic crisis versus times of recovery/expansion.\n* In times of economic crisis, suppliers should establish a strong involvement with customers, while keeping ideas associated with customer value for future times, and primarily work on collaborating with customers to develop new products/services, integrate manufacturing, and optimize engineering processes.\n* In times of economic recovery/expansion, suppliers should carefully deescalate involvement with customers to reduce cost-to-serve, and integrate efforts on involvement, customer value anticipation, and top management consensus to construct synergies.\n* The contribution of buyer-seller relationships to navigating and learning under economic uncertainty is significant, and investments in relationships should consider forward-looking measures such as customer lifetime value.\n* High levels of buyer-seller technical involvement are not always required to manage tension, and collaboration in B2B relationships can come without a downside for both times of contraction and expansion.\n* The process approach to managing B2B relationships through a business cycle follows a temporal structure and increases managerial relevance, and large size, market leader suppliers can effectively survive and thrive through a business cycle via distinct RM mechanisms.\n* Times of economic crisis/contraction provide less RM process opportunities for suppliers to increase customer-level profitability and expectation of relationship continuity, and a possible explanation is that both supplier and customer perceive growing opportunities, investing in new procedures or developments that can increase the supplier's cost-to-serve, but simultaneously driving a higher, acceptable selling price.",
+    "image_selection": "Here are the three most important images selected for Academic Research:\n\n{\n\"Fig. 1. Overview of the Research Method\": \"This image provides a visual representation of the research methodology used in the study, giving an overview of the approach taken to investigate the relationship between business cycles and B2B relationships.\",\n\"Fig. 2. Conceptual Model\": \"This image illustrates the conceptual framework of the study, showcasing the relationships between key variables and constructs, and providing a visual representation of the theoretical underpinnings of the research.\",\n\"Fig. 3. Relationship Marketing (RM) Strategies Matrix\": \"This image presents a matrix of relationship marketing strategies that suppliers can employ during different phases of the business cycle, providing a practical tool for managers to navigate B2B relationships under economic uncertainty.\"\n}",
+    "title": "{\n\"title\": \"Navigating Economic Uncertainty: A Temporal Approach to Managing Business-to-Business Relationships through Business Cycles\"\n}",
+    "runtime (s)": 17.946821541991085,
+    "closing_timestamp": "11/05/2024 16:20"
   }
 ]
