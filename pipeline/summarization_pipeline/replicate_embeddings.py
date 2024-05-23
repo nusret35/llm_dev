@@ -1,6 +1,7 @@
 from dotenv import load_dotenv
 from typing import Dict, List
 import replicate
+import json
 
 class ReplicateEmbeddings:
     """Sends request to Replicate's endpoint for MPNet Base v2, 
@@ -12,9 +13,10 @@ class ReplicateEmbeddings:
 
     def _get_embeddings(self,text_batch:List[str]) -> List[Dict]:
         load_dotenv()
+        text_batch_json = json.dumps(text_batch)
         output = replicate.run(self.model_name,
                       input={
-                          "text_batch":str(text_batch).replace("'",'"')
+                          "text_batch":text_batch_json
                       })
         
         return output

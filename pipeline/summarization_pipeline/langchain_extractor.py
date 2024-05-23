@@ -154,7 +154,8 @@ class Langchain_Extractor:
     
     def choose_images(self, insights, image_titles, user_persona, user_purpose):
         max_new_token_for_images = 500
-        assert image_titles != ""
+        if image_titles == "":
+            return ""
         prompt = f"""
             Choose the most important 3 images of the article using the image titles in the article and generated insights about the article. This is the image titles:
             {image_titles}

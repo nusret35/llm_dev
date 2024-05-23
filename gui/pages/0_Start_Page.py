@@ -18,9 +18,6 @@ st.set_page_config(
     layout="wide",
 )
 
-_ = """
-    To start the app, run ``` streamlit run Hello.py ```
-"""
 
 hide_sidebar()
 
