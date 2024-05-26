@@ -693,5 +693,30 @@
     "title": "{\n\"title\": \"Revolutionizing Process Mining: Exploring the Synergies of Large Language Models and Conversational AI for Enhanced Business Analytics\"\n}",
     "runtime (s)": 11.98296395899979,
     "closing_timestamp": "26/05/2024 13:09"
+  },
+  {
+    "model": "meta/llama-2-13b-chat:f4e2de70d66816a838a89eeeb621910adffb0dd0baba3976c96980970978018d",
+    "top_p": 0.95,
+    "temperature": 0.5,
+    "max_new_tokens": 500,
+    "min_new_tokens": -1,
+    "repetition_penalty": 1.15,
+    "timestamp": "26/05/2024 14:25",
+    "runtime (s)": 0.0,
+    "closing_timestamp": "26/05/2024 14:26"
+  },
+  {
+    "model": "meta/meta-llama-3-70b-instruct:fbfb20b472b2f3bdd101412a9f70a0ed4fc0ced78a77ff00970ee7a2383c575d",
+    "top_p": 0.95,
+    "temperature": 0.5,
+    "max_new_tokens": 500,
+    "min_new_tokens": -1,
+    "repetition_penalty": 1.15,
+    "timestamp": "26/05/2024 14:25",
+    "extract_insights": "Here are the insights generated from the article summaries:\n\n* Business cycles can alter the conditions for long-term business-to-business (B2B) relationships, and relationship marketing (RM) and interorganizational learning theories can help explain how to leverage these relationships during economic uncertainty.\n* The performance of suppliers is influenced differently by RM mechanisms during times of economic crisis versus times of recovery/expansion, and understanding these differences can help suppliers adapt their relationship mechanisms to navigate business cycles effectively.\n* Communication openness, technical involvement, and customer value anticipation are key RM mechanisms that can be configured to successfully navigate a business cycle, and these mechanisms have different effects on customer-level outcomes such as selling price, cost-to-serve, and expectation of continuity.\n* During economic crises, suppliers should establish a strong technical involvement with customers and focus on cost-reducing opportunities, while during times of recovery, suppliers should carefully de-escalate technical involvement and focus on integrating efforts on technical involvement, customer value anticipation, and top management compatibility to construct synergies.\n* The economic swing can be used not only as a source of relationship maintenance but also to dissipate relationship darkness and to offer a more promising relational future as new dyadic knowledge has emerged, and interorganizational learning achieved serves as a win-win solution for both entities.\n* The investigation of buyer-seller relationships through a business cycle in an emerging economy (such as Chile) can provide valuable insights into how to manage industrial businesses during economic uncertainty, and can help answer calls for more marketing research in non-advanced settings.\n* The process approach to managing B2B relationships during a business cycle can increase managerial relevance, and large size, market leader suppliers can effectively survive and thrive through a business cycle via distinct RM mechanisms.\n* The influences of customer value anticipation and top management compatibility on customer-level outcomes are more stable through a business cycle, but not entirely rigid, and understanding these influences can help suppliers develop effective RM strategies to navigate economic uncertainty.",
+    "image_selection": "Here are the three most important images selected for Academic Research:\n\n{\n\"Fig. 1. Overview of the Research Method\": \"Provides a visual representation of the research design and methodology used to investigate the impact of business cycles on B2B relationships and RM strategies.\",\n\"Fig. 2. Conceptual Model\": \"Illustrates the theoretical framework underlying the study, showcasing the relationships between RM mechanisms, customer-level outcomes, and business cycle phases.\",\n\"Fig. 3. Relationship Marketing (RM) Strategies Matrix\": \"Presents a matrix of RM strategies that suppliers can use to navigate business cycles effectively, highlighting the key mechanisms and their effects on customer-level outcomes.\"\n}",
+    "title": "{\n\"title\": \"Navigating Economic Uncertainty: Leveraging Relationship Marketing and Interorganizational Learning in Business-to-Business Relationships Across Business Cycles\"\n}",
+    "runtime (s)": 36.49689816599948,
+    "closing_timestamp": "26/05/2024 14:26"
   }
 ]
