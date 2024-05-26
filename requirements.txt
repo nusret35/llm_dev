@@ -9,3 +9,4 @@ pandas
 pillow
 nltk
 scipy
+pymupdf
