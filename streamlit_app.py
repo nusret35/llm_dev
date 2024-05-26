@@ -1,4 +1,4 @@
-from utilities import hide_sidebar
+from gui.utilities import hide_sidebar
 import streamlit as st
 import os
 
