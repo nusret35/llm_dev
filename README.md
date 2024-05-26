@@ -10,6 +10,8 @@ By integrating advanced natural language processing (NLP) techniques and sophist
 
 You may try it on web: https://insight-extractor.streamlit.app
 
+Don't worry, we do not keep the API tokens.
+
 ## Hybrid Solution Pipeline Explanation
 
 Our hybrid solution pipeline employs a strategic approach to task distribution between two models, optimizing each model's strengths for various tasks:
