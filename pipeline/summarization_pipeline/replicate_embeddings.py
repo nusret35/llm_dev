@@ -1,4 +1,3 @@
-from dotenv import load_dotenv
 from typing import Dict, List
 import replicate
 import json
