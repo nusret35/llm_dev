@@ -6,8 +6,6 @@ replicate
 reportlab
 pdfminer
 pandas
-PyMuPDF
 pillow
 nltk
 scipy
-fitz

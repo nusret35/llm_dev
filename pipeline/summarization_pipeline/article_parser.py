@@ -1,5 +1,4 @@
 import re
-import subprocess
 
 def shorten_text(long_string):
     # Split the long string into sentences based on periods
