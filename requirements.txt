@@ -4,5 +4,5 @@ replicate
 reportlab
 pdfminer
 pandas
-fitz
+PyMuPDF
 pillow
