@@ -16,4 +16,4 @@ with st.spinner('Hold on! Your fascinating insights are being prepared...'):
     #uploaded_article.set_section_summaries(section_summaries)
     report.generate_report()
 
-    st.switch_page('gui/pages/1_Report_Page.py')
+    st.switch_page('pages/1_Report_Page.py')

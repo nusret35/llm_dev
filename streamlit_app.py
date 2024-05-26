@@ -1,4 +1,4 @@
-from gui.utilities import hide_sidebar
+from utilities import hide_sidebar
 import streamlit as st
 import os
 
@@ -11,4 +11,4 @@ _ = """
 REPLICATE_API_TOKEN = st.text_input("Enter Replicate API key")
 if st.button("Save API Key"):
     os.environ['REPLICATE_API_TOKEN'] = REPLICATE_API_TOKEN
-    st.switch_page("gui/pages/0_Start_Page.py")
+    st.switch_page("pages/0_Start_Page.py")
