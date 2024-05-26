@@ -19,6 +19,7 @@ class Summarizer:
         * Computing the distance between the sentence vector and the centroid (also called mean) vector.
         * Sorting the sentences based on their sequence in the original text.
         """
+        nltk.download('punkt')
         # Embedding
         tokenized_text = nltk.sent_tokenize(text)
         sentences = [sentence.strip() for sentence in tokenized_text]
