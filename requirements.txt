@@ -9,4 +9,4 @@ pandas
 pillow
 nltk
 scipy
-pymupdf
+PyMuPDF
