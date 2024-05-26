@@ -10,3 +10,4 @@ PyMuPDF
 pillow
 nltk
 scipy
+fitz
