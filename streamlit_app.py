@@ -5,7 +5,7 @@ import os
 hide_sidebar()
 
 _ = """
-    To start the app, run ``` streamlit run Welcome_Page.py ```
+    To start the app, run ``` streamlit run streamlit_app.py ```
 """
 
 REPLICATE_API_TOKEN = st.text_input("Enter Replicate API key")
