@@ -98,7 +98,7 @@ class Langchain_Extractor:
         return datetime.now().strftime("%d/%m/%Y %H:%M")
 
     def send_prompt(self, prompt, max_new_token=500, callback=None):
-        load_dotenv()
+        os.getenv("REPLICATE_API_TOKEN")
         llm = None
         if isinstance(self.model,LLAMA2) or isinstance(self.model,LLAMA3):
             llm = Replicate(

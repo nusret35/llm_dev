@@ -2,6 +2,7 @@ import replicate
 import json
 import time
 from datetime import datetime
+import os
 
 # Greenness approach trial by changing the parameters of the model
 
@@ -35,7 +36,8 @@ class Extractor:
         return datetime.now().strftime("%d/%m/%Y %H:%M")
 
     def send_prompt(self, prompt, sys_prompt):
-        rp_client = replicate.Client(api_token='r8_96G04GwgDPZDSpzHD9iP38oLQiy7cjJ0dz6RN')
+        REPLICATE_API_TOKEN = os.getenv("REPLICATE_API_TOKEN")
+        rp_client = replicate.Client(api_token=REPLICATE_API_TOKEN)
         print('\nSending prompt...')
 
         model = rp_client.models.get(self.model['model'])

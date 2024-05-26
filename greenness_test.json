@@ -645,5 +645,29 @@
     "title": "{\n\"title\": \"Revolutionizing Process Mining: Leveraging Large Language Models for Intuitive Conversational Interactions and Enhanced Business Analytics\"\n}",
     "runtime (s)": 15.6745987920076,
     "closing_timestamp": "23/05/2024 23:37"
+  },
+  {
+    "model": "meta/llama-2-13b-chat:f4e2de70d66816a838a89eeeb621910adffb0dd0baba3976c96980970978018d",
+    "top_p": 0.95,
+    "temperature": 0.5,
+    "max_new_tokens": 500,
+    "min_new_tokens": -1,
+    "repetition_penalty": 1.15,
+    "timestamp": "26/05/2024 12:31",
+    "runtime (s)": 0.0,
+    "closing_timestamp": "26/05/2024 12:32"
+  },
+  {
+    "model": "meta/meta-llama-3-70b-instruct:fbfb20b472b2f3bdd101412a9f70a0ed4fc0ced78a77ff00970ee7a2383c575d",
+    "top_p": 0.95,
+    "temperature": 0.5,
+    "max_new_tokens": 500,
+    "min_new_tokens": -1,
+    "repetition_penalty": 1.15,
+    "timestamp": "26/05/2024 12:31",
+    "extract_insights": "Here are the insights generated from the article summaries:\n\n* The digital revolution has created a pressing need for analytical tools that can transform complex data landscapes into actionable business insights, bridging the gap between process analytics and diverse user bases.\n* The integration of ChatGPT, a large language model (LLM), with process mining tools marks a significant departure from traditional process mining methodologies and sets a new precedent in the utilization of conversational AI for business analytics.\n* The development of a specialized prompt engineering strategy, tailored to each process mining submodule, is a key innovation in this study, enabling the effective integration of LLMs within process mining tools.\n* The practical implications of this research are substantial, contributing to enhanced user experience, heightened customer satisfaction, and more informed decision-making in businesses.\n* The integration of ChatGPT with process mining tools has the potential to revolutionize traditional business process management practices, offering a more nuanced and user-friendly approach to business process analysis.\n* The study's approach to prompt engineering, which focuses on optimizing prompt definitions and abstractions, has transformative implications for various fields, including business process analysis and conversational data analysis.\n* The analysis guidelines provided in the study offer a structured approach to AI-driven analysis, enabling the AI to illuminate workflows, quantify capacity, determine the root cause of variants, and learn baseline behaviors.\n* The study's results, as depicted in Figure 6, suggest a strong performance of the AI integration across various metrics, with 72% of the results rated as \"Good\" by an expert panel.",
+    "title": "{\n\"title\": \"Revolutionizing Business Process Analysis: Integrating ChatGPT with Process Mining Tools for Enhanced User Experience and Informed Decision-Making\"\n}",
+    "runtime (s)": 10.421430500000042,
+    "closing_timestamp": "26/05/2024 12:32"
   }
 ]
