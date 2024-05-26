@@ -57,4 +57,4 @@ uploaded_article.set_occupation(occupation=occupation)
 uploaded_article.set_usage(usage=usage)
 
 if st.button("Let's get started",disabled= pdf_file == None):
-    st.switch_page('pages/3_Loading_Page.py')
+    st.switch_page('gui/pages/3_Loading_Page.py')

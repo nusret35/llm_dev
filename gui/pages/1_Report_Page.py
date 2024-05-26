@@ -135,4 +135,4 @@ if st.button("Generate New Article"):
     for key in st.session_state.keys():
         del st.session_state[key]
 
-    st.switch_page('pages/0_Start_Page.py')
+    st.switch_page('gui/pages/0_Start_Page.py')
