@@ -1,6 +1,5 @@
 import os.path
 import json
-from dotenv import load_dotenv
 from langchain.llms import Replicate
 from langchain.chains import LLMChain
 from langchain_core.prompts import PromptTemplate
