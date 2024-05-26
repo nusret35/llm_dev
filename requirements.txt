@@ -3,3 +3,6 @@ langchain_core
 replicate
 reportlab
 pdfminer
+pandas
+fitz
+pillow
