@@ -2,7 +2,7 @@ from PIL import Image
 from io import BytesIO
 import time
 from pipeline.new_solution import NewSolution
-from fitz import fitz
+import fitz
 import threading
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas

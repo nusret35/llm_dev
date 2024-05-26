@@ -2,7 +2,7 @@ from .summarization_pipeline.pdf_section_extractor import extract_pdf_and_divide
 from .summarization_pipeline.image_processing import extract_image_title_pairs, extract_titles_from_page, convert_response_to_dict, get_important_image_paths
 from .summarization_pipeline.greenness_slider import configure_models
 from .summarization_pipeline.summarizer import Summarizer
-from fitz import Document, fitz
+import fitz
 import logging
 import ast
 
@@ -21,7 +21,7 @@ class NewSolution:
         elif pdf_path:
             self.pdf_file = fitz.open(pdf_path)
         else:
-            self.pdf_file = Document(stream=self.pdf_file_bytes,filetype="pdf")
+            self.pdf_file = fitz.Document(stream=self.pdf_file_bytes,filetype="pdf")
 
     
     def preprocess_response(self, text):
