@@ -1,5 +1,6 @@
 langchain
 langchain_core
+langchain_community
 replicate
 reportlab
 pdfminer
