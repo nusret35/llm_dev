@@ -10,5 +10,8 @@ _ = """
 
 REPLICATE_API_TOKEN = st.text_input("Enter Replicate API key")
 if st.button("Save API Key"):
-    os.environ['REPLICATE_API_TOKEN'] = REPLICATE_API_TOKEN
-    st.switch_page("pages/0_Start_Page.py")
+    if REPLICATE_API_TOKEN == "":
+        st.warning('Please enter an API key', icon="🚨")
+    else:
+        os.environ['REPLICATE_API_TOKEN'] = REPLICATE_API_TOKEN
+        st.switch_page("pages/0_Start_Page.py")
