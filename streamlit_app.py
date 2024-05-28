@@ -15,4 +15,3 @@ if st.button("Save API Key"):
     else:
         os.environ['REPLICATE_API_TOKEN'] = REPLICATE_API_TOKEN
         st.switch_page("pages/0_Start_Page.py")
-
