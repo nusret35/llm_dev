@@ -718,5 +718,54 @@
     "title": "{\n\"title\": \"Navigating Economic Uncertainty: Leveraging Relationship Marketing and Interorganizational Learning in Business-to-Business Relationships Across Business Cycles\"\n}",
     "runtime (s)": 36.49689816599948,
     "closing_timestamp": "26/05/2024 14:26"
+  },
+  {
+    "model": "meta/llama-2-13b-chat:f4e2de70d66816a838a89eeeb621910adffb0dd0baba3976c96980970978018d",
+    "top_p": 0.95,
+    "temperature": 0.5,
+    "max_new_tokens": 500,
+    "min_new_tokens": -1,
+    "repetition_penalty": 1.15,
+    "timestamp": "30/05/2024 11:35",
+    "runtime (s)": 0.0,
+    "closing_timestamp": "30/05/2024 11:36"
+  },
+  {
+    "model": "meta/meta-llama-3-70b-instruct:fbfb20b472b2f3bdd101412a9f70a0ed4fc0ced78a77ff00970ee7a2383c575d",
+    "top_p": 0.95,
+    "temperature": 0.5,
+    "max_new_tokens": 500,
+    "min_new_tokens": -1,
+    "repetition_penalty": 1.15,
+    "timestamp": "30/05/2024 11:35",
+    "extract_insights": "Here are the insights generated from the article summaries:\n\n* Debt recycling, an aggressive equity extraction strategy, allows mortgage holders to potentially repay their mortgage faster by obtaining another loan to invest in a risky asset, using the wealth produced to repay the mortgage.\n* The strategy is riskier than a standard mortgage-repayment plan due to fluctuations in the housing market and investment volatility, which may lead to fast default, as both the mortgage and liquidity loan are secured against the same asset.\n* The effectiveness of debt recycling strategies is highly sensitive to the initial mortgage-to-equity ratio, the monthly amount of scheduled repayments, and economic parameters at the outset, making it crucial to carefully consider these factors before adopting this strategy.\n* The strategy's outcome is influenced by various parameters, including the percentage of the mortgage yet to be repaid relative to the already owned equity, which increases the likelihood of default, and the scheduled monthly repayment to the bank, which expands the region where the strategy is expected to be successful.\n* The phase diagrams of the debt recycling strategy reveal different possible outcomes, including strongly and weakly successful phases, a default phase, and a permanent re-mortgaging phase, depending on the values of the model parameters.\n* The analytical results are corroborated with numerical simulations, which demonstrate excellent agreement, providing a robust framework for evaluating the effectiveness of debt recycling strategies.\n* The debt recycling strategy is particularly sensitive to the loan-to-value ratio, house market performance, and return of the risky investment, highlighting the need for careful consideration of these factors in determining the strategy's feasibility.",
+    "image_selection": "Here are the selected images and their descriptions:\n\n{\n\"Fig. 2. Taking Fig (Page:21)\": \"Illustration of the debt recycling strategy, showcasing how mortgage holders can potentially repay their mortgage faster by obtaining another loan to invest in a risky asset\",\n\"Fig. 2. At s = \u22121 (Page:21)\": \"Phase diagram of the debt recycling strategy, highlighting the different possible outcomes, including strongly and weakly successful phases, a default phase, and a permanent re-mortgaging phase\",\n\"Fig. [Insert relevant figure number]. Phase Diagrams of Debt Recycling Strategy\": \"Visual representation of the strategy's outcome, influenced by various parameters, including the mortgage-to-equity ratio, monthly repayment, and economic parameters\"\n}\n\nNote: Since there are only two image titles provided, I had to infer the third image title based on the insights generated from the article summaries.",
+    "title": "{\n\"title\": \"Debt Recycling Strategies: A Risk-Sensitive Analysis of Mortgage Repayment and Investment Outcomes\"\n}",
+    "runtime (s)": 19.41520537500037,
+    "closing_timestamp": "30/05/2024 11:36"
+  },
+  {
+    "model": "meta/llama-2-13b-chat:f4e2de70d66816a838a89eeeb621910adffb0dd0baba3976c96980970978018d",
+    "top_p": 0.95,
+    "temperature": 0.5,
+    "max_new_tokens": 500,
+    "min_new_tokens": -1,
+    "repetition_penalty": 1.15,
+    "timestamp": "30/05/2024 11:58",
+    "runtime (s)": 0.0,
+    "closing_timestamp": "30/05/2024 11:58"
+  },
+  {
+    "model": "meta/meta-llama-3-70b-instruct:fbfb20b472b2f3bdd101412a9f70a0ed4fc0ced78a77ff00970ee7a2383c575d",
+    "top_p": 0.95,
+    "temperature": 0.5,
+    "max_new_tokens": 500,
+    "min_new_tokens": -1,
+    "repetition_penalty": 1.15,
+    "timestamp": "30/05/2024 11:58",
+    "extract_insights": "Here are the insights generated from the section summaries:\n\n* The field of causal Machine Learning (ML) has made significant progress in recent years, highlighting the limitations of traditional market segmentation for marketing actions.\n* The Conditional Average Treatment Effect (CATE) is a crucial concept in causal ML, which estimates the expected individual treatment effect conditional on covariates, and is defined as the difference between the expected outcomes with and without treatment.\n* Causal graphs are not a representation of ground truth but rather a product of hypothesis and rationalization, and their primary purpose is to assist users in controlling for confounders or covariates to ensure valid causality analysis.\n* The Iterative Causal Segmentation Algorithm is a novel approach that jointly solves for segmentation and causality analysis, addressing the tightly coupled nature of these two computational modules.\n* The algorithm's convergence method is designed to solve the causality behavior segmentation problem in marketing, and its formulation is formalized through the statement of Causal Segmentation Exclusivity.\n* The integration of causal ML and market segmentation can provide more accurate and effective marketing strategies, moving beyond traditional segmentation methods that rely solely on demographic or behavioral characteristics.\n* The application of causal ML in marketing can help address the challenge initially highlighted by Wendell R. Smith in the 1950s, which emphasizes the need for a more nuanced understanding of customer behavior and treatment effects.",
+    "title": "{\n\"title\": \"Causal Machine Learning for Market Segmentation: A Novel Approach to Accurate and Effective Marketing Strategies\"\n}",
+    "runtime (s)": 11.00845616699371,
+    "closing_timestamp": "30/05/2024 11:58"
   }
 ]
