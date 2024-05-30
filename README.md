@@ -8,6 +8,10 @@ This project employs a hybrid approach, combining Meta's LLaMA 2 13B and LLaMA 2
 
 By integrating advanced natural language processing (NLP) techniques and sophisticated prompt engineering, our methodology not only processes extensive scholarly texts but also optimizes the extraction of valuable insights by ensuring that the analysis is both rapid and precise. The aim is to utilize the unparalleled capabilities of LLMs to distill and leverage dense academic content for business intelligence.
 
+You may try it on web: https://insight-extractor.streamlit.app
+
+Don't worry, we do not keep the API tokens.
+
 ## Hybrid Solution Pipeline Explanation
 
 Our hybrid solution pipeline employs a strategic approach to task distribution between two models, optimizing each model's strengths for various tasks:

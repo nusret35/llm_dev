@@ -60,11 +60,10 @@ def is_correct_title(title):
 
 def divide_article_into_sections(article):
     sections = {}
-    section_titles = re.findall(r'\d+\..+?\n', article)  # Find all lines that start with "number.title"
+    section_titles = re.findall(r'\d+\.\s*.+?\n|\d+.+?\n', article)
     
     # Remove the falsely selected section titles
     section_titles = [title for title in section_titles if '%' not in title] # EX: '2.5% ...' is not a section title
-    
     # Check the correctness of the chosen section titles by checking the non-decreasing order of the section numbers
     correct_titles = []
     previous_number = 0  # Start with a sentinel value
@@ -72,6 +71,7 @@ def divide_article_into_sections(article):
         pos = article.find(title)
         prev_pos = pos-1
         # Extract the number at the start of the title
+        print(title)
         match = re.match(r'(\d+)(\.\d+)?', title)
         if match:
             number = float(match.group(1))
@@ -84,7 +84,10 @@ def divide_article_into_sections(article):
                         previous_number = number
                     
     section_titles = correct_titles
-    
+
+    assert len(section_titles) != 0
+    print(len(section_titles))
+
     # Use zip to pair section titles with their corresponding text
     for title, next_title in zip(section_titles, section_titles[1:] + ['']):
         # Get the start and end positions of each section
